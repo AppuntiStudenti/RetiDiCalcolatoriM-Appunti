@@ -21,7 +21,9 @@
 \date{7 ottobre 2007}
 \begin{document}
 \maketitle
+\newpage
 \tableofcontents
+\newpage
 L'obiettivo del corso è introdurre modelli e tecnologie per poter superare il modello Client/Server (C/S), in modo 
 da poter:
 \begin{itemize}
@@ -593,8 +595,7 @@ P
 EP (N ) =
 E l'ecienza tende ad 1. Quindi, caricando al massimo i processori ed usandoli
 correttamente, si ottiene speed-up ed ecienza massimi.
-1.10
-Considerare l'I/O
+\subsection{Considerare l'I/O}
 In questi indicatori si ` tuttavia lasciato da parte il problema dell'I/O, che
 e
 spesos ` il vero collo di bottiglia in diverse architetture. Inoltre, vi son diversi
@@ -664,29 +665,18 @@ e
 scalabile.
 I sistemi reali sono scarsamente scalabili.
 16
-1.11
-Conclusioni
-Un progetto deve essere valutato attentamente, per cercare di dimensionarlo
-in maniera corretta: nel caso di una macchina singola l'heavily loaded limit `
-e
-un ragionamento corretto, ma bisogna ricordarsi che si deve sempre cercare di
-parallelizzare (non utilizzare la legge di Grosh). Per esempio, qual'` il numero
-e
-ideale di processi da realizzare? Si pu` ben pensare che avere meno processi
-o
-di processori risulti in processori che non lavorano, e quindi in un sistema non
-eciente: il limite superiore quindi ` che il numero dei processi sia lo stesso
-e
-del numero dei processori. Un processore ` idle quando comunica, quindi si
-e
-dovrebbe limitare la comunicazione, e quindi troppi processi comunicano troppo.
-In realt`, statisticamente si ha che un processore che lavora con 20 processi
-a
-presenta ancora lo stato di idle: un centinaio di processi per processore ` un
-e
-numero adeguato.
-2
-Modelli per la replicazione
+\subsection{Conclusioni}
+Un progetto deve essere valutato attentamente, per cercare di dimensionarlo in maniera corretta: nel caso di una
+macchina singola l'heavily loaded limit è un ragionamento corretto, ma bisogna ricordarsi che si deve sempre cercare di
+parallelizzare (non utilizzare la legge di Grosh). Per esempio, qual è il numero ideale di processi da realizzare? Si
+può ben pensare che avere meno processi di processori risulti in processori che non lavorano, e quindi in un sistema 
+non efficiente: il limite superiore quindi è che il numero dei processi sia lo stesso del numero dei processori. Un
+processore è idle quando comunica, quindi si dovrebbe limitare la comunicazione, e quindi troppi processi comunicano
+troppo.
+In realtà, statisticamente si ha che un processore che lavora con 20 processi presenta ancora lo stato di idle: un
+centinaio di processi per processore è un numero adeguato.
+
+\section{Modelli per la replicazione}
 Un obiettivo per poter fornire della qualit` di servizio ` ovviamente quello di
 a
 e
@@ -700,9 +690,7 @@ si parla anche di rischi umani). L'obiettivo ` quindi quello di realizzare un
 e
 sistema fault tolerant, resistente ai guasti. Sono invarianti che devono essere
 comunque garantiti.
-2.1
-Denire i comportamenti errati del sistema: cause ed
-eetti
+\subsection{Definire i comportamenti errati del sistema: cause ed effetti}
 I possibili guasti si possono catalogare in maniera logica:
 $\bullet$ Si parla di failure quando il sistema presenta un comportamento diverso
 dagli invarianti di sistema previsti: ci` ` dovuto a un sistema progettato
@@ -728,8 +716,7 @@ $\bullet$ Se invece ` transiente, sono pi` dicili da notare. Si parla di errori 
 e
 u
 Eisenbug, e sono molto dicili da eliminare.
-2.2
-Ipotizzare il guasto
+\subsection{Ipotizzare il guasto}
 Esistono diversi parametri per poter giudicare la disponibilit` di un servizio/sistema.
 a
 Un sistema ` fault tolerant se garantisce la dependability, ovvero si ha condenza
@@ -833,8 +820,7 @@ ecienza! La replicazione ` un costo che si va ad aggiungere al sistema: ma in
 e
 generale si tratta di un costo sso, a fronte di possibili costi molto peggiori in
 caso di fallimento del sistema!
-2.3
-Possibili guasti
+\subsection{Possibili guasti}
 I guasti si possono anche classicare in base alla loro riconoscibilit` da un sistema
 a
 (processore esterno):
@@ -854,8 +840,7 @@ oppure anche al fatto che un processore si blocca. Le reti poi possono aggiunger
 problemi (se un router per esempio non rispone pi`, si potrebbe avere che la
 u
 rete risulta partizionata in due sottoreti, incapaci di comunicare fra di loro).
-2.4
-Architetture per garantire la fault-tolerance
+\subsection{Architetture per garantire la fault-tolerance}
 Nel corso del tempo sono state pensate e realizzate diverse tipologie di architetture in grado di fornire questo genere
 di servizio.
 Una prima ipotesi operativa ` quella di realizzare un sistema con vera e
@@ -928,8 +913,7 @@ ato: l'idea ` quella di realizzare un sistema fail-safe, per cui una CPU identic
 e
 l'errore. Ovviamente, un sistema del genere ` complesso e costoso.
 e
-2.5
-Copie calde e copie fredde
+\subsection{Copie calde e copie fredde}
 Vi sono due possibili modelli per la replicazione, e dipendono dal comportamento
 delle copie:
 $\bullet$ Copie fredde: vi ` un'unica copia attiva che funziona, pi` diverse copie
@@ -962,8 +946,7 @@ u
 fallissero anche tutte le copie calde, si pu` ripiegare su un sistema a copie
 o
 fredde, in grado di inizializzare una nuova copia.
-2.6
-Gestione delle risorse
+\subsection{Gestione delle risorse}
 La replicazione delle risorse ` necessaria per un sistema distribuito, perché si
 e
 e
@@ -1103,8 +1086,7 @@ velocemente! E evidente la necessit` di un gestore per il monitoraggio, controla
 lo delle copie. In generale, in un sistema reale, il numero di copie ` limitato:
 e
 studiando opportunatamente il protocollo si riduce l'overhead al minimo.
-2.7
-Modelli per la replicazione, copie attive
+\subsection{Modelli per la replicazione, copie attive}
 L'ipotesi ` che vi ` un insieme di copie che devono produrre un risultato per
 e
 e
@@ -1164,8 +1146,7 @@ e
 di fare l'operazione di checkpoint su tutte le altre copie, e quindi lo fornisce al
 cliente. La gestione ` maggiormente semplicata.
 e
-2.8
-Politiche di aggiornamento
+\subsection{Politiche di aggiornamento}
 Esistono diverse possibilità per eettuare l'aggiornamento delle copie. Vi potrebbe
 a
 essere una copia primaria che si preoccupa di aggiornare le altre, oppure tutte
@@ -1198,8 +1179,7 @@ che ci fornisce le maggiori garanzie di correttezza. Vi possono essere dei rilas
 tiepide quando i checkpoint sono fatti a
 determinati intervalli, per ridurre il costo dell'operazione.
 25
-2.9
-Clustering
+\subsection{Clustering}
 L'idea del cluster ` quella di realizzare un insieme di risorse replicate sempre
 e
 disponibili (high availability), cercando di snellire il tutto per non avere un tempo di risposta troppo alto. L'idea
@@ -1247,9 +1227,7 @@ di coordinamento, quindi in realt` si prosegue lo stesso, e si rinvia l'aggiorna
 mento ad un secondo momento. Le due sotto-reti quindi si coordineranno pi`
 u
 avanti!
-3
-Qualit` di servizio e nuovi protocolli per Ina
-ternet
+\section{Qualità di servizio e nuovi protocolli per Internet}
 Esistono diversi indicatori con cui poter valutare la QoS:
 26
 $\bullet$ Prontezza di risposta: viene indicata dal tempo di risposta, il jitter, o il
@@ -1292,8 +1270,7 @@ $\bullet$ La QoS percepita, che dipende dalla tipologia del servizio
 $\bullet$ Il costo da dover sopportare
 $\bullet$ La garanzia di avere degli adeguati supporti per la sicurezza (non ripudio
 del servizio, autenticazione, . . . )
-3.1
-Calcolare la QoS
+\subsection{Calcolare la QoS}
 Oltre alla quantit` di dati trasmessi con successo (la banda), un altro parametro
 a
 fondamentale da tener da conto ` il tempo di latenza: questo consiste nella
@@ -1367,8 +1344,7 @@ dover scartare un pacchetto. . . ). Per esempio, una prima idea per ottimizzare
 la trasmissione ` quella di introdurre delle risorse sul client, e di buerizzarla:
 e
 si trasmette quindi soltanto avendo un certo numero di frame a disposizione.
-3.2
-QoS in Internet
+\subsection{QoS in Internet}
 Il mondo di Internet si basa sul protocollo TCP/IP, che lavora best eort: ci`
 o
 signica che non pu` garantire QoS 6 . OSI ` da sempre stato progettato con
@@ -1434,8 +1410,7 @@ rete, quindi la proposta ` quella di lavorare contemporaneamente su pi`
 e
 u
 ussi per migliorare in maniera globale il routing.
-3.3
-Gestire la QoS
+\subsection{Gestire la QoS}
 Come gestire quindi la QoS? Il controllo della qualit` dovrebbe essere fatto dua
 rante l'esecuzione, e in generale abbiamo una fase iniziale (prima dell'erogazione,
 azioni preventive o statiche), una fase durante il deployment (azioni reattive o
@@ -1494,8 +1469,7 @@ e recovery delle risorse, una parte per il controllo della performance (quindi
 eventuali aggiustamenti del servizio per poter garantire la QoS). Altri settori
 fondamentali riguardano l'accounting e la sicurezza dei servizi.
 30
-3.4
-Gestione dei sistemi: OSI e SNMP
+\subsection{Gestione dei sistemi: OSI e SNMP}
 OSI ha denito un sistema per poter monitorare/gestire un insieme di risorse
 mediante l'uso di risorse astratte 8 : l'idea ` quella di utilizzare delle descrizioni
 e
@@ -1574,8 +1548,7 @@ impostato, ` annullata. Gli oggetti gestiti
 e
 e
 possono essere anche molto complessi (non una singola risorsa come con SNMP).
-3.5
-Evoluzione dei router
+\subsection{Evoluzione dei router}
 L'idea alla base dell'introduzione di QoS in Internet ` che sui nodi intermedi si
 e
 hanno delle informazioni sullo stato del servizio. Un router semplice prende e
@@ -1764,8 +1737,7 @@ crescente con la lunghezza della
 a
 coda!
 Questa politica preventiva evita la congestione.
-3.6
-Servizi integrati, RFC 2210
+\subsection{Servizi integrati, RFC 2210}
 L'idea alla base dei servizi integrati ` quella di essere in grado di riconoscere i
 e
 singoli ussi, grazie al router, in modo da poter dierenziare l'uso delle risorse
@@ -1902,9 +1874,8 @@ e
 `
 lavora solo sugli end-point. E sempre possibile comunque tornare a RSVP nel
 caso non fosse suciente.
-3.7
-Servizi dierenziati, RFC 2474
-L'approccio a servizi dierenziati consiste nel cercare di fornire QoS non a livello
+\subsection{Servizi differenziati, RFC 2474}
+L'approccio a servizi differenziati consiste nel cercare di fornire QoS non a livello
 applicativo, ma a livello di rete. Facendo ci`, in realt`, si ha che si sono deniti
 o
 a
@@ -1960,8 +1931,7 @@ estensione per Internet.
 Oltre a questi approcci, si sta cercando di sviluppare dei sistemi in grado
 di far convivere (in maniera competitiva) servizi integrati e dierenziati, per
 cercare di sfruttare i vantaggi di entrambi.
-4
-Sistemi per la comunicazione e la sincronizzazione
+\section{Sistemi per la comunicazione e la sincronizzazione}
 La maniera con cui due processi possono comunicare ` molto variabile: si
 e
 possono classicare le comunicazioni in diversi modi (sincrone/asincrone, dirette/indirette, bloccanti/non bloccanti . .
@@ -2714,8 +2684,7 @@ e
 stato. A chi si manda poi lo stato in ogni modo? E una politica da decidere, o
 a un nodo che fa da repository oppure a chi ha iniziato lo snapshot. . .
 50
-5
-I middleware
+\section{I middleware}
 Un middleware ` un insieme di strumenti di supporto all'utente/sviluppatore
 e
 per meglio poter arontare la complessit` di un sistema in ambienti aperti
@@ -3360,8 +3329,7 @@ la singola invocazione del singolo oggetto, mentre un plugin ` un componente per
 e
 supporto
 61
-6
-CORBA
+\section{CORBA}
 CORBA ` uno standard, specica di un mw, nato dall'idea di mettere a dispoe
 sizione di 440 aziende una possibile soluzione per le loro esigenze!
 Essendo uno standard, quindi solo una specica cartacea, si ha che esistono
@@ -3977,8 +3945,7 @@ QoS conviene utilizzare il notication service, che ` in grado di fornire qualit`
 e
 a
 e persistenza!
-7
-COM, DCOM e .NET
+\section{COM, DCOM e .NET}
 Nell'architettura Microsoft, la GUI ` sempre stata fondamentale (la nestra non
 e
 ` solo un elemento graco, ma ` tutto ci` a cui ` costruito attorno il sistema;
@@ -4449,8 +4416,7 @@ dell'invocazione, e quindi di costo limitato.
 Si ha quindi una politica d'attivazione molto pi` semplice rispetto a quella di
 u
 CORBA!
-8
-I Web Services
+\section{I Web Services}
 L'idea alla base dei Web Services ` quella di fornire dei servizi B2B invece dei
 e
 classici servizi Web. La logica ` che il Web ` l'installato pi` diuso e facilmente
@@ -4672,8 +4638,7 @@ i WS, che lavorano sempre ad un livello molto alto. L'estensione dei WS in
 questa direzione ` indicata come WS*. E una visione maggiormente orientata
 e
 ad perseguire logiche di business.
-9
-Gestione delle risorse e sistemi mobili
+\section{Gestione delle risorse e sistemi mobili}
 Le risorse in un sistema distribuito possono essere o concentrate o distribuite.
 L'idea ` comunque quella di cercare di orire un servizio d trasparenza accedene
 do alla risorsa.
@@ -4700,8 +4665,7 @@ gestirle (questi dovrebbero introdurre delle fasi di negoziazione, prima di pote
 fornire l'accesso alla risorsa). Garantisce trasparenza all'allocazione delle risorse,
 mantenendo un comportamento uguale. Un altro modello potrebbe essere quello
 basato su una service request, che rappresenta un sistema C/S.
-9.1
-Mobilit` delle risorse
+\subsection{Mobilit` delle risorse}
 a
 Nel progetto di un sistema, si deve considerare cosa e come si pu` muovere. Per
 o
