@@ -31,7 +31,7 @@ da poter:
  \item Migliorare la gestione
  \item Introdurre un supporto alla qualita` del servizio, QoS : questo e` fondamentale, perche' solo se un sistema
 presenta QoS, allora si pu` pensare ad un sistema di retribuzione (Internet, mail e gli altri servizi lavorano
-best-effort): vi sono sistemi ``pi˘ standard'', importanti per i sistemi molto carichi.
+best-effort): vi sono sistemi ``pi√π standard'', importanti per i sistemi molto carichi.
 \item Sviluppare sistemi in grado di far fronte anche ad alta mobilita`, l'integrazione di sistemi legacy.
 \end{itemize}
 
@@ -58,7 +58,7 @@ quindi essere meno essibile, e non si pu` variare nel corso dell'esecuzione,
 o
 fornendo quindi poca qualit` di servizio.
 a
-$\bullet$ modelli dinamici : in questo modello le decisioni risultano essere maggiormente costose, proprio perchÈ si
+$\bullet$ modelli dinamici : in questo modello le decisioni risultano essere maggiormente costose, proprio perch√© si
 prendono mentre il modello ` in
 e
 e
@@ -73,7 +73,7 @@ diverse politiche
 5
 \newpage
 di problematiche da risolvere in fase di progettazione, tenendo conto dei costi.
-Un middleware introduce questi costi, fornendo possibilit‡ statiche/dinamiche
+Un middleware introduce questi costi, fornendo possibilit√† statiche/dinamiche
 a
 (non esiste un sistema totalmente dinamico, realmente totalmente aperto).
 Una seconda distinzione riguarda sulla reazione in caso di errori o concorrenza:
@@ -137,7 +137,7 @@ pu` essere usato anche per comunicare. Risulta essere pi` facile fare anche
 o
 u
 dei cambi di contesto, ma si possono presentare delle interferenze.
-I thread di una JVM, proprio perchÈ dotati di uno stato condiviso, si possono
+I thread di una JVM, proprio perch√© dotati di uno stato condiviso, si possono
 e
 rapportare con un'altra JVM. I thread leggeri utilizzano lo stato comune per
 comunicare.
@@ -156,7 +156,7 @@ fra diversi processi che vogliono accedere allo stesso oggetto, non si ha un
 buon connamento e si ha scarsa protezione.
 $\bullet$ Oggetti attivi : sono oggetti dotati di propria capacit` d'esecuzione. I
 a
-processi quindi non entrano nell'oggetto, perchÈ vi ` gi` all'interno dele
+processi quindi non entrano nell'oggetto, perch√© vi ` gi` all'interno dele
 e a
 l'oggetto una propria logica di gestione (si ha quindi un modello a request/response: un processo richiede di poter
 usare l'oggetto mediante i
@@ -225,7 +225,7 @@ o
 o
 essere diverso (ma non ` il caso di Java).
 e
-$\bullet$ Si deve anche passare l'indicatore della classe, perchÈ si possa realmente
+$\bullet$ Si deve anche passare l'indicatore della classe, perch√© si possa realmente
 e
 utilizzare l'oggetto: cosa succede se la classe ` gi` presente? Java per
 e a
@@ -340,7 +340,7 @@ tuple. E un meccanismo generale per la comunicazione e la sincronizzazione, in
 cui si specica uno spazio di informazioni fortemente tipato. (Una tipica informazione pu` essere $<$ mittente,
 destinatario, data $>$, per cui tutti i dati devono
 o
-essere diversi perchÈ possa essere inserita)
+essere diversi perch√© possa essere inserita)
 e
 Si hanno quindi due operazioni principali: la out consiste nell'inserire nello
 spazio delle tuple un nuovo messaggio, mentre la in (bloccante) estrae la prima
@@ -388,7 +388,7 @@ lavorando con oggetti/servizi diversi
 (remoti/locali, server principale/copia, . . . ).
 11
 \newpage
-Non ` sempre un elemento positivo, perchÈ in molti casi i sistemi son cos`
+Non ` sempre un elemento positivo, perch√© in molti casi i sistemi son cos`
 e
 e
 \i{}
@@ -426,7 +426,7 @@ azioni in sequenza. Le diverse PRAM si possono quindi categorizzare a seconda
 della tipologia delle operazioni (in generale si hanno letture concorrenti e scritture sequenziali; la concorrenza `
 invece utilizzata per il sistema di I/O, per
 e
-limitarne il collo di bottiglia). Un PRAM ` dicile da realizzare perchÈ non `
+limitarne il collo di bottiglia). Un PRAM ` dicile da realizzare perch√© non `
 e
 e
 e
@@ -485,7 +485,7 @@ SP (N )
 P
 (2)
 T1 (N ) 1
-∑
+¬∑
 TP (N ) P
 (3)
 EP (N ) =
@@ -577,7 +577,7 @@ e
 ha che quindi:
 TP (N ) = O(H)
 = O(log2 (N ))
-= 2 ∑ log2 (N )
+= 2 ¬∑ log2 (N )
 14
 \newpage
 Perch` 2? Perch` abbiamo 2 comunicazioni in ogni nodo. Possiamo quindi
@@ -623,7 +623,7 @@ P
 P
 +
 1
-N ∑ log2 (P )
+N ¬∑ log2 (P )
 Per cui, lo speed-up tende eettivamente a P
 SP (N )
 P
@@ -631,7 +631,7 @@ P
 1
 =O
 +
-1 N ∑ log2 (P )
+1 N ¬∑ log2 (P )
 EP (N ) =
 E l'ecienza tende ad 1. Quindi, caricando al massimo i processori ed usandoli
 correttamente, si ottiene speed-up ed ecienza massimi.
@@ -647,7 +647,7 @@ fattori che possono inuenzare l'ecienza e lo speed-up dell'architettura, come
 il deployment reale. Si possono quindi estendere gli indicatori considerando
 l'eetto generale dell'overhead, T0 (N ), che rappresenta le risorse e il tempo
 realmente utilizzato per la comunicazione (caso ideale di deployment):
-T0 (N ) = |T1 (N ) $-$ P ∑ TP (N )|
+T0 (N ) = |T1 (N ) $-$ P ¬∑ TP (N )|
 (9)
 Ma quindi, si ha che:
 T0 (N ) + T1 (N )
@@ -655,7 +655,7 @@ P
 E si ha che che lo speed-up risulta essere:
 TP (N ) =
 SP (N ) =
-P ∑ T1 (N )
+P ¬∑ T1 (N )
 T0 (N ) + T1 (N )
 (10)
 (11)
@@ -676,7 +676,7 @@ costante l'ecienza:
 1
 E=
 1+
-E+E∑
+E+E¬∑
 T0 (N )
 T1 (N )
 T0 (N )
@@ -689,9 +689,9 @@ T1 (N )
 E
 (1 $-$ E)
 T0 (N ) =
-∑ T1 (N )
+¬∑ T1 (N )
 E
-T0 (N ) = K ∑ T1 (N )
+T0 (N ) = K ¬∑ T1 (N )
 Se K fosse veramente una costante, saremmo in isoecienza. Un sistema isoeciente indica che, se manteniamo costante la
 complessit` e aumentiamo il
 a
@@ -738,7 +738,7 @@ poter orire un servizio continuativo, stabile: se il servizio non viene erogato,
 non si ` remunerati (anzi, in determinati ambiti ` proprio un danno economico
 e
 e
-perchÈ si possono presentare anche delle richieste di risarcimento; in certi ambiti
+perch√© si possono presentare anche delle richieste di risarcimento; in certi ambiti
 e
 si parla anche di rischi umani). L'obiettivo ` quindi quello di realizzare un
 e
@@ -818,7 +818,7 @@ identicabili. Se avessimo solo due copie, non possiamo tollerare un guasto,
 ma possiamo identicarne uno. Con gi` 3 copie, un guasto si pu` tollerare,
 a
 o
-perchÈ comunque restano due macchine con cui identicare i guasti successivi:
+perch√© comunque restano due macchine con cui identicare i guasti successivi:
 e
 si riescono cos` ad identicare no 2 guasti. La generalizzazione ` che se si
 \i{}
@@ -884,7 +884,7 @@ Possibili guasti
 I guasti si possono anche classicare in base alla loro riconoscibilit` da un sistema
 a
 (processore esterno):
-$\bullet$ Fail-stop: un processore si ferma perchÈ non rispetta un invariante, e
+$\bullet$ Fail-stop: un processore si ferma perch√© non rispetta un invariante, e
 e
 questo viene identicato dagli altri processori
 $\bullet$ Fail-safe: come il precedente, tranne che gli altri processori non se ne
@@ -907,7 +907,7 @@ Nel corso del tempo sono state pensate e realizzate diverse tipologie di archite
 di servizio.
 Una prima ipotesi operativa ` quella di realizzare un sistema con vera e
 e
-propria replicazione hardware, per cui si hanno due possibilit‡:
+propria replicazione hardware, per cui si hanno due possibilit√†:
 a
 1. O si realizza un'architettura in cui vi ` una sola macchina a lavorare,
 e
@@ -927,7 +927,7 @@ ecienti per identicarli correttamente: si vuole un metalivello eciente!
 Un'ipotesi spesso comune ` quella della memoria stabile 4 : si vuole realizzare
 e
 un sistema per cui la memoria persistente dell'architettura non fallisca mai
-(sempre disponibile, sempre corretta). Una possibilit‡ per realizzare ci` consiste
+(sempre disponibile, sempre corretta). Una possibilit√† per realizzare ci` consiste
 a
 o
 nell'utilizzare due dischi, e fare in modo che ogni blocco sia replicato in maniera
@@ -1013,7 +1013,7 @@ o
 fredde, in grado di inizializzare una nuova copia.
 2.6
 Gestione delle risorse
-La replicazione delle risorse ` necessaria per un sistema distribuito, perchÈ si
+La replicazione delle risorse ` necessaria per un sistema distribuito, perch√© si
 e
 e
 introduce replicazione, e si pu` garantire la fruizione del servizio. In un progetto
@@ -1084,7 +1084,7 @@ di fault-transparency, per cui dall'esterno la risorsa sembra reggere diversi fa
 e riesce a fornire un servizio con continuit`.
 a
 Infatti, sarebbe meglio che all'esterno non si sapesse il grado di replicazione
-di una risorsa, perchÈ altrimenti sarebbe una decisione distribuita mediante il
+di una risorsa, perch√© altrimenti sarebbe una decisione distribuita mediante il
 e
 deployment: ` in realt` il middleware ad accorgersi e a fare da supporto, cone
 a
@@ -1101,7 +1101,7 @@ implicito a garantire la comunicazione fra il client e le copie attive. E quindi
 si preoccupi di smistare opportunatamente le
 richieste: potrebbe essere statico (in grado quindi di smistare qualunque richiesta) oppure dinamico (specializzato per
 una determinata richiesta). Ma nel caso
-di oggetto singolo, questo diventa un collo di bottiglia, perchÈ se viene a mancare
+di oggetto singolo, questo diventa un collo di bottiglia, perch√© se viene a mancare
 e
 l'architettura non si regge pi` in piedi! Deve garantire un'alta adabilit`.
 u
@@ -1167,7 +1167,7 @@ all'occorrenza sarebbero in grado di fare
 da supporto a copie non funzionanti, ottenendo cos` un bilanciamento del carico.
 \i{}
 Nel caso delle copie attive, vi sono 5 passaggi che si devono fare in ordine:
-1. All'arrivo di una richiesta, come deve essere smistata? Vi sono due possibilit‡: o arriva ad un'unica copia che poi
+1. All'arrivo di una richiesta, come deve essere smistata? Vi sono due possibilit√†: o arriva ad un'unica copia che poi
 deve fornirla anche alle altre,
 a
 oppure viene mandata dal client direttamente a tutti. Per avere maggiore
@@ -1218,7 +1218,7 @@ cliente. La gestione ` maggiormente semplicata.
 e
 2.8
 Politiche di aggiornamento
-Esistono diverse possibilit‡ per eettuare l'aggiornamento delle copie. Vi potrebbe
+Esistono diverse possibilit√† per eettuare l'aggiornamento delle copie. Vi potrebbe
 a
 essere una copia primaria che si preoccupa di aggiornare le altre, oppure tutte
 le copie possono assumere questo compito. Si deve poi decidere se privilegiare
@@ -1323,7 +1323,7 @@ a
 Tuttavia, questi non sono gli unici indicatori, e probabilmente non sono neanche
 quelli pi` interessanti per un utente che volesse pagare per un servizio. Vi sono
 u
-infatti degli altri parametri pi` qualitativi da considerare, perchÈ requisiti dalu
+infatti degli altri parametri pi` qualitativi da considerare, perch√© requisiti dalu
 e
 l'utente (come la qualit` dell'immagine, sincronizzazione audio/video,. . . ): sono
 a
@@ -1334,7 +1334,7 @@ a
 o
 oe
 e l'accordo controllato con il cliente fanno in modo che i servizi moderni non
-risultino trasparenti, proprio perchÈ l'utente pu` (e spesso deve) specicare delle
+risultino trasparenti, proprio perch√© l'utente pu` (e spesso deve) specicare delle
 e
 o
 preferenze! Il sistema deve essere dinamico, in grado di reagire all'evoluzione
@@ -1378,7 +1378,7 @@ ulteriore indicatore il prodotto fra la latenza e la banda: riesce infatti a dar
 un'idea del ritardo fra mittente e ricevente, e di quante informazioni sono state
 inviate nel frattempo. Si rappresenta cos` il numero eettivo di bit trasmessi,
 \i{}
-perchÈ non sar` mai uguale alla banda essendo presente proprio il tempo di
+perch√© non sar` mai uguale alla banda essendo presente proprio il tempo di
 e
 a
 latenza! Su questi indicatori, una prima possibile strategia molto semplice `
@@ -1406,7 +1406,7 @@ a
 Spesso, in realt`, la QoS ` un parametro che ` trascurato in fase progeta
 e
 e
-tuale, nonostante sia un obiettivo. Questo perchÈ durante lo sviluppo si hanno
+tuale, nonostante sia un obiettivo. Questo perch√© durante lo sviluppo si hanno
 e
 situazioni con traco molto limitato. Ci` per` non ` vero per tutti i servizi
 o
@@ -1433,7 +1433,7 @@ e
 e o
 cammino fra C/S che quindi pu` variare. Non abbiamo garanzia del servizio. OSI invece
 o
-denisce la possibilit‡ di denire gli intermediati e riservarli, in maniera da distribuire la
+denisce la possibilit√† di denire gli intermediati e riservarli, in maniera da distribuire la
 a
 latenza totale del servizio su di loro, e in maniera da progettare i nodi intermedi con le risorse
 28
@@ -1447,7 +1447,7 @@ in grado di adattarsi alla congurazione della rete, e non richiedono QoS al
 supporto (possono tuttavia specicare un tempo di latenza per poter eseguire).
 In queste applicazioni quindi l'utente non specica dei tempi rigidi per poter
 eseguire.
-Le applicazioni moderne invece sono non elastiche: questo perchÈ presentano
+Le applicazioni moderne invece sono non elastiche: questo perch√© presentano
 e
 dei vincoli temporali precisi, e quindi richiedono QoS. Di queste, quelle real-time
 moderne sono tolleranti rispetto a problemi che si possono vericare, ovvero
@@ -1480,7 +1480,7 @@ loro:
 $\bullet$ Servizi integrati, RFC 2210: si ragiona per singolo servizio, e quindi si
 cerca di denire per ogni singolo usso la QoS
 necessarie per soddisfare la banda
-7 Questo non si pu` fare con TCP,perchÈ garantisce che si ricevano sempre i frame in ordine:
+7 Questo non si pu` fare con TCP,perch√© garantisce che si ricevano sempre i frame in ordine:
 o
 e
 trasparente, ma non va bene se abbiamo un alto jitter!
@@ -1507,7 +1507,7 @@ di erogare il servizio: ` la fase di negoziazione della QoS. Questa fase cone
 siste nel denire un Service Level Agreement fra le varie parti, che dovr` essere
 a
 descritto in una maniera opportuna, e quindi nel denire/riservare le risorse necessarie. La fase che precede
-l'erogazione ` senza costo, perchÈ non vi ` ancora
+l'erogazione ` senza costo, perch√© non vi ` ancora
 e
 e
 e
@@ -1519,11 +1519,11 @@ e
 nel caso sia necessaria (introduzione di nuovi intermediari, presenza di nodi
 guasti, . . . ) per poter mantenere la QoS stabilitae garantire che ci` avvenga:
 o
-questa ` la condizione necessaria perchÈ un servizio venga retribuito. Questa `
+questa ` la condizione necessaria perch√© un servizio venga retribuito. Questa `
 e
 e
 e
-la fase pi` costosa, perchÈ i vari nodi si devono adattare alle situazioni che si
+la fase pi` costosa, perch√© i vari nodi si devono adattare alle situazioni che si
 u
 e
 vengono a vericare, oppure devono essere estromessi se non adatti. L'idea `
@@ -1584,7 +1584,7 @@ Un agente in realt` gestisce delle variabili standard (non se ne possono
 a
 introdurre di nuove), che sono descritte nel MIB: le operazioni sono quindi
 semplicemente delle GET e SET su queste variabili.
-Una prima reingegnerizzazione di SNMP ha portato alla possibilit‡ di poter
+Una prima reingegnerizzazione di SNMP ha portato alla possibilit√† di poter
 a
 denire il manager come una struttura gerarchica (sfruttando l'idea di realizzare
 degli agenti proxy, una via di mezzo fra un agent e un master), in maniera da
@@ -1607,7 +1607,7 @@ gli agent forniscono informazioni strettamente locali alla risorsa che gestiscon
 per poter fornire delle informazioni pi` generali sullo stato della rete ` necessario
 u
 e
-aancare a SNMP un sistema di Remote MONitoring, per poter fornire all'utente maggiori possibilit‡. Si introducono quindi
+aancare a SNMP un sistema di Remote MONitoring, per poter fornire all'utente maggiori possibilit√†. Si introducono quindi
 dei monitor (probe), in grado
 a
 di lavorare in autonomia e comunicare con il manager, riportando informazioni
@@ -1639,7 +1639,7 @@ L'idea alla base dell'introduzione di QoS in Internet ` che sui nodi intermedi s
 e
 hanno delle informazioni sullo stato del servizio. Un router semplice prende e
 rispedisce i pacchetti, in generale sfruttando la politica FIFO, senza sfruttare
-tutte le possibilit‡ per l'instradamento: garantisce best-eort, ma non QoS,
+tutte le possibilit√† per l'instradamento: garantisce best-eort, ma non QoS,
 a
 poich` i ussi sono limitati da altri ussi!
 e
@@ -1693,9 +1693,9 @@ per la legge di Kleinrock, il router non pu` essere in una condizione di idle se
 o
 vi sono dei pacchetti da portare in uscita. La legge di kleinrock stabilisce che,
 dati n ussi, con traco $\lambda$n e tempo medio di servizio $\mu$n :
-$\bullet$ Il prodotto $\rho$n = $\lambda$n ∑ $\mu$n rappresenta l'utilizzo medio del router
+$\bullet$ Il prodotto $\rho$n = $\lambda$n ¬∑ $\mu$n rappresenta l'utilizzo medio del router
 $\bullet$ Denito qn il tempo medio di attesa si ha che
-$\rho$n ∑ qn = K
+$\rho$n ¬∑ qn = K
 (15)
 dove K ` una costante
 e
@@ -1711,7 +1711,7 @@ e
 starving?10 ).
 Un primo esempio, spesso implementato mediante politiche pi` semplici
 u
-perchÈ non ` realmente implementabile ma solo un modello a tendere, ` la
+perch√© non ` realmente implementabile ma solo un modello a tendere, ` la
 e
 e
 e
@@ -1778,7 +1778,7 @@ corti) Il round robin viene spesso implementata in quei router in cui non
 si possono specicare delle priorit` speciche, ma in cui comunque i ussi
 a
 devono competere per delle risorse.
-3. Decit round robin: si associa una storia ad ogni usso, perchÈ si impone
+3. Decit round robin: si associa una storia ad ogni usso, perch√© si impone
 e
 un limite per ciascuno. Se un usso supera la soglia consentita, non viene
 erogato dal router ma si memorizza tale decit. L'erogazione riprender`
@@ -1790,7 +1790,7 @@ u
 realmente fatta una comunicazione bit a bit, avrebbe terminato la comunicazione per primo! Questa ` una delle politiche
 maggiormente usate,
 e
-anche in ambienti Internet, perchÈ si hanno dei calcoli in tempi accettabili.
+anche in ambienti Internet, perch√© si hanno dei calcoli in tempi accettabili.
 e
 Un problema di tutte le politiche ` in realt` il fatto di non sapere cosa aspettarsi
 e
@@ -1842,7 +1842,7 @@ a
 inferiori localmente dalle singole entit`.
 a
 Nonostante il costo, i servizi integrati lavorano proprio al livello applicativo
-(OSI), proprio perchÈ a questo livello le risorse sono note e si possono valutare:
+(OSI), proprio perch√© a questo livello le risorse sono note e si possono valutare:
 e
 questo signica che su ogni nodo si lavorer` a livello applicativo, in maniera tale
 a
@@ -1889,7 +1889,7 @@ ovviamente avvengono fra nodi vicini, cercando quindi di limitare il costo senza
 eseguire un broadcast.
 Questo ` un sistema conveniente per reti locali e non globali (si ha un alto nue
 mero di messaggi in circolazione): troppi clienti e si avrebbero errori nel riservare
-le risorse perchÈ prenotate prima da altri, e deve essere noto alle applicazioni
+le risorse perch√© prenotate prima da altri, e deve essere noto alle applicazioni
 e
 che lavorano che lo scambio di informazioni si basa su tale protocollo. Infatti,
 al degradare delle prestazioni si pu` giungere ad una condizione di best-eort,
@@ -1900,7 +1900,7 @@ uno stato per avere idea in che situazione si trova. Sicuramente conviene condiv
 fare spesso delle supposizioni per limitare
 l'overhead (il ricevitore sa a chi mandare per primo le richieste, il servitore sa
 chi potrebbe essere interessato al servizio, . . . ).
-Il problema di RSVP ` che ` un protocollo con una forte intrusione, perchÈ si
+Il problema di RSVP ` che ` un protocollo con una forte intrusione, perch√© si
 e
 e
 e
@@ -1932,7 +1932,7 @@ e
 e
 erogato dal servitore verso il ricevente (da chi sa poco a chi sa molto), mentre
 il secondo serve per fornire al gestore informazioni di gestione, e quindi naviga
-in entrambe le direzioni. Tuttavia, si devono specicare in maniera precisa entrambi perchÈ utilizzano le stesse risorse,
+in entrambe le direzioni. Tuttavia, si devono specicare in maniera precisa entrambi perch√© utilizzano le stesse risorse,
 e potrebbero aumentare l'intrusione;
 e
 si stabilisce per esempio quale ` la banda che RTCP pu` sfruttare. RTP in
@@ -1956,11 +1956,11 @@ protocollo detto Real Time Streaming Protocol, in cui non si denisce un cammino 
 speciche dello stream, si utilizza UDP
 o TCP e un sistema di buering per poter trasferire il usso dalla sorgente al
 player. Infatti, inizialmente si parte mediante TCP che riempe il buer, ma se
-un frame non arriva si sfrutta UDP proprio perchÈ non garantisce che i messaggi
+un frame non arriva si sfrutta UDP proprio perch√© non garantisce che i messaggi
 e
 `
 arrivino in ordine! E un modello push, in cui le informazioni arrivano dal server. Questo ` un protocollo dal costo
-minimo, proprio perchÈ non riserva nulla:
+minimo, proprio perch√© non riserva nulla:
 e
 e
 `
@@ -1998,7 +1998,7 @@ $\bullet$ l'assured forwarding, in cui i pacchetti sono marcati a seconda della 
 Vi ` per` un problema: come si possono denire queste classi, nel protocollo
 e
 o
-IPv4 non vi ` possibilit‡. L'idea migliore sarebbe quella di passare ad IPv6, che
+IPv4 non vi ` possibilit√†. L'idea migliore sarebbe quella di passare ad IPv6, che
 e
 a
 grazie a 128 bit contro 32, garantisce la presenza di ancora molti nomi, ove `
@@ -2072,7 +2072,7 @@ messaggio di tipo report. Si cerca quindi di lavorare in un ambiente locale tale
 da garantire che le azioni di multicast siano valide per quella rete.
 Nella versione iniziale del protocollo, vi erano degli altri problemi di gestione,
 dovuti al fatto che vi fosse un singolo router a dover gestire tutta l'infrastruttura
-IGMP. Con la versione 2, un router pu` in realt` controllare pi` reti, perchÈ
+IGMP. Con la versione 2, un router pu` in realt` controllare pi` reti, perch√©
 o
 a
 u
@@ -2255,13 +2255,13 @@ ovvero da chi arriva la comunicazione? Se vi sono omissioni, si pu` cos` attivar
 o
 \i{}
 un procedimento di hold-back.
-Tuttavia, l'ordinamento FIFO non ` sempre quello desiderato, proprio perchÈ
+Tuttavia, l'ordinamento FIFO non ` sempre quello desiderato, proprio perch√©
 e
 e
 non si possono imporre vincoli di precedenza fra messaggi provenienti da emettitori diversi. Basti pensare ai newsgroup:
 spesso succede che arrivi prima
-la risposta della domanda, perchÈ non sono presenti degli orologi sincronizzae
-ti. Questo succede perchÈ a livello di supporto non si garantisce il rapporto di
+la risposta della domanda, perch√© non sono presenti degli orologi sincronizzae
+ti. Questo succede perch√© a livello di supporto non si garantisce il rapporto di
 e
 causa-eetto
 L'ordinamento causale tiene conto di questo problema, si basa proprio sulla
@@ -2291,10 +2291,10 @@ due operazioni non dipendono l'una dall'altra! Resta che l'ordinamento su tutte
 le copie deve essere il medesimo, altrimenti si avrebbero dei conti sballati!
 42
 \newpage
-Questo problema non si risolve neanche con il FIFO perchÈ, come il causale,
+Questo problema non si risolve neanche con il FIFO perch√©, come il causale,
 e
 si tratta di un ordinamento parziale. Si pu` pensare invece di risolverlo utilizo
-zando un ordinamento atomico, che ` globale. Questo perchÈ ` un ordinamento
+zando un ordinamento atomico, che ` globale. Questo perch√© ` un ordinamento
 e
 ee
 deciso dal gruppo! Il gruppo pu` decidere una famiglia di ordinamenti che tutte
@@ -2552,7 +2552,7 @@ Per realizzare questo sistema invece con Lamport e senza uso di un gestore
 centrale, si deve supporre:
 1. Che tutti i processi siano in grado di comunicare l'uno con l'altro. Se
 quindi vi sono n processi, vi devono essere almeno
-n ∑ (n $-$ 1)
+n ¬∑ (n $-$ 1)
 2
 (23)
 canali per poter comunicare.
@@ -2695,7 +2695,7 @@ e
 processo pu` leggittimamente pensare che il nodo che aveva il token sia guasto.
 o
 Questo processo allora crea un token d'elezione, che deve essere approvato da
-tutti i nodi perchÈ diventi il nuovo token dell'anello. Questo signica che per`
+tutti i nodi perch√© diventi il nuovo token dell'anello. Questo signica che per`
 e
 o
 ogni nodo deve avere una conoscenza migliore dell'anello (per esempio, non solo
@@ -2761,7 +2761,7 @@ cui ogni nodo pu` presentare due stati:
 o
 $\bullet$ bianco per indicare lo stato iniziale, prima dello snapshot.
 $\bullet$ rosso per indicare lo stato successivo.
-Una transizione dal bianco al rosso `una richiesta sul nodo perchÈ esegua uno
+Una transizione dal bianco al rosso `una richiesta sul nodo perch√© esegua uno
 e
 e
 snapshot, e come una catena ordina anche agli altri nodi di eseguire uno snapshot: l'idea ` quindi che ognuno salvi il
@@ -2834,7 +2834,7 @@ e
 In ambito accademico, invece, in generale un middleware viene proposto da
 una comunit` per risolvere diversi problemi ed essere introdotto come standard.
 a
-Questo spesso pu` risultare problematico perchÈ i diversi standard non sono
+Questo spesso pu` risultare problematico perch√© i diversi standard non sono
 o
 e
 interoperabili fra di loro! Esistono diversi dialetti/linguaggi per realizzare la
@@ -2968,7 +2968,7 @@ broker : questo fornisce delle interfacce sia al C che al S, e quindi un support
 Questo sistemafacilita l'integrazione
 di sistemi, e permette di realizzare operazioni che si possono eseguire in
 maniera automatica.
-Proprio perchÈ si basa sul modello ad oggetti, i mw di questa tipologia
+Proprio perch√© si basa sul modello ad oggetti, i mw di questa tipologia
 e
 sono molto pi` variabili, e possono essere estesi molto pi` facilmente dei
 u
@@ -2987,7 +2987,7 @@ sistema riessivo ` maggiormente
 e
 costoso di un sistema statico, ma ` un sistema che viene valutato molto
 e
-perchÈ permette, in maniera dinamica, di denire via real-time come il
+perch√© permette, in maniera dinamica, di denire via real-time come il
 e
 componente funzioni!
 L'obiettivo ` quindi fornire un sistema per la visibilit` dei livelli sottostanti
@@ -3001,7 +3001,7 @@ TINA-C
 TINA-C rappresenta la proposta di un mw per le TLC. Si vuole realizzare un
 sistema dove siano previsti pi` provider, in grado quindi di lavorare su una
 u
-rete. L'idea alla base ` la possibilit‡ di denire le varie entit`, i servizi possibili
+rete. L'idea alla base ` la possibilit√† di denire le varie entit`, i servizi possibili
 e
 a
 a
@@ -3023,7 +3023,7 @@ quindi una serie di oggetti presenti su
 a
 ogni nodo. Queste applicazioni non sono localizzati, e si pu` trattare di servizi
 o
-da orire, risorse ed elementi della rete. Il sistema ` quindi trasparente, perchÈ
+da orire, risorse ed elementi della rete. Il sistema ` quindi trasparente, perch√©
 e
 e
 non si vede mai dove le risorse sono realmente allocate.
@@ -3063,9 +3063,9 @@ sulle code locali!Il mw si preoccupa di realizzare l'instradamento, ` un integra
 tore di nodi: spiega come i router si debbano coordinare (si possono avere diversi
 intermediari, ed esistono messaggi broker appositi per gestire l'eterogeneit`)!
 a
-Questi sono mw a basso costo, perchÈ fanno da collante: non si aggiunge
+Questi sono mw a basso costo, perch√© fanno da collante: non si aggiunge
 e
-molto all'applicazione, ma solo la possibilit‡ di mandare e ricevere messaggi! Il
+molto all'applicazione, ma solo la possibilit√† di mandare e ricevere messaggi! Il
 a
 costo limitato facilita infatti l'integrazione di sistemi legacy!
 Uno dei MOM pi` diusi ` MQSeries di IBM: questo realizza uno stub per
@@ -3108,7 +3108,7 @@ Una caratteristica particolare ed importante dei mw ad oggetti ` che pree
 sentano delle soluzioni che si ripetono, e delle possibili strategie da scegliere:
 abbiamo dei pattern, meccanismi che si ripetono!
 La base per ogni mw ad oggetti sono:
-$\bullet$ La possibilit‡ di realizzare un'interazione remota
+$\bullet$ La possibilit√† di realizzare un'interazione remota
 a
 $\bullet$ Possibilit` di comunicare in maniera asincrona
 a
@@ -3154,7 +3154,7 @@ o
 lo stesso oggetto
 56
 \newpage
-generale ` pi` conveniente questo modo di lavorare, perchÈ ` il mw che si
+generale ` pi` conveniente questo modo di lavorare, perch√© ` il mw che si
 e u
 ee
 preoccupa di associare gli oggetti in maniera eciente.
@@ -3212,7 +3212,7 @@ Pattern per la comunicazione
 Di base, i mw ad oggetti tendono ad introdurre come primo modello di comunicazione l'interazione sincrona bloccante.
 Tuttavia, questa comunicazione `
 e
-alquanto pesante, perchÈ lega in maniera pesante il client al server e viceversa.
+alquanto pesante, perch√© lega in maniera pesante il client al server e viceversa.
 e
 Per questo vi sono dei pattern per introdurre altri modelli.
 Per ottenere una comunicazione asincrona, si possono usare:
@@ -3235,7 +3235,7 @@ ma in questo modello deve attendere che sia il server stub a generare un
 processo per risolvere la richiesta, e che quindi faccia return. Dipende
 quindi anche dal tempo di comunicazione dei nodi! Questo modello `
 e
-spesso presente, perchÈ permette di realizzare un'operazione asincrona
+spesso presente, perch√© permette di realizzare un'operazione asincrona
 e
 pi` garantita, ovvero fornisce una maggiore sicurezza sulla consegna della
 u
@@ -3432,7 +3432,7 @@ e
 presentazione dei dati (XML o formato binario: leggibilit` o ecienza
 a
 . . . ).
-$\bullet$ Sistema a plug-in: si tratta della possibilit‡ di estendere il mw, introa
+$\bullet$ Sistema a plug-in: si tratta della possibilit√† di estendere il mw, introa
 ducendo dei gestori per azioni particolari di determinati protocolli (per
 esempio, per eseguire certi compiti prima dell'invoke nale).25
 $\bullet$ Il mw pu` anche gestire insiemi/gruppi di oggetti, fornendo quindi un
@@ -3467,10 +3467,10 @@ per gli oggetti, . . . ).
 CORBA in particolare basala sua architettura sulla presenza di un broker,
 detto Object Request Broker : ` infatti l'incarnazione di tutta l'architettura,
 e
-perchÈ fornisce il supporto alla comunicazione, il controllo degli oggetti, facilita
+perch√© fornisce il supporto alla comunicazione, il controllo degli oggetti, facilita
 e
 la comunicazione, ed alloca gli oggetti. . . ), ovvero ` il bus per l'interconnese
-sione!26 Una caratteristica importante degli ORB ` che ` prevista la possibilit‡
+sione!26 Una caratteristica importante degli ORB ` che ` prevista la possibilit√†
 e
 e
 a
@@ -3492,7 +3492,7 @@ u
 ordinato, e presenta anche delle varianti. Infatti, oltre al normale servizio
 di nomi (per cui si deve conoscere il nome logico del servizio) vi ` anche la
 e
-possibilit‡ di denire un servizio di trading, che funziona come le pagine
+possibilit√† di denire un servizio di trading, che funziona come le pagine
 a
 gialle, ricercando servizi e non nomi!
 $\bullet$ Event e notication: sono sistemi meno orientati agli oggetti, ma che
@@ -3515,7 +3515,7 @@ Una caratteristica che ` stata sempre trascurata ` la sicurezza: questa per`
 e
 e
 o
-` introducibile, visto che CORBA prevede la possibilit‡ di utilizzare degli intere
+` introducibile, visto che CORBA prevede la possibilit√† di utilizzare degli intere
 a
 ceptor !
 CORBA ` denito da una serie di componenti: oltre all'ORB (uno dei
@@ -3580,7 +3580,7 @@ e
 usate in CORBA (quelle dinamiche, per quanto orano un servizio con maggiore
 QoS, sono molto costose). L'IDL denisce (` solo un sistema dichiarativo! un
 e
-sistema perchÈ il compilatore scelto realizzi quindi uno stub e skeleton statici
+sistema perch√© il compilatore scelto realizzi quindi uno stub e skeleton statici
 e
 (si pu` sfruttare per realizzare uno skeleton dinamico on the y mediante un'ino
 vocazione dinamica del servizio, aggiungendolo al servitore!). Senza un servizio
@@ -3609,7 +3609,7 @@ pletamento corretto o meno dell'operazione. Si possono quindi denire (come
 in qualunque altra interfaccia) attributi, operazioni ed eccezioni. Le interfacce
 si possono ereditare, anche in maniera multipla, e si possono raggruppare in
 moduli logici coerenti.
-Di particolare interesse, nei tipi, ` la possibilit‡ di denire attributi di tipo
+Di particolare interesse, nei tipi, ` la possibilit√† di denire attributi di tipo
 e
 a
 ANY : un attributo di tale tipo pu` essere sia un valore che un riferimento. Fono
@@ -3676,7 +3676,7 @@ struttura ad albero, in base ai moduli che la contengono.
 Protocolli per la comunicazione fra ORB
 Inizialmente, CORBA era stato progettato per scambiare dati binari, in maniera
 da ottenere un'ottimizzazione della comunicazione. In seguito si sono introdotte
-estensioni come la possibilit‡ di lavorare in Internet fra diversi ORB, o anche di
+estensioni come la possibilit√† di lavorare in Internet fra diversi ORB, o anche di
 a
 realizzare comunicazioni fra ORB diversi con protocolli pi` generalizzati.
 u
@@ -3719,7 +3719,7 @@ per poter lavorare: le funzioni base di CORBA sono quindi quelle di gestione e
 comunicazione dei riferimenti remoti (trasformazione da/a stringa).
 6.7
 Confronto fra Java e CORBA, e sua evoluzione
-I due sistemi sono abbastanza compatibili, proprio perchÈ hanno obiettivi diversi
+I due sistemi sono abbastanza compatibili, proprio perch√© hanno obiettivi diversi
 e
 (Web invece che integrazione di sistemi legacy) e lavorano utilizzando risorse
 diverse (a grana ne vs grana grossa).
@@ -3741,7 +3741,7 @@ per` ` dinamica: se non ` presente, il POA si preoccupa di attivarlo.
 oe
 e
 L'invocazione statica bloccante ` quella che costa di meno (semantica ate
-most-once), per` pu` anche essere molto limitante. Questo perchÈ i client e
+most-once), per` pu` anche essere molto limitante. Questo perch√© i client e
 o
 o
 e
@@ -3751,7 +3751,7 @@ servizi! Tutto prima dell'esecuzione!
 Inizialmente si era introdotta anche un altra modalit`, detta one-way, ma `
 a
 e
-deprecata (semantica best-eort, senza possibilit‡ di introdurre QoS).
+deprecata (semantica best-eort, senza possibilit√† di introdurre QoS).
 a
 29 Da ricordare che statico non signica che il client ` legato allo specico servant, ma che il
 e
@@ -3889,7 +3889,7 @@ servant possiede quel servizio (quindi non si
 richiede che il servant sia dinamico!). Quindi, l'oggetto Request deve essere particolarizzato in maniera opportuna
 dall'utente, in maniera da ottenere l'oggetto
 desiderato (ridotta trasparenza!).
-CORBA introduce anche la possibilit‡ di estendere dinamicamente i servizi
+CORBA introduce anche la possibilit√† di estendere dinamicamente i servizi
 a
 oerti da un servant (` meno utilizzato). Come fare ci` in realt` non ` spiegato
 e
@@ -3936,7 +3936,7 @@ u
 sico). Ma quindi questi riferimenti non sono univoci: localmente si potrebbe
 anche puntare ad oggetti diversi, realizzando quindi incomprensioni e problemi
 (specialmente lato server)!
-In CORBA 2 si ` quindi introdotta la possibilit‡ di puntare ad uno servant
+In CORBA 2 si ` quindi introdotta la possibilit√† di puntare ad uno servant
 e
 a
 specico, introducendo quindi un sistema per denire dei nomi univoci !
@@ -3945,7 +3945,7 @@ Interoperabilit` fra ORB
 a
 Per poter realizzare le comunicazioni fra ORB diversi, si ` dovuto quindi reale
 izzare degli ObjRef interoperabili : questi sono gli IOR. Hanno un costo pesante
-a livello di implementazione, soprattutto perchÈ una volta stabilito, deve essere
+a livello di implementazione, soprattutto perch√© una volta stabilito, deve essere
 e
 valido in eterno!
 Gli IOR facilitano le gestioni degli ORB: si ha che se si registrano client/server
@@ -3962,7 +3962,7 @@ in maniera opportuna un ObjRef.
 Caratteristica importante degli IOR ` che non ` detto che puntino direte
 e
 tamente ad un adattatore, ma possono anche riferire invece un altro repository, ovvero quello degli oggetti
-implementati! Si ha quindi la possibilit‡ di
+implementati! Si ha quindi la possibilit√† di
 a
 denire un legame indiretto oltre a quello diretto: la dierenza sostanziale `
 e
@@ -3984,7 +3984,7 @@ Estensibilit` di CORBA
 a
 CORBA ` pensato per essere facilmente estensibile. In particolare, CORBA
 e
-3 introduce l'uso di componenti, la possibilit‡ di denire QoS, e un supporto
+3 introduce l'uso di componenti, la possibilit√† di denire QoS, e un supporto
 a
 anche ad Internet come ambiente di lavoro.
 I componenti non sono altro che degli oggetti inseriti in un apposito contenitore, ed inseriti in un apposito ambiente
@@ -3995,7 +3995,7 @@ e
 \newpage
 sfruttando delle politiche di default denite proprio dal contenitore. Un esempio
 di componente di questo genere sono gli EJB.
-I componenti sono un fattore trainante per ottenere una base d'utenza sempre pi` ampia: aumenta la possibilit‡ di
+I componenti sono un fattore trainante per ottenere una base d'utenza sempre pi` ampia: aumenta la possibilit√† di
 adattare il sistema alle proprie esigenze.
 u
 a
@@ -4019,7 +4019,7 @@ e
 e
 l'interfaccia ` leggermente diversa: nel poll i parametri necessari sono di out!
 e
-Questo genere di interazione ` molto diusa, perchÈ permette di richiedere
+Questo genere di interazione ` molto diusa, perch√© permette di richiedere
 e
 e
 contemporaneamente molte {`}istruzioni'.
@@ -4039,7 +4039,7 @@ mentre il trading service fornisce un sistema simile a quello delle pagine giall
 per cui i servizi sono catalogati in base al loro contenuto. In questo caso si
 ricerca quindi per chiavi: a default vengono forniti tutti i servizi, ma vi ` la
 e
-possibilit‡ di ltrare i risultati, per ridurne il numero.33
+possibilit√† di ltrare i risultati, per ridurne il numero.33
 a
 In entrambi i casi si pu` pensare (a dierenza di Java RMI) di realizzare
 o
@@ -4056,7 +4056,7 @@ CORBA stabilisce delle apposite interfacce, denendo mediante ognuna il
 modo di comunicare (push dal produttore, pull dal consumatore, . . . ). Si
 denisce un canale come oggetto di delega, per poter inviare i messaggi ai
 33 Non
-si ricercano ovviamente interfacce, perchÈ presenti sull'IR
+si ricercano ovviamente interfacce, perch√© presenti sull'IR
 e
 71
 \newpage
@@ -4066,7 +4066,7 @@ Di solito, non ` noto chi ` che genera l'evento, ` trasparente al consumatore.
 e
 e
 e
-Gli eventi sono non persistenti, senza qualit`, e senza possibilit‡ di ltraggio: si
+Gli eventi sono non persistenti, senza qualit`, e senza possibilit√† di ltraggio: si
 a
 a
 ha che quindi la maniera pi` comoda per lavorare ` il sistema push, e per avere
@@ -4154,7 +4154,7 @@ L'idea della Microsoft era per` quella di estendere il concetto di OLE anche
 o
 al distribuito, da qui la tecnologia COM. Nel concentrato era tutto pi` semplice
 u
-perchÈ si sfruttava il registry di Windows per identicare in maniera univoca un
+perch√© si sfruttava il registry di Windows per identicare in maniera univoca un
 e
 oggetto35 , e per poter registrare quindi i vari gestori.
 7.1
@@ -4216,7 +4216,7 @@ o
 e
 necessario vedere come avviene l'interazione di basso livello! Si deve per forza
 passare per il metodo QueryInterface.
-In COM vi ` quindi solo l'ereditariet` in base alle interfacce: questo perchÈ
+In COM vi ` quindi solo l'ereditariet` in base alle interfacce: questo perch√©
 e
 a
 e
@@ -4263,7 +4263,7 @@ richieste ai metodi che implementa).
 Interazione C/S in COM
 L'idea base ` che vi sia uniformit` di comportamento fra ogni tipologia d'oggete
 a
-to: non interessa quindi come ` fatto, ma la possibilit‡ di poterci interagire in
+to: non interessa quindi come ` fatto, ma la possibilit√† di poterci interagire in
 e
 a
 maniera C/S trasparente. Il problema ` che il costo ` molto diverso in realt` a
@@ -4277,7 +4277,7 @@ u
 Quindi, a dierenza di CORBA36 , l'implementazione sottostante ` diversa a
 e
 seconda di quale tipo di oggetto si acceda
-Un oggetto in COM, perchÈ si possa riconoscere come server, deve fornire
+Un oggetto in COM, perch√© si possa riconoscere come server, deve fornire
 e
 la capacit` di istanziare degli oggetti : in generale questo viene realizzato utiliza
 zando delle Factory, che non son classi ma gestori d'entit`. Ogni Factory ha
@@ -4343,11 +4343,11 @@ DCOM nasce negli anni 90 come esigenza si introdurre anche in COM (come
 in CORBA) l'interazione dinamica. In particolare, ci` che si introduce ` il
 o
 e
-concetto di automation, ovvero la possibilit‡ di fornire ad un client di poter
+concetto di automation, ovvero la possibilit√† di fornire ad un client di poter
 a
 gestire oggetti per cui non aveva previsto l'interazione. Si tratta anche di un
 modello realizzato per cercare di andare oltre al classico modello a code di eventi.
-Inizialmente, automation nasce come possibilit‡ per linguaggi dinamici (tipo
+Inizialmente, automation nasce come possibilit√† per linguaggi dinamici (tipo
 a
 quelli di scripting per il Web) di poter accedere all'architettura COM. Questo
 genere di linguaggi infatti spesso sono loosely-typed e studiati in maniera tale
@@ -4388,7 +4388,7 @@ altre interfacce, permettendo un'ese\i{}
 cuzione sempre dinamica (ma costosa).
 Si pu` quindi iniziare a parlare di componenti veri, che rappresentano un'esteno
 sione degli oggetti: sono pi` pervasivi, garantendo di non avere limiti alla riusu
-abilit` e possibilit‡ di essere usati in un qualunque contesto, senza dover dipena
+abilit` e possibilit√† di essere usati in un qualunque contesto, senza dover dipena
 a
 dere come gli oggetti da un determinato linguaggio.
 A dierenza per` di CORBA, essendo la VMT ssa, non ` possibile realizzare
@@ -4446,7 +4446,7 @@ il container implementa la dispinterface denita dall'oggetto contenuto (questo
 deve solo denire quali eventi sono interessanti per lui); uno ` la sorgente dele
 l'interfaccoa, l'altro il pozzo che la realizza. A sua volta, il container sfrutta
 degli oggetti intermedi per poter comunicare con l'oggetto contenuto.
-DCOM stabilisce anche la possibilit‡ di realizzare una persistenza del coma
+DCOM stabilisce anche la possibilit√† di realizzare una persistenza del coma
 ponente, implementando un'apposita interfaccia. (I riferimenti non son ssi in
 DCOM).
 7.6
@@ -4462,7 +4462,7 @@ meccanismi, aggiungendo diversi monikers.
 7.7
 Modello a thread di DCOM
 Il modello deriva da quello di Win32. Tuttavia, vi possono essere dei problemi se certi componenti non risultano essere
-thread-safe (magari perchÈ sono
+thread-safe (magari perch√© sono
 e
 componenti legacy). Per superare questo problema, in DCOM si ` introdote
 to il concetto di Apartment, che consiste ad un ambiente d'esecuzione isolato,
@@ -4564,7 +4564,7 @@ classici servizi Web. La logica ` che il Web ` l'installato pi` diuso e facilmen
 e
 e
 u
-accedibile al mondo, perchÈ non sfruttarlo?
+accedibile al mondo, perch√© non sfruttarlo?
 e
 Si ha infatti che molti mw richiedono congurazioni che vanno per esempio
 contro certi principi delle aziende (aperture di ulteriori porte verso l'esterno),
@@ -4579,7 +4579,7 @@ standard). Gli obiettivi sono quindi quelli di realizzare delle Service Oriented
 Application (mappando l'interfaccia di interazione ad alto livello) o delle Enterprise Application Integration,come SAP,
 ovvero un sistema in grado di integrare
 anche sistemi legacy.
-Perch` allora non usare sempre il web, perchÈ esistono anche altri mw ancoe
+Perch` allora non usare sempre il web, perch√© esistono anche altri mw ancoe
 e
 ra? Il problema ` che il Web ha un costo molto elevato, per cui potrebbe essere
 e
@@ -4631,7 +4631,7 @@ SOAP
 E il protocollo per la comunicazione, in grado quindi di strutturare l'interazione.
 Denisce quindi come si pu` accedere agli oggetti. Presenta un alto overhead
 o
-perchÈ si deve specicar tutto: siamo infatti in un'interazione senza stato, per
+perch√© si deve specicar tutto: siamo infatti in un'interazione senza stato, per
 e
 cui si deve specicare URI, . . . Non vi ` quindi nessun supporto semantico, e vi
 e
@@ -4668,7 +4668,7 @@ $\bullet$ Si pu` anche denire una sezione di fault, nel caso che l'operazione no
 o
 avesse avuto successo.
 La comunicazione non ` necessariamente P2P ma anche molti a molti. Il problee
-ma di SOAP ` che ` altamente costoso (e poco eciente), perchÈ siamo costretti
+ma di SOAP ` che ` altamente costoso (e poco eciente), perch√© siamo costretti
 e
 e
 e
@@ -4725,7 +4725,7 @@ UDDI e WSIL
 `
 E il servizio di nomi presente nei WS. Si tratta di un ulteriore linguaggio con
 cui poter descrivere dove risiedono i vari servizi, e come aggregare fra di loro
-pi` servizi. La prima informazione che si necessita ` la possibilit‡ di descrivere
+pi` servizi. La prima informazione che si necessita ` la possibilit√† di descrivere
 u
 e
 a
@@ -4741,7 +4741,7 @@ globale e condiviso ma non gerarchizzato. Questo aspetto presenta grossi problem
 diversi gestori dei servizi !
 Gli attori possibili quindi per UDDI sono due: i publisher di un servizio e i
 loro requester. Vista la struttura degli UDDI, un requester dovr` navigare sina
-golarmente gli UDDI, perchÈ appunto non vi ` ridirezione fra questi! In maniera
+golarmente gli UDDI, perch√© appunto non vi ` ridirezione fra questi! In maniera
 e
 e
 particolare, per aggiungere sicurezza si dovrebbe memorizzare e garantire il publisher!
@@ -4821,10 +4821,10 @@ e
 della JVM: non si pu` spostare facilmente su un altro nodo! Altre caratteristiche
 o
 dicili da muovere sono i riferimenti a risorse strettamente locali (tipo i le40 ).
-Se ` presente la possibilit‡ di muovere le risorse, aggiungendo un servizio di
+Se ` presente la possibilit√† di muovere le risorse, aggiungendo un servizio di
 e
 a
-trasparenza si ha che si lavora senza fornire la possibilit‡ di vedere le risorse
+trasparenza si ha che si lavora senza fornire la possibilit√† di vedere le risorse
 a
 locali!
 Questi concetti sono utili anche per decidere cosa posizionare su ogni nodo:
@@ -4853,14 +4853,14 @@ comune, ed ` quindi necessario stipulare delle apposite convenzioni.
 e
 9.2
 Muovere i processi
-Esistono diversi S.O. che prevedono la possibilit‡ di spostare i processi su altri
+Esistono diversi S.O. che prevedono la possibilit√† di spostare i processi su altri
 a
 processori, per cercare di fornire un bilanciamento di carico migliore. Si realizza
 cos` uno scheduling distribuito, in grado di fornire sia una politica locale che
 \i{}
 globale con cui trattare i processi. Un sistema di scheduling globale deve essere
 in grado di fornire dei meccanismi con cui i processi possano comunicare in
-remoto e quindi la possibilit‡ di realizzare delle politiche per la gestione delle
+remoto e quindi la possibilit√† di realizzare delle politiche per la gestione delle
 a
 risorse.
 In particolare, si possono avere due diversi approcci:
@@ -4883,7 +4883,7 @@ valutazioni euristiche, per poter limitare il costo a volte inaccettabile) per a
 limitare il costo. Una possibile strategia, per
 esempio, ` quella di ridurre il numero dei processori su cui un processo pu` ese
 o
-sere trasferito. Il load balancing deve essere valutato attentamente, perchÈ pu`
+sere trasferito. Il load balancing deve essere valutato attentamente, perch√© pu`
 e o
 divenire molto intrusivo. Le valutazioni dinamiche, che realizzano politiche di
 minima intrusione locali e semplici son sempre da preferire.
@@ -4917,7 +4917,7 @@ si vengono a denire (in generale si cerca di avere un albero binario). L'obietti
 elevato numero di risorse ed utenti,
 e
 non basandosi sulla topologia reale della rete. Il sistema ` dinamico proe
-prio perchÈ permette anche di fare un'allocazione dinamica delle risorse,
+prio perch√© permette anche di fare un'allocazione dinamica delle risorse,
 e
 richiedendole al livello superiore. L'architettura ` fault-tolerant.
 e
@@ -4930,7 +4930,7 @@ scegliendo quelli liberi.
 Nel caso di load balancing si parla di migrazione: un processo viene trasferito su
 `
 un altro nodo. E un'operazione costosa, ma che presenta degli indubbi vantaggi,
-perchÈ permette di smistare il carico nel sistema. In questo modo si riescono a
+perch√© permette di smistare il carico nel sistema. In questo modo si riescono a
 e
 far lavorare tutti i processori, aumentando l'ecienza.
 `
@@ -4953,7 +4953,7 @@ La migrazione deve tener conto di diversi aspetti:
 continuamente da un processore all'altro, senza mai essere eseguito.
 3. Si deve evitare il fenomeno delle dipendenze residue: un nodo non dovrebbe
 mai ridirezionare le richieste verso il nuovo nodo su cui gira il processo.
-Vi ` infatti a possibilit‡ di generare dei cicli assolutamente pericolosi.
+Vi ` infatti a possibilit√† di generare dei cicli assolutamente pericolosi.
 e
 a
 86
@@ -4969,7 +4969,7 @@ u
 eciente e meno costosa, a fornire ai clienti un sistema per accedere al processo
 anche se ` stato spostato.
 e
-Una prima possibilit‡ ` quella di ridirigere i messaggi, sfruttando per esemae
+Una prima possibilit√† ` quella di ridirigere i messaggi, sfruttando per esemae
 pio un'apposita struttura detta forwarder, in grado di farlo in maniera traspar`
 ente. E una strategia pessimistica/pro-attiva. In questo modo il cliente non
 viene avvisato! Una prima modica consiste quindi nel riqualicare i messaggi,
@@ -5050,7 +5050,7 @@ $\bullet$ Statiche: sono molto facili da valutare, e risulta facile denire come 
 schio di trashing). La locazione ` statica, e anche se non risulta essere
 e
 essibile, presenta un costo molto basso.
-$\bullet$ Semi-dinamiche: sono politiche pi` costose, perchÈ dipendono dalla situu
+$\bullet$ Semi-dinamiche: sono politiche pi` costose, perch√© dipendono dalla situu
 e
 azione attuale. Si realizza una scelta ciclica dei processi e dei destinatari.
 Il carico ` quindi dinamico.
@@ -5062,7 +5062,7 @@ Le politiche possono essere pi` o meno complesse, realizzando magari politiche
 u
 incondizionate (meccanismi random) o condizionate: queste ultime sonopi` cosu
 tose, presentando un overhead dovuto ad una comuncaizione per fare delle negoziazioni ! Questo sistema ` detto probing,
-perchÈ ovviamente si cerca nel
+perch√© ovviamente si cerca nel
 e
 e
 vicinato, per limitare il costo (non ha senso cercare nella globalit` !). Si possono
@@ -5107,7 +5107,7 @@ e
 codice al server, che ne diventa parte integrante!
 $\bullet$ Code On Demand : processo inverso, ovvero il client scarica codice proveniente dal server (un esempio classico
 sono le applet Java!)
-Questi sistemi per` non prevedono ancora la possibilit‡ che il codice, mentre si
+Questi sistemi per` non prevedono ancora la possibilit√† che il codice, mentre si
 o
 a
 muove, esegua! Questo si ha solo con l'introduzione degli agenti mobili. Sono infatti sistemi a multi-hop, in grado di
@@ -5125,7 +5125,7 @@ a
 $\bullet$ Forte: In ogni punto del codice ` possibile specicare la mobilit`. Tali
 e
 a
-sistemi sono in realt` dicilmente realizzabili, perchÈ presentano grossi
+sistemi sono in realt` dicilmente realizzabili, perch√© presentano grossi
 a
 e
 problemi di supporto.
@@ -5183,7 +5183,7 @@ studio quindi di strutture dati apposite per la mobilit`, permettendo soltanto
 a
 delle richieste esplicite alla migrazione.
 Vi possono essere diverse implementazioni: con connessione o connectionless,
-comunicazioni sincrone o meno, possibilit‡ di realizzare un sistema sincronizzato
+comunicazioni sincrone o meno, possibilit√† di realizzare un sistema sincronizzato
 a
 di agenti o meno, e cos` via. Tuttavia, tutti i sistemi ad agenti introducono un
 \i{}
@@ -5199,7 +5199,7 @@ e
 o
 dal nodo su cui esegue: si devono quindi anche garantire certe propriet` di
 a
-incapsulamento, perchÈ non sia un nodo a modicare il codice contenuto da un
+incapsulamento, perch√© non sia un nodo a modicare il codice contenuto da un
 e
 agente!
 A cosa pu` essere utile tutto ci`? A realizzare mobile computing (utenti in
@@ -5210,7 +5210,7 @@ terminale, ottenendo cos` la massima accessibilit`) ottenendo per esempio la
 \i{}
 a
 generazione di reti spontanee (utili per esempio per creare reti per giochi, solo su
-disponibilit`), possibilit‡ di coordinare utenti mobili in ambienti civili e militari,
+disponibilit`), possibilit√† di coordinare utenti mobili in ambienti civili e militari,
 a
 a
 sistemi location awareness. . .
