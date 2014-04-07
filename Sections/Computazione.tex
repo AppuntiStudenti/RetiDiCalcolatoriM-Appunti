@@ -49,95 +49,62 @@ servizio.
 
 \subsection{Processi o oggetti?}
 Un'ulteriore distinzione riguarda su cosa basarsi per descrivere effettivamente come avviene l'esecuzione.
-Un primo modello si basa sull'idea del processo, che incarna la capacità di esecuzione della macchina. Si specificano
-quindi delle operazioni, e si tratta di modelli che tengono conto della macchina su cui si lavora, e funzionano molto
+Un primo modello si basa sull'idea del \textit{processo}, che incarna la capacità di esecuzione della macchina. Si
+specificano quindi delle operazioni, e si tratta di modelli che tengono conto della macchina su cui si lavora, e
+funzionano molto
 bene con risorse locali e stato locali. Vi sono più modelli:
-u
-$\bullet$ Processi alla Unix: si tratta di processi pesanti, ognuno dotato di un
-proprio stato locale. In questo modello interessa solo in che modo i processi
-possono comunicare, essendo lo stato non condivisibile.
-$\bullet$ Processi alla Java: i processi son leggeri, hanno uno stato condiviso che
-può essere usato anche per comunicare. Risulta essere più facile fare anche
-o
-u
-dei cambi di contesto, ma si possono presentare delle interferenze.
-I thread di una JVM, proprio perché dotati di uno stato condiviso, si possono
-e
-rapportare con un'altra JVM. I thread leggeri utilizzano lo stato comune per
-comunicare.
-`
-Un'altra idea riguarda la modellazione basata sul paradigma ad oggetti. E
-importante ricordarsi che questi son sempre delle astrazioni, e quindi necessitano
-di una concretizzazione successiva. Anche qui si possono supporre due diversi
+\begin{itemize}
+ \item Processi alla Unix: si tratta di processi pesanti, ognuno dotato di un proprio stato locale. In questo modello
+interessa solo in che modo i processi possono comunicare, essendo lo stato non condivisibile.
+ \item Processi alla Java: i processi son leggeri, hanno uno stato condiviso che può essere usato anche per comunicare.
+Risulta essere più facile fare anche dei cambi di contesto, ma si possono presentare delle interferenze. 
+\end{itemize}
+
+I thread di una JVM, proprio perché dotati di uno stato condiviso, si possono rapportare con un'altra JVM. I thread
+leggeri utilizzano lo stato comune per comunicare.
+
+Un'altra idea riguarda la modellazione basata sul paradigma ad oggetti. È importante ricordarsi che questi son sempre
+delle astrazioni, e quindi necessitano di una concretizzazione successiva. Anche qui si possono supporre due diversi
 modelli:
-$\bullet$ Oggetti passivi : i classici oggetti alla Java. Rappresentazione l'astrazione
-di dati su cui delle entità esterne possono lavorare. Non sono quindi
-a
-dotati di capacità propria d'esecuzione. Si può quindi avere concorrenza
-a
-o
-fra diversi processi che vogliono accedere allo stesso oggetto, non si ha un
-buon connamento e si ha scarsa protezione.
-$\bullet$ Oggetti attivi : sono oggetti dotati di propria capacità d'esecuzione. I
-a
-processi quindi non entrano nell'oggetto, perché vi è già all'interno dele
-e a
-l'oggetto una propria logica di gestione (si ha quindi un modello a request/response: un processo richiede di poter
-usare l'oggetto mediante i
-{`}metodi' forniti da questo, e questo in base alla sua schedulazione risponde
-`
-alla richiesta E sempre da osservare che un oggetto attivo ha comunque
-un proprio stato interno, descritto da una parte sequenziale, ma a cui
-non vi si accede con dei metodi, proprio grazie a questa logica interna: i
-metodi veri e propri sono utilizzati solo internamente!). Un oggetto attivo
-` quindi dotato di una coda delle richieste che si sono presentate, e una
-e
-sua politica di scheduling. Si supera in questo modo il problema degli
-oggetti passivi, proteggendo del tutto l'oggetto e determinandolo completamente. Un oggetto attivo quindi, massimizzando
-la parte sequenziale,
-si può spostare più facilmente. Rappresent lo stesso modello dei servitori
-o
-u
-paralleli, e, per esempio, degli agenti mobili. Un oggetto attivo quindi
-7
-si preoccupa di tutta la gestione dell'esecuzione internamente (richieste,
-attività, errori, processi interni. . . :si forniscono meccanismi, mediante il
-a
-quale si possono specicare delle politiche diverse!
-Come mai in Java tale modello non è stato implementato? Si tratta di un mode
-ello molto costoso, che non presenta delle scorciatoie utili se si lavorasse solo in
-ambito locale!
-Nei sistemi moderni, in realtà si parla di classi che contengono le denizioni
-a
-degli oggetti, e deniscono lo stato interno e i metodi con cui accedere. In particolare, in generale si parla di
-semantica per riferimento, che però è in grado
-oe
-di funzionare solo in un ambito locale. Per riferire in remoto, serve un supporto
-esterno. Per esempio, si parla di utilizzare socket, protocolli standard de facto
-come TCP/IP. . .
-Tuttavia, è proprio questo il motivo per cui si vengono a definire dei mide
-dleware, ovvero delle strutture in grado di fornire un supporto completo alla
-comunicazione in remoto. Per esempio, Java Remot Method Invocation è un
-e
-sistema in grado di estendere la semantica per riferimento locale, al remoto,
-cercando di fornire un sistema omogeneo per poter accedere sia ad oggetti locali
-che remoti. Nel caso specico di RMI, per esempio, si utilizza un classico pattern dei middleware, il proxy come delegato
-per la comunicazione. Si realizzano
-infatti uno stub lato cliente e uno skeleton lato server, che riescono a garantire
-un qualcosa di simile alla normale comunicazione locale. Si cerca di presentare
+\begin{itemize}
+ \item \textit{Oggetti passivi}: i classici oggetti alla Java. Rappresentazione l'astrazione di dati su cui delle entità
+esterne possono lavorare. Non sono quindi dotati di capacità propria d'esecuzione. Si può quindi avere concorrenza
+fra diversi processi che vogliono accedere allo stesso oggetto, non si ha un buon confinamento e si ha scarsa
+protezione.
+  \item \textit{Oggetti attivi}: sono oggetti dotati di propria capacità d'esecuzione. I processi quindi non entrano
+nell'oggetto, perché vi è già all'interno dell'oggetto una propria logica di gestione (si ha quindi un modello a
+request/response: un processo richiede di poter usare l'oggetto mediante i ``metodi'' forniti da questo, e questo in
+base alla sua schedulazione risponde alla richiesta. È sempre da osservare che un oggetto attivo ha comunque un proprio
+stato interno, descritto da una parte sequenziale, ma a cui non vi si accede con dei metodi, proprio grazie a questa
+logica interna: i metodi veri e propri sono utilizzati solo internamente!). Un oggetto attivo è quindi dotato di una
+coda delle richieste che si sono presentate, e una sua politica di scheduling. Si supera in questo modo il problema
+degli oggetti passivi, proteggendo del tutto l'oggetto e determinandolo completamente. Un oggetto attivo quindi,
+massimizzando la parte sequenziale, si può spostare più facilmente. Rappresent lo stesso modello dei servitori
+paralleli, e, per esempio, degli agenti mobili. Un oggetto attivo quindi si preoccupa di tutta la gestione
+dell'esecuzione internamente (richieste, attività, errori, processi interni... si forniscono meccanismi, mediante il
+quale si possono specificare delle politiche diverse!
+\end{itemize}
+
+Come mai in Java tale modello non è stato implementato? Si tratta di un modello molto costoso, che non presenta delle
+scorciatoie utili se si lavorasse solo in ambito locale!
+Nei sistemi moderni, in realtà si parla di classi che contengono le definizioni degli oggetti, e deniscono lo stato
+interno e i metodi con cui accedere. In particolare, in generale si parla di semantica per riferimento, che però è in
+grado di funzionare solo in un ambito locale. Per riferire in remoto, serve un supporto esterno. Per esempio, si parla
+di utilizzare socket, protocolli standard de facto come TCP/IP...
+Tuttavia, è proprio questo il motivo per cui si vengono a definire dei middleware, ovvero delle strutture in grado di
+fornire un supporto completo alla comunicazione in remoto. Per esempio, Java Remot Method Invocation è un sistema in
+grado di estendere la semantica per riferimento locale, al remoto, cercando di fornire un sistema omogeneo per poter
+accedere sia ad oggetti locali che remoti. Nel caso specico di RMI, per esempio, si utilizza un classico pattern dei
+middleware, il proxy come delegato per la comunicazione. Si realizzano infatti uno stub lato cliente e uno skeleton lato
+server, che riescono a garantire un qualcosa di simile alla normale comunicazione locale. Si cerca di presentare
 un sistema trasparente per l'utente!
-`
-Perch` quindi non realizzare tutti i riferimenti come riferimenti remoti? E
-e
-sempre una questione di costo, sarebbe inaccettabile. Basta pensare a cosa
-succede ad un oggetto passato via RMI: deve essere serializzabile, e così tutti
-\i{}
+
+Perché quindi non realizzare tutti i riferimenti come riferimenti remoti? È sempre una questione di costo, sarebbe
+inaccettabile. Basta pensare a cosa succede ad un oggetto passato via RMI: deve essere serializzabile, e così tutti
 i suoi componenti, in maniera che si possa fare marshalling e unmarshalling.
-Ciò non è sempre possibile in Java RMI (si pensi ad un oggetto che riferisce un
-o
-e
-oggetto di tipo File, una risorsa strettamente locale). Vi sono poi altri problemi
-da considerare:
+Ciò non è sempre possibile in Java RMI (si pensi ad un oggetto che riferisce un oggetto di tipo File, una risorsa
+strettamente locale). Vi sono poi altri problemi da considerare:
+
 $\bullet$ Un oggetto remoto viene registrato in un apposito registry, ma se viene
 deattivato? Come viene gestita quindi la persistenza? E lo stato remoto?
 $\bullet$ Due stub diversi possono riferire lo stesso oggetto remoto? Se s` come si
