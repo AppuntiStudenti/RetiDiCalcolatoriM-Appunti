@@ -21,9 +21,7 @@
 \date{7 ottobre 2007}
 \begin{document}
 \maketitle
-\newpage
 \tableofcontents
-\newpage
 L'obiettivo del corso è introdurre modelli e tecnologie per poter superare il modello Client/Server (C/S), in modo 
 da poter:
 \begin{itemize}
@@ -95,7 +93,6 @@ $\bullet$ Modello workstation: le risorse sono concentrate su un unico nodo.
 $\bullet$ Modello processor pool : le risorse sono distribuite, e vengono associate in
 maniera trasparente al servizio.
 6
-\newpage
 \subsection{Processi o oggetti?}
 Un'ulteriore distinzione riguarda su cosa basarsi per descrivere eettivamente
 come avviene l'esecuzione.
@@ -152,7 +149,6 @@ o
 u
 paralleli, e, per esempio, degli agenti mobili. Un oggetto attivo quindi
 7
-\newpage
 si preoccupa di tutta la gestione dell'esecuzione internamente (richieste,
 attivit`, errori, processi interni. . . :si forniscono meccanismi, mediante il
 a
@@ -253,7 +249,6 @@ risultati, altrimenti asincroni.
 $\bullet$ In fase implementativa, si parla di comunicazione bloccante se il richiedente
 si blocca in attesa del risultato, altrimenti non bloccante
 9
-\newpage
 Oltre alla classicazioni principali, altre caratteristiche con cui si possono classicare i modelli a scambio di
 messaggi:
 $\bullet$ In fase di progettazione si parla di
@@ -303,7 +298,6 @@ o
 tuttavia non ` l'unico modello possibile.
 e
 10
-\newpage
 \subsection{Spazi di tuple}
 Un modello che deriva dall'astrazione della memoria condivisa e della comunicazione, e che garantisce il
 disaccoppiamento fra le varie entit` ` lo spazio di
@@ -358,7 +352,6 @@ intende un sistema in grado di fornire all'utente nale un comportamento omogeneo
 lavorando con oggetti/servizi diversi
 (remoti/locali, server principale/copia, . . . ).
 11
-\newpage
 Non ` sempre un elemento positivo, perché in molti casi i sistemi son cos`
 e
 e
@@ -426,7 +419,6 @@ coordinato, e un'infrastruttura con molti provider: si denisce un accordo/negozi
 fornitori dei servizi e i clienti, per poter per esempio stabilire la QoS, e quindi si fornisce il
 servizio con i parametri indicati
 12
-\newpage
 e limitandoci quindi ad un'ipotesi di localit`, il progetto risulta pi` facilmente
 a
 u
@@ -492,7 +484,6 @@ a
 essere diversi casi:
 L=
 13
-\newpage
 $\bullet$ N uguale a P : su ogni processore viene posta una parte molto semplice
 del problema. Si dice ipotesi di identit`.
 a
@@ -547,7 +538,6 @@ TP (N ) = O(H)
 = O(log2 (N ))
 = 2 · log2 (N )
 14
-\newpage
 Perch` 2? Perch` abbiamo 2 comunicazioni in ogni nodo. Possiamo quindi
 e
 e
@@ -610,7 +600,6 @@ e
 spesos ` il vero collo di bottiglia in diverse architetture. Inoltre, vi son diversi
 e
 15
-\newpage
 fattori che possono inuenzare l'ecienza e lo speed-up dell'architettura, come
 il deployment reale. Si possono quindi estendere gli indicatori considerando
 l'eetto generale dell'overhead, T0 (N ), che rappresenta le risorse e il tempo
@@ -675,7 +664,6 @@ e
 scalabile.
 I sistemi reali sono scarsamente scalabili.
 16
-\newpage
 1.11
 Conclusioni
 Un progetto deve essere valutato attentamente, per cercare di dimensionarlo
@@ -736,7 +724,6 @@ da individuare, e facili da risolvere. Si parla di Bohrbug per errori che
 si ripetono facilmente, riproducibili, che si possono quindi osservare e
 correggere facilmente.
 17
-\newpage
 $\bullet$ Se invece ` transiente, sono pi` dicili da notare. Si parla di errori di tipo
 e
 u
@@ -802,7 +789,6 @@ sa considerata
 si fanno ipotesi sul tipo di guasto, ma solo sul fatto che ` singolo
 e
 18
-\newpage
 $\bullet$ L'availability si pu` esprimere come la percentuale utile di lavoro che il
 o
 sistema riesce ad orire:
@@ -860,7 +846,6 @@ accorgono: in questo caso quindi non ` identicato, ma potrebbe essere
 e
 tollerato (dipende dall'architettura stessa).
 19
-\newpage
 $\bullet$ Fallimento di tipo bizantino: il processore termina presentando per` como
 portamenti assolutamente casuali.
 Nelle reti di calcolatori si possono poi presentare ulteriori generi di guasti, dovuti
@@ -915,7 +900,6 @@ quindi coordinate. In realt`, quando un disco si guastava, essendoci problemi ne
 a
 gestione non si aveva mai una replicazione veramente buona
 20
-\newpage
 Il secondo caso in real` ` il peggiore, dovuto magari a problemi di aggiornamenae
 to sulla seconda copia5 : clienti che accedono alla seconda copia prima della fase
 di recovery non potrebbero accorgersi che il dato ` stale. Ogni operazione deve
@@ -975,7 +959,6 @@ e
 maniera tale da poter aggiornare tutte le copie al dato pi` recente eettivamente presente
 u
 21
-\newpage
 fallissero anche tutte le copie calde, si pu` ripiegare su un sistema a copie
 o
 fredde, in grado di inizializzare una nuova copia.
@@ -1031,7 +1014,6 @@ o
 ogni volta che si presenta un nuovo evento (event driven). Quest'ultima politica
 risulta essere maggiormente dinamica e complessa da realizzare. Per esempio,
 22
-\newpage
 un evento potrebbe essere scatenato dall'inizio del servizio della richiesta (estrazione dalla coda delle richieste), e
 terminare alla ne per poter fare il checkpoint.
 Le operazioni poi possono correlate o meno, e quindi anche il checkpoint
@@ -1099,7 +1081,6 @@ e procedere quindi successivamente ad una riconciliazione fra le copie per avere
 `
 uno stato univoco coeso. E importante per` nel caso di copie attive che l'ago
 23
-\newpage
 giornamento delle copie preceda la consegna del risultato al cliente.
 `
 E quindi necessario pensare ad un gestore delle copie attive, in grado di escludere correttamente le copie non
@@ -1158,7 +1139,6 @@ o
 4. Seconda fase di coordinamento: il master (oppure le copie con un sistema
 di voting) determina il risultato nale basandosi sulle risposte ottenute
 24
-\newpage
 da tutte le copie. Questa ` anche la fase in cui si possono individuare i
 e
 guasti. Questa fase pu` essere utile nel caso si fossero ricevute pi` richieste
@@ -1218,7 +1198,6 @@ che ci fornisce le maggiori garanzie di correttezza. Vi possono essere dei rilas
 tiepide quando i checkpoint sono fatti a
 determinati intervalli, per ridurre il costo dell'operazione.
 25
-\newpage
 2.9
 Clustering
 L'idea del cluster ` quella di realizzare un insieme di risorse replicate sempre
@@ -1273,7 +1252,6 @@ Qualit` di servizio e nuovi protocolli per Ina
 ternet
 Esistono diversi indicatori con cui poter valutare la QoS:
 26
-\newpage
 $\bullet$ Prontezza di risposta: viene indicata dal tempo di risposta, il jitter, o il
 ritardo. Nel caso vi siano pi` servizi correlati fra di loro, la qualit` viene
 u
@@ -1333,7 +1311,6 @@ head presenti nel sistema (spesso ` alto, e lo si pu` ridurre realizzando un buo
 e
 o
 27
-\newpage
 protocollo).
 La qualit` di servizio dipende da come si riescono a risolvere i colli di bottiglia
 a
@@ -1405,7 +1382,6 @@ denisce la possibilità di denire gli intermediati e riservarli, in maniera da d
 a
 latenza totale del servizio su di loro, e in maniera da progettare i nodi intermedi con le risorse
 28
-\newpage
 l'idea di supportare QoS, ma risulta essere ancora lontana da essere realmente
 implementata. Si tratta quindi di individuare tecniche per garantire QoS in Internet. Le idee principali riguardano
 l'introduzione di nuovi protocolli e nuove
@@ -1453,7 +1429,6 @@ o
 e
 trasparente, ma non va bene se abbiamo un alto jitter!
 29
-\newpage
 $\bullet$ Servizi dierenziati, RFC 2475: si propone di introdurre QoS a livello di
 rete, quindi la proposta ` quella di lavorare contemporaneamente su pi`
 e
@@ -1519,7 +1494,6 @@ e recovery delle risorse, una parte per il controllo della performance (quindi
 eventuali aggiustamenti del servizio per poter garantire la QoS). Altri settori
 fondamentali riguardano l'accounting e la sicurezza dei servizi.
 30
-\newpage
 3.4
 Gestione dei sistemi: OSI e SNMP
 OSI ha denito un sistema per poter monitorare/gestire un insieme di risorse
@@ -1586,7 +1560,6 @@ e
 a
 router, la tecnologia utilizzata deve essere indipendente da questa comunicazione!
 31
-\newpage
 ltrate. Anche RMON rappresenta una derivazione semplicata da OSI, quindi
 incompatibile.
 OSI permette di denire sistemi molto pi` complessi, grazie all'uso di un MIB
@@ -1644,7 +1617,6 @@ sfruttato i token, e trovandosi quindi ad essere l'unico usso con tutti i
 token pu` presentare dei burst. Spesso si attende infatti che un determio
 nato usso abbia un numero congruo di token per poter trasmettere tutti
 32
-\newpage
 assieme un insieme di bit; si tratta quindi di un sistema di buerizzazione,
 per cui son necessarie delle apposite risorse. I token vengono generati
 mediante un'apposita legge lineare.
@@ -1706,7 +1678,6 @@ N $-$n+1
 10 Osservazione: le politiche dicono come i router possono trattare i ussi, ma tocca poi
 all'utente specicare quali ussi debbano essere trattati in quale modo!
 33
-\newpage
 Un altro modello di scheduling, derivato proprio da come funziona quello del
 singolo processore, ` il general scheduling processor : l'idea ` che mediante un
 e
@@ -1773,7 +1744,6 @@ e
 per esempio ` un requisito fondamentale per risolvere il problema della cone
 gestione, addirittura in certi casi prevenendolo. Invece che scartare i pacchetti
 34
-\newpage
 ricevuti in maniera silenziosa (alla Internet)11 , si scartano i pacchetti in maniera
 visibile. Questo sistema ` contro la trasparenza, ma ` un'indicazione chiara per
 e
@@ -1836,7 +1806,6 @@ a
 e
 sempre a livello di IP, quindi rischia di essere coinvolto nella congestione!
 35
-\newpage
 la richiesta del servizio concordato. Si ha che quindi il protocollo ` denito in
 e
 due passi:
@@ -1894,7 +1863,6 @@ o
 e
 disposizione solo meccanismi ma non politiche
 36
-\newpage
 RTP ` sempre accompagnato da RTCP. Il primo ` un servizio fortemente
 e
 e
@@ -1957,7 +1925,6 @@ solo fra l'utente e il server).
 Possibili esempi di servizio sono:
 $\bullet$ l'expedited forwarding, per cui ogni router dispone di due diverse code, per
 37
-\newpage
 cui si garantisce che almeno i pacchetti classicati come expedited saranno
 consegnati con la qualit` calcolata. Si possono pesare utilizzando una fair
 a
@@ -2020,7 +1987,6 @@ u
 o il pi` comodo
 u
 38
-\newpage
 broadcast locale (comunque abbastanza costoso)15 . Oltre al costo, queste comunicazioni mancano prima di tutto di QoS
 (IGMP non garantisce l'ordine dei
 messaggi!), ma hanno anche una debole capacit` espressiva (non si riesce per
@@ -2082,7 +2048,6 @@ tutti,i router dovrebbero avere uno stato, e vericare che il messaggio non l'abb
 a
 ricevuto. . . quanto deve durare lo stato?
 39
-\newpage
 Inne, la radice raccoglie le informazioni ricevute per determinare lo spanning
 tree minimo.
 Una soluzione alternativa ` il Reverse Path Broadcast, ovvero ora l'iniziativa
@@ -2135,7 +2100,6 @@ delle conferme positive (i riceventi avvisano di aver ricevuto il messaggio) opp
 quelle negative (chi non ha ricevuto avvisa)? Si ritrasmette a tutti o solo a chi
 non ha ricevuto il messaggio?
 40
-\newpage
 In generale l'obiettivo che si pressa ` che una send multicast dovrebbe
 e
 essere garantita come un'operazione atomica. Per risolvere il problema, conviene
@@ -2191,7 +2155,6 @@ che deve essere opportunatamente dimensionato.
 16 Da
 non sottovalutare: e se fallisce il controllore? Chi controlla il controllore?
 41
-\newpage
 4.3
 Ordinamenti
 L'atomicit` ` l'aspetto in cui l'utente dovrebbe essere maggiormente coinvolto.
@@ -2258,7 +2221,6 @@ e
 due operazioni non dipendono l'una dall'altra! Resta che l'ordinamento su tutte
 le copie deve essere il medesimo, altrimenti si avrebbero dei conti sballati!
 42
-\newpage
 Questo problema non si risolve neanche con il FIFO perché, come il causale,
 e
 si tratta di un ordinamento parziale. Si pu` pensare invece di risolverlo utilizo
@@ -2323,7 +2285,6 @@ non vale in altri casi.
 17 Esempio,
 realizzazione della mutua esclusione
 43
-\newpage
 Per poter sincronizzare non ` necessario stabilire un ordinamento prescritto:
 e
 si pu` scegliere quello pi` adatto a seconda delle esigenze, in maniera anche
@@ -2385,7 +2346,6 @@ a
 grazie alla storia), e in grado di comunicare fra di loro, in maniera punto a
 punto con dei messaggi (non si usano multicast, non si possono mandare batch
 44
-\newpage
 di messaggi !). L'idea ` che il numero degli eventi interessanti ` sicuramente
 e
 e
@@ -2449,7 +2409,6 @@ ancora un ordine parziale! Per ovviare a questo problema, si deve estendere la
 relazione di happend before:
 Se a $\in$ Pi e b $\in$ Pj , si ha che a $\Rightarrow$ b se e solo se:
 45
-\newpage
 1. LCi (a) $<$ LCj (b) oppure
 2. LCi (a) = LCj (b) e Pi $<$ Pj
 Ovvero, fondamentalmente si impone un ordine fra i processori stessi! Bisogna
@@ -2506,7 +2465,6 @@ a
 sistema basato su priorit` non garantisce liveness e fairness
 a
 46
-\newpage
 Si pu` realizzare un sistema per accesso alle risorse che rispetti questi invario
 anti creando un processo gestore20 , in grado di lavorare FIFO, e sfruttando un
 protocollo di tipo {`}request-reply-release'. L'idea ` quella di soddisfare prima le
@@ -2556,7 +2514,6 @@ la fairness: i messaggi infatti possono essere ritardati, ma comunque arrivano;
 a
 favorisce o meno in base alla vicinaza relativa. . .
 47
-\newpage
 se un altro processo aveva richiesto la risorsa prima ma il messaggio ` in ritardo
 e
 su alcuni processi, verr` comunque servito prima.
@@ -2622,7 +2579,6 @@ aggiornate da questi multicast).
 L'atomic multicast di ISIS in particolare utilizza Lamport e le code locali
 ai processi per poter decidere con una politica di gruppo l'ordine dei mes-
 48
-\newpage
 saggi. Ogni messaggio ricevuto quindi da una copia deve essere spedito a
 tutte le altre copie, con un'indicazione di timestamp. Ogni copia lo marca con il proprio timestamp, e lo rispedisce
 indietro al primo mittente, il
@@ -2696,7 +2652,6 @@ a
 21 Se
 si fosse ripresentato il vecchio token, quello d'elezione sarebbe stato eliminato
 49
-\newpage
 4.7
 Snapshot distribuiti
 Come si denisce uno stato nel distribuito? Si vuole uno stato globale, ma
@@ -2759,7 +2714,6 @@ e
 stato. A chi si manda poi lo stato in ogni modo? E una politica da decidere, o
 a un nodo che fa da repository oppure a chi ha iniziato lo snapshot. . .
 50
-\newpage
 5
 I middleware
 Un middleware ` un insieme di strumenti di supporto all'utente/sviluppatore
@@ -2820,7 +2774,6 @@ un valore aggiunto.
 devono avere risorse su ogni nodo, altri no. . . In ogni caso, ogni nodo dell'architettura possono
 essere target
 51
-\newpage
 In generale si possono dividere in 4 livelli le tipologie possibili di un servizio
 per il middleware:
 $\bullet$ Host infrastructure middleware: si tratta del livello pi` basso, il pi` viciu
@@ -2887,7 +2840,6 @@ sistema per lo scambio di messaggi : le sue evoluzioni hanno introdotto sistemi
 di RMI rispetto ad RPC: lega C/S ad una tecnologia, non ` eterogeneo!
 e
 52
-\newpage
 di comunicazione ed interazione, ma sempre in maniera molto limitata, dovendo
 basarsi solo sull'approccio C/S!
 Lavorando solo con RPC, che genere di MW si possono ottenere? Il problema
@@ -2945,7 +2897,6 @@ MOM. Spesso si hanno mw di questo tipo OpenSource, in grado di creare
 una comunit` molto vasta ed attiva.
 a
 53
-\newpage
 $\bullet$ Addattativi e Riessivi: un mw addattativo ` un mw che varia i servizi
 e
 nel tempo, a seconda della situazione, quindi a caldo: deve essere quindi
@@ -3014,7 +2965,6 @@ Il problema ` come fornire QoS ai messaggi? I messaggi devono essere pere
 manenti (non ` necessaria la presenza di entrambi gli attori per realizzare la
 e
 54
-\newpage
 comunicazione), ma soprattutto l'interconnessione ` denita assolutamente in
 e
 maniera statica! Non sono quindi mw dinamici.
@@ -3070,7 +3020,6 @@ sistema aperto dove integrare sistemi eterogenei.
 E quindi un'estensione del C/S: un C richiede un servizio (ovvero un oggetto). L'interfaccia rappresenta il contratto
 dell'oggetto, ovvero i servizi richiedibili da parte di un client. In particolare, si possono denire delle operazioni
 55
-\newpage
 richiedibili sia dagli oggetti che dai clienti per ottenere servizi!
 Una caratteristica particolare ed importante dei mw ad oggetti ` che pree
 sentano delle soluzioni che si ripetono, e delle possibili strategie da scegliere:
@@ -3121,7 +3070,6 @@ e
 o
 lo stesso oggetto
 56
-\newpage
 generale ` pi` conveniente questo modo di lavorare, perché ` il mw che si
 e u
 ee
@@ -3174,7 +3122,6 @@ mediante le semantiche da loro denite. Un esempio riguarda per esempio linguaggi
 quelli che non lo
 permettono. Si hanno quindi come possibili operazioni read/write.
 57
-\newpage
 5.7
 Pattern per la comunicazione
 Di base, i mw ad oggetti tendono ad introdurre come primo modello di comunicazione l'interazione sincrona bloccante.
@@ -3243,7 +3190,6 @@ o
 un qualunque comportamento in questo oggetto.
 Questi ultimi due modelli son presenti in CORBA, .NET e diversi altri mw.
 58
-\newpage
 5.8
 Pattern per la gestione delle risorse e dei servizi
 Spesso questi pattern rappresentano politiche possibili per il deployment e o la
@@ -3308,7 +3254,6 @@ invece son poche o si estende il pool, oppure si ` necessaria una coda dove
 e
 memorizzare le richieste). Si potrebbe ottimizzare per esempio facendo
 59
-\newpage
 in modo che gni istanza possa gestire pi` di una richiesta, e vericando
 u
 (monitoring) il numero di istanze contemporanee per ottimizzare.
@@ -3365,7 +3310,6 @@ contesto, e vengono aggiunte alla richiesta mediante un proxy. Si va quindi
 oltre il C/S primitivo, introducendo una separazione dei compiti (client prepara
 la richiesta, proxy aggiunge informazioni di contesto necessarie).
 60
-\newpage
 La sessione ` un altro pattern per poter fornire un supporto al servitore:
 e
 si utilizza per mantenere la specica dell'oggetto remoto, permettendo cos` di
@@ -3416,7 +3360,6 @@ la singola invocazione del singolo oggetto, mentre un plugin ` un componente per
 e
 supporto
 61
-\newpage
 6
 CORBA
 CORBA ` uno standard, specica di un mw, nato dall'idea di mettere a dispoe
@@ -3476,7 +3419,6 @@ a
 e u
 e
 62
-\newpage
 Altri servizi possono essere specici a determinati domini lavorativi, altri potrebbero invece dipendere dal tipo di
 applicazione che si sta sviluppando.
 Una caratteristica che ` stata sempre trascurata ` la sicurezza: questa per`
@@ -3535,7 +3477,6 @@ E mediante IDL che si stabiliscono tutti i collegamenti necessari, e anche
 l'ORB lo sfrutta per individuare il servizio (si lavora quindi ad un livello pi`
 u
 63
-\newpage
 alto dell'implementazione: l'IDL stesso non ` legato a nessun linguaggio di proe
 grammazione (deriva dal C++ come specica, ma ` diverso)). Una connessione
 e
@@ -3594,7 +3535,6 @@ denita in maniera statica. Il binding fra client e servitore non ` statico, qui 
 e
 che i servizi del servitore devono essere specicati in maniera statica
 64
-\newpage
 di output. Per ovviare a questi problemi, CORBA realizza delle apposite classi dette holder : ` un wrapper che permette
 di leggere e scrivere in maniera
 e
@@ -3654,7 +3594,6 @@ o
 fra ORB diversi ! Il servizio si sa che non ` legato allo specico servitore, quindi
 e
 65
-\newpage
 si dovr` trovare un sistema di rendere questi riferimenti globalmente unici (e
 a
 qual'` il loro tempo di vita?).
@@ -3726,7 +3665,6 @@ e
 contratto ` deciso prima dell'esecuzione
 e
 66
-\newpage
 6.9
 Compiti e politiche di un adattatore
 Non ` un componente CORBA, ma che dipende dalle varie implementazioni:
@@ -3781,7 +3719,6 @@ portare la richiesta al servant e riportarne indietro la risposta. E il POA a
 30 Sono
 gli adattatori che devono fornire le politiche!
 67
-\newpage
 decidere quindi le politiche d'attivazione e il numero di servant necessari per
 l'esecuzione!
 Inizialmente si aveva i BOA: questi erano legati a poche interfacce, e ad un
@@ -3838,7 +3775,6 @@ a
 Nel caso del client, si parla di Dinamyc Invocation Interface. Si realizza un
 oggetto che funziona come il proxy che si avrebbe avuto in maniera statica. Si ha
 68
-\newpage
 quindi un oggetto Request, che ` uno pseudo-object 31 , che permette di specicare
 e
 una richiesta dinamica. Si tratta quindi di un contenitore fornito dall'ambiente,
@@ -3900,7 +3836,6 @@ e
 run-time, che sono pi` dicili da gestire!
 u
 69
-\newpage
 sico). Ma quindi questi riferimenti non sono univoci: localmente si potrebbe
 anche puntare ad oggetti diversi, realizzando quindi incomprensioni e problemi
 (specialmente lato server)!
@@ -3960,7 +3895,6 @@ d'esecuzione, detto engine. Il servizio
 di questi componenti ` quindi fornito soltanto nell'ambito del container stesso,
 e
 70
-\newpage
 sfruttando delle politiche di default denite proprio dal contenitore. Un esempio
 di componente di questo genere sono gli EJB.
 I componenti sono un fattore trainante per ottenere una base d'utenza sempre pi` ampia: aumenta la possibilità di
@@ -4027,7 +3961,6 @@ denisce un canale come oggetto di delega, per poter inviare i messaggi ai
 si ricercano ovviamente interfacce, perché presenti sull'IR
 e
 71
-\newpage
 client, o fare polling ai supplier. Un client si registra quindi al canale, e da
 quel momento comincia a ricevere gli eventi.
 Di solito, non ` noto chi ` che genera l'evento, ` trasparente al consumatore.
@@ -4096,7 +4029,6 @@ ject Linking and Embedding, per cui si vuole gestire le applicazioni in maniera
 34 Quindi
 ogni nestra registra per ogni evento un possibile handler!
 72
-\newpage
 integrata. L'idea ` quella di suddividere correttamente i compiti fra il docue
 mento ed il gestore del documento. Ogni tipologia di documento, infatti, ha un
 proprio gestore che viene richiamato all'atto del caricamento del documento.
@@ -4155,7 +4087,6 @@ distinguono anche fra componenti ed interfacce.
 35 Sfruttando il GUID, derivato dall'UUID descritto dal DCE. In Microsoft, i diversi GUID
 son classicati in base al tipo di oggetti che riferiscono (interfacce, classi, . . . )
 73
-\newpage
 L'interfaccia funziona semplicemente come un puntatore alle funzioni che descrive, contenute in una virtual method
 table: ogni entry di questa tabella punta
 al codice che i metodi devono implementare. In COM non esiste l'ereditariet`
@@ -4224,7 +4155,6 @@ u
 a
 e
 74
-\newpage
 dierenza della delegazione, ogni oggetto si preoccupa di fare da gestore delle
 richieste ai metodi che implementa).
 7.2
@@ -4283,7 +4213,6 @@ e
 36 Uso
 perenne dell'ORB
 75
-\newpage
 (in locale si lavorerebbe utilizzando la memoria comune!). Per denire questi
 componenti, si ` sviluppato un apposito IDL, MIDL. Questo deriva e rispetta
 e
@@ -4346,7 +4275,6 @@ e
 quindi di interrogare ed invocare in maniera dinamica i componenti! Si tratta
 di un sistema del tutto analogo alla Request di CORBA.
 76
-\newpage
 Quindi, alcuni metodi riportano informazioni sul componente (GetTypeInfo,
 GetTypeInfoCount), altri preparano il client a richiedere l'invocazione (GetIDsOfNames) e inne vi ` un metodo per
 invocare in maniera dinamica l'oggetto
@@ -4401,7 +4329,6 @@ e
 e
 basso livello, nonostante l'uso delle interfacce come in CORBA
 77
-\newpage
 interfacce, sempre utilizzabili dagli utenti, ma senza una razionalizzazione alla
 loro realizzazione.
 DCOM denisce per primo che un sistema a componenti deve denire un'architettura a PEM (Property, Event, Method ), per
@@ -4451,7 +4378,6 @@ messaggi, e COM+ per permettere la denizione di componenti solo attraverso
 la parte logica. Presenta anche un servizio X.500 di directory standard, detto
 Active Directory.
 78
-\newpage
 7.9
 .NET
 Questa ` la nuova architettura Microsoft, sviluppata ripensando totalmente il
@@ -4505,7 +4431,6 @@ passaggio per valore (maggiormente disaccoppiato, ma in presenza di dati grandi,
 riferimento (mediante la creazione
 di un proxy per memorizzare quindi un riferimento remoto), in maniera quindi
 79
-\newpage
 del tutto simile a CORBA!
 L'attivazione a chi tocca? Non son presenti dei POA come in CORBA,
 quindi si potrebbe prima di tutto pensare ad un'attivazione da parte del cliente
@@ -4561,7 +4486,6 @@ e
 pu` anche interrogare il client prima di deallocare la risorsa
 o
 80
-\newpage
 dall'ORB di CORBA: funziona soprattutto come un directory per i servizi ) il
 servizio adatto a soddisfare quella determinata richiesta.
 L'idea ` che quindi vi siano diversi provider in grado di servire i servizi
@@ -4618,7 +4542,6 @@ avere operazioni senza risultati, o in grado emulare il comportamento C/S39 ,
 o
 documento, per cui non si ha mai risposta, sempre asincrona
 81
-\newpage
 `
 ma possiamo anche quindi denire se si utilizza GET o POST per esempio. E
 un protocollo state-less, che non fornisce quindi informazioni semantiche sulla
@@ -4679,7 +4602,6 @@ WSDL prevede diversi modi di interazione! Non solo pi` modi sincroni (con
 u
 attesa di messaggio o sollecitazione da parte del client) ma anche asincroni (one-
 82
-\newpage
 way, o notication: cambia da chi esce il messaggio!).
 WSDL ` un linguaggio molto pesante, ma che garantisce un'alta essibilit`
 e
@@ -4743,7 +4665,6 @@ u
 ottenere un nuovo servizio, si compongano quelli precedenti. Per far ci` sono
 o
 83
-\newpage
 stati introdotti nuovi linguaggi a usso (Business Process Execution Language
 4WS: si possono mettere in sequenza, parallelo, in alternativa o in join) per
 i WS, che lavorano sempre ad un livello molto alto. L'estensione dei WS in
@@ -4801,7 +4722,6 @@ o
 40 Si
 potrebbero spostare, se si lavorasse su un le system distribuito
 84
-\newpage
 realizzare un sistema a memoria comune, con operazioni per` solo sequenziali.
 o
 Potendole distribuire su pi` nodi, si riescono a fornire operazioni anche in paru
@@ -4860,7 +4780,6 @@ $\bullet$ Modello a ring logico: un esempio ` V-kernel. Si denisce quindi una
 e
 struttura ssa, statica, che spiega come i processi possano muoversi. Vi
 85
-\newpage
 ` un token che stabilisce quale processore ` il gestore in quel momento, il
 e
 e
@@ -4925,7 +4844,6 @@ Vi ` infatti a possibilità di generare dei cicli assolutamente pericolosi.
 e
 a
 86
-\newpage
 4. Il sistema deve essere concorrente, in grado di realizzare migrazioni multiple.
 Si deve quindi progettare il processo in maniera da poter trasportare quello che
 serve: in generale lo stato corrente pi` eventuali modiche che sono state apporu
@@ -4985,7 +4903,6 @@ alla trasparenza all'allocazione. Questo S.O. lavora in maniera preventiva, per
 cui copia le dierenze fra i processori su cui gira (in tempi diversi) per evitare
 le dipendenze residue dovute al forwarder! Si ha quindi sempre una riqualicazione dei link.
 87
-\newpage
 La migrazione ` un modo molto buono per poter separare meccanismi e
 e
 politiche. Le politiche per la migrazione dipendono da diverse considerazioni:
@@ -5038,7 +4955,6 @@ a
 anche realizzare politiche di bidding, per ricercare un processore disponibile ad
 eseguire il processo, e scegliendo la migliore oerta proposta.
 88
-\newpage
 Non esiste una politica migliore in assoluto: in generale, conviene avere
 un'inziativa da parte di un sender (da chi possiede il processo e che lo vorrebbe
 spostare) se si ha un sistema con carichi bassi, altrimenti da parte del receiver
@@ -5098,7 +5014,6 @@ a
 e
 problemi di supporto.
 89
-\newpage
 $\bullet$ Debole: Si vincola invece la posizione in cui si pu` mettere la {`}move': tale
 o
 sistema ` meno essibile, ma maggiormente e facilmente gestibile.
@@ -5159,7 +5074,6 @@ enorme problema per la sicurezza (codice che naviga ed agisce in una rete. . . )
 potrebbe infatti avere del codice maligno che gira. Tuttavia, i controlli potrebbero anche impedire ad un nodo di
 eseguire codice non maligno, scartando
 90
-\newpage
 via l'agente! Si deve quindi vericare mediante l'uso di diversi agenti se per
 vericare il comportamento del nodo.
 Un altro problema ` sul fatto che il codice pu` essere letto senza problemi
@@ -5183,5 +5097,4 @@ a
 a
 sistemi location awareness. . .
 91
-\newpage
 \end{document}
