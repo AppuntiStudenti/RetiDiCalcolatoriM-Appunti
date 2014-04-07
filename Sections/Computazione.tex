@@ -3,7 +3,6 @@ Per poter sviluppare un sistema distribuito, è utile definire diversi modelli p
 classificarli (modelli diversi possono avere vantaggi/svantaggi a seconda del sistema che si deve andare a realizzare).
 La maggior parte dei modelli purtroppo sono troppo astratti per poter essere realmente utili da un punto di vista
 ingegneristico, cioè non riescono a comprendere in toto la \textit{complessità} reale.
-\newline
 
 Le prime distinzioni che si possono fare sono su come si possono prendere le decisioni:
 \begin{itemize}
@@ -16,48 +15,42 @@ Per fare un esempio, il collegamento fra un client e un Name Server come deve es
 dinamica? E fra il client e server? Si tratta di problematiche da risolvere in fase di progettazione, tenendo conto 
 dei costi. Un middleware introduce questi costi, fornendo possibilità statiche/dinamiche (non esiste un sistema
 totalmente dinamico, realmente totalmente aperto).
-Una seconda distinzione riguarda sulla reazione in caso di errori o concorrenza:
+Una seconda distinzione riguarda la reazione in caso di errori o concorrenza:
 \begin{itemize}
- \item modelli \textit{preventivi}: si fornisce un comportamento garantito, oppure si previene/evitano determinati
-errori. E quindi un sistema rigido, che presenta dei costi fissi.
+ \item modelli \textit{preventivi}: si fornisce un \textit{comportamento garantito}, oppure si previene/evitano
+determinati errori. E quindi un sistema rigido, che presenta dei \textit{costi fissi}.
 \item modelli \textit{reattivi}: il modello reagisce in maniera dinamica alle situazioni che si presentano: non `
-prevista quindi una politica di default, non si stabiliscono risorse a priori come nel caso precedente, fornendo un
-comportamento più flessibile. I costi risultano essere variabili, a seconda della complessità del sistema (al crescere
-degli attori, aumenta il numero necessario di lock/semafori da utilizzare, per esempio). Il costo può quindi essere
-limitato a seconda delle esigenze. 
+prevista quindi una \textit{politica di default], non si stabiliscono risorse a priori come nel caso precedente,
+fornendo un comportamento più flessibile. I costi risultano essere variabili, a seconda della complessità del sistema
+(al crescere degli attori, aumenta il numero necessario di lock/semafori da utilizzare, per esempio). Il costo può
+quindi essere limitato a seconda delle esigenze. 
 \end{itemize}
 Esempio: una serie di clienti vogliono accedere in maniera univoca ad una risorsa unica: si tratta quindi di un problema
-di sincronizzazione e mutua esclusione.
-Si potrebbe risolvere fornendo dei quanti di tempo decisi a priori per ogni singolo cliente, oppure si fornisce un
-token, per cui chi lo possiede è l'unico a poter accedere alla risorsa.
+di sincronizzazione e mutua esclusione. Si potrebbe risolvere fornendo dei quanti di tempo decisi a priori per ogni
+singolo cliente, oppure si fornisce un token, per cui chi lo possiede è l'unico a poter accedere alla risorsa.
 
-È da osservare che un sistema distribuito in generale offre un insieme di politiche diverse, che si possono mescolare a
-seconda delle esigenze: un sistema moderno infatti deve essere in grado di seguire l'evoluzione dei servizi per poter
-sopravvivere (es CORBA: in versioni successive aggiunge supporto al Web).
+È da osservare che un sistema distribuito in generale offre un insieme di \textit{politiche diverse}, che si possono
+mescolare a seconda delle esigenze: un sistema moderno infatti deve essere in grado di seguire l'evoluzione dei servizi
+per poter sopravvivere (es CORBA: in versioni successive aggiunge supporto al Web).
+
 Un ulteriore modello semplice da descrivere riguarda in che modo le risorse
 sono associate alle applicazioni:
-$\bullet$ Siamo in monoutenza se le risorse sono tutte dedicate all'applicazione
-descritta
-$\bullet$ Altrimenti si parla di multiutenza: più complessa, ma decisamente più
-u
-u
-diusa. Infatti, un numero superiore di applicazioni può portare ad un
-o
-uso più eciente delle risorse.
-u
+\begin{itemize}
+ \item Siamo in \textit{monoutenza} se le risorse sono tutte dedicate all'applicazione descritta
+ \item Altrimenti si parla di \textit{multiutenza}: più complessa, ma decisamente più diffusa. Infatti, un numero
+superiore di applicazioni può portare ad un uso più efficiente delle risorse.
+\end{itemize}
 A seguito, si può ragionare quindi come sono disponibili le risorse:
-o
-$\bullet$ Modello workstation: le risorse sono concentrate su un unico nodo.
-$\bullet$ Modello processor pool : le risorse sono distribuite, e vengono associate in
-maniera trasparente al servizio.
-6
+\begin{itemize}
+ \item Modello \textit{workstation}: le risorse sono concentrate su un unico nodo.
+ \item Modello \textit{processor pool}: le risorse sono distribuite, e vengono associate in maniera trasparente al
+servizio.
+\end{itemize}
+
 \subsection{Processi o oggetti?}
-Un'ulteriore distinzione riguarda su cosa basarsi per descrivere eettivamente
-come avviene l'esecuzione.
-Un primo modello si basa sull'idea del processo, che incarna la capacità di
-a
-esecuzione della macchina. Si specicano quindi delle operazioni, e si tratta di
-modelli che tengono conto della macchina su cui si lavora, e funzionano molto
+Un'ulteriore distinzione riguarda su cosa basarsi per descrivere effettivamente come avviene l'esecuzione.
+Un primo modello si basa sull'idea del processo, che incarna la capacità di esecuzione della macchina. Si specificano
+quindi delle operazioni, e si tratta di modelli che tengono conto della macchina su cui si lavora, e funzionano molto
 bene con risorse locali e stato locali. Vi sono più modelli:
 u
 $\bullet$ Processi alla Unix: si tratta di processi pesanti, ognuno dotato di un
@@ -539,7 +532,7 @@ P
 +
 1
 N · log2 (P )
-Per cui, lo speed-up tende eettivamente a P
+Per cui, lo speed-up tende effettivamente a P
 SP (N )
 P
 1
@@ -605,7 +598,8 @@ T0 (N ) =
 · T1 (N )
 E
 T0 (N ) = K · T1 (N )
-Se K fosse veramente una costante, saremmo in isoefficienza. Un sistema isoeciente indica che, se manteniamo costante la
+Se K fosse veramente una costante, saremmo in isoefficienza. Un sistema isoefficiente indica che, se manteniamo costante
+la
 complessità e aumentiamo il
 a
 numero dei processori, l'efficienza non varia. Il valore di K quindi determina se
