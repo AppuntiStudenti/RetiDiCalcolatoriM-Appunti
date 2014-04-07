@@ -1,0 +1,632 @@
+\section{Modelli di computazione}
+Per poter sviluppare un sistema distribuito, è utile definire diversi modelli per l'esecuzione, in modo da poter
+classificarli (modelli diversi possono avere vantaggi/svantaggi a seconda del sistema che si deve andare a realizzare).
+La maggior parte dei modelli purtroppo sono troppo astratti per poter essere realmente utili da un punto di vista
+ingegneristico, cioè non riescono a comprendere in toto la \textit{complessità} reale.
+\newline
+
+Le prime distinzioni che si possono fare sono su come si possono prendere le decisioni:
+\begin{itemize}
+ \item modelli \textit{statici}: le decisioni vengono prese prima dell'esecuzione. Risulta quindi essere meno
+flessibile, e non si può variare nel corso dell'esecuzione, fornendo quindi poca qualità di servizio.
+\item modelli \textit{dinamici}: in questo modello le decisioni risultano essere maggiormente costose, proprio perché 
+si prendono mentre il modello è in esecuzione.
+\end{itemize}
+Per fare un esempio, il collegamento fra un client e un Name Server come deve essere stabilito? In maniera statica o
+dinamica? E fra il client e server? Si tratta di problematiche da risolvere in fase di progettazione, tenendo conto 
+dei costi. Un middleware introduce questi costi, fornendo possibilità statiche/dinamiche (non esiste un sistema
+totalmente dinamico, realmente totalmente aperto).
+Una seconda distinzione riguarda sulla reazione in caso di errori o concorrenza:
+\begin{itemize}
+ \item modelli \textit{preventivi}: si fornisce un comportamento garantito, oppure si previene/evitano determinati
+errori. E quindi un sistema rigido, che presenta dei costi fissi.
+\item modelli \textit{reattivi}: il modello reagisce in maniera dinamica alle situazioni che si presentano: non `
+prevista quindi una politica di default, non si stabiliscono risorse a priori come nel caso precedente, fornendo un
+comportamento più flessibile. I costi risultano essere variabili, a seconda della complessità del sistema (al crescere
+degli attori, aumenta il numero necessario di lock/semafori da utilizzare, per esempio). Il costo può quindi essere
+limitato a seconda delle esigenze. 
+\end{itemize}
+Esempio: una serie di clienti vogliono accedere in maniera univoca ad una risorsa unica: si tratta quindi di un problema
+di sincronizzazione e mutua esclusione.
+Si potrebbe risolvere fornendo dei quanti di tempo decisi a priori per ogni singolo cliente, oppure si fornisce un
+token, per cui chi lo possiede è l'unico a poter accedere alla risorsa.
+
+È da osservare che un sistema distribuito in generale offre un insieme di politiche diverse, che si possono mescolare a
+seconda delle esigenze: un sistema moderno infatti deve essere in grado di seguire l'evoluzione dei servizi per poter
+sopravvivere (es CORBA: in versioni successive aggiunge supporto al Web).
+Un ulteriore modello semplice da descrivere riguarda in che modo le risorse
+sono associate alle applicazioni:
+$\bullet$ Siamo in monoutenza se le risorse sono tutte dedicate all'applicazione
+descritta
+$\bullet$ Altrimenti si parla di multiutenza: più complessa, ma decisamente più
+u
+u
+diusa. Infatti, un numero superiore di applicazioni può portare ad un
+o
+uso più eciente delle risorse.
+u
+A seguito, si può ragionare quindi come sono disponibili le risorse:
+o
+$\bullet$ Modello workstation: le risorse sono concentrate su un unico nodo.
+$\bullet$ Modello processor pool : le risorse sono distribuite, e vengono associate in
+maniera trasparente al servizio.
+6
+\subsection{Processi o oggetti?}
+Un'ulteriore distinzione riguarda su cosa basarsi per descrivere eettivamente
+come avviene l'esecuzione.
+Un primo modello si basa sull'idea del processo, che incarna la capacità di
+a
+esecuzione della macchina. Si specicano quindi delle operazioni, e si tratta di
+modelli che tengono conto della macchina su cui si lavora, e funzionano molto
+bene con risorse locali e stato locali. Vi sono più modelli:
+u
+$\bullet$ Processi alla Unix: si tratta di processi pesanti, ognuno dotato di un
+proprio stato locale. In questo modello interessa solo in che modo i processi
+possono comunicare, essendo lo stato non condivisibile.
+$\bullet$ Processi alla Java: i processi son leggeri, hanno uno stato condiviso che
+può essere usato anche per comunicare. Risulta essere più facile fare anche
+o
+u
+dei cambi di contesto, ma si possono presentare delle interferenze.
+I thread di una JVM, proprio perché dotati di uno stato condiviso, si possono
+e
+rapportare con un'altra JVM. I thread leggeri utilizzano lo stato comune per
+comunicare.
+`
+Un'altra idea riguarda la modellazione basata sul paradigma ad oggetti. E
+importante ricordarsi che questi son sempre delle astrazioni, e quindi necessitano
+di una concretizzazione successiva. Anche qui si possono supporre due diversi
+modelli:
+$\bullet$ Oggetti passivi : i classici oggetti alla Java. Rappresentazione l'astrazione
+di dati su cui delle entità esterne possono lavorare. Non sono quindi
+a
+dotati di capacità propria d'esecuzione. Si può quindi avere concorrenza
+a
+o
+fra diversi processi che vogliono accedere allo stesso oggetto, non si ha un
+buon connamento e si ha scarsa protezione.
+$\bullet$ Oggetti attivi : sono oggetti dotati di propria capacità d'esecuzione. I
+a
+processi quindi non entrano nell'oggetto, perché vi è già all'interno dele
+e a
+l'oggetto una propria logica di gestione (si ha quindi un modello a request/response: un processo richiede di poter
+usare l'oggetto mediante i
+{`}metodi' forniti da questo, e questo in base alla sua schedulazione risponde
+`
+alla richiesta E sempre da osservare che un oggetto attivo ha comunque
+un proprio stato interno, descritto da una parte sequenziale, ma a cui
+non vi si accede con dei metodi, proprio grazie a questa logica interna: i
+metodi veri e propri sono utilizzati solo internamente!). Un oggetto attivo
+` quindi dotato di una coda delle richieste che si sono presentate, e una
+e
+sua politica di scheduling. Si supera in questo modo il problema degli
+oggetti passivi, proteggendo del tutto l'oggetto e determinandolo completamente. Un oggetto attivo quindi, massimizzando
+la parte sequenziale,
+si può spostare più facilmente. Rappresent lo stesso modello dei servitori
+o
+u
+paralleli, e, per esempio, degli agenti mobili. Un oggetto attivo quindi
+7
+si preoccupa di tutta la gestione dell'esecuzione internamente (richieste,
+attività, errori, processi interni. . . :si forniscono meccanismi, mediante il
+a
+quale si possono specicare delle politiche diverse!
+Come mai in Java tale modello non è stato implementato? Si tratta di un mode
+ello molto costoso, che non presenta delle scorciatoie utili se si lavorasse solo in
+ambito locale!
+Nei sistemi moderni, in realtà si parla di classi che contengono le denizioni
+a
+degli oggetti, e deniscono lo stato interno e i metodi con cui accedere. In particolare, in generale si parla di
+semantica per riferimento, che però è in grado
+oe
+di funzionare solo in un ambito locale. Per riferire in remoto, serve un supporto
+esterno. Per esempio, si parla di utilizzare socket, protocolli standard de facto
+come TCP/IP. . .
+Tuttavia, è proprio questo il motivo per cui si vengono a definire dei mide
+dleware, ovvero delle strutture in grado di fornire un supporto completo alla
+comunicazione in remoto. Per esempio, Java Remot Method Invocation è un
+e
+sistema in grado di estendere la semantica per riferimento locale, al remoto,
+cercando di fornire un sistema omogeneo per poter accedere sia ad oggetti locali
+che remoti. Nel caso specico di RMI, per esempio, si utilizza un classico pattern dei middleware, il proxy come delegato
+per la comunicazione. Si realizzano
+infatti uno stub lato cliente e uno skeleton lato server, che riescono a garantire
+un qualcosa di simile alla normale comunicazione locale. Si cerca di presentare
+un sistema trasparente per l'utente!
+`
+Perch` quindi non realizzare tutti i riferimenti come riferimenti remoti? E
+e
+sempre una questione di costo, sarebbe inaccettabile. Basta pensare a cosa
+succede ad un oggetto passato via RMI: deve essere serializzabile, e così tutti
+\i{}
+i suoi componenti, in maniera che si possa fare marshalling e unmarshalling.
+Ciò non è sempre possibile in Java RMI (si pensi ad un oggetto che riferisce un
+o
+e
+oggetto di tipo File, una risorsa strettamente locale). Vi sono poi altri problemi
+da considerare:
+$\bullet$ Un oggetto remoto viene registrato in un apposito registry, ma se viene
+deattivato? Come viene gestita quindi la persistenza? E lo stato remoto?
+$\bullet$ Due stub diversi possono riferire lo stesso oggetto remoto? Se s` come si
+\i{},
+gestisce la concorrenza?
+$\bullet$ Come risolvere i nomi? Si può usare un riferimento sso, ma l'oggetto può
+o
+o
+essere diverso (ma non è il caso di Java).
+e
+$\bullet$ Si deve anche passare l'indicatore della classe, perché si possa realmente
+e
+utilizzare l'oggetto: cosa succede se la classe è già presente? Java per
+e a
+esempio controlla mediante l'hash se la classe è effettivamente quella core
+retta.
+8
+\subsection{Deployment dell'applicazione}
+
+Un'applicazione distribuita spesso necessita che sia suddivisa in diversi componenti, anche allocati su nodi diversi! Un
+componente è un'entità con una
+e
+a
+granularit` superiore all'oggetto, ovvero introduce comportamento e interazione,
+a
+estendo l'idea dell'oggetto.
+Se si hanno quindi diversi componenti, che devono dialogare fra di loro, non
+` detto che il deployment su una singola macchina sia la soluzione ideale: infate
+ti, su un solo processore si ha una sequenzializzazione delle operazioni, e quindi
+dell'applicazione stessa.
+Spesso e volentieri, un middleware non si occupa del deployment, ma deve
+essere realizzato da chi gestisce l'interazione fra i componenti. L'allocazione
+può essere statica, cioè decisa prima dell'esecuzione, oppure dinamica, quindi
+o
+e
+durante; quest'ultimo modello permette di poter spostare le risorse a seconda
+delle esigenze durante l'esecuzione. Spesso e volentieri, l'allocazione viene realizzata utilizzando dei semplici le
+batch, rendendola semi-manuale (certe congurazioni devono poi essere sistemate a seconda dei casi dall'operatore).
+L'approccio misto è quello più usato, essendo una via di mezzo fra l'allocazione esplicita
+e
+u
+(tutta a carico dell'utente) e quella implicita (decisa in toto dal sistema).
+\subsection{Altri modelli oltre il C/S}
+Esistono diversi altri modelli oltre il classico C/S:
+$\bullet$ Push: il servitore fornisce il servizio al cliente
+$\bullet$ Pull: il cliente recupera il servizio che necessita in maniera diretta.
+$\bullet$ Modello a delega: il cliente delega un altro agente per attendere il risultato,
+e poi lo recupera da questo.
+$\bullet$ Modello a notica: simile al precedente, solo che il delegato notica al
+cliente la disponibilità del risultato.
+a
+$\bullet$ Modello ad eventi: il tipico modello consumer/provider, in cui chi è intere
+essato si registra a chi produce gli eventi.
+$\bullet$ Modello a provisioning: oltre agli end-point, vi sono intermediari interessati al risultato.
+Di particolare interesse è la classicazione dei modelli a scambio di messaggi :
+e
+$\bullet$ In fase di progettazione, si parla di sistemi sincroni se si è interessati al
+e
+risultati, altrimenti asincroni.
+$\bullet$ In fase implementativa, si parla di comunicazione bloccante se il richiedente
+si blocca in attesa del risultato, altrimenti non bloccante
+9
+Oltre alla classicazioni principali, altre caratteristiche con cui si possono classicare i modelli a scambio di
+messaggi:
+$\bullet$ In fase di progettazione si parla di
+-- un sistema simmetrico se mittente e ricevente si conoscono (rarissimo) oppure asimmetrico (caso tipico:C/S).
+-- un sistem diretto (cioè se avviene una comunicazione diretta fra i
+e
+processi), oppure indiretto (se si utilizzano strutture tipo le socket)
+$\bullet$ In fase di implemtazione si parla di
+-- un sistema buerizzato se la comunicazione richiede un certo numero
+di messaggi prima di poter trasmettere
+-- Sistemi reliable se possono fornire QoS, senza perdere messaggi.
+Nel caso si introduca un terzo oggetto che faccia da mediatore, si può quindi
+o
+lavorare in maniera sincrona ma non bloccante: è il mediatore che resta in
+e
+attesa, sganciando il ricevente. Si possono avere due diverse modalità:
+a
+1. Oggetti poll : è un contenitore per la risposta alla richiesta, che viene
+e
+periodicamente interrogato dal ricevente con un sistema a polling. Si ha
+così una comunicazione a 3 entità. In questo modello, il ricevente deve
+\i{}
+a
+sapere dove si trova l'oggetto poll, e vi deve essere un oggetto per ogni
+`
+risultato. E conveniente se si hanno operazioni corte, e attese brevi.
+2. Oggetti callback : è sempre un oggetto che conterr` il risultato, ma dotato
+e
+a
+di una sua vita indipendente, e dotato di codice particolare da eseguire
+`
+quando giunge il risultato. E lui quindi a dover fornire il risultato al
+richiedente, svincolandolo del tutto da questo! Conveniente in caso di
+operazioni lunghe, indipendenti dal chiamante.
+Spesso e volentieri, questi intermediari vengono realizzati da proxy, che sono in
+grado di ridurre la complessità logica della soluzione, integrando diverse funzionalità.
+In un modello basato sugli eventi, si ha un fortissimo disaccoppiamento (non
+vuol dire che non si conoscono, ma che non è necessario che siano attivi conteme
+poraneamente per poter fare la comunicazione; è una caratteristica fondamene
+tale per i middleware) fra le entità interessate al risultato, e quelle che forniscono
+a
+i servizi. In questo modello si ha quindi un'interazione molti a molti, per cui si
+può facilmente mappare il multicast. In generale gli eventi non sono persistenti,
+o
+tuttavia non è l'unico modello possibile.
+e
+10
+\subsection{Spazi di tuple}
+Un modello che deriva dall'astrazione della memoria condivisa e della comunicazione, e che garantisce il
+disaccoppiamento fra le varie entità è lo spazio di
+a e
+`
+tuple. E un meccanismo generale per la comunicazione e la sincronizzazione, in
+cui si specica uno spazio di informazioni fortemente tipato. (Una tipica informazione può essere $<$ mittente,
+destinatario, data $>$, per cui tutti i dati devono
+o
+essere diversi perché possa essere inserita)
+e
+Si hanno quindi due operazioni principali: la out consiste nell'inserire nello
+spazio delle tuple un nuovo messaggio, mentre la in (bloccante) estrae la prima
+tupla che fa match (in caso di più tuple che facciano match, è una scelta non
+u
+e
+deterministica). Ovviamente, si avrà sempre un numero inferiore di in rispetto
+a
+alle out. Se la in è completamente specicata, si parla di sincronizzazione e non
+e
+di comunicazione. Uno spazio di tuple permette anche l'introduzione di QoS,
+grazie alla persistenza della tupla nello spazio.
+Gerlenter, con Linda, presenta due diversi modelli:
+$\bullet$ A ring: si partiziona lo spazio delle tuple, per cui ogni nodo conosce
+precedente e successivo: si ha una conoscenza locale, quindi limitata. Un
+produttore può fare una out su un qualsiasi nodo, e il messaggio fa un
+o
+ciclo per vericare che non sia già presente su un qualche nodo. Lo stesso
+a
+discorso vale per la in, che fa un giro no a trovare un messaggio che fa
+match. In Linda sono state considerate ovviamente delle problematiche
+di replicazione (il messaggio deve essere ripetuto? Ma quindi lo si deve
+togliere da tutti i nodi che lo contengono), sfruttando gli hash dei messaggi
+$\bullet$ A matrice: le out vengono eseguite sulle righe, mentre le in si fanno sulle
+colonne.
+\subsection{Modelli a contenimento}
+Si tratta di supporti presenti in ogni middleware: sono funzionalità che aga
+gregano diverse attività utili, che si possono replicare. In questo modo, uno
+a
+sviluppatore si concentra soltanto sullo sviluppo della business logic vera e
+propria, utilizzando le politiche di default fornite dal middleware per quanto
+riguarda il supporto al tempo di vita, il gestore della concorrenza, fornire la
+QoS, sistemi di nomi. . . Fondamentalmente, un container è un delegato che si
+e
+comporta come supervisore di certe attività.
+a
+\subsection{Il problema della trasparenza}
+Esistono diversi signicati per la trasparenza: per esempio, si intende per l'allocazione l'indipendenza dalla località
+delle risorse. In generale, per trasparenza si
+a
+intende un sistema in grado di fornire all'utente nale un comportamento omogeneo, anche se ai livelli sottostanti sta
+lavorando con oggetti/servizi diversi
+(remoti/locali, server principale/copia, . . . ).
+11
+Non è sempre un elemento positivo, perché in molti casi i sistemi son così
+e
+e
+\i{}
+complessi, che non si possono gestire in maniera totalmente trasparente: si
+richiede l'intervento dell'utente. Un esempio è nella trasparenza dell'allocazione:
+e
+se non sappiamo dove si trova l'utente, come facciamo a dargli il servizio desiderato? La trasparenza non è corretta a
+livello di infrastruttura in questo caso;
+e
+l'utente infatti è sempre più coinvolto.
+e
+u
+Per esempio, TINA-C2 prevede sia un sistema trasparente, che un sistema
+non trasparente in cui si possano definire le risorse inizialmente, e quindi introdurre la trasparenza.
+\subsection{Le macchine astratte}
+Son stati sviluppati diversi modelli per l'esecuzione, ma alla base vi è la Rane
+dom Access Machine: è una macchina special purpose, con codice inalterabile,
+e
+in grado di eseguire istruzioni in sequenza (tutte le istruzioni hanno la stessa
+durata), memoria limitata e un sistema di input e uno di output.
+Un primo modello per la comunicazione è la Parallel RAM, in cui simmagina
+e
+diversi programmi da eseguire contemporaneamente. Una PRAM è costituita
+e
+quindi da P macchina RAM, ognuna delle quali esegue un programma, e ad ogni
+clock vengono eseguite P istruzioni. Alla base vi è una memoria condivisa, per
+e
+tutte le macchine, dove scrivere e leggere i risultati (anche i dispositivi di I/O
+sono unici per tutte le macchine). Si tratta di un modello MIMD sincrono, per
+cui quando tutti i programmi niscono, anche la macchina termina. Essendo
+dotata di un'unica memoria, come devino essere strutturate le operazioni? La
+concorrenza è un requisito dicile da realizzare, in confronto al mettere le opere
+azioni in sequenza. Le diverse PRAM si possono quindi categorizzare a seconda
+della tipologia delle operazioni (in generale si hanno letture concorrenti e scritture sequenziali; la concorrenza `
+invece utilizzata per il sistema di I/O, per
+e
+limitarne il collo di bottiglia). Un PRAM è dicile da realizzare perché non `
+e
+e
+e
+scalabile.
+Un secondo modello è il Message Passing RAM, che è sempre una collezione
+e
+e
+di RAM, ma ognuna con la sua memoria dedicata (i sistemi di I/O son sempre
+condivisi). Si ha quindi che le diverse macchine comunicano mediante dei canali
+prestabiliti (vi devono essere almeno P-1 connessioni). Si hanno istruzioni ad
+hoc, cioè delle send e receive con rendez-vous, una semantica sincrona: questo
+e
+vuol dire che un'operazione sblocca la sua duale. Una MP-RAM è più facilmente
+e u
+realizzabile, e rappresenta meglio un modello locale. Se per esempio si volesse
+eseguire un broadcast, servono almeno P-1 istruzioni, mentre una PRAM, per
+quanto più dicile da realizzare, richiederebbe una sola operazione: è un modu
+e
+ello con maggiore capacità espressiva. Restano comunque entrambi dei modelli
+a
+troppo astratti per poter essere implementati realmente. Aggiungendo vincoli
+2 Si tratta di un consorzio di aziende per le telecomunicazioni, con l'obiettivo di andare
+oltre OSI: l'idea è quella di immaginare anche i possibili servizi, fornendo un modello più
+e
+u
+coordinato, e un'infrastruttura con molti provider: si denisce un accordo/negoziazione fra i
+fornitori dei servizi e i clienti, per poter per esempio stabilire la QoS, e quindi si fornisce il
+servizio con i parametri indicati
+12
+e limitandoci quindi ad un'ipotesi di località, il progetto risulta più facilmente
+a
+u
+realizzabile.
+\subsection{Indicatori dell'efficienza}
+In generale, ci si limita alla complessità temporale, TP (N ), dove P è il numero
+a
+e
+di processori considerati: se è pari ad 1, siamo in un ambiente sequenziale.
+e
+Un primo indicatore è lo speed-up, che indica l'incremento di prestazioni se si
+e
+introducessero P processori:
+SP (N ) =
+T1 (N )
+$>$1
+TP (N )
+(1)
+Tuttavia, bisogna sempre tener presente che non tutti i programmi si possono
+parallelizzare: ciò dipende se vi sono troppe dipendenze fra le sotto parti.
+o
+Un altro indicatore è l'efficienza nell'uso delle risorse:
+e
+SP (N )
+P
+(2)
+T1 (N ) 1
+·
+TP (N ) P
+(3)
+EP (N ) =
+Ma quindi, ciò corrisponde a dire:
+o
+EP (N ) =
+Possiamo quindi definire lo speed-up massimo:
+SP (N ) = P
+(4)
+EP (N ) = 1
+(5)
+E l'efficienza massima:
+Sotto queste condizioni si avrebbe che tutti i processori lavorano al massimo,
+ovvero non abbiamo processori idle che possono risultare inutili. Questi sono
+coecienti statistici, validi per tutto l'algoritmo. Quello che si può osservare `
+o
+e
+che la situazione ideale la si avrebbe se lo speed-up dipendesse in maniera lineare dal numero dei processori. Una
+soluzione ideale non interessante sarebbe
+se si distribuisse i compiti ai processi in maniera uguale (un programma totalmente parallelo!), raccogliendo solo alla
+ne il risultato. In realtà, i casi più
+a
+u
+interessanti sono quelli dove si presentano delle dipendenze, per cui necessariamente vi deve essere una parte
+sequenziale: questo caso presenta quindi una
+comunicazione intrinseca, indipendente dal deployment che si viene a realizzare.
+Si possono quindi studiare diversi casi basandosi sui fattori di interesse N e
+P . In particolare, si può definire come fattore di carico, o loading factor:
+o
+N
+(6)
+P
+che denisce la complessità come viene suddivisa su ogni nodo. Vi possono
+a
+essere diversi casi:
+L=
+13
+$\bullet$ N uguale a P : su ogni processore viene posta una parte molto semplice
+del problema. Si dice ipotesi di identità.
+a
+$\bullet$ Dipendenza di N da P
+$\bullet$ Indipendenza, interessante al crescere di N
+La legge di Grosh stabilisce che la soluzione migliore risulta essere quella di lavorare sempre nel concentrato. . . Ma
+ciò non è sempre possibile! Se per esempio
+o
+e
+vi sono risorse limitate? Oppure, oltre un certo valore di N , non si riesce più
+u
+a lavorare nel concentrato, e la legge è sicuramente inutile nel caso di vincoli,
+e
+tipo la presenza di risorse distribuite.
+La legge di Amdhal stabilisce che vi è un limite alla possibile parallelize
+zazione, dato che ogni programma è costituito da una parte parallela e una
+e
+parte sequenziale, e quest'ultima limita lo speed-up: si ha quindi che non cresce
+linearmente, ma tende a un valore asintotico! Nella situazione migliore immaginabile, con le risorse correttamente
+allocate, si ha quindi che si avrà uno speeda
+up sso, mentre sarà l'efficienza a variare a seconda dell'architettura del sistema!
+a
+Come calcolare quindi lo speed-up massimo? Si vuole avere il numero di
+processori tali che si abbia la minore complessità del problema, realizzando un
+a
+sistema fortemente caricato: si denite quindi l'heavily loaded limit:
+THL (N ) = infP (TP (N ))
+(7)
+Infatti, si lavora bene caricando molto ogni processore, i quali quindi lavorano
+per tutto il tempo necessario: abbiamo quindi in questomodo un buon uso delle
+risorse.
+Tuttavia, per la legge di Amdhal, dobbiamo ricordare che vi è anche una
+e
+parte sequenziale in ogni programma. . . che è proprio la parte di comunicazione
+e
+fra i diversi processori! Al crescere del numero dei processori, si ha quindi
+che lo speed-up diminuisce, allontanandosi dal valore massimo; questo degrado
+delle prestazioni è dovuto proprio al peso crescente della comunicazione fra i
+e
+processori, che diventa fondamentale.
+\subsection{Caso di studio: somma di N numeri}
+Una possibile soluzione, imponendo la condizione d'identità, è quella di utilizzare
+a e
+un albero binario per fare la sommma: le radici sommano i numeri, che passano
+il risultato al padre, e così via. Supponendo quindi un albero con profondit` H,
+\i{}
+a
+possiamo osservare che N = 2H+1 e P = 2H+1 $-$ 1, per cui P è simile a N . Si
+e
+ha che quindi:
+TP (N ) = O(H)
+= O(log2 (N ))
+= 2 · log2 (N )
+14
+Perch` 2? Perch` abbiamo 2 comunicazioni in ogni nodo. Possiamo quindi
+e
+e
+valutare l'efficienza di questa architettura:
+1
+log2 (N )
+EP (N ) = O
+Ma quindi, al crescere di N, l'efficienza tende a 0! Per quanto riguarda lo speedup, si ha che non lavorano tutti i
+nodi,
+ovvero più si risale l'albero e meno i
+u
+processori lavorano (il processore radice deve attendere, ovvero tempo di idle,
+che tutti gli altri abbiano nito!). Se invece avessimo un usso di dati, i processori risulterebbero tutti sempre
+impegnati (potremmo risolvere un insieme di
+problemi).
+Come si possono quindi mantenere sempre impegnati i processori? Si deve
+incrementare il lavoro sul singolo processore, per cui:
+L=
+N
+$>$$>$ 1
+P
+(8)
+e quindi la complessità deve essere superiore al numero dei processori: su ogni
+a
+nodo si ha quindi un certo numero di valori da sommare. Ciò si può ottenere
+o
+o
+per esempio con un albero sso, ovvero un numero di processori ssi. Infatti:
+TP (N ) = O (L + log2 (P ))
+I due componenti rappresentano rispettivamente il tempo di computazione e
+quello di comunicazione.
+SP (N ) =
+T1 (N )
+TP (N )
+=O
+=O
+N
+P
+N
++ log2 (P )
+P
+P
++
+1
+N · log2 (P )
+Per cui, lo speed-up tende eettivamente a P
+SP (N )
+P
+1
+1
+=O
++
+1 N · log2 (P )
+EP (N ) =
+E l'efficienza tende ad 1. Quindi, caricando al massimo i processori ed usandoli
+correttamente, si ottiene speed-up ed efficienza massimi.
+\subsection{Considerare l'I/O}
+In questi indicatori si è tuttavia lasciato da parte il problema dell'I/O, che
+e
+spesos è il vero collo di bottiglia in diverse architetture. Inoltre, vi son diversi
+e
+15
+fattori che possono inuenzare l'efficienza e lo speed-up dell'architettura, come
+il deployment reale. Si possono quindi estendere gli indicatori considerando
+l'eetto generale dell'overhead, T0 (N ), che rappresenta le risorse e il tempo
+realmente utilizzato per la comunicazione (caso ideale di deployment):
+T0 (N ) = |T1 (N ) $-$ P · TP (N )|
+(9)
+Ma quindi, si ha che:
+T0 (N ) + T1 (N )
+P
+E si ha che che lo speed-up risulta essere:
+TP (N ) =
+SP (N ) =
+P · T1 (N )
+T0 (N ) + T1 (N )
+(10)
+(11)
+E che l'efficienza risulta essere:
+EP (N ) =
+1
+1+
+T0 (N )
+T1 (N )
+(12)
+Per cui l'efficienza non sembra dipendere dal numero dei processori. . . in realtà,
+a
+` proprio T0 (N ) a dipendere dal numero dei processori : l'overhead dipende dal
+e
+numero di processori impegnati.
+Supponiamo quindi di avere come obiettivo per l'architettura di mantenere
+costante l'efficienza:
+1
+E=
+1+
+E+E·
+T0 (N )
+T1 (N )
+T0 (N )
+=1
+T1 (N )
+1$-$E
+T0 (N )
+=
+T1 (N )
+E
+(1 $-$ E)
+T0 (N ) =
+· T1 (N )
+E
+T0 (N ) = K · T1 (N )
+Se K fosse veramente una costante, saremmo in isoefficienza. Un sistema isoeciente indica che, se manteniamo costante la
+complessità e aumentiamo il
+a
+numero dei processori, l'efficienza non varia. Il valore di K quindi determina se
+il sistema ha un buon comportamento. In particolare:
+$\bullet$ K piccolo: il sistema è altamente scalabile. Al crescere di K quindi la
+e
+scalabilità del sistema decresce
+a
+$\bullet$ Se non è costante ma funzione dei processori, allora il sistema non `
+e
+e
+scalabile.
+I sistemi reali sono scarsamente scalabili.
+16
+\subsection{Conclusioni}
+Un progetto deve essere valutato attentamente, per cercare di dimensionarlo in maniera corretta: nel caso di una
+macchina singola l'heavily loaded limit è un ragionamento corretto, ma bisogna ricordarsi che si deve sempre cercare di
+parallelizzare (non utilizzare la legge di Grosh). Per esempio, qual è il numero ideale di processi da realizzare? Si
+può ben pensare che avere meno processi di processori risulti in processori che non lavorano, e quindi in un sistema 
+non efficiente: il limite superiore quindi è che il numero dei processi sia lo stesso del numero dei processori. Un
+processore è idle quando comunica, quindi si dovrebbe limitare la comunicazione, e quindi troppi processi comunicano
+troppo.
+In realtà, statisticamente si ha che un processore che lavora con 20 processi presenta ancora lo stato di idle: un
+centinaio di processi per processore è un numero adeguato.

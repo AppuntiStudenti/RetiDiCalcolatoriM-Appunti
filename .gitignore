@@ -1,5 +1,6 @@
 *.aux
 *.backup
+*.kate-swp
 *.log
 *.out
 *.pdf
