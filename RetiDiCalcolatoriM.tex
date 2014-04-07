@@ -20,86 +20,63 @@
 \author{Daniele Tiles}
 \date{7 ottobre 2007}
 \begin{document}
-
 \maketitle
+\newpage
 \tableofcontents
 \newpage
-
-L'obiettivo del corso e` introdurre modelli e tecnologie per poter superare il modello Client/Server (C/S), in modo 
+L'obiettivo del corso è introdurre modelli e tecnologie per poter superare il modello Client/Server (C/S), in modo 
 da poter:
 \begin{itemize}
  \item Migliorare la gestione
- \item Introdurre un supporto alla qualita` del servizio, QoS : questo e` fondamentale, perche' solo se un sistema
-presenta QoS, allora si pu` pensare ad un sistema di retribuzione (Internet, mail e gli altri servizi lavorano
-best-effort): vi sono sistemi ``più standard'', importanti per i sistemi molto carichi.
+ \item Introdurre un supporto alla \textit{qualità del servizio, QoS}: questo è fondamentale, perché solo se un sistema
+ presenta QoS, allora si può pensare ad un sistema di retribuzione (Internet, mail e gli altri servizi
+lavorano best-effort): vi sono sistemi ``più standard'', importanti per i sistemi molto carichi.
 \item Sviluppare sistemi in grado di far fronte anche ad alta mobilita`, l'integrazione di sistemi legacy.
 \end{itemize}
-
-Si tratta quindi di un corso per poter descrivere le tecnologie di sviluppo possibili per poter creare un sistema
-distribuito: cosa conviene scegliere, quando usare una tecnologia invece che un'altra? Ha senso cercare di realizzare
-una nuova tecnologia, un middleware 1 proprio? Per fare qualche esempio, non ha senso usare CORBA se il sistema
-necessita di un unico nodo, dove si deve interagire con componenti Java, oppure si devono usare agenti mobili dove `
-necessaria la mobilita`! Vi e` un particolare interesse per il progetto e testing (soprattutto per l'esecuzione e il
-deployment).
+Si tratta quindi di un corso per poter descrivere le tecnologie di sviluppo possibili per poter creare un
+\textit{sistema distribuito}: cosa conviene scegliere, quando usare una tecnologia invece che un'altra? Ha senso cercare
+di realizzare una nuova tecnologia, un middleware\footnote{Un middleware è un qualcosa che si interpone fra
+l'applicazione e i livelli più bassi: fornisce servizi di aiuto per lo sviluppatore, mette a disposizione meccanismi per
+poter implementare diverse politiche} proprio? Per fare qualche esempio, non ha senso usare CORBA
+se il sistema necessita di un unico nodo, dove si deve interagire con componenti Java, oppure si devono usare agenti
+mobili dove è necessaria la mobilità! Vi è un particolare interesse per il progetto e testing (soprattutto per
+l'esecuzione e il deployment).
 
 \section{Modelli di computazione}
-Per poter sviluppare un sistema distribuito, ` utile denire diversi modelli per
-e
-l'esecuzione, in modo da poter classicarli (modelli diversi possono avere vantaggi/svantaggi a seconda del sistema che si deve andare a realizzare). La maggior
-parte dei modelli purtroppo son troppo astratti per poter essere realmente utili
-da un punto di vista ingegneristico, cio` non riescono a comprendere in toto la
-e
-complessit` reale.
-a
-Le prime distinzioni che si possono fare sono su come si possono prendere le
-decisioni:
-$\bullet$ modelli statici : le decisioni vengono prese prima dell'esecuzione. Risulta
-quindi essere meno essibile, e non si pu` variare nel corso dell'esecuzione,
-o
-fornendo quindi poca qualit` di servizio.
-a
-$\bullet$ modelli dinamici : in questo modello le decisioni risultano essere maggiormente costose, proprio perché si
-prendono mentre il modello ` in
-e
-e
-esecuzione.
-Per fare un esempio, il collegamento fra un client e un Name Server come deve
-essere stabilito? In maniera statica o dinamica? E fra il client e server? Si tratta
-1 Un middleware ` un qualcosa che si interpone fra l'applicazione e i livelli pi` bassi: fornisce
-e
-u
-servizi di aiuto per lo sviluppatore, mette a disposizione meccanismi per poter implementare
-diverse politiche
-5
-\newpage
-di problematiche da risolvere in fase di progettazione, tenendo conto dei costi.
-Un middleware introduce questi costi, fornendo possibilità statiche/dinamiche
-a
-(non esiste un sistema totalmente dinamico, realmente totalmente aperto).
+Per poter sviluppare un sistema distribuito, è utile definire diversi modelli per l'esecuzione, in modo da poter
+classificarli (modelli diversi possono avere vantaggi/svantaggi a seconda del sistema che si deve andare a realizzare).
+La maggior parte dei modelli purtroppo sono troppo astratti per poter essere realmente utili da un punto di vista
+ingegneristico, cioè non riescono a comprendere in toto la \textit{complessità} reale.
+\newline
+
+Le prime distinzioni che si possono fare sono su come si possono prendere le decisioni:
+\begin{itemize}
+ \item modelli \textit{statici}: le decisioni vengono prese prima dell'esecuzione. Risulta quindi essere meno
+flessibile, e non si può variare nel corso dell'esecuzione, fornendo quindi poca qualità di servizio.
+\item modelli \textit{dinamici}: in questo modello le decisioni risultano essere maggiormente costose, proprio perché 
+si prendono mentre il modello è in esecuzione.
+\end{itemize}
+Per fare un esempio, il collegamento fra un client e un Name Server come deve essere stabilito? In maniera statica o
+dinamica? E fra il client e server? Si tratta di problematiche da risolvere in fase di progettazione, tenendo conto 
+dei costi. Un middleware introduce questi costi, fornendo possibilità statiche/dinamiche (non esiste un sistema
+totalmente dinamico, realmente totalmente aperto).
 Una seconda distinzione riguarda sulla reazione in caso di errori o concorrenza:
-$\bullet$ modelli preventivi : si fornisce un comportamento garantito, oppure si pre`
-viene/evitano determinati errori. E quindi un sistema rigido, che presenta
-dei costi ssi.
-$\bullet$ modelli reattivi : il modello reagisce in maniera dinamica alle situazioni
-che si presentano: non ` prevista quindi una politica di default, non si
-e
-stabiliscono risorse a priori come nel caso precedente, fornendo un comportamento pi` essibile. I costi risultano essere
-variabili, a seconda della
-u
-complessit` del sistema (al crescere degli attori, aumenta il numero neca
-essario di lock/semafori da utilizzare, per esempio). Il costo pu` quindi
-o
-essere limitato a seconda delle esigenze.
+\begin{itemize}
+ \item modelli \textit{preventivi}: si fornisce un comportamento garantito, oppure si previene/evitano determinati
+errori. E quindi un sistema rigido, che presenta dei costi fissi.
+\item modelli \textit{reattivi}: il modello reagisce in maniera dinamica alle situazioni che si presentano: non `
+prevista quindi una politica di default, non si stabiliscono risorse a priori come nel caso precedente, fornendo un
+comportamento più flessibile. I costi risultano essere variabili, a seconda della complessità del sistema (al crescere
+degli attori, aumenta il numero necessario di lock/semafori da utilizzare, per esempio). Il costo può quindi essere
+limitato a seconda delle esigenze. 
+\end{itemize}
 Esempio: una serie di clienti vogliono accedere in maniera univoca ad una risorsa unica: si tratta quindi di un problema
 di sincronizzazione e mutua esclusione.
 Si potrebbe risolvere fornendo dei quanti di tempo decisi a priori per ogni singolo cliente, oppure si fornisce un
-token, per cui chi lo possiede ` l'unico a poter
-e
-accedere alla risorsa.
-`
-E da osservare che un sistema distribuito in generale ore un insieme di
-politiche diverse, che si possono mescolare a seconda delle esigenze: un sistema
-moderno infatti deve essere in grado di seguire l'evoluzione dei servizi per poter
+token, per cui chi lo possiede è l'unico a poter accedere alla risorsa.
+
+È da osservare che un sistema distribuito in generale offre un insieme di politiche diverse, che si possono mescolare a
+seconda delle esigenze: un sistema moderno infatti deve essere in grado di seguire l'evoluzione dei servizi per poter
 sopravvivere (es CORBA: in versioni successive aggiunge supporto al Web).
 Un ulteriore modello semplice da descrivere riguarda in che modo le risorse
 sono associate alle applicazioni:
@@ -119,8 +96,7 @@ $\bullet$ Modello processor pool : le risorse sono distribuite, e vengono associ
 maniera trasparente al servizio.
 6
 \newpage
-1.1
-Processi o oggetti?
+\subsection{Processi o oggetti?}
 Un'ulteriore distinzione riguarda su cosa basarsi per descrivere eettivamente
 come avviene l'esecuzione.
 Un primo modello si basa sull'idea del processo, che incarna la capacit` di
@@ -232,9 +208,8 @@ e a
 esempio controlla mediante l'hash se la classe ` eettivamente quella core
 retta.
 8
-\newpage
-1.2
-Deployment dell'applicazione
+\subsection{Deployment dell'applicazione}
+
 Un'applicazione distribuita spesso necessita che sia suddivisa in diversi componenti, anche allocati su nodi diversi! Un
 componente ` un'entit` con una
 e
@@ -258,8 +233,7 @@ L'approccio misto ` quello pi` usato, essendo una via di mezzo fra l'allocazione
 e
 u
 (tutta a carico dell'utente) e quella implicita (decisa in toto dal sistema).
-1.3
-Altri modelli oltre il C/S
+\subsection{Altri modelli oltre il C/S}
 Esistono diversi altri modelli oltre il classico C/S:
 $\bullet$ Push: il servitore fornisce il servizio al cliente
 $\bullet$ Pull: il cliente recupera il servizio che necessita in maniera diretta.
@@ -330,8 +304,7 @@ tuttavia non ` l'unico modello possibile.
 e
 10
 \newpage
-1.4
-Spazi di tuple
+\subsection{Spazi di tuple}
 Un modello che deriva dall'astrazione della memoria condivisa e della comunicazione, e che garantisce il
 disaccoppiamento fra le varie entit` ` lo spazio di
 a e
@@ -366,8 +339,7 @@ di replicazione (il messaggio deve essere ripetuto? Ma quindi lo si deve
 togliere da tutti i nodi che lo contengono), sfruttando gli hash dei messaggi
 $\bullet$ A matrice: le out vengono eseguite sulle righe, mentre le in si fanno sulle
 colonne.
-1.5
-Modelli a contenimento
+\subsection{Modelli a contenimento}
 Si tratta di supporti presenti in ogni middleware: sono funzionalit` che aga
 gregano diverse attivit` utili, che si possono replicare. In questo modo, uno
 a
@@ -378,8 +350,7 @@ QoS, sistemi di nomi. . . Fondamentalmente, un container ` un delegato che si
 e
 comporta come supervisore di certe attivit`.
 a
-1.6
-Il problema della trasparenza
+\subsection{Il problema della trasparenza}
 Esistono diversi signicati per la trasparenza: per esempio, si intende per l'allocazione l'indipendenza dalla localit`
 delle risorse. In generale, per trasparenza si
 a
@@ -403,8 +374,7 @@ e
 u
 Per esempio, TINA-C2 prevede sia un sistema trasparente, che un sistema
 non trasparente in cui si possano denire le risorse inizialmente, e quindi introdurre la trasparenza.
-1.7
-Le macchine astratte
+\subsection{Le macchine astratte}
 Son stati sviluppati diversi modelli per l'esecuzione, ma alla base vi ` la Rane
 dom Access Machine: ` una macchina special purpose, con codice inalterabile,
 e
@@ -461,8 +431,7 @@ e limitandoci quindi ad un'ipotesi di localit`, il progetto risulta pi` facilmen
 a
 u
 realizzabile.
-1.8
-Indicatori dell'ecienza
+\subsection{Indicatori dell'efficienza}
 In generale, ci si limita alla complessit` temporale, TP (N ), dove P ` il numero
 a
 e
@@ -564,8 +533,7 @@ che lo speed-up diminuisce, allontanandosi dal valore massimo; questo degrado
 delle prestazioni ` dovuto proprio al peso crescente della comunicazione fra i
 e
 processori, che diventa fondamentale.
-1.9
-Caso di studio: somma di N numeri
+\subsection{Caso di studio: somma di N numeri}
 Una possibile soluzione, imponendo la condizione d'identit`, ` quella di utilizzare
 a e
 un albero binario per fare la sommma: le radici sommano i numeri, che passano
