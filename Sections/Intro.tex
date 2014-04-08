@@ -1,0 +1,17 @@
+L'obiettivo del corso è introdurre modelli e tecnologie per poter superare il modello Client/Server (C/S), in modo 
+da poter:
+\begin{itemize}
+ \item Migliorare la gestione
+ \item Introdurre un supporto alla \textit{qualità del servizio, QoS}: questo è fondamentale, perché solo se un sistema
+ presenta QoS, allora si può pensare ad un sistema di retribuzione (Internet, mail e gli altri servizi
+lavorano \textit{best-effort}): vi sono sistemi ``più standard'', importanti per i sistemi molto carichi.
+\item Sviluppare sistemi in grado di far fronte anche ad alta mobilità, l'integrazione di sistemi legacy.
+\end{itemize}
+Si tratta quindi di un corso per poter descrivere le tecnologie di sviluppo possibili per poter creare un
+\textit{sistema distribuito}: cosa conviene scegliere, quando usare una tecnologia invece che un'altra? Ha senso cercare
+di realizzare una nuova tecnologia, un middleware\footnote{Un middleware è un qualcosa che si interpone fra
+l'applicazione e i livelli più bassi: fornisce servizi di aiuto per lo sviluppatore, mette a disposizione meccanismi per
+poter implementare \textit{diverse politiche}} proprio? Per fare qualche esempio, non ha senso usare CORBA se il sistema
+necessita di un unico nodo, dove si deve interagire con componenti Java, oppure si devono usare \textit{agenti mobili}
+dove è necessaria la mobilità! Vi è un particolare interesse per il progetto e testing (soprattutto per l'esecuzione e
+il deployment).
