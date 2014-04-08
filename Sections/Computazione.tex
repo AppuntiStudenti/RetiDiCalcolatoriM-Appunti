@@ -19,7 +19,7 @@ Una seconda distinzione riguarda la reazione in caso di errori o concorrenza:
 \begin{itemize}
  \item modelli \textit{preventivi}: si fornisce un \textit{comportamento garantito}, oppure si previene/evitano
 determinati errori. E quindi un sistema rigido, che presenta dei \textit{costi fissi}.
-\item modelli \textit{reattivi}: il modello reagisce in maniera dinamica alle situazioni che si presentano: non `
+\item modelli \textit{reattivi}: il modello reagisce in maniera dinamica alle situazioni che si presentano: non è
 prevista quindi una \textit{politica di default}, non si stabiliscono risorse a priori come nel caso precedente,
 fornendo un comportamento più flessibile. I costi risultano essere variabili, a seconda della complessità del sistema
 (al crescere degli attori, aumenta il numero necessario di lock/semafori da utilizzare, per esempio). Il costo può
@@ -85,8 +85,8 @@ dell'esecuzione internamente (richieste, attività, errori, processi interni... 
 quale si possono specificare delle politiche diverse!
 \end{itemize}
 
-Come mai in Java tale modello non è stato implementato? Si tratta di un modello molto costoso, che non presenta delle
-scorciatoie utili se si lavorasse solo in ambito locale!
+Come mai in Java tale modello non è stato implementato? Si tratta di un \textit{modello molto costoso}, che non presenta
+delle scorciatoie utili se si lavorasse solo in ambito locale!
 Nei sistemi moderni, in realtà si parla di classi che contengono le definizioni degli oggetti, e definiscono lo stato
 interno e i metodi con cui accedere. In particolare, in generale si parla di semantica per riferimento, che però è in
 grado di funzionare solo in un ambito locale. Per riferire in remoto, serve un supporto esterno. Per esempio, si parla
@@ -105,30 +105,23 @@ i suoi componenti, in maniera che si possa fare marshalling e unmarshalling.
 Ciò non è sempre possibile in Java RMI (si pensi ad un oggetto che riferisce un oggetto di tipo File, una risorsa
 strettamente locale). Vi sono poi altri problemi da considerare:
 
-$\bullet$ Un oggetto remoto viene registrato in un apposito registry, ma se viene
-deattivato? Come viene gestita quindi la persistenza? E lo stato remoto?
-$\bullet$ Due stub diversi possono riferire lo stesso oggetto remoto? Se s` come si
-\i{},
-gestisce la concorrenza?
-$\bullet$ Come risolvere i nomi? Si può usare un riferimento sso, ma l'oggetto può
-o
-o
-essere diverso (ma non è il caso di Java).
-e
-$\bullet$ Si deve anche passare l'indicatore della classe, perché si possa realmente
-e
-utilizzare l'oggetto: cosa succede se la classe è già presente? Java per
-e a
-esempio controlla mediante l'hash se la classe è effettivamente quella core
-retta.
-8
+\begin{itemize}
+ \item Un oggetto remoto viene registrato in un apposito registry, ma se viene deattivato? Come viene gestita quindi 
+ la persistenza? E lo stato remoto?
+ \item Due stub diversi possono riferire lo stesso oggetto remoto? Se sì come si gestisce la concorrenza?
+ \item Come risolvere i nomi? Si può usare un riferimento fisso, ma l'oggetto può essere diverso (ma non è il caso di
+  Java).
+ \item Si deve anche passare l'indicatore della classe, perché si possa realmente utilizzare l'oggetto: cosa succede
+ se la classe è già presente? Java per esempio controlla mediante l'hash se la classe è effettivamente quella corretta.
+\end{itemize}
+
 \subsection{Deployment dell'applicazione}
 
 Un'applicazione distribuita spesso necessita che sia suddivisa in diversi componenti, anche allocati su nodi diversi! Un
 componente è un'entità con una
 e
 a
-granularit` superiore all'oggetto, ovvero introduce comportamento e interazione,
+granularità superiore all'oggetto, ovvero introduce comportamento e interazione,
 a
 estendo l'idea dell'oggetto.
 Se si hanno quindi diversi componenti, che devono dialogare fra di loro, non
@@ -305,7 +298,7 @@ azioni in sequenza. Le diverse PRAM si possono quindi categorizzare a seconda
 della tipologia delle operazioni (in generale si hanno letture concorrenti e scritture sequenziali; la concorrenza `
 invece utilizzata per il sistema di I/O, per
 e
-limitarne il collo di bottiglia). Un PRAM è dicile da realizzare perché non `
+limitarne il collo di bottiglia). Un PRAM è dicile da realizzare perché non è
 e
 e
 e
@@ -575,7 +568,7 @@ $\bullet$ K piccolo: il sistema è altamente scalabile. Al crescere di K quindi 
 e
 scalabilità del sistema decresce
 a
-$\bullet$ Se non è costante ma funzione dei processori, allora il sistema non `
+$\bullet$ Se non è costante ma funzione dei processori, allora il sistema non è
 e
 e
 scalabile.
