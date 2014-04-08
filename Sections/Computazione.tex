@@ -20,10 +20,10 @@ Una seconda distinzione riguarda la reazione in caso di errori o concorrenza:
  \item modelli \textit{preventivi}: si fornisce un \textit{comportamento garantito}, oppure si previene/evitano
 determinati errori. E quindi un sistema rigido, che presenta dei \textit{costi fissi}.
 \item modelli \textit{reattivi}: il modello reagisce in maniera dinamica alle situazioni che si presentano: non `
-prevista quindi una \textit{politica di default], non si stabiliscono risorse a priori come nel caso precedente,
+prevista quindi una \textit{politica di default}, non si stabiliscono risorse a priori come nel caso precedente,
 fornendo un comportamento più flessibile. I costi risultano essere variabili, a seconda della complessità del sistema
 (al crescere degli attori, aumenta il numero necessario di lock/semafori da utilizzare, per esempio). Il costo può
-quindi essere limitato a seconda delle esigenze. 
+quindi essere limitato a seconda delle esigenze.' 
 \end{itemize}
 Esempio: una serie di clienti vogliono accedere in maniera univoca ad una risorsa unica: si tratta quindi di un problema
 di sincronizzazione e mutua esclusione. Si potrebbe risolvere fornendo dei quanti di tempo decisi a priori per ogni
@@ -87,7 +87,7 @@ quale si possono specificare delle politiche diverse!
 
 Come mai in Java tale modello non è stato implementato? Si tratta di un modello molto costoso, che non presenta delle
 scorciatoie utili se si lavorasse solo in ambito locale!
-Nei sistemi moderni, in realtà si parla di classi che contengono le definizioni degli oggetti, e deniscono lo stato
+Nei sistemi moderni, in realtà si parla di classi che contengono le definizioni degli oggetti, e definiscono lo stato
 interno e i metodi con cui accedere. In particolare, in generale si parla di semantica per riferimento, che però è in
 grado di funzionare solo in un ambito locale. Per riferire in remoto, serve un supporto esterno. Per esempio, si parla
 di utilizzare socket, protocolli standard de facto come TCP/IP...
