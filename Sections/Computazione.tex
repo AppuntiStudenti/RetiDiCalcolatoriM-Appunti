@@ -116,30 +116,20 @@ strettamente locale). Vi sono poi altri problemi da considerare:
 \end{itemize}
 
 \subsection{Deployment dell'applicazione}
+Un'applicazione distribuita spesso necessita che sia suddivisa in diversi componenti, anche allocati su nodi diversi!
+Un componente è un'entità con una granularità superiore all'oggetto, ovvero introduce comportamento e interazione,
+estendendo l'idea dell'oggetto.
+Se si hanno quindi diversi componenti, che devono dialogare fra di loro, non è detto che il deployment su una singola
+macchina sia la soluzione ideale: infatti, su un solo processore si ha una sequenzializzazione delle operazioni, e
+quindi dell'applicazione stessa.
+Spesso e volentieri, un middleware non si occupa del deployment, ma deve essere realizzato da chi gestisce l'interazione
+fra i componenti. L'allocazione può essere statica, cioè decisa prima dell'esecuzione, oppure dinamica, quindi
+durante; quest'ultimo modello permette di poter spostare le risorse a seconda delle esigenze durante l'esecuzione.
+Spesso e volentieri, l'allocazione viene realizzata utilizzando dei semplici file batch, rendendola semi-manuale (certe
+congurazioni devono poi essere sistemate a seconda dei casi dall'operatore).
+L'approccio misto è quello più usato, essendo una via di mezzo fra l'allocazione esplicita (tutta a carico dell'utente)
+e quella implicita (decisa in toto dal sistema).
 
-Un'applicazione distribuita spesso necessita che sia suddivisa in diversi componenti, anche allocati su nodi diversi! Un
-componente è un'entità con una
-e
-a
-granularità superiore all'oggetto, ovvero introduce comportamento e interazione,
-a
-estendo l'idea dell'oggetto.
-Se si hanno quindi diversi componenti, che devono dialogare fra di loro, non
-` detto che il deployment su una singola macchina sia la soluzione ideale: infate
-ti, su un solo processore si ha una sequenzializzazione delle operazioni, e quindi
-dell'applicazione stessa.
-Spesso e volentieri, un middleware non si occupa del deployment, ma deve
-essere realizzato da chi gestisce l'interazione fra i componenti. L'allocazione
-può essere statica, cioè decisa prima dell'esecuzione, oppure dinamica, quindi
-o
-e
-durante; quest'ultimo modello permette di poter spostare le risorse a seconda
-delle esigenze durante l'esecuzione. Spesso e volentieri, l'allocazione viene realizzata utilizzando dei semplici le
-batch, rendendola semi-manuale (certe congurazioni devono poi essere sistemate a seconda dei casi dall'operatore).
-L'approccio misto è quello più usato, essendo una via di mezzo fra l'allocazione esplicita
-e
-u
-(tutta a carico dell'utente) e quella implicita (decisa in toto dal sistema).
 \subsection{Altri modelli oltre il C/S}
 Esistono diversi altri modelli oltre il classico C/S:
 $\bullet$ Push: il servitore fornisce il servizio al cliente
