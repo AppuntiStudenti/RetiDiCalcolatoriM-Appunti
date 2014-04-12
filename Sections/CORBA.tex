@@ -159,7 +159,7 @@ da ottenere un'ottimizzazione della comunicazione. In seguito si sono introdotte
 estensioni come la possibilità di lavorare in Internet fra diversi ORB, o anche di
 realizzare comunicazioni fra ORB diversi con protocolli più generalizzati.
 Il problema di utilizzare ORB diversi è però la gestione di riferimenti remoti
-fra ORB diversi ! Il servizio si sa che non è legato allo specico servitore, quindi
+fra ORB diversi ! Il servizio si sa che non è legato allo specifico servitore, quindi
 65
 si dovrà trovare un sistema di rendere questi riferimenti globalmente unici (e
 qual è il loro tempo di vita?).
@@ -200,7 +200,7 @@ i servant devono avere già deciso i proxy in maniera statica, e quindi anche i
 servizi! Tutto prima dell'esecuzione!
 Inizialmente si era introdotta anche un altra modalità, detta one-way, ma `
 deprecata (semantica best-eort, senza possibilità di introdurre QoS).
-29 Da ricordare che statico non signica che il client è legato allo specico servant, ma che il
+29 Da ricordare che statico non signica che il client è legato allo specifico servant, ma che il
 contratto è deciso prima dell'esecuzione
 66
 \subsection{Compiti e politiche di un adattatore}
@@ -333,7 +333,7 @@ sico). Ma quindi questi riferimenti non sono univoci: localmente si potrebbe
 anche puntare ad oggetti diversi, realizzando quindi incomprensioni e problemi
 (specialmente lato server)!
 In CORBA 2 si è quindi introdotta la possibilità di puntare ad uno servant
-specico, introducendo quindi un sistema per definire dei nomi univoci !
+specifico, introducendo quindi un sistema per definire dei nomi univoci !
 \subsection{Interoperabilità fra ORB}
 Per poter realizzare le comunicazioni fra ORB diversi, si è dovuto quindi reale
 izzare degli ObjRef interoperabili : questi sono gli IOR. Hanno un costo pesante
