@@ -27,7 +27,7 @@ I servizi veramente importanti, necessari e presenti in ogni implementazione
 sono gli object (o CORBA) services, che permettono di fornire servizi utili per gli
 oggetti (il loro trasporto, la funzione di narrowing, . . . ). Fra quelle fondamentali
 vi sono:
-$\bullet$ Servizio di nomi : rispetto a quello denito per Java RMI, è molto più coe
+$\bullet$ Servizio di nomi : rispetto a quello definito per Java RMI, è molto più coe
 ordinato, e presenta anche delle varianti. Infatti, oltre al normale servizio
 di nomi (per cui si deve conoscere il nome logico del servizio) vi è anche la
 possibilità di definire un servizio di trading, che funziona come le pagine
@@ -45,7 +45,7 @@ Altri servizi possono essere specici a determinati domini lavorativi, altri potr
 applicazione che si sta sviluppando.
 Una caratteristica che è stata sempre trascurata è la sicurezza: questa però è introducibile, visto che CORBA prevede 
 la possibilità di utilizzare degli interceptor!
-CORBA è denito da una serie di componenti: oltre all'ORB (uno dei
+CORBA è definito da una serie di componenti: oltre all'ORB (uno dei
 principali), vi sono:
 $\bullet$ L'IDL, ovvero un linguaggio per definire le interfacce dei servizi.
 $\bullet$ Il Portable Object Adapater : si tratta di un sistema per incapsulare gli
@@ -92,15 +92,15 @@ QoS, sono molto costose). L'IDL definisce (è solo un sistema dichiarativo! un
 sistema perché il compilatore scelto realizzi quindi uno stub e skeleton statici
 (si può sfruttare per realizzare uno skeleton dinamico on the y mediante un'ino
 vocazione dinamica del servizio, aggiungendolo al servitore!). Senza un servizio
-di invocazione dinamico, non si può trovare un servizio se non è stato denito
-un contratto (ovvero, è stato denito all'interno dell'interface repository!).
+di invocazione dinamico, non si può trovare un servizio se non è stato definito
+un contratto (ovvero, è stato definito all'interno dell'interface repository!).
 IDL resta però sempre e solo una specica: sarà sfruttato dai compilatori
 delle varie implementazioni per creare realmente gli oggetti e i servitori. Infatti,
 serve solo come specica delle operazioni possibili.
 Stub e skeleton son necessari per fare le operazioni di marshalling ed unmarshalling. Si ha che si realizza un diverso
 proxy (quindi stub e skeleton) per ogni
 interfaccia che si definisce.
-Da ribadire: è denito un contratto statico fra client e servizio, ma non un
+Da ribadire: è definito un contratto statico fra client e servizio, ma non un
 binding statico fra client e servitore!
 CORBA non ore altro agli utenti: le interfacce sono gli unici oggetti manipolabili e visibili, e quindi quando si
 programma si riferiscono altre interfacce!
