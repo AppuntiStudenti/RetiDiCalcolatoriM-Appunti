@@ -66,14 +66,16 @@ La reliability si può anche vedere come la probabilità che un servizio sia dis
 tempo (a 0 deve corrispondere con l'availability).
 Esistono altre proprietà fondamentali, come la correttezza e la vitalità: la prima definisce che comunque sia, il
 risultato fornito dal sistema sarà corretto, la seconda invece stabilisce che comunque si raggiungerà l'obiettivo.
-L'ideale
-sarebbe disporre di entrambe le proprietà, così da poter mascherare i fault: si
-\i{}
-può ottenere mediante oppurtune tecniche di replicazione spaziali e/o temporali:
-$\bullet$ Se si hanno diverse macchine, che eseguono ognuna un algoritmo diverso
-ma forniscono lo stesso risultato, garantiamo la massima correttezza
-$\bullet$ Se si hanno invece diverse macchine ognuna con un compito specico, si
-ottimizzalo throughput del sistema
+L'ideale sarebbe disporre di entrambe le proprietà, così da poter mascherare i fault: si può ottenere mediante 
+oppurtune tecniche di replicazione spaziali e/o temporali:
+\begin{itemize}
+ \item Se si hanno diverse macchine, che eseguono ognuna un algoritmo diverso ma forniscono lo stesso risultato,
+ garantiamo la massima correttezza
+ \item Se si hanno invece diverse macchine ognuna con un compito specico, si ottimizzalo throughput del sistema
+\end{itemize}
+
+$\bullet$ 
+$\bullet$ 
 Una singola macchina non basta per identificare e correggereun guasto! La
 replicazione è fondamentale, almeno per fare monitoring (utilizzo di cluster per
 fare il controllo di una risorsa): si potrebbero utilizzare delle speciche parti
