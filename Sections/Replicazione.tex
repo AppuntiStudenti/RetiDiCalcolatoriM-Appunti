@@ -73,20 +73,14 @@ oppurtune tecniche di replicazione spaziali e/o temporali:
  garantiamo la massima correttezza
  \item Se si hanno invece diverse macchine ognuna con un compito specifico, si ottimizzalo throughput del sistema
 \end{itemize}
-
-$\bullet$ 
-$\bullet$ 
-Una singola macchina non basta per identificare e correggereun guasto! La
-replicazione è fondamentale, almeno per fare monitoring (utilizzo di cluster per
-fare il controllo di una risorsa): si potrebbero utilizzare delle speciche parti
-per controllare e correggere l'architettura, ma è necessario rispettare sempre il
-principio della minima intrusione: il rischio sarebbe che troppe risorse sono
-allocate solo per vericare che il sistema funzioni correttamente, riducendone l'
-efficienza! La replicazione è un costo che si va ad aggiungere al sistema: ma in
-generale si tratta di un costo sso, a fronte di possibili costi molto peggiori in
-caso di fallimento del sistema!
+Una singola macchina non basta per \textit{identificare e correggere} un guasto! La replicazione è fondamentale,
+almeno per fare monitoring (utilizzo di cluster per fare il controllo di una risorsa): si potrebbero utilizzare delle
+speciche parti per controllare e correggere l'architettura, ma è necessario rispettare sempre il principio della minima
+intrusione: il rischio sarebbe che troppe risorse sono allocate solo per vericare che il sistema funzioni correttamente,
+riducendone l'efficienza! La replicazione è un costo che si va ad aggiungere al sistema: ma in generale si tratta di un
+costo sso, a fronte di possibili costi molto peggiori in caso di fallimento del sistema!
 \subsection{Possibili guasti}
-I guasti si possono anche classicare in base alla loro riconoscibilit` da un sistema
+I guasti si possono anche classicare in base alla loro riconoscibilità da un sistema
 (processore esterno):
 $\bullet$ Fail-stop: un processore si ferma perché non rispetta un invariante, e
 questo viene identicato dagli altri processori
