@@ -42,7 +42,7 @@ struttura ad albero dinamico (si possono inserire/togliere utenti/nodi):
 $\bullet$ La radice è il trasmettitore
 $\bullet$ I clienti sono le foglie
 $\bullet$ I nodi padre sono i router che rendono possibile il cammino.
-La struttura ad albero è eciente: evita infatti la presenza di cicli e maglie.
+La struttura ad albero è efficiente: evita infatti la presenza di cicli e maglie.
 Tuttavia, la struttura dell'albero può inuenzare notevolmente l'efficienza delo
 l'architettura.
 Il primo passo è quello di realizzare uno spanning tree per cui si manda
@@ -51,7 +51,7 @@ dividuare i cammini possibili, sfruttando i messaggi del protocollo unicast. Il
 problema è che questo protocollo ha un costo che cresce tantissimo all'aumentare
 del numero dei partecipanti.
 Il secondo passo riguarda quello della ricerca dei cammini condivisi, per cui
-dei router possono essere sfruttati per realizzare un cammino più eciente (spanu
+dei router possono essere sfruttati per realizzare un cammino più efficiente (spanu
 ning tree minimo). Si viene così a realizzare una bone o backbone multicast.
 \i{}
 15 L'alternativa è peggiore: fare un ooding globale! Ma per mandare un messaggio a
@@ -413,7 +413,7 @@ responsabilità risulta essere ben disa
 tribuita, e non si dipende più da un unico gestore centralizzato. Tuttavia, si
 deve tener conto dei guasti, su come escludere/ripristinare le copie e così via. . .
 \i{}
-Un protocollo più eciente ma sempre basato su Lamport è quello di Ricart
+Un protocollo più efficiente ma sempre basato su Lamport è quello di Ricart
 e Agrawal: l'idea è quella di limitare il numero dei messaggi in circolo, aggiune
 gendo intelligenza ai processi. Infatti, adesso il reply viene fatto o da processi
 meno prioritari o che non hanno interesse alla risorsa. In questo modo, in realtà,
@@ -480,7 +480,7 @@ il prossimo ma anche il nodo ancora successivo, e così via). Se il token d'elez
 giunge quindi di nuovo a chi lo ha generato, diviene il nuovo token21 . Visto che
 più processi possono mandare il token d'elezione, si ha che si decide in maniera
 statica quale è il più prioritario, numerando i processi.
-Un protocollo di elezione molto semplice da fare ed eciente è Bully: l'idea
+Un protocollo di elezione molto semplice da fare ed efficiente è Bully: l'idea
 ` che un processo di priorit` superiore zittisca le richieste di processi inferiori,
 per divenire lui il gestore. Si ha quindi che un processo di basso livello manda
 verso l'alto un messaggio d'elezione. Se un processo di priorit` superiore può
