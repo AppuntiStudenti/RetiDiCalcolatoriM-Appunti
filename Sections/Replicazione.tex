@@ -2,7 +2,7 @@
 Un obiettivo per poter fornire della qualità di servizio è ovviamente quello di poter offrire un servizio continuativo,
 stabile: se il servizio non viene erogato, non si è remunerati (anzi, in determinati ambiti è proprio un danno economico
 perché si possono presentare anche delle richieste di risarcimento; in certi ambiti si parla anche di rischi umani).
-L'obiettivo è quindi quello di realizzare un sistema \textot{fault tolerant}, resistente ai guasti. Sono invarianti che
+L'obiettivo è quindi quello di realizzare un sistema \textit{fault tolerant}, resistente ai guasti. Sono invarianti che
 devono essere comunque garantiti.
 \subsection{Definire i comportamenti errati del sistema: cause ed effetti}
 I possibili guasti si possono catalogare in maniera logica:
@@ -25,58 +25,48 @@ I fault si possono classicare a seconda di quanto si ripetono:
 
 \subsection{Ipotizzare il guasto}
 Esistono diversi parametri per poter giudicare la disponibilità di un servizio/sistema.
-Un sistema è fault tolerant se garantisce la dependability, ovvero si ha condenza
-per qualunque aspetto progettuale. Ciò comporta che il sistema debba garantire:
-$\bullet$ Reliability: deve essere adabile, in ogni modo il sistema si comporta
-`
-correttamente rispetto agli invarianti che sono stati imposti. E quindi un
-sistema corretto.
-$\bullet$ Availability: indica la disponibilità nel tempo del sistema. La risposta da
-parte del sistema deve arrivare entro una certa deadline prestabilita.
-Per poter garantire la disponibilità del sistema a fronte di guasti, si devono fare
-delle ipotesi sul guasto. In generale, la procedura di ripristino consiste infatti
-prima nell'identicazione del tipo di guasto, e ina base a ciò si cerca di riattivare
-con la corretta procedura il servizio (fase di recovery).
-In generale, si utilizza l'ipotesi delfault singolo, ovvero nel sistema si può
-presentare un singolo guasto: solo quando il sistema torna operativo, si ha che
-si potrebbe presentare un ulteriore fault. Quest'ipotesi è necessaria per poter
-semplicare il trattamento del recovery. Per poter definire ciò, è necessario
-o e
-conoscere:
-$\bullet$ Il Time To Repair, TTR, che è il tempo necessario per accorgersi e per
-poter correggereil guasto
-$\bullet$ Il Time Between Failure, ovvero il tempo che intercorre fra due failure
-(oppure la media)
+Un sistema è fault tolerant se garantisce la \textit{dependability}, ovvero si ha confidenza per qualunque aspetto
+progettuale. Ciò comporta che il sistema debba garantire:
+\begin{itemize}
+ \item \textit{Reliability}: deve essere affidabile, in ogni modo il sistema si comporta correttamente rispetto agli
+invarianti che sono stati imposti. È quindi un sistema corretto.
+ \item \textit{Availability}: indica la disponibilità nel tempo del sistema. La risposta da parte del sistema deve
+arrivare entro una certa deadline prestabilita.
+\end{itemize}
+Per poter garantire la disponibilità del sistema a fronte di guasti, si devono fare delle ipotesi sul guasto. In
+generale, la procedura di ripristino consiste infatti prima nell'identicazione del tipo di guasto, e in base a ciò si
+cerca di riattivare con la corretta procedura il servizio (fase di recovery).
+In generale, si utilizza l'ipotesi del \textit{fault singolo}, ovvero nel sistema si può presentare un singolo guasto:
+solo quando il sistema torna operativo, si ha che si potrebbe presentare un ulteriore fault. Quest'ipotesi è necessaria
+per poter semplicare il trattamento del recovery. Per poter definire ciò, è necessario conoscere:
+\begin{itemize}
+ \item \textit{Il Time To Repair}, TTR, che è il tempo necessario per accorgersi e per poter correggere il guasto
+ \item \textit{Il Time Between Failure}, ovvero il tempo che intercorre fra due failure (oppure la media, MTBF).
+\end{itemize}
+
 L'obiettivo è quindi che il TTR sia inferiore in maniera stretta al (M)TBF.
-Mediante l'ipotesi del guasto singolo, si può osservare che se abbiamo più copie
-in grado di fornire il servizio, si puòspecicare il numero di fault tollerabili e
-identicabili. Se avessimo solo due copie, non possiamo tollerare un guasto,
-ma possiamo identicarne uno. Con già 3 copie, un guasto si può tollerare,
-perché comunque restano due macchine con cui identicare i guasti successivi:
-si riescono così ad identicare no 2 guasti. La generalizzazione è che se si
-\i{}
-hanno 3t copie, si tollerano massimo t guasti.3 Si possono quindi ridefinire le
-proprietà precedenti in base a questi valori:
-$\bullet$ La reliability è il valor medio sulla disponibilità/indisponibilità della risore
-sa considerata
-3 Non
-si fanno ipotesi sul tipo di guasto, ma solo sul fatto che è singolo
-18
-$\bullet$ L'availability si può esprimere come la percentuale utile di lavoro che il
-sistema riesce ad orire:
-A=
-M T BF
-M T BF + M T T R
-(13)
-In particolare, si possono distinguere i casi di lettura e scrittura: infatti, la lettura
-non modica lo stato, per cui si può fornire un servizio di lettura anche se vi
-sono diverse copie non funzionanti. Viceversa, per garantire uno stato coeso fra
-tutte le copie, la scrittura richiede che tutte siano disponibili.
-La reliability si può anche vedere come la probabilità che un servizio sia
-disponibile per un certo intervallo di tempo (a 0 deve corrispondere con l'availability).
-Esistono altre proprietà fondamentali, come la correttezza e la vitalità : la
-prima denisce che comunque sia, il risultato fornito dal sistema sarà corretto,
-la seconda invece stabilisce che comunque si raggiunger` l'obiettivo. L'ideale
+Mediante l'ipotesi del guasto singolo, si può osservare che se abbiamo più copie in grado di fornire il servizio, si
+può specificare il numero di fault tollerabili e identicabili. Se avessimo solo due copie, non possiamo tollerare un
+guasto, ma possiamo identificarne uno. Con già 3 copie, un guasto si può tollerare,
+perché comunque restano due macchine con cui identificare i guasti successivi:
+si riescono così ad identificare no 2 guasti. La generalizzazione è che se si hanno 3t copie, si tollerano massimo t
+guasti.\footnote{Non si fanno ipotesi sul tipo di guasto, ma solo sul fatto che è singolo} Si possono quindi
+ridefinire le proprietà precedenti in base a questi valori:
+\begin{itemize}
+ \item La reliability è il valor medio sulla disponibilità/indisponibilità della risorsa considerata
+ \item L'availability si può esprimere come la percentuale utile di lavoro che il sistema riesce ad offrire:
+ \begin{equation}
+  A = \frac{MTBF}{MTBF + MTTR}
+ \end{equation}
+\end{itemize}
+In particolare, si possono distinguere i casi di lettura e scrittura: infatti, la lettura non modifica lo stato, per
+cui si può fornire un servizio di lettura anche se vi sono diverse copie non funzionanti. Viceversa, per garantire uno
+stato coeso fra tutte le copie, la scrittura richiede che tutte siano disponibili.
+La reliability si può anche vedere come la probabilità che un servizio sia disponibile per un certo intervallo di 
+tempo (a 0 deve corrispondere con l'availability).
+Esistono altre proprietà fondamentali, come la correttezza e la vitalità: la prima definisce che comunque sia, il
+risultato fornito dal sistema sarà corretto, la seconda invece stabilisce che comunque si raggiungerà l'obiettivo.
+L'ideale
 sarebbe disporre di entrambe le proprietà, così da poter mascherare i fault: si
 \i{}
 può ottenere mediante oppurtune tecniche di replicazione spaziali e/o temporali:
@@ -84,7 +74,7 @@ $\bullet$ Se si hanno diverse macchine, che eseguono ognuna un algoritmo diverso
 ma forniscono lo stesso risultato, garantiamo la massima correttezza
 $\bullet$ Se si hanno invece diverse macchine ognuna con un compito specico, si
 ottimizzalo throughput del sistema
-Una singola macchina non basta per identicare e correggereun guasto! La
+Una singola macchina non basta per identificare e correggereun guasto! La
 replicazione è fondamentale, almeno per fare monitoring (utilizzo di cluster per
 fare il controllo di una risorsa): si potrebbero utilizzare delle speciche parti
 per controllare e correggere l'architettura, ma è necessario rispettare sempre il
@@ -369,7 +359,7 @@ $\bullet$ Viene fornito il risultato al client.
 `
 Per decidere quale copia debba eseguire, come si fa? E necessario un sistema
 di monitoring (necessario per la QoS), uno scheduler (in generale strutturato
-master/slave). Questo sistema deve anche essere in grado di identicare eventuali copie guaste, e quindi di escluderle
+master/slave). Questo sistema deve anche essere in grado di identificare eventuali copie guaste, e quindi di escluderle
 per mantenere delle buone prestazioni,
 possibilmente facendo migrare i servizi sulle macchine al momento migliori. Per
 determinare se una copia è attiva, si usano degli heartbeat, ovvero si mandano

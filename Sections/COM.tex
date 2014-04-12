@@ -60,7 +60,7 @@ azione fra processi diversi, utilizzando come base i componenti e una comunicazi
 differenza con i precedenti modelli: nei
 sistemi precedenti la comunicazione si basava soprattutto sul modello ad eventi,
 che è molto lontano dalla comunicazione sincrona!
-Lo standard denisce delle speciche per cui i componenti siano in grado
+Lo standard definisce delle speciche per cui i componenti siano in grado
 di comunicare fra di loro, in maniera indipendente dal linguaggio utilizzato e
 dalle applicazioni che li usano. L'idea è quella di introdurre una uniformità nel
 comportamento: dll, componenti su macchine diverse, . . . Si ottiene così omo\i{}
@@ -68,7 +68,7 @@ geneit` a livello di comportamento fra oggetto locale e remoto, introducendo
 così trasparenza. In particolare, si utilizzano metodi standard per la comuni\i{}
 cazione remota, come RPC di DCE.
 Alla base di COM vi è l'uso delle interfacce: un componente, per poter
-essere usato, deve fornire un'interfaccia comune e conosciuta da tutti gli attori. L'interfaccia infatti denisce la
+essere usato, deve fornire un'interfaccia comune e conosciuta da tutti gli attori. L'interfaccia infatti definisce la
 visione logica. Tutte le interfacce COM
 derivano da una stessa interfaccia detta IUnknown. In COM ogni oggetto e ogni
 interfaccia possono essere identicati in maniera univoca da dei GUID, che però
@@ -247,7 +247,7 @@ basso livello, nonostante l'uso delle interfacce come in CORBA
 77
 interfacce, sempre utilizzabili dagli utenti, ma senza una razionalizzazione alla
 loro realizzazione.
-DCOM denisce per primo che un sistema a componenti deve definire un'architettura a PEM (Property, Event, Method ), per
+DCOM definisce per primo che un sistema a componenti deve definire un'architettura a PEM (Property, Event, Method ), per
 poter definire stato, output
 e input dei componenti. Questo sistema semplica la realizzazione, permettendo quindi di definire un container che sia
 semplicemente un gestore degli oggetti
@@ -293,7 +293,7 @@ derivato e migliorato (sotto certi aspetti) da Java: Java infatti ormai presenta
 dei sistemi legacy con cui deve far conto, per cui non può introdurre direttamente
 nuovi aspetti senza rompere con il passato (non si può, per esempio, introdurre
 un controllo dinamico delle risorse occupate da un thread, per denirlo anche a
-run-time!). .NET realizza anche lui un compilatore JIT, denisce una serie di
+run-time!). .NET realizza anche lui un compilatore JIT, definisce una serie di
 classi base, rintroduce l'ereditarietà dell'implementazione, delle classi, e svilupa
 pa un sistema a livelli molto simile a quello di un mw moderno, con diversi
 servizi attivabili a basso ed ad alto livello.
