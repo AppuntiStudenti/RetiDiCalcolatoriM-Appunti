@@ -1,31 +1,28 @@
 \section{Modelli per la replicazione}
-Un obiettivo per poter fornire della qualità di servizio è ovviamente quello di
-poter orire un servizio continuativo, stabile: se il servizio non viene erogato,
-non si è remunerati (anzi, in determinati ambiti è proprio un danno economico
-perché si possono presentare anche delle richieste di risarcimento; in certi ambiti
-si parla anche di rischi umani). L'obiettivo è quindi quello di realizzare un
-sistema fault tolerant, resistente ai guasti. Sono invarianti che devono essere
-comunque garantiti.
+Un obiettivo per poter fornire della qualità di servizio è ovviamente quello di poter offrire un servizio continuativo,
+stabile: se il servizio non viene erogato, non si è remunerati (anzi, in determinati ambiti è proprio un danno economico
+perché si possono presentare anche delle richieste di risarcimento; in certi ambiti si parla anche di rischi umani).
+L'obiettivo è quindi quello di realizzare un sistema \textot{fault tolerant}, resistente ai guasti. Sono invarianti che
+devono essere comunque garantiti.
 \subsection{Definire i comportamenti errati del sistema: cause ed effetti}
 I possibili guasti si possono catalogare in maniera logica:
-$\bullet$ Si parla di failure quando il sistema presenta un comportamento diverso
-dagli invarianti di sistema previsti: ciò è dovuto a un sistema progettato
-oe
-male. Il failure è l'eetto visibile, riscontrabile dall'utente.
-$\bullet$ Un errore è invece il difetto che genera un failure del sistema, la causa
-concreta che ha portato il sistema in uno stato non corretto.
-$\bullet$ Un fault inne è proprio il comportamento che si è venuto a vericare che
-ha portato il sistema a generare un failure: corrisponde quindi proprio alla
-causa a monte.
+\begin{itemize}
+ \item Si parla di \textit{failure} quando il sistema presenta un comportamento diverso dagli invarianti di sistema
+previsti: ciò è dovuto a un sistema progettato male. Il failure è l'effetto visibile, riscontrabile dall'utente.
+ \item Un errore è invece il difetto che genera un failure del sistema, la causa concreta che ha portato il sistema 
+ in uno stato non corretto.
+ \item Un fault infine è proprio il comportamento che si è venuto a vericare che ha portato il sistema a generare un
+ failure: corrisponde quindi proprio alla causa a monte.
+\end{itemize}
 I fault si possono classicare a seconda di quanto si ripetono:
-`
-$\bullet$ E permanente se si ripresenta in maniera periodica: sono quindi facili
-da individuare, e facili da risolvere. Si parla di Bohrbug per errori che
-si ripetono facilmente, riproducibili, che si possono quindi osservare e
-correggere facilmente.
-17
-$\bullet$ Se invece è transiente, sono più dicili da notare. Si parla di errori di tipo
-Eisenbug, e sono molto dicili da eliminare.
+\begin{itemize}
+ \item Sono \textit{permanenti} se si ripresenta in maniera periodica: sono quindi facili da individuare, e facili da
+ risolvere. Si parla di Bohrbug per errori che si ripetono facilmente, riproducibili, che si possono quindi osservare
+ e correggere facilmente.
+ \item Se invece sono \textit{transienti}, sono più dicili da notare. Si parla di errori di tipo Eisenbug, e sono molto
+ dicili da eliminare.
+\end{itemize}
+
 \subsection{Ipotizzare il guasto}
 Esistono diversi parametri per poter giudicare la disponibilità di un servizio/sistema.
 Un sistema è fault tolerant se garantisce la dependability, ovvero si ha condenza
