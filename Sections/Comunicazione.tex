@@ -105,7 +105,7 @@ In generale l'obiettivo che si pressa è che una send multicast dovrebbe
 essere garantita come un'operazione atomica. Per risolvere il problema, conviene
 suddividerlo in due sottoproblemi:
 1. Garantire la fault tolerance: nessuno deve perdere dei messaggi! Le ritrasmissioni sono quindi un sistema da
-prevedere se si vuole adabilit`.
+prevedere se si vuole affidabilità.
 Tuttavia, si potrebbe rimbalzare il problema a livello applicativo: per
 esempio Chorus eettua multicast mai ripetuti, quindi unreliable, ma
 specica agli sviluppatori di realizzare il sistema di ritrasmissione.
@@ -120,8 +120,8 @@ Questi due aspetti devono essere tenuti separati : in questo caso quindi si ha
 che l'atomicit` fa l'ipotesi che in ogni modo i messaggi giungano sempre a desa
 tinazione. Nel progetto di una comunicazione di gruppo non è quindi solo ime
 portante la singola operazione, ma l'ordine con cui giungono al gruppo.
-L'adabilit` viene a mancare se si perde un messaggio, oppure un crash
-delle due parti. In particolare, per poter garantire l'adabilit` si deve fare in
+L'affidabilità viene a mancare se si perde un messaggio, oppure un crash
+delle due parti. In particolare, per poter garantire l'affidabilità si deve fare in
 modo che i gruppi siano dinamici : se una copia cade, in maniera trasparente
 si deve proseguire. Per tutti i fault l'infrastruttura dovrebbe essere in grado di
 reagire: è ovvio quindi che serve un sistema di monitoring dell'infrastruttura,
@@ -210,7 +210,7 @@ a o
 dei costi molto diversi.
 In tutte le architetture per il multicast basato su ordinamento atomico in
 generale si pensa ad un frontend che possa smistare i messaggi secondo l'ordinamento imposto: tuttavia, per garantire
-adabilit`, si deve considerare anche il
+affidabilità, si deve considerare anche il
 caso che il frontend non sia disponibile. Si deve trovare un modo di aggiungere
 qualità (per esempio, replicazione dei frontend, con token per chi è eettivaa
 mente attivo. . . ). Esistono altre architetture meno centralizzate, ma risultano
@@ -466,7 +466,7 @@ si passano un unico, sempre presente token, che stabilisce la sincronizzazione
 ha bisogno). Si tratta di una soluzione molto pro attiva, poich` il token gira
 lungo l'anello anche senza la presenza di richieste di sincronizzazione. Rispetto
 a Lamport il costo è inferiore, n $-$ 1 messaggi sempre.
-In questo sistema si deve però pensare anche all'adabilit` del token: se
+In questo sistema si deve però pensare anche all'affidabilità del token: se
 non arriva? Si dovrà rigenerarlo, facendo in modo però che vi sia sempre e solo
 un unico token in giro per l'anello. Si hanno quindi delle situazioni di elezione,
 per cui più partecipanti vorrebbero eseguire l'azione di recovery, ma deve essere
