@@ -1,40 +1,27 @@
 \section{Sistemi per la comunicazione e la sincronizzazione}
 La maniera con cui due processi possono comunicare è molto variabile: si
-e
 possono classicare le comunicazioni in diversi modi (sincrone/asincrone, dirette/indirette, bloccanti/non bloccanti . .
 . ). Di particolare interesse riguarda
 ovviamente la comunicazione a molti destinatari : un tale sistema può essere alle
-o
 volte molto costoso da gestire, ma spesso è necessario (gestione a copie attive;
-e
 sottoscrizione di consumer ad eventi; e così via. . . ).
 \i{}
 Nel modello di Internet erano stati studiati due sistemi: il broadcast (realmente inarontabile dal costo) e il multicast
 (realizzabile su indirizzi di classe
 D). Tuttavia, questi sistemi risultano essere ecienti nch` si lavora comunque
-e
 con una località. Se invece si dovesse lavorare su più gruppi, è necessario utia
-u
-e
 lizzare come protocollo IGMP (utilizzo quindi di un protocollo non locale), che
 permette a una o più reti di trasmettere in multicast, realizzando una sorta di
-u
 14 Obiettivo: raggiungere un qualunque indirizzo della classe specicata, che sia il più vicino
-u
 o il più comodo
-u
 38
 broadcast locale (comunque abbastanza costoso)15 . Oltre al costo, queste comunicazioni mancano prima di tutto di QoS
 (IGMP non garantisce l'ordine dei
 messaggi!), ma hanno anche una debole capacità espressiva (non si riesce per
-a
 esempio a definire priorit` nelle comunicazioni, oppure sincronismi. . . ). Infatti,
-a
 in Internet si ragiona utilizzando il Time To Live per poter dirigere e guidare
 una comunicazione multicast: se è progettato male, l'intero sistema si ingolfa.
-e
 IGMP è un protocollo che permette ai nodi di una rete di lavorare in gruppo
-e
 (si registrano tutti a uno stesso indirizzo multicast). Richiede quindi l'utilizzo
 di un router di supporto, in maniera tale da poter controllare sia il traco in
 entrata che in uscita; sfrutta infatti dei particolari messaggi IGMP, come le
@@ -44,65 +31,47 @@ da garantire che le azioni di multicast siano valide per quella rete.
 Nella versione iniziale del protocollo, vi erano degli altri problemi di gestione,
 dovuti al fatto che vi fosse un singolo router a dover gestire tutta l'infrastruttura
 IGMP. Con la versione 2, un router può in realtà controllare più reti, perché
-o
-a
-u
-e
 diventa possibile utilizzare anche più router. La versione 2 inoltre introduce un
-u
 messaggio di leave dal gruppo che mancava: prima era comunque tutto a carico
 del router, che doveva inviare i messaggi query periodicamente e attendere le
 risposte dai clienti.
 \subsection{Realizzare il routing multicast}
 Non esistono soluzioni standard per realizzare il routing multicast. Lo scenario
 studiato è quello di più utenti ma un unico trasmettitore. Si realizza quindi una
-e
-u
 struttura ad albero dinamico (si possono inserire/togliere utenti/nodi):
 $\bullet$ La radice è il trasmettitore
-e
 $\bullet$ I clienti sono le foglie
 $\bullet$ I nodi padre sono i router che rendono possibile il cammino.
 La struttura ad albero è eciente: evita infatti la presenza di cicli e maglie.
-e
 Tuttavia, la struttura dell'albero può inuenzare notevolmente l'efficienza delo
 l'architettura.
 Il primo passo è quello di realizzare uno spanning tree per cui si manda
-e
 in ooding un messaggio per ogni destinatario, così che la radice riesca ad in\i{}
 dividuare i cammini possibili, sfruttando i messaggi del protocollo unicast. Il
 problema è che questo protocollo ha un costo che cresce tantissimo all'aumentare
-e
 del numero dei partecipanti.
 Il secondo passo riguarda quello della ricerca dei cammini condivisi, per cui
 dei router possono essere sfruttati per realizzare un cammino più eciente (spanu
 ning tree minimo). Si viene così a realizzare una bone o backbone multicast.
 \i{}
 15 L'alternativa è peggiore: fare un ooding globale! Ma per mandare un messaggio a
-e
 tutti,i router dovrebbero avere uno stato, e vericare che il messaggio non l'abbiano già
-a
 ricevuto. . . quanto deve durare lo stato?
 39
 Inne, la radice raccoglie le informazioni ricevute per determinare lo spanning
 tree minimo.
 Una soluzione alternativa è il Reverse Path Broadcast, ovvero ora l'iniziativa
-e
 ` a carico dei clienti. Durante il normale routing, i clienti provano a mandare
-e
 un broadcast verso la radice, che può, in base a nuove informazioni, cercare
-o
 di ottimizzare/aggregare ulteriormente l'albero. Tale sistema presenta tuttavia
 dei costi ulteriori che devono essere valutati; le tecnologie utilizzate sono infatti
 le stesse per determinare un cammino minimo di Dijkstra, cioè o si sfrutta il
-e
 Distance Vector (si deve lavorare sfruttando anche le informazioni del prossimo
 vicino per evitare cammini troppo lunghi) oppure Link State (tanti alberi quanti
 i cammini minimi, poi si devono risolvere i tie break). Tuttavia, questo sistema
 permette di ridurre il numero di messaggi scambiati e permette di poter definire
 la banda necessaria.
 In realtà la maggior parte dei sistemi sfrutta come protocollo il Reverse Path
-a
 Multicast per cercare di limitare (anche se di poco) il costo: resta comunque
 tutto a carico della radice su come realizzare l'albero di routing.
 Non esiste uno standard per queste tecnologie, ma diverse proposte: si hanno
@@ -114,14 +83,11 @@ potatura (eliminazione di un router superuo) e il reinserimento o graft dinamico
 (reinserimento di router). Si deve quindi spesso ricalcolare l'albero in caso di
 variazioni! Le varie proposte sono:
 $\bullet$ Distance Vector Multicast Routing Protocol : è basato su una multicast
-e
 bone, si attraversano le reti utilizzando un sistema di tunneling. Il risultato
 ` che così si sfruttano solo alcuni nodi.
-e
 \i{}
 $\bullet$ Multicast Open Shortest Path First: questo sistema invece si basa sull'altra tecnologia, e cerca di
 ottimizzare l'albero già ottenuto determinato i
-a
 cammini minimi
 $\bullet$ Core Based Trees: si mantengono costanti dei nodi, venendo a definire
 quindi degli alberi sub-ottimi che non variano. In questo modo si limita il
@@ -136,23 +102,17 @@ quelle negative (chi non ha ricevuto avvisa)? Si ritrasmette a tutti o solo a ch
 non ha ricevuto il messaggio?
 40
 In generale l'obiettivo che si pressa è che una send multicast dovrebbe
-e
 essere garantita come un'operazione atomica. Per risolvere il problema, conviene
 suddividerlo in due sottoproblemi:
 1. Garantire la fault tolerance: nessuno deve perdere dei messaggi! Le ritrasmissioni sono quindi un sistema da
 prevedere se si vuole adabilit`.
-a
 Tuttavia, si potrebbe rimbalzare il problema a livello applicativo: per
 esempio Chorus eettua multicast mai ripetuti, quindi unreliable, ma
 specica agli sviluppatori di realizzare il sistema di ritrasmissione.
 2. Fornire l'atomicit` della trasmissione: per atomicit` si intende l'ordine
-a
-a
 con cui i messaggi giungono al gruppo. Si dovrebbe fare in modo infatti
 che tutti i membri del gruppo li ricevano nello stesso ordine?Non è detto
-e
 (solo letture si potrebbero fare in ordine diverso)! Pu` essere infatti che
-o
 a seconda dell'ordine dei messaggi si debbano attuare politiche diverse.
 L'atomicit` è lo studio di questo problema.
 ae
@@ -161,30 +121,22 @@ che l'atomicit` fa l'ipotesi che in ogni modo i messaggi giungano sempre a desa
 tinazione. Nel progetto di una comunicazione di gruppo non è quindi solo ime
 portante la singola operazione, ma l'ordine con cui giungono al gruppo.
 L'adabilit` viene a mancare se si perde un messaggio, oppure un crash
-a
 delle due parti. In particolare, per poter garantire l'adabilit` si deve fare in
-a
 modo che i gruppi siano dinamici : se una copia cade, in maniera trasparente
 si deve proseguire. Per tutti i fault l'infrastruttura dovrebbe essere in grado di
 reagire: è ovvio quindi che serve un sistema di monitoring dell'infrastruttura,
-e
 per poter eettuare le possibili azioni correttive:
 $\bullet$ Ritrasmissione di eventuali messaggi persi
 $\bullet$ Aggiustamento del gruppo dinamico.
 Ovviamente, si deve cercare di minimizzare i costi che si vengono aggiungere,
 tenendo conto del principio di minima intrusione.
 L'idea è quindi quella di realizzare dei meccanismi molto semplici, in maniera
-e
 da poter garantire un controllo16 per poter eettuare la ritrasmissione. Si deve
 quindi studiare come richiedere o meno la ritrasmissione: per esempio, se avessimo una conferma positiva per ogni frame
 (si usa così un meccanismo di hold\i{}
 back, trattenendo i messaggi nch` non arriva la conferma che il precedente `
-e
-e
 stato ricevuto), il costo per il monitoring sarebbe elevato. Si riduce utilizzando
 le conferme negative, dove si può indicare cosa si è perso (si hanno dei messaggi
-o
-e
 ordinati . . . ). Un altro problema riguarda l'intervallo di tempo per aspettare,
 che deve essere opportunatamente dimensionato.
 16 Da
@@ -195,93 +147,63 @@ L'atomicità è l'aspetto in cui l'utente dovrebbe essere maggiormente coinvolto
 
 Infatti, non lavorando nel concentrato, certe ipotesi d'ordine che si potevano
 fare non sono più valide in maniera gratuita! Come devono lavorare le copie?
-u
 Se potessero lavorare in maniera indipendente, per cui ogni copia può proo
 cessare i messaggi nell'ordine in cui le arrivano, senza preoccuparsi dell'ordine
 delle altre, si avrebbe un'infrastruttura a costo minimo. . . tuttavia ciò non è
-o
-e
 sempre possibile.
 L'ordinamento classico è quello FIFO: l'ipotesi generale è che si abbia seme
-e
 preun emettitore (si estende anche a casi con più emettitori, ma l'ordinamento
-u
 FIFO riferisce sempre i messaggi provenienti dallo stesso emettitore). Questo
 ordinamento stabilisce che se vengono inviati i messaggi in ordine m1, m2, tutte
 le copie devono ricevere i messaggi nello stesso ordine! Nel caso di più emetu
 titori, infatti, l'importante è che i messaggi provenienti dallo stesso emettitore
-e
 siano sempre nello stesso ordine, ma fra emettitori diversi no; se un emettitore
 emette m1, m2 e un altro m3, m4
 $\bullet$ m1, m2, m3, m4, m1, m3, m2, m4, m3, m1, m4, m2,. . . vanno bene
 $\bullet$ m2, m1, m3, m4 no!
 Le copie devono quindi essere progettate in maniera tale da mantenere lo stato,
 ovvero da chi arriva la comunicazione? Se vi sono omissioni, si può così attivare
-o
 \i{}
 un procedimento di hold-back.
 Tuttavia, l'ordinamento FIFO non è sempre quello desiderato, proprio perché
-e
-e
 non si possono imporre vincoli di precedenza fra messaggi provenienti da emettitori diversi. Basti pensare ai newsgroup:
 spesso succede che arrivi prima
 la risposta della domanda, perché non sono presenti degli orologi sincronizzae
 ti. Questo succede perché a livello di supporto non si garantisce il rapporto di
-e
 causa-eetto
 L'ordinamento causale tiene conto di questo problema, si basa proprio sulla
 presenza di emettitori diversi, che possono inviare messaggi in relazione di causaeetto fra di loro. Questo vuol dire
 che se un messaggo m1 è causa di un
-e
 messaggio m3 da parte di un altro emettitore, la comunicazione sarà valida se
-a
 e solo se m1 preceder` m3 sempre (per altri messaggi non è stabilito l'ordine).
-a
-e
 Il problema del causale è che è di dicile realizzazione: non vi sono supporti
-e
-e
 che lo realizzano. Nel caso di un singolo mittente, il causale è praticamente un
-e
 FIFO, ed è di semplice realizzazione. Ma se si hanno gruppi dinamici, e quindi
-e
 dipendenze dinamiche fra i messaggi, non è banale!
-e
 Inoltre, non tutto a questo mondo si può rappresentare con il rapporto di
-o
 causa-eetto: per esempio, se si avessero due multicast che sono rispettivamente
 un accredito e una valutazione degli interessi, l'ordine è fondamentale. . . ma le
-e
 due operazioni non dipendono l'una dall'altra! Resta che l'ordinamento su tutte
 le copie deve essere il medesimo, altrimenti si avrebbero dei conti sballati!
 42
 Questo problema non si risolve neanche con il FIFO perché, come il causale,
-e
 si tratta di un ordinamento parziale. Si può pensare invece di risolverlo utilizo
 zando un ordinamento atomico, che è globale. Questo perché è un ordinamento
-e
 ee
 deciso dal gruppo! Il gruppo può decidere una famiglia di ordinamenti che tutte
-o
 le copie devono rispettare, fornendo così anche implementazioni diverse. L'or\i{}
 dinamento atomico non è interessato infatti all'ordine specico, ma al fatto che
-e
 tutti i componenti del gruppo ricevano i messaggi nello stesso ordine. L'ordinamento atomico può essere realizzato in
 maniera da rispettare sia (o uno solo, o
-o
 nessuno) l'ordinamento FIFO che quello causale.
 Per poter realizzare l'ordinamento atomico, si deve pensare comunque alla
 presenza di un frontend, in grado di smistare alle varie copie i messaggi che
 arrivano: ogni copia lavora in maniera indipendente, così che se manca un mes\i{}
 saggio ad una le altre non sono bloccate. Questo vuol dire che non sono sincrone
 fra di loro, ma l'obiettivo è solo il raggiungimento di uno stato nale coeso. Il
-e
 coordinamento quindi può non rispettare il FIFO, ed è tutto interno al gruppo.
-o
-e
 L'ordinamento è un costo aggiuntivo che si deve considerare, tuttavia i divere
 si ordinamenti hanno un costo diverso. In particolare, il causale è l'ordinamento
-e
 maggiormente costoso in generale, anche se non vi è una risposta univoca, dipene
 dendo da caso a caso. Tuttavia, l'atomico vista la sua variabilit` può presentare
 a o
@@ -289,98 +211,70 @@ dei costi molto diversi.
 In tutte le architetture per il multicast basato su ordinamento atomico in
 generale si pensa ad un frontend che possa smistare i messaggi secondo l'ordinamento imposto: tuttavia, per garantire
 adabilit`, si deve considerare anche il
-a
 caso che il frontend non sia disponibile. Si deve trovare un modo di aggiungere
 qualità (per esempio, replicazione dei frontend, con token per chi è eettivaa
-e
 mente attivo. . . ). Esistono altre architetture meno centralizzate, ma risultano
 essere maggiormente complesse.
 Inoltre, l'ordinamento atomico basato su frontend può essere unfair: clienti
-o
 più vicini al front end sono favoriti. Altre soluzioni si sono preoccupate di suu
 perare questo problema, introducendo però ulteriori costi.
-o
 \subsection{Il problema della sincronizzazione}
 Per poter coordinare un insieme di copie, è necessario quindi che queste siano
-e
 sincronizzate. La sincronizzazione non è nient'altro che la sequenzializzazione
-e
 di operazioni parallele 17 , mediante la quale si impongono degli invarianti che
 devono essere rispettati : si ha quindi un ordine.
 Tuttavia, la sincronizzazione è diversa dalla comunicazione: questa infatti
-e
 ` interessata ad un contenuto da trasmettere, mentre la sincronizzazione è solo
-e
-e
 l'ordine. Nelle classiche architetture C/S i due aspetti sono accoppiati, ma ciò
-o
 non vale in altri casi.
 17 Esempio,
 realizzazione della mutua esclusione
 43
 Per poter sincronizzare non è necessario stabilire un ordinamento prescritto:
-e
 si può scegliere quello più adatto a seconda delle esigenze, in maniera anche
-o
-u
 molto indeterministica. In questo modo si hanno spazi di implementazione
 molto variabili. In generale, essendo la sincronizzazione nel distribuito molto
 più costosa, si cerca di fornire un ordine solo per gli eventi necessari.
-u
 Nel distribuito, i clock non sono sincronizzati. Si potrebbe pensare di realizzare un unico clock per tutti, ma `
 impensabile (si pensi a derive nella
-e
 comunicazione del tempo). Esistono standard per stabilire un formato univoco per il tempo (UTC, Universal Coordinated
 Time), ma che funzionano solo
 se il numero dei partecipanti è limitato. Per coordinarsi infatti i diversi client
-e
 chiedono e ricevono il clock mediante uno scambio di messaggi, e quindi si cerca
 di ottenere una mediazione, aggiustando di volta in volta il clock locale. Ma per
 far ciò serve un gestore continuo che faccia monitoring!
-o
 Esiste anche un protocollo, Network Time Protocol, denito per il distribuito,
 in grado di basarsi su UTC per fornire un tempo comune a tutti i partecipanti.
 Si realizza una gerarchia di server, che coinvolge tutti i partecipanti: più si `
 u e
 vicini alla radice, maggiormente il tempo sarà preciso. Allontanandosi invece si
-a
 hanno delle derive. Ma se si guasta un server?
 Questi protocolli son troppo complessi e costosi per garantire un tempo univoco. Il rischio è sempre che un evento venga
 etichettato male, per via di derive
-e
 nel clock locale rispetto a quello globale. L'idea è quindi quella di lasciar perdere
-e
 il tempo sico, il clock, ma di realizzare una sincronizzazione solo sugli eventi
 `
 d'interesse. E una prospettiva più ottimista e molto meno costosa (infatti si
-u
 riduce la comunicazione solo agli eventi signicativi, evitando di dover tenere
 aggiornati gli orologi sici).
 Vi sono diversi sistemi per poter ordinare in base agli eventi di interesse.
 Quello meno importante è quello basato su delle priorit` denite in maniera
-e
-a
 statica. Infatti così si viene a realizzare una politica molto rigida, con rischio
 \i{}
 di starvation (andrebbe bene se l'architettura prevede dei processi che debbano
 eseguire a scapito di altri).
 I metodi più interessanti sono invece:
-u
 $\bullet$ basati sull'ordinamento di Lamport, utilizzato soprattutto in US. Si realizzano dei clock logici da usare al
 posto dei clock sici.
 $\bullet$ basati sull'uso del sistema di token passing, utilizzato soprattutto in UE.
 Si realizza una struttura ad anello, e chi ha il token è il coordinatore.
-e
 \subsection{Ordinamento di Lamport}
 L'ordinamento di Lamport si basa di avere diversi processi in grado di mantenere
 una propria storia interna (gli eventi su uno stesso processore sono già ordinati
-a
 grazie alla storia), e in grado di comunicare fra di loro, in maniera punto a
 punto con dei messaggi (non si usano multicast, non si possono mandare batch
 44
 di messaggi !). L'idea è che il numero degli eventi interessanti è sicuramente
-e
-e
 inferiore al clock sico, e quindi si possono usare per ordinare.
 L'ordinamento di Lamport si basa sulla relazione happened-before, per poter
 ordinare gli eventi, imponendo prima di tutto un ordine locale. Si ha quindi che
@@ -388,26 +282,18 @@ se l'evento a precede l'evento b sullo stesso processore, si ha che:
 a$\rightarrow$b
 (18)
 Ovviamente questa relazione vale anche per la comunicazione fra più processi,
-u
 nel senso: se a è l'evento di invio di un messaggio, e b la sua ricezione da un altro
-e
 processore, chiaramente sono in relazione di precedenza! Ovviamente, questa
 relazione presenta anche la proprietà della transitivit`.
-a
-a
 Tuttavia, questo ordinamento non è globale. Basta pensare a due processi che
-e
 comunicano con gli eventi a e b, ed entrambi presentano un evento che li precede
 localmente, k e q rispettivamente. Non esiste un ordinamento fra questi due
 eventi, per cui si stabilisce un'altra relazione, ovvero quella sulla concorrenza;
 due eventi k e q son concorrenti se non si può imporre una relazione di happened
-o
 before fra di loro:
 k $\uparrow$$\uparrow$ q =!(k $\rightarrow$ q)$\land$!(q $\rightarrow$ k)
 (19)
 In questo genere di relazione si può osservare che il ricevente ha sicuramente più
-o
-u
 vincoli rispetto al mittente, trattandosi di una relazione fortemente orientata.
 In questo modo si hanno diversi orologi locali, ma non ancora un unico orologio globale. In particolare, se si trattasse
 di un mondo asincrono, non si avrebbe
@@ -415,14 +301,10 @@ nessuna ipotesi sulla sincronicit` fra i processi (i tempi di invio potrebbero e
 sere molto lunghi, maggiori di qualunque tempo osservabile). Si deve quindi
 trovare un modo per definire un orologio globale.
 L'idea è che se a $\rightarrow$ b, allora si ha che il tempo dell'evento a è minore del
-e
-e
 tempo dell'evento b:
 a $\rightarrow$ b $\Rightarrow$ T S(a) $<$ T S(b)
 (20)
 Questa è la condizione di clock logico, il quale può solo crescere. Si tratta di
-e
-o
 realizzare quindi una sorta di timestamp, per identicare in maniera univoca gli
 eventi nel sistema!
 Nel caso di una trasmissione, per cui a $\in$ Pi e b $\in$ Pj , si denisce la relazione
@@ -435,8 +317,6 @@ ricevuto insieme al messaggio per aggiornare correttamente l'orologio:
 LCj = max(T Sricevuto , LCilocale ) + 1
 (22)
 Resta però il problema della relazione di concorrenza, per cui la relazione `
-o
-e
 ancora un ordine parziale! Per ovviare a questo problema, si deve estendere la
 relazione di happend before:
 Se a $\in$ Pi e b $\in$ Pj , si ha che a $\Rightarrow$ b se e solo se:
@@ -446,36 +326,24 @@ Se a $\in$ Pi e b $\in$ Pj , si ha che a $\Rightarrow$ b se e solo se:
 Ovvero, fondamentalmente si impone un ordine fra i processori stessi! Bisogna
 quindi considerare il problema dei sistemi dinamici, in cui il numero dei processori può variare dinamicamente. Servono
 quindi degli appositi gestori per gli
-o
 indici.
 La relazione di Lamport in genere tende ad aggiornare solo processi che
 ricevono messaggi da altri processi : chi li produce soltanto può avere anche dei
-o
 timestamp molto bassi. Se tutti comunicano fra di loro (entrambe le direzioni),
 allora tutti i processi saranno sincronizzati in maniera univoca. Esistono però
-o
 dei casi in cui la relazione di Lamport potrebbe avere dei problemi:
 $\bullet$ Problema del canale nascosto: se ci fossero dei processi che usano dei
 canali preferenziali non noti, non si potrebbe sincronizzare correttamente
 (ma è un problema progettuale non reale!)
-e
 $\bullet$ Problema della causalit` vera: la relazione di Lamport è anche biettiva,
-a
-e
 cioè è valido anche la relazione opposta? In realtà no, due eventi che
 e e
-a
 soddisfano la relazione di Lamport potrebbero non essere in rapporto di
 causa ed eetto!
 Un sistema per realizzare l'architettura basata su Lamport è quella basata sui
-e
 clock vettoriali : ogni processo tiene conto in realtà anche dei clock logici degli
-a
 altri processori. In questo modo però si hanno strutture dati e protocolli più
-o
-u
 complessi! Tale sistema infatti non è scalabile:
-e
 1. L'emettitore di un messaggio invia il proprio vector clock, aggiornandolo.18
 2. Il ricevitore ottiene il vector clock, lo confronta con il proprio clock locale
 e quindi aggiorna quest'ultimo.
@@ -484,27 +352,21 @@ garanzia sul fatto che siano state propagate. Tuttavia, a differenza dei normali
 clock logici, non si ha una relazione d'ordine globale! Si potrebbe complicare
 ulteriormente realizzando delle matrici di clock.
 La relazione di Lamport si può usare per sincronizzare, per esempio, l'accesso
-o
 ad una risorsa condivisa. Permette di garantire delle caratteristiche fondamentali che sono:
 $\bullet$ Correttezza (un solo processo accede alla volta)
 $\bullet$ Liveness (Vi è un tempo limitato per accedere alla risorsa)
-e
 $\bullet$ Fairness (Non vi possono essere processi che rischiano starvation).19
 18 Non
 19 Un
 si incrementa in realtà sempre, per il rischio di giungere velocemente ad overow
-a
 sistema basato su priorit` non garantisce liveness e fairness
-a
 46
 Si può realizzare un sistema per accesso alle risorse che rispetti questi invario
 anti creando un processo gestore20 , in grado di lavorare FIFO, e sfruttando un
 protocollo di tipo {`}request-reply-release'. L'idea è quella di soddisfare prima le
-e
 richieste arrivate per prime. Il gestore concede l'uso solo al processo con cui
 risponde con reply, il quale lo avviser` con il release una volta terminata l'esea
 cuzione. Il gestore potr` quindi fornire la risorsa al prossimo processo. Si ha un
-a
 totale di 3 messaggi per ogni accesso alla risorsa.
 Per realizzare questo sistema invece con Lamport e senza uso di un gestore
 centrale, si deve supporre:
@@ -515,65 +377,48 @@ n · (n $-$ 1)
 (23)
 canali per poter comunicare.
 2. Supposizione per la qualità: i canali sono FIFO, e non perdono messaggi.
-a
 3. Ogni processo gestisce una propria coda per i messaggi. La sincronizzazione si basa propria sulla coda locale ad ogni
 processo.
 4. Il primo messaggio che ogni processo contiene è quello sull'indicazione
-e
 locale del tempo, T0 : P0 , che corrisponde ad un tempo sempre inferiore
 a quello che si potr` mai trasmettere.
-a
 Il protocollo si basa sempre sull'idea di scambiare dei messaggi, e chi riceve tutti
 gli assensi può accedere alla risorsa:
-o
 1. Un processo che vuole accedre alla risorsa invia a tutti gli altri processi un
 messaggio con l'indicazione del proprio tempo e di chi si tratta: Tm : Pi .
 2. Gli altri processi ricevono il messaggio, e devono mandare tutti un assenso:
 sono quindi n $-$ 1 messaggi.
 3. Il processo richiedente può accedere alla risorsa solo se ha ricevuto tutti
-o
 gli assensi, ma anche se nella sua coda non vi è una richiesta superiore
-e
 alla propria (in base alla relazione di Lamport)!
 4. Una volta che un processo ha nito di lavorare sulla risorsa, elimina dalla
 propria coda ilsuo messaggio, e invia a tutti gli altri n $-$ 1 avvisi, in modo
 che anche loro possano cancellare la richiesta completata.
 Si ha quindi che la coda deve essere mantenuta ordinata secondo timestamp!
 L'attesa che si ha per avere le risposte è proprio il sistema con cui si garantisce
-e
 la fairness: i messaggi infatti possono essere ritardati, ma comunque arrivano;
 20 Soliti problemi per la QoS: se cade il gestore? Essendo un processo, avrà dei processi che
-a
 favorisce o meno in base alla vicinaza relativa. . .
 47
 se un altro processo aveva richiesto la risorsa prima ma il messaggio è in ritardo
-e
 su alcuni processi, verr` comunque servito prima.
-a
 Tale sistema però è molto costoso: richiede per ogni sincronizzazione 3(n$-$1)
 oe
 messaggi, e richiede garanzie sull'aaidabilit` del sistema (se un nodo è guasa
-e
 to e non risponde mai?) e che il gruppo sia statico. Per ottimizzarlo, ci
 dovrebbe pensare l'infrastruttura, magari sfruttando in maniera opportuna il
 broadcast/multicast per eseguire una richiesta!
 A differenza del protocollo centralizzato, se le copie sono studiate correttamente (con una giusta replicazione), la
 responsabilità risulta essere ben disa
 tribuita, e non si dipende più da un unico gestore centralizzato. Tuttavia, si
-u
 deve tener conto dei guasti, su come escludere/ripristinare le copie e così via. . .
 \i{}
 Un protocollo più eciente ma sempre basato su Lamport è quello di Ricart
-u
-e
 e Agrawal: l'idea è quella di limitare il numero dei messaggi in circolo, aggiune
 gendo intelligenza ai processi. Infatti, adesso il reply viene fatto o da processi
 meno prioritari o che non hanno interesse alla risorsa. In questo modo, in realtà,
-a
 solo un processo ricever` gli n $-$ 1 reply. Il rilascio costa uguale, ma il protocollo
-a
 in tot viene a costare 2(n $-$ 1) messaggi per accesso alla risorsa. Il reply è invece
-e
 ritardato nel caso che il processo che riceve la request sia proprio quello che la
 sta usando.
 `
@@ -581,29 +426,21 @@ Il problema in ciò è come si fa a definire il ritardo? E un'idea scivolosa/ris
 oe
 per cui si mescolano ai meccanismi di un protocollo meccanismi di supporto!
 Come si fa a stabilireil ritardo, è dovuto a congestione o all'applicazione? Per
-e
 quanto quindi questo sistema usi meno messaggi, è applicato ancora meno.
-e
 Vi sono esempi di implementazioni:
 $\bullet$ CATOCS,Causal Totally Ordered Comunication Operation Support: `
-e
 un sistema scalabile, mantenedo limitato il numero dei partecipanti. Si
 mantengono infatti continuamente dei gestori coordinati fra di loro, in
 grado di servire le richieste, si utilizza broadcast in casi specici.
 $\bullet$ ISIS: è un sistema totalmente basato su gruppi e risorse di gruppo, per cui
-e
 si necessita di coordinarsi fra le varie copie attive dotate di replicazione.
 Prevede l'utilizzo di diverse forme di multicast, distinte a seconda del tipo
 di ordinamento. Di base si hanno infatti le multicast per i 3 ordinamenti
 specicati (FIFO, causal e atomic), ma inoltre è presente una particolare
-e
 multicast, che serve proprio per la gestione del gruppo stesso. Utilizzando
 questa multicast, infatti, un gruppo può cambiare la propria granularit`,
-o
-a
 eliminando copie non attive o reintroducendo quelle che hanno subito recovery. Caratteristica fondamentale è che il
 messaggio di gestione venga
-e
 ricevuto solo dopo che tutti gli altri messaggi, dovuti agli altri tipi di multicast, siano stati ricevuti da ogni
 membro del gruppo. Riesce a fornire
 un sistema di monitoring (basandosi anche su delle tabelle che vengono
@@ -618,83 +455,53 @@ quale lo marca denitivamente con il timestamp maggiore e lo rispedisce
 a tutti gli altri (costo di Lamport).
 Il causal multicast aggiunge un costo visto che la dipendenza di relazione
 ` al di fuori del gruppo: si tratta di un ordine parziale, però richiede che
-e
-o
 comunque vi sia un coordinamento fra i clock logici dei mittenti, per poi
 far arrivare l'informazione in maniera corretta anche ai riceventi.
 \subsection{Sincronizzazione a token}
 Si tratta di un altro modello per superare il problema del gestore centralizzato. L'idea è quella di avere un anello
 totalmente ideale, per cui i processi si
-e
 conoscano solo in maniera limitata (prossimo ed antecedente). I vari processi
 si passano un unico, sempre presente token, che stabilisce la sincronizzazione
 (chi ce l'ha è il gestore dinamico della risorsa, ovvero vi può accedere se ne
-e
-o
 ha bisogno). Si tratta di una soluzione molto pro attiva, poich` il token gira
-e
 lungo l'anello anche senza la presenza di richieste di sincronizzazione. Rispetto
 a Lamport il costo è inferiore, n $-$ 1 messaggi sempre.
-e
 In questo sistema si deve però pensare anche all'adabilit` del token: se
-o
-a
 non arriva? Si dovrà rigenerarlo, facendo in modo però che vi sia sempre e solo
-a
-o
 un unico token in giro per l'anello. Si hanno quindi delle situazioni di elezione,
 per cui più partecipanti vorrebbero eseguire l'azione di recovery, ma deve essere
-u
 sempre uno solo! L'idea alla base è che vi sia un time-out per cui scaduto, un
-e
 processo può leggittimamente pensare che il nodo che aveva il token sia guasto.
-o
 Questo processo allora crea un token d'elezione, che deve essere approvato da
 tutti i nodi perché diventi il nuovo token dell'anello. Questo signica che però
-e
-o
 ogni nodo deve avere una conoscenza migliore dell'anello (per esempio, non solo
 il prossimo ma anche il nodo ancora successivo, e così via). Se il token d'elezione
 \i{}
 giunge quindi di nuovo a chi lo ha generato, diviene il nuovo token21 . Visto che
 più processi possono mandare il token d'elezione, si ha che si decide in maniera
-u
 statica quale è il più prioritario, numerando i processi.
-e
-u
 Un protocollo di elezione molto semplice da fare ed eciente è Bully: l'idea
-e
 ` che un processo di priorit` superiore zittisca le richieste di processi inferiori,
-e
-a
 per divenire lui il gestore. Si ha quindi che un processo di basso livello manda
 verso l'alto un messaggio d'elezione. Se un processo di priorit` superiore può
-a
-o
 assumere il compito di gestore, manda un Answer verso il basso, e propaga verso
 l'alto la sua elezione. Se non riceve nessun Answer entro un certo tempo, assume
 di essere diventato il gestore. Questo protocollo rischi di presentare molte fasi
 in base alla disponibilità relativa dei processi, ma in realtà si risolve abbastanza
-a
-a
 velocemente. I protocolli di elezione sono strutture tipiche delle infrastrutture
 dove le entità possono cambiare ruolo.
-a
 21 Se
 si fosse ripresentato il vecchio token, quello d'elezione sarebbe stato eliminato
 49
 \subsection{Snapshot distribuiti}
 Come si denisce uno stato nel distribuito? Si vuole uno stato globale, ma
 non è sempre possibile salvarsi tutta la memoria sul disco, specialmente con
-e
 un'alta replicazione. L'idea è quindi quella di realizzare un sistema in cui i
-e
 processi si scambino dei messaggi, mediante dei canali fortemente orientati, per
 poter salvare in maniera opportuna delle foto del sistema. Si tratta quindi di
 eettuare dei tagli, in maniera tale da determinare gli stati signicativi e quelli
 no, per poter inglobare i primi per poter formare uno snapshot globale! Lo stato
 infatti è la composizione dei singoli stati di ogni processo.
-e
 Come si decide quali tagli vanno bene e quali no? I tagli realizzano degli
 snapshot numerati (ovvero sono ordinati), per cui un taglio che faccia in modo
 che un messaggio che inzia nello snapshot x e termini nello snapshot x + 1 deve
@@ -702,44 +509,31 @@ essere salvato per poter mantenere il sistema consistente, mentre l'opposto non
 va bene! Non garantirebbe la consistenza (come si fa a capire nello stato x chi
 `
 ` il sender del messaggio? E noto solo nello stato successivo!)
-e
 Ogni nodo è tenuto a salvare il proprio stato locale, così da avere inizialmente
-e
 \i{}
 almeno consistenza locale. Questa è la base per fare uno snapshot globale dise
 tribuito. L'idea è che si utilizzi un protocollo che indichi quando fare la foto
-e
 locale e quando terminarla. Si sfrutta un apposito messaggio, detto marker, per
 cui ogni nodo può presentare due stati:
-o
 $\bullet$ bianco per indicare lo stato iniziale, prima dello snapshot.
 $\bullet$ rosso per indicare lo stato successivo.
 Una transizione dal bianco al rosso `una richiesta sul nodo perché esegua uno
-e
-e
 snapshot, e come una catena ordina anche agli altri nodi di eseguire uno snapshot: l'idea è quindi che ognuno salvi il
 proprio stato e poi rimandi il marker.
-e
 L'idea è quindi che un nodo o riceve un marker rosso o diventa rosso per
-e
 fare lo snapshot: salva lo stato, e poi invia il marker su tutti i suoi canali
 d'uscita. Continua a salvare i messaggi che riceve e a restare rosso no a quando
 non riceve su tutti i suoi canali di input il marker rosso (ovvero le risposte
 dagli altri nodi!). A tale evento, si ferma e salva lo snapshot. Si potrebbe
 anche sviluppare protocolli più complessi, per cui il marker viene inviato solo
-u
 su determinati canali. Da osservare che quindi un processo in stato rosso non
 potr` mai mandare un messaggio a un processo in stato bianco, altrimenti non
-a
 si salva correttamente!
 Ma no a quando si salva? Fino al prossimo marker! Questo è un sistema
-e
 assolutamente scalabile! Il problema è che il marker tiene un'indicazione del
-e
 nodo che ha iniziato lo snapshot, per cui se si volesse che 2 nodi distinti facessero
 lo snapshot, si dovrebbe estendere la politica, magari estendendo in maniera
 semplice le informazioni del marker, che indichi a quale snapshot è riferito quello
-e
 `
 stato. A chi si manda poi lo stato in ogni modo? E una politica da decidere, o
 a un nodo che fa da repository oppure a chi ha iniziato lo snapshot. . .

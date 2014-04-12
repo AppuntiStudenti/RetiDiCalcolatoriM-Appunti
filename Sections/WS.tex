@@ -1,64 +1,47 @@
 \section{I Web Services}
 L'idea alla base dei Web Services è quella di fornire dei servizi B2B invece dei
-e
 classici servizi Web. La logica è che il Web è l'installato più diuso e facilmente
-e
-e
-u
 accedibile al mondo, perché non sfruttarlo?
-e
 Si ha infatti che molti mw richiedono congurazioni che vanno per esempio
 contro certi principi delle aziende (aperture di ulteriori porte verso l'esterno),
 aggiungendo dei vincoli organizzativi che possono renderne l'applicazione ancora
 più complessa.
-u
 Con i Web Services si vuole sviluppare un sistema assolutamente standard
 (basandosi su XML per descrivere i servizi, per fornire le risposte, . . . ), in grado quindi di superare in maniera
 facile l'eterogeneità (utilizzo di sistemi solo
-a
 standard). Gli obiettivi sono quindi quelli di realizzare delle Service Oriented
 Application (mappando l'interfaccia di interazione ad alto livello) o delle Enterprise Application Integration,come SAP,
 ovvero un sistema in grado di integrare
 anche sistemi legacy.
 Perch` allora non usare sempre il web, perché esistono anche altri mw ancoe
-e
 ra? Il problema è che il Web ha un costo molto elevato, per cui potrebbe essere
-e
 utile per sistemi che richiedono una grana molto grossa.
 \subsection{Struttura generale de WS}
 Un WS funziona mediante l'emissione da parte di un client di una richiesta,
 per cui si ricerca attravero un apposito broker (ma è una struttura diversa
-e
 38 Server
 può anche interrogare il client prima di deallocare la risorsa
-o
 80
 dall'ORB di CORBA: funziona soprattutto come un directory per i servizi ) il
 servizio adatto a soddisfare quella determinata richiesta.
 L'idea è che quindi vi siano diversi provider in grado di servire i servizi
-e
 richiesti. Per realizzare ciò, sono stati realizzati diversi protocolli standard :
-o
 $\bullet$ SOAP : Simple Object Access Protocol, consiste nel protocollo per poter
 eseguire le richieste e ricevere le risposte, ed è ovviamente XML compatie
 bile.
 $\bullet$ WSDL: Web Service Description Language è il linguaggio basato su XML
-e
 per poter definire dei WS.
 $\bullet$ UDDI : Universal Discovery Distribution Integration: questo invece è il
-e
 protocollo che specica come i servizi si possano raccogliere in appositi
 contenitori, realizzando un apposito sistema di nomi.
 I servizi sono deniti one-shot, il che signica che sono eseguiti in maniera unica,
 isolata! Per ogni richiesta, si attiva un solo servizio. Siamo quindi in presenza
 di un mw senza stato. Questo è sempre dovuto al fatto che si deve lavorare con
-e
 dati a grana molto grossa, che auto-contiene l'interazione: non si assume che il
 provider abbia stato!
 Nelle prime implementazioni dei WS non erano previsti meccanismi per la
 sicurezza, il management e la QoS. Si aveva quindi, per esempio, solo crittograa
 a livello applicativo, il che però non era un sistema standard!
-o
 Perch` si è deciso di utilizzare XML? Permette di specicare in una maniera
 e e
 fortemente strutturata (realizzando dati che si possono validare formalmente, e
@@ -68,91 +51,66 @@ preferenze in maniera dinamica!
 `
 E il protocollo per la comunicazione, in grado quindi di strutturare l'interazione.
 Denisce quindi come si può accedere agli oggetti. Presenta un alto overhead
-o
 perché si deve specicar tutto: siamo infatti in un'interazione senza stato, per
-e
 cui si deve specicare URI, . . . Non vi è quindi nessun supporto semantico, e vi
-e
 possono essere più interazioni.
-u
 SOAP quindi permette di definire operazioni, dati e parametri. Sfrutta
 HTTP come protocollo per la trasmissione, e XML per poter serializzare i dati.
 In questo modo, si possono definire operazioni remote sfruttando l'XML: un
 servitore riceve una richiesta standard, e la sua implementazione non interessa i
 WS. Un provider dovrà soltanto rispondere rispettando la specica fornita con
-a
 SOAP!
 SOAP quindi permette di descrivere l'interazione ma non solo: possiamo
 avere operazioni senza risultati, o in grado emulare il comportamento C/S39 ,
 39 Al posto delle RPC, si può definire che la comunicazione avviene con uno stile di tipo
-o
 documento, per cui non si ha mai risposta, sempre asincrona
 81
 `
 ma possiamo anche quindi definire se si utilizza GET o POST per esempio. E
 un protocollo state-less, che non fornisce quindi informazioni semantiche sulla
 comunicazione. Non è vero che si parla di operazioni leggere e essibili, ma
-e
 anche abbastanza pesanti alle volte.
 SOAP si basa sull'idea di incapsulare mediante XML le informazioni necessarie alla comunicazione, come se fosse
 un'envelope:
 $\bullet$ Il body contiene le informazioni richieste per la comunicazione, cioè il
-e
 contenuto vero e proprio del messaggio, e le corrispondenti risposte.
 $\bullet$ L'header specica altre informazioni utili per la comunicazione (es, per la
 sicurezza)
 $\bullet$ Si può anche definire una sezione di fault, nel caso che l'operazione non
-o
 avesse avuto successo.
 La comunicazione non è necessariamente P2P ma anche molti a molti. Il problee
 ma di SOAP è che è altamente costoso (e poco eciente), perché siamo costretti
-e
-e
-e
 a lavorare a livello applicativo.
 \subsection{WSDL}
 `
 E il linguaggio per descrivere sia in maniera astratta che in maniera concreta
 quali servizi un provider può fornire. Descrive quindi l'interfaccia, indicando le
-o
 `
 operazioni disponibili presso un certo provider. E una sorta di IDL. Quindi,
 WSDL riesce a descrivere in maniera precisa come una richiesta debba essere
 strutturata, e come una risposta sarà ritornata. Si può anche specicare dove il
-a
-o
 servizio risieda, e come lo si può invocare.
-o
 Questo sistema, a differenza di altri già visti, impone che il cliente debba
-a
 conoscere il servitore: viene a sapere in maniera concreta chi e come realizza
 l'operazione desiderata. Si passano quindi i dati per copia con i WS. Si ha quindi che se non si conosce un servizio, si
 può richiedere il WSDL corrispondente,
-o
 analizzarlo, e preparare così un'apposita richiesta SOAP! Il tutto nell'ottica di
 \i{}
 ottimizzare le operazioni eseguibili da un possibile mw.
 WSDL è in grado quindi di definire due parti, una più astratta (in grado
-e
-u
 di definire i messaggi (insieme di elementi tipati), le operazioni (o collezione di
 messaggi), e le interfacce del servizio (insieme di operazioni)) e una più concreu
 ta, a basso livello (in grado di definire i tipi, come il servizio si lega realmente
 ad un sistema, alle sue implementazioni concrete, detto binding (che protocollo
 si usa? HTTP, TCP,. . . ), su quali nodi risiede e i service, ovvero le implementazioni delle interfacce disponbili. La
 parte astratta è essibile, generalizzabile
-e
 e facilmente estendibile.
 WSDL prevede diversi modi di interazione! Non solo più modi sincroni (con
-u
 attesa di messaggio o sollecitazione da parte del client) ma anche asincroni (one-
 82
 way, o notication: cambia da chi esce il messaggio!).
 WSDL è un linguaggio molto pesante, ma che garantisce un'alta essibilit`
-e
-a
 quindi: permette anche di invertire i ruoli fra C e S! Tuttavia, è fondamentale
-e
 per poter generare in maniera automatica proxy e stub, oppure per realizzare
 dei wrapper appositi per integrare facilmente sistemi legacy!
 \subsection{UDDI e WSIL}
@@ -160,33 +118,22 @@ dei wrapper appositi per integrare facilmente sistemi legacy!
 E il servizio di nomi presente nei WS. Si tratta di un ulteriore linguaggio con
 cui poter descrivere dove risiedono i vari servizi, e come aggregare fra di loro
 più servizi. La prima informazione che si necessita è la possibilità di descrivere
-u
-e
-a
 le aziende che forniscono i servizi, per permettere quindi ad un generico utente
 di poter navigare.
 Con UDDI si può infatti realizzare facilmente un sistema di pagine bianche
-o
 (name server normale), pagine gialle (ovvero un sistema di trading, si memorizza per categorie) o inne per pagine verdi
 (sono pagine tecniche aggiuntive
 sui servizi oerti). Fondamentalmente, UDDI è un {`}name server d'alto livello',
-e
 globale e condiviso ma non gerarchizzato. Questo aspetto presenta grossi problemi di coordinazione e di sicurezza fra i
 diversi gestori dei servizi !
 Gli attori possibili quindi per UDDI sono due: i publisher di un servizio e i
 loro requester. Vista la struttura degli UDDI, un requester dovrà navigare sina
 golarmente gli UDDI, perché appunto non vi è ridirezione fra questi! In maniera
-e
-e
 particolare, per aggiungere sicurezza si dovrebbe memorizzare e garantire il publisher!
 A tale proposito è stato pensato WSIL, dove si rovesciano le responsabilità:
-e
-a
 in questo modo è il provider a dover garantire sicurezza, e non è più compito di
-e
 e u
 un eventuale server dei servizi vericare l'identità dei provider. Si tratta quindi
-a
 di un protocollo alternativo, in grado di realizzare un sistema decentralizzato,
 leggero e non focalizzato sul business. In maniera analoga ad UDDI, sfrutta
 WSDL per descrivere i servizi!
@@ -194,24 +141,17 @@ WSDL per descrivere i servizi!
 I protocolli realizzati dal W3C sono molto apprezzati da diverse organizzazioni,
 come le banche in Italia. Tuttavia, i WS presentano un alto overhead rispetto ad
 altre tecnologie (è possibile che non sia una comunicazione limitata a due attori,
-e
 e si lavora sempre a livello applicativo). Attualmente è una tecnologia ancora
-e
 molto in fase di sviluppo e studio (nelle prime versione, i protocolli mancavano
 molto d'espressivit`: la sicurezza per esempio era fornita solo a basso livello).
-a
 L'evoluzione che si immagina quindi per i WS è quella di far evolvere il
-e
 sistema, come una composizione e coordinazione dei servizi, per poter aprire i
 WS ad una categoria di utenti più ampia. L'idea sarebbe quindi quella che, per
-u
 ottenere un nuovo servizio, si compongano quelli precedenti. Per far ciò sono
-o
 83
 stati introdotti nuovi linguaggi a usso (Business Process Execution Language
 4WS: si possono mettere in sequenza, parallelo, in alternativa o in join) per
 i WS, che lavorano sempre ad un livello molto alto. L'estensione dei WS in
 `
 questa direzione è indicata come WS*. E una visione maggiormente orientata
-e
 ad perseguire logiche di business.

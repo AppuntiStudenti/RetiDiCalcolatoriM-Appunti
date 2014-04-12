@@ -1,52 +1,36 @@
 \section{I middleware}
 Un middleware è un insieme di strumenti di supporto all'utente/sviluppatore
-e
 per meglio poter arontare la complessità di un sistema in ambienti aperti
-a
 (eterogenei ). Un middleware permette quindi di integrare diverse applicazioni,
 fornendo un supporto alla comunicazione fra sistemi diversi.
 Un middleware mette a disposzione delle risorse per l'utente (ottica B2C),
 ma anche componenti reintegrabili in altre applicazioni (ottica B2B).
 Qual'` il problema dell'eterogeneità? Si può risolvere con approcci ad-hoc,
-e
-a
-o
 ma ciò risulta in sistemi non portabili. Quello che si vuole quindi realizzare è un
-o
-e
 supporto per cui un client e un server, di ambienti diversi, riescano comunque
 a comunicare!
 Un middleware può fornire supporto a livelli diversi, sia a livello sico (replio
 cazione per esempio) che applicativo (proxy, . . . ): fornisce degli strumenti per
 l'utente in maniera che possa trascurare l'aspetto tecnologico, concentrandosi
 solo sul servizio da fornire: è quindi fondamentale per poter astrarre!
-e
 Un middleware si pone come uno strato intermedio fra l'applicazione e le
 risorse di più basso livello (S.O., dischi, . . . ): si possono inserire diverse funzionu
 alit` (non solo comunicazione), come per esempio un supporto alla trasparenza
-a
 (non importa il livello sottostante, le API del middleware fanno in modo che
 il comportamento sia sempre il medesimo!). Quindi, un middleware non solo
 semplica l'aspetto dell'applicazione, ma anche quello di supporto del sistema
 distribuito!22
 Spesso un middleware viene addottato per la sua capacità di gestire uno o più
-a
-u
 sistemi legacy fondamentali per l'azienda, che altrimenti sarebbero intrattabili
 (evoluzione dei sistemi, e perdita di conoscenza). Fondamentalmente, nel caso
 aziendale, il compito di un middleware è l'integrazione di risorse aziendali !
-e
 In ambito accademico, invece, in generale un middleware viene proposto da
 una comunità per risolvere diversi problemi ed essere introdotto come standard.
-a
 Questo spesso può risultare problematico perché i diversi standard non sono
-o
-e
 interoperabili fra di loro! Esistono diversi dialetti/linguaggi per realizzare la
 comunicazione, che sono uno incompatibile con quell'altro.
 \subsection{Valutare un middleware}
 Un middleware viene giudicato dalla ricchezza di funzionalità che sono messe a
-a
 disposizione, e quindi dalle aree in cui riesce ad intervenire. Esistono diverse
 aree di gestione (Presentation, Computation, Information [loggin i.e.], Communication, Control [thread i.e.] e System
 [sicurezza i.e.]): alcune di queste sono
@@ -59,16 +43,12 @@ essere target
 In generale si possono dividere in 4 livelli le tipologie possibili di un servizio
 per il middleware:
 $\bullet$ Host infrastructure middleware: si tratta del livello più basso, il più viciu
-u
 `
 no alla macchina stessa. E quello infatti fondamentale per poter superare
 l'eterogeneità, in grado quindi di fornire una visione trasparente di quela
 lo che è presente a livello inferiore. Deve essere quindi un qualcosa di
-e
 distribuito su ogni nodo dell'architettura! Un esempio è la JVM.
-e
 $\bullet$ Distribution middleware: altro aspetto fondamentale, è quella parte di un
-e
 middleware che permette di integrare le risorse distribuite, mediante un
 apposito sistema di comunicazione. Si tratta anche questo di un qualcosa che deve essere opportunatamente distribuito su
 tutti i nodi. Es`
@@ -77,202 +57,134 @@ gestisce le risorse distribuite. Introduce quindi API per la comunicazione
 e meccanismi di supporto alla comunicazione (per esempio, un sistema di
 nomi).
 $\bullet$ Common middleware services: questo invece è un aspetto che è presente in
-e
-e
 middleware maturi, per cui si possono fornire dei componenti distribuibili,
 utili per sviluppare in un'ottica a componenti. Spesso quindi si realizza
 una propria visione, ovvero il sistema si basa su un'architettura comune
 e un modello di supporto. Sono quindi i servizi trasversali, che spesso in
 realtà rappresentano il punto di forza di un mw: è in base alla loro qualità
-a
-e
-a
 che si decide se sceglierlo o meno.
 $\bullet$ Domain middleware services: altro aspetto presente in middleware maturi,
 si propongono anche servizi applicativi già realizzati, specici per una dea
 terminata comunità. Infatti, spesso il successo di un middleware è dovuto
-a
-e
 dalla comunità di utenti che lo utilizzano, e dalle varie sottocomunità che
-a
-a
 si vengono a formare, che possono addirittura guidarne lo sviluppo! Basta
 pensare che CORBA è uno standard proposto da un consorzio d'azienda,
-e
 l'OMG.
 \subsection{Classicazione dei mw}
 I middleware si possono categorizzare in diversi modi, tuttavia la maggior parte
 dell'installato consiste in primis dai DOC, Distributed Object Computing (tipo
 CORBA, orientati all'approccio ad oggetti), e quindi dai MOM, Message Oriented MW. In realtà però, il 'mw' più grande
 esistente forse è il Web: non ha
-a
-o
-u
-e
 tutte le caratteristiche di un Mw (esempio, QoS, replicazione, . . . ), ma è un
-e
 esempio di un sistema che permette la comunicazione fra diversi sistemi eterogenei, in generale mediante la
 pubblicazione di informazioni su un server e il loro
 reperimento da parte di un client. Il grosso problema del Web infatti è che nato
-e
 per essere usato a livello di presentazione, e quindi di suo non presentava un
 sistema per lo scambio di messaggi : le sue evoluzioni hanno introdotto sistemi
 23 Limite
 di RMI rispetto ad RPC: lega C/S ad una tecnologia, non è eterogeneo!
-e
 52
 di comunicazione ed interazione, ma sempre in maniera molto limitata, dovendo
 basarsi solo sull'approccio C/S!
 Lavorando solo con RPC, che genere di MW si possono ottenere? Il problema
 di RPC è che comunque limita fortemente (per esempio, si hanno operazioni
-e
 strettamente sincrone bloccanti, quando magari altri modi potrebbero essere
 desiderati) e in generale realizza un binding statico e non dinamico. Permette
 già di fornire dei livelli di trasparenza, e un sottolinguaggio per poter definire
-a
 fra C e S i servizi, ma resta che il sistema che si otterrà sarà poco scalabile,
-a
-a
 molto rigido (tutto deciso in maniera statica, senza poter quindi intervenire per
 ottimizzare il sistema!)
 I diversi possibili modelli di mw che si possono trovare sono:
 $\bullet$ Distributed Transaction Processing: questi mw nascono per cercare di
 ottimizzare l'accesso ai DB. L'ipotesi è che si abbiano delle operazioni
-e
 comandate da un C con poche risorse, e si vuole quindi fornire un supporto
 per facilitare la realizzazione di operazioni ACID (Atomic, Consistent,
 Isolation, Durable), necessarie per avere QoS in sistemi distribuiti basati
 su DB.
 $\bullet$ DB mw : l'obiettivo di questi mw invece è quello di migliorare/fornire un
-e
 supporto per eettuare ricerche su db distribuiti. Si ha quindi una logica
 vicina al data-mining. Si vuole quindi superare l'eterogeneità dei diversi
-a
 DB, sfruttando sistemi standard come ODBC, per leggere sui DB.
 $\bullet$ MOM : l'obiettivo di questi mw è l'estrema indipendenza fra i vari attori ! I
-e
 diversi sottoinsiemi infatti comunicano a scambio di messaggi, in maniera
 sincrona/asincrona, e fortemente disaccoppiata: si tratta di un sistema di
 comunicazione a più basso livello del C/S. Si possono realizzare messaggi
-u
 tipati o meno, e risulta essere facile la realizzazione di multi/broadcast.
 A livello di implementazione si può citare JMS, che venendo dopo gli
-o
 altri sistemi, sviluppa un sistema basato su interfacce per poter definire i
 messaggi ben formati.
 $\bullet$ DOC : sono i mw in assoluto più diusi. Si preoccupano di definire un'inu
 terazione molto precisa e regolata, astraendo le risorse ad essere oggetti.
 Si incapsula il C/S in un universo basato sugli oggetti. Tuttavia, non vi
 è mai in generale una comunicazione diretta, per via della presenza di un
-e
 broker : questo fornisce delle interfacce sia al C che al S, e quindi un supporto alla mediazione fra i due attori.
 Questo sistemafacilita l'integrazione
 di sistemi, e permette di realizzare operazioni che si possono eseguire in
 maniera automatica.
 Proprio perché si basa sul modello ad oggetti, i mw di questa tipologia
-e
 sono molto più variabili, e possono essere estesi molto più facilmente dei
-u
-u
 MOM. Spesso si hanno mw di questo tipo OpenSource, in grado di creare
 una comunità molto vasta ed attiva.
-a
 53
 $\bullet$ Addattativi e Riessivi: un mw addattativo è un mw che varia i servizi
-e
 nel tempo, a seconda della situazione, quindi a caldo: deve essere quindi
 di fornire nuovi modi di lavorare.
 Il fatto che sia riessivo indica invece che un componente del mw deve essere in grado di esporre quello che fa. Un
 sistema riessivo è maggiormente
-e
 costoso di un sistema statico, ma è un sistema che viene valutato molto
-e
 perché permette, in maniera dinamica, di definire via real-time come il
-e
 componente funzioni!
 L'obiettivo è quindi fornire un sistema per la visibilità dei livelli sottostanti
-e
-a
 e permettere di adattatare e sistemare in base alle esigenze.
 Esistono poi diversi mw nati proprio per risolvere dei problemi specici (mobilità, reti ad-hoc, . . . ).
-a
 \subsection{TINA-C}
 TINA-C rappresenta la proposta di un mw per le TLC. Si vuole realizzare un
 sistema dove siano previsti più provider, in grado quindi di lavorare su una
-u
 rete. L'idea alla base è la possibilità di definire le varie entità, i servizi possibili
-e
-a
-a
 e fornire quindi un sistema per definire la negoziazione per l'erogazione dei
 servizi, e quindi la QoS.
 Il modello computazionale di TINA-C è Distributed Processing Environment.
-e
 Ogni nodo deve presentare delle funzionalità che permettono la comunicazione
-a
 nel distribuito. Questo è ovviamente il livello di più alto livello, che si basa su
-e
-u
 livelli sottostanti che forniscono astrazionie e trasparenza. Il livello sottostante
 è il Native Computer and Compunication Environment, che ovviamente deve
-e
 essere presente su tutti i nodi, per mascherare l'hw per il mw.
 Le applicazioni si possono quindi costruire sopra DPE, sfruttando delle applicazioni TINA-C già presenti ! Si hanno
 quindi una serie di oggetti presenti su
-a
 ogni nodo. Queste applicazioni non sono localizzati, e si può trattare di servizi
-o
 da orire, risorse ed elementi della rete. Il sistema è quindi trasparente, perché
-e
-e
 non si vede mai dove le risorse sono realmente allocate.
 In realtà, TINA-C prevede anche una visione non trasparente! Lo standard
-a
 del 2000 infatti denisce che l'utente deve esprimere le proprie preferenze, e
 quindi per poter sviluppare un modello complesso, si deve tener conto della
 locazione: si può progettare il sistema inizialmente come non trasparente, e
-o
 quindi aggiungere la trasparenza!
 \subsection{I MOM}
 Si tratta in assoluto dei mw più semplicirealizzabili: sono a basso costo, e i
-u
 messaggi lavorano a basso livello, garantendo un forte disaccoppiamento fra le
 varie entità. Basandosi sui messaggi, si supera direttamente l'eterogeneità.
-a
-a
 Il problema è come fornire QoS ai messaggi? I messaggi devono essere pere
 manenti (non è necessaria la presenza di entrambi gli attori per realizzare la
-e
 54
 comunicazione), ma soprattutto l'interconnessione è denita assolutamente in
-e
 maniera statica! Non sono quindi mw dinamici.
 Ogni attore interessato presenta una propria coda locale, dove saranno depositati i messaggi: questo è un supporto
 fornito quindi dal MOM, per cui si
-e
 tratta di gestire delle code orientate (o in ingresso o in uscita). Quello che realizza un MOM è quindi un'overlay
 network, specicando quindi un sistema di
-e
 nomi, routing, . . .
 I messaggi possono o essere P2P oppure forme di multicast. Le API che il
 mw prevede sono quindi quelle per poter fare delle send e receive dei messaggi
 sulle code locali!Il mw si preoccupa di realizzare l'instradamento, è un integrae
 tore di nodi: spiega come i router si debbano coordinare (si possono avere diversi
 intermediari, ed esistono messaggi broker appositi per gestire l'eterogeneità)!
-a
 Questi sono mw a basso costo, perché fanno da collante: non si aggiunge
-e
 molto all'applicazione, ma solo la possibilità di mandare e ricevere messaggi! Il
-a
 costo limitato facilita infatti l'integrazione di sistemi legacy!
 Uno dei MOM più diusi è MQSeries di IBM: questo realizza uno stub per
-u
-e
 ogni client, e introduce degli agenti che non sono altro che nodi particolari che
 fanno da relay. I gestori delle code sono a loro volta degli agenti, ve ne è quindi
-e
 uno per coda. Il problema è che gli agenti gestori dei canali (MCA) devono
-e
 essere gestiti in fase di congurazione, quindi sono decisi in maniera statica!
 $\bullet$ Per ogni nodo si decide il numero e quali MCA
 $\bullet$ E quindi si attivano le connessioni
@@ -280,14 +192,11 @@ La caratteristica di MQSeries è che, sfruttando le code, introduce QoS: in part
 colare si possono realizzare dei broker in grado di ricevere/prendere i messaggi e
 di trattarli a seconda della QoS richiesta (trasformandoli, ottimizzando il routing già basato su tabelle in base al
 contenuto del messaggio e quindi aggiungendo
-a
 un po' di flessibilità, . . . ): introduce quindi un minimo di logica!
-a
 Questi sistemi statici hanno la caratteristica di avere un'intrusione minima,
 ma non permettono molte ottimizzazioni. . .
 \subsection{I mw ad oggetti}
 Sono i mw più interessanti, in grado di lavorare ad alto livello. Si realizza un
-u
 contratto fra clienti e servitori, in maniera tale da realizzare anche più impleu
 mentazioni dello stesso servizio! In particolare, questi mw si basano su un bus
 di interconnessione che si occupa di certe logiche di base, permettendo quindi
@@ -304,9 +213,7 @@ sentano delle soluzioni che si ripetono, e delle possibili strategie da sceglier
 abbiamo dei pattern, meccanismi che si ripetono!
 La base per ogni mw ad oggetti sono:
 $\bullet$ La possibilità di realizzare un'interazione remota
-a
 $\bullet$ Possibilità di comunicare in maniera asincrona
-a
 Inoltre, si parla di pattern anche per la gestione delle risorse, della QoS, e la
 denizione di nuovi servizi.
 \subsection{Pattern per l'interazione remota}
@@ -314,7 +221,6 @@ Idea di base: un cliente vuole riferirsi ad un oggetto remoto; per cui serve un
 sistema per avere dei riferimenti remoti. Gli oggetti remoti si possono creare o
 localmente da parte del server, o in maniera remota su richiesta del client. Una
 volta istanziato, deve essere fornito il riferimento al client. Questa è la versione
-e
 di base, di seguito, i diversi pattern che si possono utilizzare per risolvere questo
 problema:
 $\bullet$ Proxy: il client riferisce localmente un'altra struttura detta proxy, che si
@@ -329,22 +235,17 @@ Si deve cercare di limitare il numero di questi oggetti, per ridurre l'overhead 
 $\bullet$ ObjectID: questo pattern si preoccupa di definire un oggetto reale, a cui
 `
 può accedere un client. E quindi necessario trasferire le informazioni dal C
-o
 al S. Spesso e volentieri si abbina al proxy (il client può anche fornire l'id
-o
 al proxy, che si preoccupa di recuperare il riferimento dell'oggetto: si parla
 spesso anche di nomi globali unici ), il quale potrebbe tener memorizzato
 per comodità l'id. L'ObjectID deve quindi avere la caratteristica di essere
-a
 univoco.
 Non è un pattern strettamente necessario, a seconda di come si vuole reale
 izzare l'architettura: si potrebbe volere per esempio che l'utente non abbia
 conoscenza del riferimento remoto, ma che in maniera trasparente sia il
 supporto a fornire l'oggetto con i servizi richiesti dal cliente24 . L'ObjectId potrebbe essere troppo vincolante. Se
 non è necessario uno stato, in
-e
 24 Questo sistema introduce però altri problemi: due richieste vicine per esempio riferiscono
-o
 lo stesso oggetto
 56
 generale è più conveniente questo modo di lavorare, perché è il mw che si
@@ -356,16 +257,13 @@ valore o per riferimento. Nel concentrato quest'ultima opzione è quele
 la usata normalmente. Tuttavia, come si fa a passare proprio l'oggetto
 (necessario per l'operazione sul server, oppure un oggetto risultante nell'operazione?)? Se ne deve fare proprio una
 copia, ed ecco la necessità
-a
 di avere un sistema che sia in grado di fare marshalling e unmarshalling,
 cioè: si crea una copia dell'oggetto che viene opportunatamente serialize
 zata, trasmessa e poi deserializzata da parte del client! In certi casi però
-o
 si potrebbe anche volere un oggetto che non sia una copia, ma proprio
 l'oggetto unico presente sul server: si deve quindi trovare una maniera per
 distinguire fra due diversi tipi di marshalling. In generale, si può peno
 sare che la maggior parte delle volte al server si può passare un oggetto
-o
 by-value.
 $\bullet$ Gestione degli errori : deve essere possibile anche trasmettere gli errori
 sia da parte del client che da parte del server, e sempre a chiunque possa
@@ -373,16 +271,13 @@ risolvere il problema.
 $\bullet$ Naming support: si tratta di un pattern molto utile per la gestione dei
 riferimenti remoti, ovvero si riferisce un nameserver che mantiene memorizzati gli ObjectID. Si può anche aumentare la
 trasparenza, facendo in
-o
 modo di riferire proxy e stub dal name server! Si presenta però il problema
-o
 di capire come il client conosca il name server!
 $\bullet$ Singleton: questo pattern si preoccupa di definire che vi sia sempre e solo
 `
 al massimo un'istanza di un tipo di oggetto. E utile per esempio per
 la sopravvivvenza di questo al di fuori della durata dell'applicazione. Un
 esempio di singleton per esempio può essere il servizio di nomi: deve essere
-o
 sempre presente, e possibilmente unico (o magari gerarchizzato in maniera
 `
 intelligente). E usato sicuramente per congurare certi oggetti complessi
@@ -393,7 +288,6 @@ istanziare l'oggetto remoto, . . . ). Devono essere quindi presenti diverse
 strategie d'attivazione, magari denibili in maniera opportuna dai client!
 $\bullet$ Holder : questo è un pattern necessario per risolvere certi problemi d'eteroe
 geneit`. Si preoccupa infatti di incapsulare in maniera opportuna gli
-a
 oggetti per presentarli a certi sistemi in maniera che possano trattarli
 mediante le semantiche da loro denite. Un esempio riguarda per esempio linguaggi che permettono parametri di in/out e
 quelli che non lo
@@ -402,109 +296,72 @@ permettono. Si hanno quindi come possibili operazioni read/write.
 \subsection{Pattern per la comunicazione}
 Di base, i mw ad oggetti tendono ad introdurre come primo modello di comunicazione l'interazione sincrona bloccante.
 Tuttavia, questa comunicazione `
-e
 alquanto pesante, perché lega in maniera pesante il client al server e viceversa.
-e
 Per questo vi sono dei pattern per introdurre altri modelli.
 Per ottenere una comunicazione asincrona, si possono usare:
 $\bullet$ Il Fire and Forget: il client richiama l'operazione, e quindi rinuncia ad
 avere qualunque informazione sul successo dell'operazione. Si ha quindi
 un'attesa minimale, per cui il client ottiene immediatamente il controllo
 appena inviata la richiesta per poter eseguire l'operazione. L'idea è quella
-e
 di usare un proxy (anche un thread quindi) dal lato del client che si preoccupi di gestire il controllo dell'operazione
 remota. Non è garantito però
-e
-o
 che l'operazione non sia bloccante: il proxy in generale serve le richieste
 usando una coda da cui servirsi, e se la coda fosse piena il client dovrebbe
 attendere. Non è presente in tutti i mw ad oggetti.
-e
 $\bullet$ Catch and return: il client attende più a lungo rispetto al caso precedente,
-u
 ma in questo modello deve attendere che sia il server stub a generare un
 processo per risolvere la richiesta, e che quindi faccia return. Dipende
 quindi anche dal tempo di comunicazione dei nodi! Questo modello `
-e
 spesso presente, perché permette di realizzare un'operazione asincrona
-e
 più garantita, ovvero fornisce una maggiore sicurezza sulla consegna della
-u
 richiesta!
 Invece, per realizzare una comunicazione sincrona non bloccante:
 $\bullet$ Poll Object: il client non resta in attesa ma vuole comunque il risultato.
 Si fa allora attendere un oggetto al suo posto, che viene interrogato di
 tanto in tanto dal client (che è sbloccato, e quindi può proseguire). Una
-e
-o
 volta che il risultato è disponibile sull'oggetto poll, il client si preoccupa
-e
 di recuperarlo.
 In generale, un oggetto poll è un oggetto semplice ritagliato su quello
-e
 specico risultato, e quindi non è generalizzato. Il mw si preoccupa di
-e
 crearlo in maniera automatica. Come si potrebbe però gestire il risultato
-o
 per più clienti (utilizzo della trasparenza, servizi di multicast?) oppure
-u
 più interazioni (tanti poll object)?
-u
 $\bullet$ Call-back Object: è comunque presente un intermediario, ma si può ine
-o
 serire logica in questo oggetto! Il client infatti può specicarlo, e una
-o
 volta che ha ottenuto il risultato è l'oggetto stesso ad avvertire il client,
-e
 fornendogli il risultato! Questo sistema è sicuramente più complesso e non
-e
-u
 gestibile direttamente in maniera automatica da un mw, però fornisce un
-o
 disaccoppiamento maggiore rispetto al poll object! Si può infatti inserire
-o
 un qualunque comportamento in questo oggetto.
 Questi ultimi due modelli son presenti in CORBA, .NET e diversi altri mw.
 58
 \subsection{Pattern per la gestione delle risorse e dei servizi}
 Spesso questi pattern rappresentano politiche possibili per il deployment e o la
 congurazione dei vari servizi. I mw possono prevederne più di uno, a seconda
-u
 delle esigenze dell'utenza.
 $\bullet$ Il pattern più semplice è quello delle istanze precongurate: viene deciso
-u
-e
 il deployment presso il server in maniera statica, primache il client possa
 `
 eseguire delle richieste. E una politica rigida rispetto ad altre, e si deve
 considerare il fatto che troppe istanze potrebbero ingolfare il sistema. Si
 può gestire uno stato? Tutti i client devono essere trattati in maniera
-o
 uguale, quindi verrebbe da dire di no. . .
 $\bullet$ Attivazione On Demand : esattamente l'opposto, i servitori son dotati di
 stato, e si possono realizzare operazioni diverse a seconda del tipo di client
 che si collega. I servitori son creati by-need, e quindi solo quando sono
 richiesti dal client. Quindi, se una tipologia di servizio non è richiesta
-e
 spesso, il suo servitore sarà attivo poco spesso, consumando poche risorse:
-a
 si ha quindi un costo limitato! Questa è la politica di default di quasi tutti
-e
 i mw, visto il suo costo.
 Si può anche decidere di introdurre un tempo di vita per limitare ulterio
 ormente il costo, per cui un servitore non richiesto per un tot di tempo
 viene deallocato.
 Come gestire però il problema del riferimento remoto? Se per esempio
-o
 un client ha conoscenza di un riferimento remoto di un oggetto, per cui
 volesse riferirlo direttamente senza utilizzare la procedura d'attivazione,
 ma questo è stato nel frattempo deallocato? Si avrà un errore, per cui si
-e
-a
 dovrà gestire.
-a
 $\bullet$ Attivazione a singola richiesta: limite estremo, si ha che l'oggetto è si
-e
 creato al presentarsi di una richiesta, ma anche terminato quando questa è stata espletata! È quindi un sistema molto
 reattivo, che però ha ancora problemi nella rappresentazione dello stato (gli oggetti non sono persistenti!). Questo
 modello è quindi utilizzato solo in situazioni in cui lo stato non sia necessario. Per limitare l'overhead e il consumo
@@ -516,48 +373,35 @@ non presenta nessun costo d'attivazione e disattivazione, ma necessita che
 lo stato sia memorizzato sul client (infatti, sfruttando un meccanismo di
 trasparenza, un client potrebbe non riutilizzare la stessa istanza già usaa
 ta!). Vi sono però problemi di dimensionamento di cui tener conto (se son
-o
 troppe istanze rispetto al traco, si consumano inutilmente le risorse, se
 invece son poche o si estende il pool, oppure si è necessaria una coda dove
-e
 memorizzare le richieste). Si potrebbe ottimizzare per esempio facendo
 59
 in modo che gni istanza possa gestire più di una richiesta, e vericando
-u
 (monitoring) il numero di istanze contemporanee per ottimizzare.
 
 $\bullet$ Attivazione dal client: E compito invece del client attivare l'istanza, e
 
 diventa lui il responsabile e gestore della risorsa remota. E una logica
 spesso scelta, che garantisce al client di utilizzare un'entità a lui riservata.
-a
 Si ha però un accoppiamento forte fra C e sessione di lavoro.
-o
 Esistono poi pattern per gestire la durata della vita degli oggetti, come il passivation:se un C non accede per un
 determinato tempo ad una sua risorsa, il
 server potrebbe decidere di farne lo store da qualche parte, e liberarne le risorse
 per altri oggetti. Alla richiesta dell'oggetto, il server si preoccuperò di riattia
 varlo, ricaricando lo stato salvato. Questo pattern è molto importante per la
-e
 scalabilità del sistema.
-a
 Un pattern simile è il lease, per cui però il servitore decide di distruggere le
-e
-o
 istanze non usate. Perch` resti attivo un oggetto, il client deve presentare entro
-e
 il tempo di lease la richiesta di voler ancora adoperare l'oggetto. Si può quindi
-o
 realizzare usando il tempo di passivation e il tempo di presentazione del lease,
 per far scegliere al server quale politica adottare!
 Il pattern Factory è un pattern di supporto alla creazione di oggetti: si trate
 ta di un attivatore delle classi, e si può pensare di realizzarne uno per nodo,
-o
 in grado di creare tutti gli oggetti considerati necessari. Sfruttando il factory,
 si possono realizzare politiche nascoste per ottimizzare quindi il deployment (a
 tutto pensa lui!).
 Spesso, il tempo di vita di un oggetto è un qualcosa di molto complesso. Vi
-e
 sono quindi dei meccanismi comuni nei mw per valutarne il tempo d'esistenza
 (sfruttando passivation, lease, reference counting, . . . ).
 \subsection{I servizi addizionali}
@@ -565,12 +409,9 @@ Si tratta di servizi che possono aiutare l'utente ad esprimere determinate opera
 dipendere dal contesto utilizzato, la sessione, o
 da una serie di eventi che si sono venuti a vericare.
 In particolare, l'Invocation Context è molto utile: in generale, infatti, i mw
-e
 vengono sviluppati in maniera tale che l'utente non sia costretto a specicare
 nelle sue operazioni parametri di supporto, ma solo quelli necessari per la business logic. Però può capitare che in
 certi casi questi parametri siano proprio
-o
-o
 necessari per l'operazione (tipo per realizzare delle transazioni sicure): questo
 pattern si preoccupa di recuperare le informazioni aggiuntive, che formano il
 contesto, e vengono aggiunte alla richiesta mediante un proxy. Si va quindi
@@ -578,19 +419,16 @@ oltre il C/S primitivo, introducendo una separazione dei compiti (client prepara
 la richiesta, proxy aggiunge informazioni di contesto necessarie).
 60
 La sessione è un altro pattern per poter fornire un supporto al servitore:
-e
 si utilizza per mantenere la specica dell'oggetto remoto, permettendo così di
 \i{}
 creare un thin client.
 Un altro pattern inne è il call-chain interception: vi sono diversi gestori
-e
 di supporto, i quali possono essere inseriti prima dell'invocazione (quindi, a
 differenza dell'invocation context, sono dal lato del server), per poter eseguire
 dei compiti specici (per es: in base al tipo della richiesta, decidono il formato
 dei dati per la risposta). Questi intercettori possono anche bloccare l'invoke no
 a quando non hanno terminato il loro compito, creando appunto una catena di
 responsabilità. Si possono anche combinare (caso tipico: encrypt/decrypt di
-a
 messaggi, introducendo quindi anche catene sul client!).
 \subsection{Servizi per la QoS}
 Tutti i mw dispongono di servizi per fornire QoS, tranne i MOM. Anche qui, si
@@ -603,26 +441,20 @@ client e attivare (mediante i pattern descritti prima) i server necessari.
 $\bullet$ Life cycle manager : si tratta di un sistema per poter gestire la vita degli
 oggetti ad un livello superiore, applicativo proprio per la QoS (esempio:
 gestione dei nodi, per privilegiare certe entità rispetto ad altre, passivando
-a
 server meno prioritari!) Si hanno quindi politiche denibili dierenziate!
 $\bullet$ Custom marshaller : è un sistema per fornire sistemi dierenziati per la
-e
 presentazione dei dati (XML o formato binario: leggibilit` o efficienza
-a
 . . . ).
 $\bullet$ Sistema a plug-in: si tratta della possibilità di estendere il mw, introa
 ducendo dei gestori per azioni particolari di determinati protocolli (per
 esempio, per eseguire certi compiti prima dell'invoke nale).25
 $\bullet$ Il mw può anche gestire insiemi/gruppi di oggetti, fornendo quindi un
-o
 supporto alla replicazione (gruppi diversi, QoS diversa).
 $\bullet$ Presenza di pseudo-oggetti : non sono oggetti veri e propri, ma entità speca
 icate dal mw, quindi oggetti accedibili normalmente ma che non hanno
 interesse da un punto di vista applicativo (un esempio di pseudo-object
 potrebbe essere il sistema di nomi!).
 25 Possono sembrare simili agli interceptor, ma è dierente il ruolo: questi son presenti per
-e
 la singola invocazione del singolo oggetto, mentre un plugin è un componente per la parte di
-e
 supporto
 61

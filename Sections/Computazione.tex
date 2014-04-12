@@ -138,14 +138,11 @@ $\bullet$ Modello a delega: il cliente delega un altro agente per attendere il r
 e poi lo recupera da questo.
 $\bullet$ Modello a notica: simile al precedente, solo che il delegato notica al
 cliente la disponibilità del risultato.
-a
 $\bullet$ Modello ad eventi: il tipico modello consumer/provider, in cui chi è intere
 essato si registra a chi produce gli eventi.
 $\bullet$ Modello a provisioning: oltre agli end-point, vi sono intermediari interessati al risultato.
 Di particolare interesse è la classicazione dei modelli a scambio di messaggi :
-e
 $\bullet$ In fase di progettazione, si parla di sistemi sincroni se si è interessati al
-e
 risultati, altrimenti asincroni.
 $\bullet$ In fase implementativa, si parla di comunicazione bloccante se il richiedente
 si blocca in attesa del risultato, altrimenti non bloccante
@@ -155,30 +152,22 @@ messaggi:
 $\bullet$ In fase di progettazione si parla di
 -- un sistema simmetrico se mittente e ricevente si conoscono (rarissimo) oppure asimmetrico (caso tipico:C/S).
 -- un sistem diretto (cioè se avviene una comunicazione diretta fra i
-e
 processi), oppure indiretto (se si utilizzano strutture tipo le socket)
 $\bullet$ In fase di implemtazione si parla di
 -- un sistema buerizzato se la comunicazione richiede un certo numero
 di messaggi prima di poter trasmettere
 -- Sistemi reliable se possono fornire QoS, senza perdere messaggi.
 Nel caso si introduca un terzo oggetto che faccia da mediatore, si può quindi
-o
 lavorare in maniera sincrona ma non bloccante: è il mediatore che resta in
-e
 attesa, sganciando il ricevente. Si possono avere due diverse modalità:
-a
 1. Oggetti poll : è un contenitore per la risposta alla richiesta, che viene
-e
 periodicamente interrogato dal ricevente con un sistema a polling. Si ha
 così una comunicazione a 3 entità. In questo modello, il ricevente deve
 \i{}
-a
 sapere dove si trova l'oggetto poll, e vi deve essere un oggetto per ogni
 `
 risultato. E conveniente se si hanno operazioni corte, e attese brevi.
 2. Oggetti callback : è sempre un oggetto che conterr` il risultato, ma dotato
-e
-a
 di una sua vita indipendente, e dotato di codice particolare da eseguire
 `
 quando giunge il risultato. E lui quindi a dover fornire il risultato al
@@ -190,12 +179,9 @@ In un modello basato sugli eventi, si ha un fortissimo disaccoppiamento (non
 vuol dire che non si conoscono, ma che non è necessario che siano attivi conteme
 poraneamente per poter fare la comunicazione; è una caratteristica fondamene
 tale per i middleware) fra le entità interessate al risultato, e quelle che forniscono
-a
 i servizi. In questo modello si ha quindi un'interazione molti a molti, per cui si
 può facilmente mappare il multicast. In generale gli eventi non sono persistenti,
-o
 tuttavia non è l'unico modello possibile.
-e
 10
 \subsection{Spazi di tuple}
 Un modello che deriva dall'astrazione della memoria condivisa e della comunicazione, e che garantisce il
@@ -205,27 +191,19 @@ a e
 tuple. E un meccanismo generale per la comunicazione e la sincronizzazione, in
 cui si specica uno spazio di informazioni fortemente tipato. (Una tipica informazione può essere $<$ mittente,
 destinatario, data $>$, per cui tutti i dati devono
-o
 essere diversi perché possa essere inserita)
-e
 Si hanno quindi due operazioni principali: la out consiste nell'inserire nello
 spazio delle tuple un nuovo messaggio, mentre la in (bloccante) estrae la prima
 tupla che fa match (in caso di più tuple che facciano match, è una scelta non
-u
-e
 deterministica). Ovviamente, si avrà sempre un numero inferiore di in rispetto
-a
 alle out. Se la in è completamente specicata, si parla di sincronizzazione e non
-e
 di comunicazione. Uno spazio di tuple permette anche l'introduzione di QoS,
 grazie alla persistenza della tupla nello spazio.
 Gerlenter, con Linda, presenta due diversi modelli:
 $\bullet$ A ring: si partiziona lo spazio delle tuple, per cui ogni nodo conosce
 precedente e successivo: si ha una conoscenza locale, quindi limitata. Un
 produttore può fare una out su un qualsiasi nodo, e il messaggio fa un
-o
 ciclo per vericare che non sia già presente su un qualche nodo. Lo stesso
-a
 discorso vale per la in, che fa un giro no a trovare un messaggio che fa
 match. In Linda sono state considerate ovviamente delle problematiche
 di replicazione (il messaggio deve essere ripetuto? Ma quindi lo si deve
@@ -235,50 +213,36 @@ colonne.
 \subsection{Modelli a contenimento}
 Si tratta di supporti presenti in ogni middleware: sono funzionalità che aga
 gregano diverse attività utili, che si possono replicare. In questo modo, uno
-a
 sviluppatore si concentra soltanto sullo sviluppo della business logic vera e
 propria, utilizzando le politiche di default fornite dal middleware per quanto
 riguarda il supporto al tempo di vita, il gestore della concorrenza, fornire la
 QoS, sistemi di nomi. . . Fondamentalmente, un container è un delegato che si
-e
 comporta come supervisore di certe attività.
-a
 \subsection{Il problema della trasparenza}
 Esistono diversi signicati per la trasparenza: per esempio, si intende per l'allocazione l'indipendenza dalla località
 delle risorse. In generale, per trasparenza si
-a
 intende un sistema in grado di fornire all'utente nale un comportamento omogeneo, anche se ai livelli sottostanti sta
 lavorando con oggetti/servizi diversi
 (remoti/locali, server principale/copia, . . . ).
 11
 Non è sempre un elemento positivo, perché in molti casi i sistemi son così
-e
-e
 \i{}
 complessi, che non si possono gestire in maniera totalmente trasparente: si
 richiede l'intervento dell'utente. Un esempio è nella trasparenza dell'allocazione:
-e
 se non sappiamo dove si trova l'utente, come facciamo a dargli il servizio desiderato? La trasparenza non è corretta a
 livello di infrastruttura in questo caso;
-e
 l'utente infatti è sempre più coinvolto.
-e
-u
 Per esempio, TINA-C2 prevede sia un sistema trasparente, che un sistema
 non trasparente in cui si possano definire le risorse inizialmente, e quindi introdurre la trasparenza.
 \subsection{Le macchine astratte}
 Son stati sviluppati diversi modelli per l'esecuzione, ma alla base vi è la Rane
 dom Access Machine: è una macchina special purpose, con codice inalterabile,
-e
 in grado di eseguire istruzioni in sequenza (tutte le istruzioni hanno la stessa
 durata), memoria limitata e un sistema di input e uno di output.
 Un primo modello per la comunicazione è la Parallel RAM, in cui simmagina
-e
 diversi programmi da eseguire contemporaneamente. Una PRAM è costituita
-e
 quindi da P macchina RAM, ognuna delle quali esegue un programma, e ad ogni
 clock vengono eseguite P istruzioni. Alla base vi è una memoria condivisa, per
-e
 tutte le macchine, dove scrivere e leggere i risultati (anche i dispositivi di I/O
 sono unici per tutte le macchine). Si tratta di un modello MIMD sincrono, per
 cui quando tutti i programmi niscono, anche la macchina termina. Essendo
@@ -287,49 +251,32 @@ concorrenza è un requisito dicile da realizzare, in confronto al mettere le ope
 azioni in sequenza. Le diverse PRAM si possono quindi categorizzare a seconda
 della tipologia delle operazioni (in generale si hanno letture concorrenti e scritture sequenziali; la concorrenza `
 invece utilizzata per il sistema di I/O, per
-e
 limitarne il collo di bottiglia). Un PRAM è dicile da realizzare perché non è
-e
-e
-e
 scalabile.
 Un secondo modello è il Message Passing RAM, che è sempre una collezione
-e
-e
 di RAM, ma ognuna con la sua memoria dedicata (i sistemi di I/O son sempre
 condivisi). Si ha quindi che le diverse macchine comunicano mediante dei canali
 prestabiliti (vi devono essere almeno P-1 connessioni). Si hanno istruzioni ad
 hoc, cioè delle send e receive con rendez-vous, una semantica sincrona: questo
-e
 vuol dire che un'operazione sblocca la sua duale. Una MP-RAM è più facilmente
 e u
 realizzabile, e rappresenta meglio un modello locale. Se per esempio si volesse
 eseguire un broadcast, servono almeno P-1 istruzioni, mentre una PRAM, per
 quanto più dicile da realizzare, richiederebbe una sola operazione: è un modu
-e
 ello con maggiore capacità espressiva. Restano comunque entrambi dei modelli
-a
 troppo astratti per poter essere implementati realmente. Aggiungendo vincoli
 2 Si tratta di un consorzio di aziende per le telecomunicazioni, con l'obiettivo di andare
 oltre OSI: l'idea è quella di immaginare anche i possibili servizi, fornendo un modello più
-e
-u
 coordinato, e un'infrastruttura con molti provider: si denisce un accordo/negoziazione fra i
 fornitori dei servizi e i clienti, per poter per esempio stabilire la QoS, e quindi si fornisce il
 servizio con i parametri indicati
 12
 e limitandoci quindi ad un'ipotesi di località, il progetto risulta più facilmente
-a
-u
 realizzabile.
 \subsection{Indicatori dell'efficienza}
 In generale, ci si limita alla complessità temporale, TP (N ), dove P è il numero
-a
-e
 di processori considerati: se è pari ad 1, siamo in un ambiente sequenziale.
-e
 Un primo indicatore è lo speed-up, che indica l'incremento di prestazioni se si
-e
 introducessero P processori:
 SP (N ) =
 T1 (N )
@@ -338,9 +285,7 @@ TP (N )
 (1)
 Tuttavia, bisogna sempre tener presente che non tutti i programmi si possono
 parallelizzare: ciò dipende se vi sono troppe dipendenze fra le sotto parti.
-o
 Un altro indicatore è l'efficienza nell'uso delle risorse:
-e
 SP (N )
 P
 (2)
@@ -350,7 +295,6 @@ TP (N ) P
 (3)
 EP (N ) =
 Ma quindi, ciò corrisponde a dire:
-o
 EP (N ) =
 Possiamo quindi definire lo speed-up massimo:
 SP (N ) = P
@@ -361,53 +305,39 @@ E l'efficienza massima:
 Sotto queste condizioni si avrebbe che tutti i processori lavorano al massimo,
 ovvero non abbiamo processori idle che possono risultare inutili. Questi sono
 coecienti statistici, validi per tutto l'algoritmo. Quello che si può osservare `
-o
-e
 che la situazione ideale la si avrebbe se lo speed-up dipendesse in maniera lineare dal numero dei processori. Una
 soluzione ideale non interessante sarebbe
 se si distribuisse i compiti ai processi in maniera uguale (un programma totalmente parallelo!), raccogliendo solo alla
 ne il risultato. In realtà, i casi più
-a
-u
 interessanti sono quelli dove si presentano delle dipendenze, per cui necessariamente vi deve essere una parte
 sequenziale: questo caso presenta quindi una
 comunicazione intrinseca, indipendente dal deployment che si viene a realizzare.
 Si possono quindi studiare diversi casi basandosi sui fattori di interesse N e
 P . In particolare, si può definire come fattore di carico, o loading factor:
-o
 N
 (6)
 P
 che denisce la complessità come viene suddivisa su ogni nodo. Vi possono
-a
 essere diversi casi:
 L=
 13
 $\bullet$ N uguale a P : su ogni processore viene posta una parte molto semplice
 del problema. Si dice ipotesi di identità.
-a
 $\bullet$ Dipendenza di N da P
 $\bullet$ Indipendenza, interessante al crescere di N
 La legge di Grosh stabilisce che la soluzione migliore risulta essere quella di lavorare sempre nel concentrato. . . Ma
 ciò non è sempre possibile! Se per esempio
-o
-e
 vi sono risorse limitate? Oppure, oltre un certo valore di N , non si riesce più
-u
 a lavorare nel concentrato, e la legge è sicuramente inutile nel caso di vincoli,
-e
 tipo la presenza di risorse distribuite.
 La legge di Amdhal stabilisce che vi è un limite alla possibile parallelize
 zazione, dato che ogni programma è costituito da una parte parallela e una
-e
 parte sequenziale, e quest'ultima limita lo speed-up: si ha quindi che non cresce
 linearmente, ma tende a un valore asintotico! Nella situazione migliore immaginabile, con le risorse correttamente
 allocate, si ha quindi che si avrà uno speeda
 up sso, mentre sarà l'efficienza a variare a seconda dell'architettura del sistema!
-a
 Come calcolare quindi lo speed-up massimo? Si vuole avere il numero di
 processori tali che si abbia la minore complessità del problema, realizzando un
-a
 sistema fortemente caricato: si denite quindi l'heavily loaded limit:
 THL (N ) = infP (TP (N ))
 (7)
@@ -415,13 +345,10 @@ Infatti, si lavora bene caricando molto ogni processore, i quali quindi lavorano
 per tutto il tempo necessario: abbiamo quindi in questomodo un buon uso delle
 risorse.
 Tuttavia, per la legge di Amdhal, dobbiamo ricordare che vi è anche una
-e
 parte sequenziale in ogni programma. . . che è proprio la parte di comunicazione
-e
 fra i diversi processori! Al crescere del numero dei processori, si ha quindi
 che lo speed-up diminuisce, allontanandosi dal valore massimo; questo degrado
 delle prestazioni è dovuto proprio al peso crescente della comunicazione fra i
-e
 processori, che diventa fondamentale.
 \subsection{Caso di studio: somma di N numeri}
 Una possibile soluzione, imponendo la condizione d'identità, è quella di utilizzare
@@ -429,17 +356,13 @@ a e
 un albero binario per fare la sommma: le radici sommano i numeri, che passano
 il risultato al padre, e così via. Supponendo quindi un albero con profondit` H,
 \i{}
-a
 possiamo osservare che N = 2H+1 e P = 2H+1 $-$ 1, per cui P è simile a N . Si
-e
 ha che quindi:
 TP (N ) = O(H)
 = O(log2 (N ))
 = 2 · log2 (N )
 14
 Perch` 2? Perch` abbiamo 2 comunicazioni in ogni nodo. Possiamo quindi
-e
-e
 valutare l'efficienza di questa architettura:
 1
 log2 (N )
@@ -447,7 +370,6 @@ EP (N ) = O
 Ma quindi, al crescere di N, l'efficienza tende a 0! Per quanto riguarda lo speedup, si ha che non lavorano tutti i
 nodi,
 ovvero più si risale l'albero e meno i
-u
 processori lavorano (il processore radice deve attendere, ovvero tempo di idle,
 che tutti gli altri abbiano nito!). Se invece avessimo un usso di dati, i processori risulterebbero tutti sempre
 impegnati (potremmo risolvere un insieme di
@@ -460,10 +382,7 @@ $>$$>$ 1
 P
 (8)
 e quindi la complessità deve essere superiore al numero dei processori: su ogni
-a
 nodo si ha quindi un certo numero di valori da sommare. Ciò si può ottenere
-o
-o
 per esempio con un albero sso, ovvero un numero di processori ssi. Infatti:
 TP (N ) = O (L + log2 (P ))
 I due componenti rappresentano rispettivamente il tempo di computazione e
@@ -495,9 +414,7 @@ E l'efficienza tende ad 1. Quindi, caricando al massimo i processori ed usandoli
 correttamente, si ottiene speed-up ed efficienza massimi.
 \subsection{Considerare l'I/O}
 In questi indicatori si è tuttavia lasciato da parte il problema dell'I/O, che
-e
 spesos è il vero collo di bottiglia in diverse architetture. Inoltre, vi son diversi
-e
 15
 fattori che possono inuenzare l'efficienza e lo speed-up dell'architettura, come
 il deployment reale. Si possono quindi estendere gli indicatori considerando
@@ -523,9 +440,7 @@ T0 (N )
 T1 (N )
 (12)
 Per cui l'efficienza non sembra dipendere dal numero dei processori. . . in realtà,
-a
 ` proprio T0 (N ) a dipendere dal numero dei processori : l'overhead dipende dal
-e
 numero di processori impegnati.
 Supponiamo quindi di avere come obiettivo per l'architettura di mantenere
 costante l'efficienza:
@@ -551,16 +466,11 @@ T0 (N ) = K · T1 (N )
 Se K fosse veramente una costante, saremmo in isoefficienza. Un sistema isoefficiente indica che, se manteniamo costante
 la
 complessità e aumentiamo il
-a
 numero dei processori, l'efficienza non varia. Il valore di K quindi determina se
 il sistema ha un buon comportamento. In particolare:
 $\bullet$ K piccolo: il sistema è altamente scalabile. Al crescere di K quindi la
-e
 scalabilità del sistema decresce
-a
 $\bullet$ Se non è costante ma funzione dei processori, allora il sistema non è
-e
-e
 scalabile.
 I sistemi reali sono scarsamente scalabili.
 16

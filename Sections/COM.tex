@@ -3,38 +3,28 @@
 Nell'architettura Microsoft, la GUI è sempre stata fondamentale (la finestra non è solo un elemento graco, ma è tutto
 ciò a cui è costruito attorno il sistema; l'interazione fra i processi è guidata dalle finestre!). E da loro che è nata
 l'idea
-e
-e
 di dinamyc library, cioè di una libreria che si potesse caricare solo su bisogno:
-e
 idea molto dinamica, che però richiede il costo del caricamento.
-o
 Ma quindi, visto che le DLL si possono caricare/scaricare a piacimento, i
 processi non possono avere uno stato, specialmente se condividono codice, così
 \i{}
 da aumentare al massimo la condivisibilità. Il kernel Microsoft è un microa
-e
 kernel, proprio sfruttando le DLL (si caricano sempre e solo quelle necessarie).
 Si utilizza un sistema di conteggio dei riferimenti per decidere se deallocare una
 DLL.
 Le DLL sono quindi ascrivibili in 3 diversi gruppi: kernel, utente (windowing) e GUI. Il sistema è però facilmente
 estendibile, potendo introdurre nuove
-e
-o
 DLL (es, WinSocket).
 Nei sistemi operativi Microsoft tutti i tipi di oggetti (sia utente che kernel)
 possiedono degli appositi handler per riferirli ed identicarli, in maniera tale da
 poterli utilizzare anche con le apposite API di Windows. A differenza di Unix,
 l'interfaccia per richiamare gli oggetti non è molto compatta, risultando essere
-e
 molto complessa.
 Windows fa un uso pesante del modello ad eventi (il sistema graco fa un
 buon match con ciò). Si tratta di un modello fortemente push (all'epoca era
-o
 anche l'unico modello esistente per lavorare quando non si avevano ancora i
 processi). Gli eventi vengono usati ancora anche a livello applicativo: a livelli
 inferiori risultano essere molto più essibili, sfruttando il modello a call-back:
-u
 l'applicazione fornisce un handler/funzione da richiamare nel caso si presenti
 l'evento alla DLL opportuna34 . L'evento è lanciato da una qualunque intere
 azione dell'utente o presso una periferica esterna, e viene lanciato a tutti quelli
@@ -48,55 +38,40 @@ integrata. L'idea è quella di suddividere correttamente i compiti fra il docue
 mento ed il gestore del documento. Ogni tipologia di documento, infatti, ha un
 proprio gestore che viene richiamato all'atto del caricamento del documento.
 Tuttavia, un documento può essere fatto di diverse parti, ovvero di altri
-o
 documenti: si deve quindi anche caricare il gestore degli altri documenti di cui
 ` composto. In particolare si può avere che:
-e
-o
 $\bullet$ Il documento contiene un riferimento all'altra tipologia di documento,
 ovvero si fa linking
 $\bullet$ Il documento contiene proprio una copia dell'altro documento, ovvero si
 fa embedding. Quest'ultimo caso non è realizzabile direttamente con il
-e
 modello ad oggetti!
 Mediante questa tecnologia si può quindi attivare un'applicazione all'interno
-o
 dell'altra: vi possono essere problemi di duplicazione dell'oggetto o la presenza
 di riferimenti multipli e di molteplici gestori della stessa tipologia di documento
 (quanti ne attiviamo?). Tuttavia, nel concentrato non presenta grossi problemi
 e funziona bene.
 L'idea della Microsoft era però quella di estendere il concetto di OLE anche
-o
 al distribuito, da qui la tecnologia COM. Nel concentrato era tutto più semplice
-u
 perché si sfruttava il registry di Windows per identicare in maniera univoca un
-e
 oggetto35 , e per poter registrare quindi i vari gestori.
 \subsection{Architettura COM}
 COM è stato il sistema standard per la Microsoft per poter descrivere l'intere
 azione fra processi diversi, utilizzando come base i componenti e una comunicazione C/S sincrona. Si può notare la
 differenza con i precedenti modelli: nei
-o
 sistemi precedenti la comunicazione si basava soprattutto sul modello ad eventi,
 che è molto lontano dalla comunicazione sincrona!
-e
 Lo standard denisce delle speciche per cui i componenti siano in grado
 di comunicare fra di loro, in maniera indipendente dal linguaggio utilizzato e
 dalle applicazioni che li usano. L'idea è quella di introdurre una uniformità nel
-e
-a
 comportamento: dll, componenti su macchine diverse, . . . Si ottiene così omo\i{}
 geneit` a livello di comportamento fra oggetto locale e remoto, introducendo
-a
 così trasparenza. In particolare, si utilizzano metodi standard per la comuni\i{}
 cazione remota, come RPC di DCE.
 Alla base di COM vi è l'uso delle interfacce: un componente, per poter
-e
 essere usato, deve fornire un'interfaccia comune e conosciuta da tutti gli attori. L'interfaccia infatti denisce la
 visione logica. Tutte le interfacce COM
 derivano da una stessa interfaccia detta IUnknown. In COM ogni oggetto e ogni
 interfaccia possono essere identicati in maniera univoca da dei GUID, che però
-o
 distinguono anche fra componenti ed interfacce.
 35 Sfruttando il GUID, derivato dall'UUID descritto dal DCE. In Microsoft, i diversi GUID
 son classicati in base al tipo di oggetti che riferiscono (interfacce, classi, . . . )
@@ -104,41 +79,27 @@ son classicati in base al tipo di oggetti che riferiscono (interfacce, classi, .
 L'interfaccia funziona semplicemente come un puntatore alle funzioni che descrive, contenute in una virtual method
 table: ogni entry di questa tabella punta
 al codice che i metodi devono implementare. In COM non esiste l'ereditarietà
-a
 a livello di classe ma solo (anche multipla) a livello di interfacce. Si ha quindi
 un grafo che rappresenta l'ereditarietà, che spesso è dicile da navigare! I nomi
-a
-e
 univoci sono infatti tutti registrati nel registry, a seconda della loro applicazione.
 L'interfaccia IUnknown presenta solo 3 metodi (presenti sempre nei primi
 3 slot di ogni VMT di ogni componente): uno per aggiungere un riferimento
 all'oggetto, uno per farne il release, e inne un QueryInterface. Quest'ultimo `
-e
 fondamentale per poter interagire con l'oggetto stesso: prende infatti il GUID e
 verica se esiste un oggetto che implementi quell'interfaccia. In caso aermativo,
 si preoccupa di restituire un puntatore all'interfaccia corrispondente. Questo è un metodo pervasivo, è l'unico modo con
 cui accedere ai diversi metodi. Gli
-e
 altri infatti sono utilizzati per gestire le risorse in maniera dinamica.
 La deallocazione degli oggetti può essere decisa: o si utilizza un garbage colo
 lector, oppure si utilizza il sistema del reference counting, oppure si può anche
-o
 non gestire! Si può quindi osservare una differenza rispetto a CORBA: qui è
-o
-e
 necessario vedere come avviene l'interazione di basso livello! Si deve per forza
 passare per il metodo QueryInterface.
 In COM vi è quindi solo l'ereditarietà in base alle interfacce: questo perché
-e
-a
-e
 l'ereditarietà all'epoca era vista come un sistema troppo accoppiante, e quindi da
-a
 limitare. Infatti, ereditando solo le interfacce non si eredita l'implementazione
 ed eventuali comportamenti non desiderati. Fondamentalmente, l'ereditarietà
-a
 rompeva il principio dell'incapsulamento (la classe derivata infatti può accedere
-o
 alla classe base)!
 COM quindi introduce due metodi alternativi per poter estendere una classe:
 aggregazione o delegazione. In ogni modo, un oggetto non implementa tutti i
@@ -146,52 +107,32 @@ metodi che la sua interfaccia espone, ma {`}ridirige' la richiesta di controllo 
 oggetti che implementano quei metodi (in un qualche modo li incapsula).
 La delegazione indica che fra gli oggetti vi deve essere una condivisione
 del comportamento, ma non dell'implementazione (non vi è l'obbligo di usare
-e
 la stessa implementazione). La delegazione fondamentalmente corrisponde ad
 esplicitare il fatto che vi è un altro oggetto che si preoccupa di rispondere
-e
 alla richiesta in maniera corretta. Questo è un oggetto interno, che deve esere
-e
 sempre attivo, e puntato in maniera opportuna dalla VMT dell'oggetto esterno!
 Si tratta sicuramente di uno dei fattori di maggiore complessità dell'architettura
-a
 COM.
 L'aggregazione invece gestisce il problema in maniera implicita, realizzando
 quindi una serie di oggetti aggregati. Non è come prima, per cui l'interfaccia
-e
 esterna funzionava come un passacarte, ma si realizza come una copia dell'interfaccia dell'oggetto aggregato nella VMT
 dell'oggetto esterno! Fondamentalmente, quindi, l'oggetto aggregato fornisce i propri metodi all'esterno, direttamente
 nell'interfaccia dell'oggetto esterno! Anche questa maniera è complessa,
-e
 più dell'ereditarietà. L'aggregazione è consigliata per una gestione a parti (a
-u
-a
-e
 74
 differenza della delegazione, ogni oggetto si preoccupa di fare da gestore delle
 richieste ai metodi che implementa).
 \subsection{Interazione C/S in COM}
 L'idea base è che vi sia uniformità di comportamento fra ogni tipologia d'oggete
-a
 to: non interessa quindi come è fatto, ma la possibilità di poterci interagire in
-e
-a
 maniera C/S trasparente. Il problema è che il costo è molto diverso in realtà a
-e
-e
-a
 seconda del tipo di oggetto con cui si prova a colloquiare (accedere ad una DLL
 in maniera C/S è molto più ottimizzato che accedere ad un oggetto remoto).
-e
-u
 Quindi, a differenza di CORBA36 , l'implementazione sottostante è diversa a
-e
 seconda di quale tipo di oggetto si acceda
 Un oggetto in COM, perché si possa riconoscere come server, deve fornire
-e
 la capacità di istanziare degli oggetti : in generale questo viene realizzato utiliza
 zando delle Factory, che non son classi ma gestori d'entità. Ogni Factory ha
-a
 una sua politica per l'attivazione (potrebbe per esempio realizzare un singleton,
 fornendo il riferimento sempre alla sola copia attiva), ma i diversi meccanismi
 devono restare nascosti.
@@ -199,108 +140,81 @@ Un server quindi implementa o l'interfaccia IClassFactory (oppure la sua
 seconda versione, che permette di lavorare anche sfruttando un'apposita licenza dell'oggetto stesso). Queste interfacce
 infatti definiscono un metodo per
 creare un'istanza dell'oggetto, oppure di ottenere un riferimento all'oggetto già
-a
 esistente (CreateInstance). Questo metodo (e le sue varianti) devono quindi
 esplorare il registry alla ricerca di un oggetto che implementa l'interfaccia ricercata; si può anche specicare un
 contesto, ovvero spiegare dove si potrebbe
-o
 ricercare l'oggetto.
 Esistono 3 tipi possibili di server in COM:
 $\bullet$ In-process: lavora nello stesso spazio di lavoro del client, mediante un'apposita DLL.
 $\bullet$ Locale: lavora in un processo diverso, ma sulla stessa macchina.
 $\bullet$ Remoto altrimenti.
 Il problema di COM è che, volendo garantire un'alta trasparenza, richiedeche
-e
 vengano denite tantissime interfacce. Un'altra interfaccia è per esempio COe
 MOBJ, che si preoccupa di cercare nel registry l'esistenza delle DLL necessarie,
 ne fornisce il riferimento o le carica in memoria. Questo comporta che l'utente debba conoscere i meccanismi presenti in
 COM ! Fortunatamente, gli stessi
 meccanismi funzionano anche lavorando out-of-process.
 L'unica cosa che si aggiunge lavorando out-of-process è la presenza di proxy
-e
 e stub per facilitare la comunicazione e realizzare la trasparenza alla comunicazione. Fra proxy e stub si stabilisce
 quindi in maniera automatica un canale,
 che permette ai due processi di comunicare fra di loro: è comunque un'astrazione
-e
 36 Uso
 perenne dell'ORB
 75
 (in locale si lavorerebbe utilizzando la memoria comune!). Per definire questi
 componenti, si è sviluppato un apposito IDL, MIDL. Questo deriva e rispetta
-e
 le speciche di DCE, ma risulta comunque essere incompatibile con altri IDL.
 Come funziona quindi la comunicazione in COM? Si lavora per sequenza: si
 tenta inizialmente di accedere alla risorsa in process, poi in locale, ed inne si
 tenta in remoto sfruttando come meccanismo RPC. In certi casi, essendo poco
 costosa, si utilizza RPC anche in locale, di tipo diverso e più leggera.
-u
 Per la gestione remota, vi è anche la presenza di un ulteriore attore al livello
-e
 più basso detto Service Control Manager, che si comporta proprio come un mw!
-u
 Infatti, un proxy che volesse comunicare, si riferisce al SCMper ottenere un
 riferimento all'oggetto remoto, e quindi può realizzare una RPC remota.Questa
-o
 architettura comporta quindi che SCM debba essere presente su ogni nodo, e
 che proxy e stub debbano essere stabiliti prima, in maniera da poter conoscere
 la posizione del SCM! Si potrebbe anche avere, tuttavia, che non vengano mai
 usati se la risorsa è disponibile in-process!
-e
 \subsection{DCOM}
 DCOM nasce negli anni 90 come esigenza si introdurre anche in COM (come
 in CORBA) l'interazione dinamica. In particolare, ciò che si introduce è il
-o
-e
 concetto di automation, ovvero la possibilità di fornire ad un client di poter
-a
 gestire oggetti per cui non aveva previsto l'interazione. Si tratta anche di un
 modello realizzato per cercare di andare oltre al classico modello a code di eventi.
 Inizialmente, automation nasce come possibilità per linguaggi dinamici (tipo
-a
 quelli di scripting per il Web) di poter accedere all'architettura COM. Questo
 genere di linguaggi infatti spesso sono loosely-typed e studiati in maniera tale
 da avere poco controllo. Prima di automation risultava dicile realizzare proxy
 anche per questi linguaggi.
 Quello che fa automation è semplicemente la realizzazione in automatico di
-e
 una DLL che funzioni come intermediario fra i due mondi, fra COM e qualsiasi
 altro lingaggio, se tale interazione non era già stata prevista in maniera statica.
-a
 Automation permette quindi di esplorare, in maniera automatica, un oggetto
 la cui interfaccia è sconosciuta a tempo di esecuzione. Automation incorpora
-e
 concetti già visti in OLE, come la in-place activation, per cui un gestore viene
-a
 attivato solo se è necessario, cioè se è richiesto da un sottocomponente. DCOM
-e
 e e
 introduce anche altre tecnologie, come lo structured storage (tutto è all'interno
-e
 di un singolo le) e un sistema di scambio dei dati unicato. DCOM introduce
 soprattutto diversi strumenti proprietari Microsoft per il web, spesso incompatibili con altri strumenti.
 Per introdurre la dinamicità, un oggetto deve implementare anche l'interfaca
 cia IDispatch, che è riessiva, la base stessa di automation. Infatti, a differenza
-e
 di CORBA, in COM-DCOM non vi è un IR per registrare le interfacce: si tratta
-e
 quindi di interrogare ed invocare in maniera dinamica i componenti! Si tratta
 di un sistema del tutto analogo alla Request di CORBA.
 76
 Quindi, alcuni metodi riportano informazioni sul componente (GetTypeInfo,
 GetTypeInfoCount), altri preparano il client a richiedere l'invocazione (GetIDsOfNames) e inne vi è un metodo per
 invocare in maniera dinamica l'oggetto
-e
 stesso. IDispatch, essendo un'interfaccia COM, eredita direttamente da IUnknown. Possiamo così sostituire questa ed
 altre interfacce, permettendo un'ese\i{}
 cuzione sempre dinamica (ma costosa).
 Si può quindi iniziare a parlare di componenti veri, che rappresentano un'esteno
 sione degli oggetti: sono più pervasivi, garantendo di non avere limiti alla riusabilità e possibilità di essere usati
 in un qualunque contesto, senza dover dipena
-a
 dere come gli oggetti da un determinato linguaggio.
 A differenza però di CORBA, essendo la VMT ssa, non è possibile realizzare
-o
-e
 un server dinamico!.
 \subsection{Interazione in DCOM}
 COM era stato pensato per fornire una visione di alto livello uniforme (sempre
@@ -311,31 +225,24 @@ A sua volta, DCOM prevede di definire dei riferimenti diretti fra C e S,
 facendo in modo quindi che si conoscano comunque, nonostante l'uso di un'interfaccia. Questi riferimenti quindi non son
 persistenti.37 . DCOM si preoccupa
 di aumentare la dinamicità, cercando anche di andare oltre al C/S, ma fornendo
-a
 strumenti per trovare in maniera automatica la soluzione, fornendo supporto
 alla portabilità, cercando di dare una visione semplicata. Purtroppo, per reala
 izzare ciò si è dovuto ripensare l'architettura, mantenendo però un sistema per
 o e
-o
 integrare il sistema legacy precedente.
 Quello che infatti succede è che in automation le DLL diventano oggetti ade
 hoc. Questi oggetti, riassunti ed estensioni, sono i cosidetti ActiveX. Includono
 anche idee come OLE, ma restano molto complessi da realizzare, per cui `
-e
 necessario sfruttare degli appositi wizard. Sono quindi fondamentalmente dei
 piccoli server OLE, in grado di attivarsi con il metodo della in-place activation,
 ma con un comportamento diverso: infatti, lavorano in maniera inside out,
 ovvero son sempre pronti, attivi, no a che l'oggetto contenuto è presente. Si
-e
 tratta quindi di un sistema ad aggregazione sempre attiva (il componente interno
 ` sempre attivo).
-e
 \subsection{Standardizzazione dei componenti}
 Un merito di COM e DCOM è stato quello di fornire un primo tentativo di stane
 dardizzare il concetto di componente. Prima si dovevano definire sempre diverse
 37 Vi è una losoa diversa rispetto a CORBA: qui è necesario avere anche una visione di
-e
-e
 basso livello, nonostante l'uso delle interfacce come in CORBA
 77
 interfacce, sempre utilizzabili dagli utenti, ma senza una razionalizzazione alla
@@ -357,7 +264,6 @@ DCOM).
 DCOM introduce i monikers come un sistema ad hoc, piuttosto complesso, per
 poter gestire in maniera persistente la gestione degli oggetti. Questo sistema
 aumenta la flessibilità, memorizzando su disco quindi i riferimenti agli oggetti,
-a
 categorizzandoli in base a cosa sono, e rendendoli indipendenti dalle applicazioni!
 Si ha quindi che ogni moniker viene associato ad un programma, permettendo
 anche di lavorare mediante nomi indiretti. Permette anche di moltiplicare i
@@ -365,20 +271,15 @@ meccanismi, aggiungendo diversi monikers.
 \subsection{Modello a thread di DCOM}
 Il modello deriva da quello di Win32. Tuttavia, vi possono essere dei problemi se certi componenti non risultano essere
 thread-safe (magari perché sono
-e
 componenti legacy). Per superare questo problema, in DCOM si è introdote
 to il concetto di Apartment, che consiste ad un ambiente d'esecuzione isolato,
 cioè con una politica di threading ssata. Vi sono due diversi modelli, o quello
-e
 single-threaded (più diuso, un unico componente lavora nell'apartment) opu
 pure multi-threaded. Ogni componente può quindi avere più STA, ma sempre
-o
-u
 un solo MTA.
 \subsection{Altri strumenti DCOM}
 Microsoft ha fornito mediante DCOM tantissimi strumenti, in grado di risolvere
 i problemi sempre più nell'ottica di un moderno mw.
-u
 In particolare, si possono citare MSMQ per realizzare un sistema a scambio di
 messaggi, e COM+ per permettere la denizione di componenti solo attraverso
 la parte logica. Presenta anche un servizio X.500 di directory standard, detto
@@ -390,24 +291,17 @@ ad un S.O. diverso, ma anche rivoluzione
 nando la stessa macchina virtuale (realizzando il CLR). Si tratta di un sistema
 derivato e migliorato (sotto certi aspetti) da Java: Java infatti ormai presenta
 dei sistemi legacy con cui deve far conto, per cui non può introdurre direttamente
-o
 nuovi aspetti senza rompere con il passato (non si può, per esempio, introdurre
-o
 un controllo dinamico delle risorse occupate da un thread, per denirlo anche a
 run-time!). .NET realizza anche lui un compilatore JIT, denisce una serie di
 classi base, rintroduce l'ereditarietà dell'implementazione, delle classi, e svilupa
 pa un sistema a livelli molto simile a quello di un mw moderno, con diversi
 servizi attivabili a basso ed ad alto livello.
 In particolare, .NET introduce una forte idea di località sfruttando l'idea
-a
 dell'application domain: i processi non possono comunicare in maniera diretta
 fra di loro, ma devono sfruttare dei protocolli DCOM compatibili (è un sistema
-e
 simile all'apartment), oppure WS o altre nuove tecnologie .NET. WS per esempio è la tecnologia più costosa, ma anche più
 vicina all'applicazione da un punto
-e
-u
-u
 di vista logico.
 \subsection{.NET remoting}
 Si basa comunque sull'idea di realizzare dei proxy per facilitare la comunicazione.
@@ -419,12 +313,10 @@ prie esigenze. In particolare, con questo sistema, si riesce a registrare un ogg
 application domain, per poterlo utilizzare in
 maniera trasparente!
 I proxy sono utilizzati per superare l'eterogeneità fra i sistemi, e per generare
-a
 un canale come veicolo di trasporto dell'informazione. Questi canali possono essere di diverso tipo (binari, testuali,
 http compatibili, . . . i 2 standard sfruttano
 o TCP o HTTP), e si possono combinare per realizzare una catena di responsabilità (formattazione del messaggio,
 encoding, . . . )! Sono questi oggetti che
-a
 permettono la comunicazione fra application domain diversi. Ogni application
 domain quindi registra i canali che si possono usare, permettendo alle volte anche una comunicazione bidirezionale.
 Di default, le operazioni remote sono sempre sincrone, ma sfruttando opportunatamente i delegati si possono ottenere
@@ -439,16 +331,13 @@ L'attivazione a chi tocca? Non son presenti dei POA come in CORBA,
 quindi si potrebbe prima di tutto pensare ad un'attivazione da parte del cliente
 (esistono meccanismi per fare il lease, e quindi mantenere il collegamento con il
 server oltre al tempo specicato38 ). In questa maniera si può anche mantenere
-o
 uno stato.
 Gli oggetti remoti possono anche essere attivati dai server, in due diversi
 modi:
 $\bullet$ Come singleton (si attiva ora per sempre, ma non si può garantire uno
-o
 stato permanente: il controllo dell'oggetto resta in mano al supporto che
 potrebbe deallocarlo).
 $\bullet$ oppure come oggetti di tipo single call, ovvero con durata limitata al tempo
 dell'invocazione, e quindi di costo limitato.
 Si ha quindi una politica d'attivazione molto più semplice rispetto a quella di
-u
 CORBA!
