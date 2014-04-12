@@ -83,7 +83,7 @@ signica che non può garantire QoS 6 . OSI è da sempre stato progettato con
 6 Perch` ciò? Internet non prenota o mantiene le risorse, ma cerca di determinare un
 e o
 cammino fra C/S che quindi può variare. Non abbiamo garanzia del servizio. OSI invece
-denisce la possibilità di definire gli intermediati e riservarli, in maniera da distribuire la
+definisce la possibilità di definire gli intermediati e riservarli, in maniera da distribuire la
 latenza totale del servizio su di loro, e in maniera da progettare i nodi intermedi con le risorse
 28
 l'idea di supportare QoS, ma risulta essere ancora lontana da essere realmente
@@ -180,7 +180,7 @@ In realtà, il protocollo più diuso per la gestione di una rete è anche uno
 dei più semplici, detto Simple Network Management Protocol, sviluppato dall'Iu
 ETF, e per questo incompatibile con OSI : inizialmente non teneva conto della
 sicurezza, e si trattava di pura e semplice comunicazione.
-SNMP denisce (nella sua prima realizzazione) un unico manager centralizzato e diversi agenti non locali, quindi studiati
+SNMP definisce (nella sua prima realizzazione) un unico manager centralizzato e diversi agenti non locali, quindi studiati
 per un sistema distribuito. Il
 manager si preoccupa quindi di fare delle richieste sugli agenti, i quali devono
 rispondere, e possono anche avvisare di eventuali problemi/eventi mediante delle
@@ -413,7 +413,7 @@ frame, incapsulandoli in maniera opportuna. Proprio per questo motivo non
 la garantiscono ma sono solo di supporto! RTP per esempio si preoccupa di
 marcare ed ordinare i singoli frame, in maniera di mandarli in ordine13 , mentre
 RTCP gestisce la connessione astratta.
-RTP non denisce una sincronizzazione verso un tempo assoluto (nel distribuito questo ha dei costi improponibili), ma ha
+RTP non definisce una sincronizzazione verso un tempo assoluto (nel distribuito questo ha dei costi improponibili), ma ha
 l'obiettivo di minimizzare il
 jitter. Questi primi protocolli ragionano sul cammino attivo, per poter definire
 correttamente i nodi intermedi. Sono protocolli IETF, con sempre l'obiettivo di
@@ -443,7 +443,7 @@ i nodi intemedi non modichino le informazioni a livello applicativo. Le possono
 vedere, ma non modicare.
 Questi protocolli purtroppo non sono molto scalabili, e possono essere usati
 solo in reti molto limitate. Il lettore RealPlayer per esempio sfrutta un altro
-protocollo detto Real Time Streaming Protocol, in cui non si denisce un cammino attivo, ma una volta ottenute le
+protocollo detto Real Time Streaming Protocol, in cui non si definisce un cammino attivo, ma una volta ottenute le
 speciche dello stream, si utilizza UDP
 o TCP e un sistema di buering per poter trasferire il usso dalla sorgente al
 player. Infatti, inizialmente si parte mediante TCP che riempe il buer, ma se
@@ -460,7 +460,7 @@ applicativo, ma a livello di rete. Facendo ciò, in realtà, si ha che si sono d
 molti meno protocolli rispetto ai servizi integrati (risultando essere inoltre molto
 più scalabili). I servizi dierenziati sono studiati per supportare le applicazioni
 legacy e per domini specici (comunità di utenti). L'idea è quella che si devono
-aggreggare i ussi in diverse categorie, e a seconda delle categorie si denisce la
+aggreggare i ussi in diverse categorie, e a seconda delle categorie si definisce la
 QoS. Un pacchetto viene quindi classicato dal router in base al suo contenuto,
 e viene associato ad una possibile classe, e quindi ad un possibile trattamento.
 Si ha che quindi l'SLA è stipulato sulla classicazione dei ussi, e le garanzie

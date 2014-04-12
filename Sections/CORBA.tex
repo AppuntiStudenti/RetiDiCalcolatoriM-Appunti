@@ -88,7 +88,7 @@ richiesta in maniera adeguata usando un Object Adapter, e riporta quindi la
 risposta al client.
 L'IDL è fondamentale per realizzare le connessioni statiche 28 , che sono molto
 usate in CORBA (quelle dinamiche, per quanto orano un servizio con maggiore
-QoS, sono molto costose). L'IDL denisce (è solo un sistema dichiarativo! un
+QoS, sono molto costose). L'IDL definisce (è solo un sistema dichiarativo! un
 sistema perché il compilatore scelto realizzi quindi uno stub e skeleton statici
 (si può sfruttare per realizzare uno skeleton dinamico on the y mediante un'ino
 vocazione dinamica del servizio, aggiungendolo al servitore!). Senza un servizio
@@ -99,12 +99,12 @@ delle varie implementazioni per creare realmente gli oggetti e i servitori. Infa
 serve solo come specica delle operazioni possibili.
 Stub e skeleton son necessari per fare le operazioni di marshalling ed unmarshalling. Si ha che si realizza un diverso
 proxy (quindi stub e skeleton) per ogni
-interfaccia che si denisce.
+interfaccia che si definisce.
 Da ribadire: è denito un contratto statico fra client e servizio, ma non un
 binding statico fra client e servitore!
 CORBA non ore altro agli utenti: le interfacce sono gli unici oggetti manipolabili e visibili, e quindi quando si
 programma si riferiscono altre interfacce!
-L'IDL di CORBA denisce in maniera automatica i metodi di accesso alle
+L'IDL di CORBA definisce in maniera automatica i metodi di accesso alle
 proprietà dell'interfaccia, ed è in grado di fornire delle informazioni sul coma
 pletamento corretto o meno dell'operazione. Si possono quindi definire (come
 in qualunque altra interfaccia) attributi, operazioni ed eccezioni. Le interfacce
@@ -340,7 +340,7 @@ izzare degli ObjRef interoperabili : questi sono gli IOR. Hanno un costo pesante
 a livello di implementazione, soprattutto perché una volta stabilito, deve essere
 valido in eterno!
 Gli IOR facilitano le gestioni degli ORB: si ha che se si registrano client/server
-e si vogliano riferire in remoto attraverso una rete di ORB, si denisce uno IOR
+e si vogliano riferire in remoto attraverso una rete di ORB, si definisce uno IOR
 sempre valido. In generale adesso gli oggetti in CORBA non sono mai deallocati
 automaticamente (potrebbe farlo), ma è tutto a carico dell'utente. Se si utilizza uno IOR, l'oggetto deve essere
 sempre presente!
@@ -405,7 +405,7 @@ molti clienti e produttori; non è quindi P2P, ma una comunicazione molti a
 molti.
 CORBA stabilisce delle apposite interfacce, denendo mediante ognuna il
 modo di comunicare (push dal produttore, pull dal consumatore, . . . ). Si
-denisce un canale come oggetto di delega, per poter inviare i messaggi ai
+definisce un canale come oggetto di delega, per poter inviare i messaggi ai
 33 Non
 si ricercano ovviamente interfacce, perché presenti sull'IR
 71
