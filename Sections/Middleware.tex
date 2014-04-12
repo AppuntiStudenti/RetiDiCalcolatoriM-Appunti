@@ -185,7 +185,7 @@ Uno dei MOM più diusi è MQSeries di IBM: questo realizza uno stub per
 ogni client, e introduce degli agenti che non sono altro che nodi particolari che
 fanno da relay. I gestori delle code sono a loro volta degli agenti, ve ne è quindi
 uno per coda. Il problema è che gli agenti gestori dei canali (MCA) devono
-essere gestiti in fase di congurazione, quindi sono decisi in maniera statica!
+essere gestiti in fase di configurazione, quindi sono decisi in maniera statica!
 $\bullet$ Per ogni nodo si decide il numero e quali MCA
 $\bullet$ E quindi si attivano le connessioni
 La caratteristica di MQSeries è che, sfruttando le code, introduce QoS: in partie
@@ -337,7 +337,7 @@ Questi ultimi due modelli son presenti in CORBA, .NET e diversi altri mw.
 58
 \subsection{Pattern per la gestione delle risorse e dei servizi}
 Spesso questi pattern rappresentano politiche possibili per il deployment e o la
-congurazione dei vari servizi. I mw possono prevederne più di uno, a seconda
+configurazione dei vari servizi. I mw possono prevederne più di uno, a seconda
 delle esigenze dell'utenza.
 $\bullet$ Il pattern più semplice è quello delle istanze precongurate: viene deciso
 il deployment presso il server in maniera statica, primache il client possa

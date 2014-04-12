@@ -91,7 +91,7 @@ implementata. Si tratta quindi di individuare tecniche per garantire QoS in Inte
 l'introduzione di nuovi protocolli e nuove
 applicazioni
 Le applicazioni classiche di Internet (tipo mail) sono elastiche, ovvero sono
-in grado di adattarsi alla congurazione della rete, e non richiedono QoS al
+in grado di adattarsi alla configurazione della rete, e non richiedono QoS al
 supporto (possono tuttavia specicare un tempo di latenza per poter eseguire).
 In queste applicazioni quindi l'utente non specica dei tempi rigidi per poter
 eseguire.
@@ -195,7 +195,7 @@ ridurre i rischi di una congestione, suddividendo la responsabilità. Il costo `
 quindi limitato dal numero di agenti presenti. Solo però con la terza versione si
 ` introdotto in SNMP anche il concetto di sicurezza.
 SNMP presenta alcuni problemi: prima di tutto, la perdita/sostituzione di
-un agente provoca la ricongurazione di tutto il sistema. Inoltre, si tratta sempre di variabili, che sono solo
+un agente provoca la riconfigurazione di tutto il sistema. Inoltre, si tratta sempre di variabili, che sono solo
 rappresentazioni della risorsa: per esempio, con
 SNMP non si può specicare la banda di un router, non la può controllare! Il
 manager poi comunica con gli agent, ma sempre esternamente deve essere specicata come avviene la comunicazione (ogni
@@ -283,7 +283,7 @@ risorse disponibili, e si devono quindi dividere le risorse in maniera fair. L'i
 richiedono meno risorse, per poter così lasciare più risorse a chi ne ha maggior\i{}
 mente bisogno; x1 $<$ x2 $<$ . . . $<$ xn indica quindi la priorit` con cui servire,
 mentre C indica la capacità massima a disposizione del router. Si possono quina
-di definire mn le risorse eettivamente allocate per il usso n-simo, e Mn le
+di definire mn le risorse effettivamente allocate per il usso n-simo, e Mn le
 risorse attualmente libere. Si ha quindi che:
 mn = min(xn , Mn )
 Mn =
@@ -387,7 +387,7 @@ tipo Resv (solo con questo messaggio riserva le risorse).
 Un cliente quindi dovrà rinnovare mediante gli stessi messaggi la richiesta di
 servizio, tuttavia sono previsiti anche degli appositi messaggi (tear ) sia da parte
 del cliente che del servitore, per poter interrompere l'erogazione del servizio,
-e permettere una ricongurazione del servizio. Il protocollo stabilisce che si
+e permettere una riconfigurazione del servizio. Il protocollo stabilisce che si
 possono richiedere risorse in esclusiva o in condivisione con altri ussi (particolarmente utile per ottimizzare la
 comunicazione). Gli scambi di messaggi
 ovviamente avvengono fra nodi vicini, cercando quindi di limitare il costo senza
