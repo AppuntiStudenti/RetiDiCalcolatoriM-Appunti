@@ -68,7 +68,7 @@ percepiti come una singola entità dall'utente nale (per esempio, discrepanze
 nella velocit` fra audio e video).
 Spesso, in realtà, la QoS è un parametro che è trascurato in fase progeta
 tuale, nonostante sia un obiettivo. Questo perché durante lo sviluppo si hanno
-situazioni con traco molto limitato. Ciò però non è vero per tutti i servizi
+situazioni con traffico molto limitato. Ciò però non è vero per tutti i servizi
 (ad esempio, video streaming o qualunque altro usso di informazioni continuative): la QoS è fondamentale proprio per
 poter erogare il servizio, per cui i
 problemi della banda e della latenza son fondamentali. Per garantire la QoS, le
@@ -230,7 +230,7 @@ quindi di marcare i ussi, e deve riuscire
 a trattare la gestione dei ussi in maniera da favorire i ussi più prioritari (magu
 ari scartando/ritardando i pacchetti dei ussi meno prioritari). Si ha che quindi
 lo stato del router dipende dal singolo pacchetto, che a sua volta dipende dal
-traco. In particolare, è da notare che il costo di una determinata politica
+traffico. In particolare, è da notare che il costo di una determinata politica
 viene riesso su ogni usso/messaggio: per questo vuole l'intrusione minima,
 per minimizzare il costo.
 I router per la QoS si possono modellare mediante due modelli non reali, a
@@ -262,7 +262,7 @@ datagramma e non vi sono condizioni per cui il usso è rallentato e le code son
 libere, il router lavora alla Internet, reinstradando subito il pacchetto. Infatti,
 per la legge di Kleinrock, il router non può essere in una condizione di idle se
 vi sono dei pacchetti da portare in uscita. La legge di kleinrock stabilisce che,
-dati n ussi, con traco $\lambda$n e tempo medio di servizio $\mu$n :
+dati n ussi, con traffico $\lambda$n e tempo medio di servizio $\mu$n :
 $\bullet$ Il prodotto $\rho$n = $\lambda$n · $\mu$n rappresenta l'utilizzo medio del router
 $\bullet$ Denito qn il tempo medio di attesa si ha che
 $\rho$n · qn = K
@@ -281,7 +281,7 @@ min-max fairness. Si immagini di avere un numero di richieste superiore alle
 risorse disponibili, e si devono quindi dividere le risorse in maniera fair. L'idea
 ` quella di classificare i ussi in base alle loro esigenze, privilegiando i ussi che
 richiedono meno risorse, per poter così lasciare più risorse a chi ne ha maggior\i{}
-mente bisogno; x1 $<$ x2 $<$ . . . $<$ xn indica quindi la priorit` con cui servire,
+mente bisogno; x1 $<$ x2 $<$ . . . $<$ xn indica quindi la priorità con cui servire,
 mentre C indica la capacità massima a disposizione del router. Si possono quina
 di definire mn le risorse effettivamente allocate per il usso n-simo, e Mn le
 risorse attualmente libere. Si ha quindi che:
@@ -304,9 +304,9 @@ si lavora a pacchetti e non a bit. Anche questo modello in realtà serve solo pe
 studiare le politiche pensate e confrontarle, per determinarne la fairness.
 In realtà, fra le politiche realmente diuse ed implementate in router con
 QoS vi sono:
-1. Priorit` ai ussi : vi sono diversi livelli di priorit` con cui poter etichettare
+1. Priorit` ai ussi : vi sono diversi livelli di priorità con cui poter etichettare
 un usso. Il router quindi si preoccupa di favorire prima i ussi a massima
-priorit`. Questo però non è una politica fair ! Se continuano ad arrivare
+priorità. Questo però non è una politica fair ! Se continuano ad arrivare
 pacchetti di questi ussi, quelli meno prioritari non verranno mai serviti
 (non avranno mai banda a sucienza)!
 2. Round robin: è una politica più fair, che garantisce comunque ad ogni
@@ -316,7 +316,7 @@ si potrebbe usare un weighted round robin, per poter pesare diversamente
 i datagrammi. Pi` un datagramma è pesato, maggiori risorse vi sono
 associate. La normalizzazione è dicile da realizzare per ussi troppo
 corti) Il round robin viene spesso implementata in quei router in cui non
-si possono specicare delle priorit` speciche, ma in cui comunque i ussi
+si possono specicare delle priorità speciche, ma in cui comunque i ussi
 devono competere per delle risorse.
 3. Decit round robin: si associa una storia ad ogni usso, perché si impone
 un limite per ciascuno. Se un usso supera la soglia consentita, non viene
@@ -367,7 +367,7 @@ questo signica che su ogni nodo si lavorer` a livello applicativo, in maniera ta
 da poter individuare fra i possibili cammini il cammino migliore, che divverr` ata
 tivo. Per far ciò si utilizza un protocollo detto Reservation Protocol ; questo proo
 tocollo infatti permette di specicare un cammino attivo in grado di rispettare
-una determinata SLA, senza considerare il traco corrente, ovvero permette di
+una determinata SLA, senza considerare il traffico corrente, ovvero permette di
 riservare delle risorse in maniera attiva per il servizio. L'idea è che si inviino
 delle informazione dal ricevente al mittente (e viceversa) per poter valutare le
 risorse (ovvero ogni risorsa dovrà provvedere con un opportuno messaggio da
