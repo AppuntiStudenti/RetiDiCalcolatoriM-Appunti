@@ -109,15 +109,15 @@ prevedere se si vuole affidabilità.
 Tuttavia, si potrebbe rimbalzare il problema a livello applicativo: per
 esempio Chorus eettua multicast mai ripetuti, quindi unreliable, ma
 specica agli sviluppatori di realizzare il sistema di ritrasmissione.
-2. Fornire l'atomicit` della trasmissione: per atomicit` si intende l'ordine
+2. Fornire l'atomicità della trasmissione: per atomicità si intende l'ordine
 con cui i messaggi giungono al gruppo. Si dovrebbe fare in modo infatti
 che tutti i membri del gruppo li ricevano nello stesso ordine?Non è detto
 (solo letture si potrebbero fare in ordine diverso)! Può essere infatti che
 a seconda dell'ordine dei messaggi si debbano attuare politiche diverse.
-L'atomicit` è lo studio di questo problema.
+L'atomicità è lo studio di questo problema.
 ae
 Questi due aspetti devono essere tenuti separati : in questo caso quindi si ha
-che l'atomicit` fa l'ipotesi che in ogni modo i messaggi giungano sempre a desa
+che l'atomicità fa l'ipotesi che in ogni modo i messaggi giungano sempre a desa
 tinazione. Nel progetto di una comunicazione di gruppo non è quindi solo ime
 portante la singola operazione, ma l'ordine con cui giungono al gruppo.
 L'affidabilità viene a mancare se si perde un messaggio, oppure un crash
