@@ -26,49 +26,37 @@ reti, perché diventa possibile utilizzare anche più router. La versione 2 inol
 gruppo che mancava: prima era comunque tutto a carico del router, che doveva inviare i messaggi query periodicamente
 e attendere le risposte dai clienti.
 \subsection{Realizzare il routing multicast}
-Non esistono soluzioni standard per realizzare il routing multicast. Lo scenario
-studiato è quello di più utenti ma un unico trasmettitore. Si realizza quindi una
-struttura ad albero dinamico (si possono inserire/togliere utenti/nodi):
-$\bullet$ La radice è il trasmettitore
-$\bullet$ I clienti sono le foglie
-$\bullet$ I nodi padre sono i router che rendono possibile il cammino.
+Non esistono soluzioni standard per realizzare il routing multicast. Lo scenario studiato è quello di più utenti ma un
+unico trasmettitore. Si realizza quindi una struttura ad albero dinamico (si possono inserire/togliere utenti/nodi):
+\begin{itemize}
+ \item La radice è il trasmettitore
+ \item I clienti sono le foglie
+ \item I nodi padre sono i router che rendono possibile il cammino.
+\end{itemize}
 La struttura ad albero è efficiente: evita infatti la presenza di cicli e maglie.
-Tuttavia, la struttura dell'albero può inuenzare notevolmente l'efficienza delo
-l'architettura.
-Il primo passo è quello di realizzare uno spanning tree per cui si manda
-in ooding un messaggio per ogni destinatario, così che la radice riesca ad in\i{}
-dividuare i cammini possibili, sfruttando i messaggi del protocollo unicast. Il
-problema è che questo protocollo ha un costo che cresce tantissimo all'aumentare
-del numero dei partecipanti.
-Il secondo passo riguarda quello della ricerca dei cammini condivisi, per cui
-dei router possono essere sfruttati per realizzare un cammino più efficiente (spanu
-ning tree minimo). Si viene così a realizzare una bone o backbone multicast.
-\i{}
-
-39
-Inne, la radice raccoglie le informazioni ricevute per determinare lo spanning
-tree minimo.
-Una soluzione alternativa è il Reverse Path Broadcast, ovvero ora l'iniziativa
-` a carico dei clienti. Durante il normale routing, i clienti provano a mandare
-un broadcast verso la radice, che può, in base a nuove informazioni, cercare
-di ottimizzare/aggregare ulteriormente l'albero. Tale sistema presenta tuttavia
-dei costi ulteriori che devono essere valutati; le tecnologie utilizzate sono infatti
-le stesse per determinare un cammino minimo di Dijkstra, cioè o si sfrutta il
-Distance Vector (si deve lavorare sfruttando anche le informazioni del prossimo
-vicino per evitare cammini troppo lunghi) oppure Link State (tanti alberi quanti
-i cammini minimi, poi si devono risolvere i tie break). Tuttavia, questo sistema
-permette di ridurre il numero di messaggi scambiati e permette di poter definire
-la banda necessaria.
-In realtà la maggior parte dei sistemi sfrutta come protocollo il Reverse Path
-Multicast per cercare di limitare (anche se di poco) il costo: resta comunque
-tutto a carico della radice su come realizzare l'albero di routing.
-Non esiste uno standard per queste tecnologie, ma diverse proposte: si hanno
-dei problemi simili a quelli dell'invio della QoS con i servizi integrati di frame.
-Infatti si lavora spesso con stati non permanenti(soft state dalla durata limitata:
-gli intervalli sono un parametro critico della progettazione), alberi dinamici
-in grado di fare riorganizzazioni locali. Le operazioni di base riguardano la
-potatura (eliminazione di un router superuo) e il reinserimento o graft dinamico
-(reinserimento di router). Si deve quindi spesso ricalcolare l'albero in caso di
+Tuttavia, la struttura dell'albero può inuenzare notevolmente l'efficienza dell'architettura.
+Il primo passo è quello di realizzare uno spanning tree per cui si manda in flooding un messaggio per ogni destinatario,
+così che la radice riesca ad individuare i cammini possibili, sfruttando i messaggi del protocollo unicast. Il
+problema è che questo protocollo ha un costo che cresce tantissimo all'aumentare del numero dei partecipanti.
+Il secondo passo riguarda quello della ricerca dei \textit{cammini condivisi}, per cui dei router possono essere
+sfruttati per realizzare un cammino più efficiente (spanning tree minimo). Si viene così a realizzare una bone o
+backbone multicast.
+Infine, la radice raccoglie le informazioni ricevute per determinare lo \textit{spanning tree minimo}.
+Una soluzione alternativa è il \textit{Reverse Path Broadcast}, ovvero ora l'iniziativa è a carico dei clienti. Durante
+il normale routing, i clienti provano a mandare un broadcast verso la radice, che può, in base a nuove informazioni,
+cercare di ottimizzare/aggregare ulteriormente l'albero. Tale sistema presenta tuttavia dei costi ulteriori che devono
+essere valutati; le tecnologie utilizzate sono infatti le stesse per determinare un cammino minimo di Dijkstra, cioè o
+si sfrutta il Distance Vector (si deve lavorare sfruttando anche le informazioni del prossimo vicino per evitare cammini
+troppo lunghi) oppure Link State (tanti alberi quanti i cammini minimi, poi si devono risolvere i tie break). Tuttavia,
+questo sistema permette di ridurre il numero di messaggi scambiati e permette di poter definire la banda necessaria.
+In realtà la maggior parte dei sistemi sfrutta come protocollo il Reverse Path Multicast per cercare di limitare
+(anche se di poco) il costo: resta comunque tutto a carico della radice su come realizzare l'albero di routing.
+Non esiste uno standard per queste tecnologie, ma diverse proposte: si hanno dei problemi simili a quelli dell'invio
+della QoS con i servizi integrati di frame.
+Infatti si lavora spesso con stati non permanenti (soft state dalla durata limitata: gli intervalli sono un parametro
+critico della progettazione), alberi dinamici in grado di fare riorganizzazioni locali. Le operazioni di base riguardano
+la potatura (eliminazione di un router superfluo) e il reinserimento o graft dinamico (reinserimento di router). Si deve
+quindi spesso ricalcolare l'albero in caso di
 variazioni! Le varie proposte sono:
 $\bullet$ Distance Vector Multicast Routing Protocol : è basato su una multicast
 bone, si attraversano le reti utilizzando un sistema di tunneling. Il risultato
