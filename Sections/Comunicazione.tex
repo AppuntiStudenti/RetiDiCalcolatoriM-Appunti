@@ -1,40 +1,30 @@
 \section{Sistemi per la comunicazione e la sincronizzazione}
-La maniera con cui due processi possono comunicare è molto variabile: si
-possono classificare le comunicazioni in diversi modi (sincrone/asincrone, dirette/indirette, bloccanti/non bloccanti . .
-. ). Di particolare interesse riguarda
-ovviamente la comunicazione a molti destinatari : un tale sistema può essere alle
-volte molto costoso da gestire, ma spesso è necessario (gestione a copie attive;
-sottoscrizione di consumer ad eventi; e così via. . . ).
-\i{}
-Nel modello di Internet erano stati studiati due sistemi: il broadcast (realmente inarontabile dal costo) e il multicast
-(realizzabile su indirizzi di classe
-D). Tuttavia, questi sistemi risultano essere efficienti nch` si lavora comunque
-con una località. Se invece si dovesse lavorare su più gruppi, è necessario utia
-lizzare come protocollo IGMP (utilizzo quindi di un protocollo non locale), che
-permette a una o più reti di trasmettere in multicast, realizzando una sorta di
-14 Obiettivo: raggiungere un qualunque indirizzo della classe specicata, che sia il più vicino
-o il più comodo
-38
-broadcast locale (comunque abbastanza costoso)15 . Oltre al costo, queste comunicazioni mancano prima di tutto di QoS
-(IGMP non garantisce l'ordine dei
-messaggi!), ma hanno anche una debole capacità espressiva (non si riesce per
-esempio a definire priorit` nelle comunicazioni, oppure sincronismi. . . ). Infatti,
-in Internet si ragiona utilizzando il Time To Live per poter dirigere e guidare
-una comunicazione multicast: se è progettato male, l'intero sistema si ingolfa.
-IGMP è un protocollo che permette ai nodi di una rete di lavorare in gruppo
-(si registrano tutti a uno stesso indirizzo multicast). Richiede quindi l'utilizzo
-di un router di supporto, in maniera tale da poter controllare sia il traco in
-entrata che in uscita; sfrutta infatti dei particolari messaggi IGMP, come le
-query, per vericare chi si sia registrato a quell'indirizzo multicast mediante un
-messaggio di tipo report. Si cerca quindi di lavorare in un ambiente locale tale
+La maniera con cui due processi possono comunicare è molto variabile: si possono classificare le comunicazioni in
+diversi modi (sincrone/asincrone, dirette/indirette, bloccanti/non bloccanti...). Di particolare interesse è
+ovviamente la \textit{comunicazione a molti destinatari}: un tale sistema può essere alle volte molto costoso da
+gestire, ma spesso è necessario (gestione a copie attive, sottoscrizione di consumer ad eventi, e così via...).
+Nel modello di Internet erano stati studiati due sistemi: il broadcast (realmente inaffrontabile dal costo) e
+il multicast (realizzabile su indirizzi di classe D). Tuttavia, questi sistemi risultano essere efficienti finché si
+lavora comunque con una località. Se invece si dovesse lavorare su più gruppi, è necessario utilizzare come protocollo
+IGMP (utilizzo quindi di un protocollo non locale), che permette a una o più reti di trasmettere in multicast,
+realizzando una sorta di\footnote{Obiettivo: raggiungere un qualunque indirizzo della classe specicata, che sia il più
+vicino o il più comodo} broadcast locale (comunque abbastanza costoso)\footnote{L'alternativa è peggiore: fare un
+flooding globale! Ma per mandare un messaggio a tutti, i router dovrebbero avere uno stato, e vericare che il messaggio
+non l'abbiano già ricevuto... quanto deve durare lo stato?}. Oltre al costo, queste comunicazioni mancano prima di 
+tutto di QoS (IGMP non garantisce l'ordine dei messaggi!), ma hanno anche una debole capacità espressiva (non si riesce
+per esempio a definire priorità nelle comunicazioni, oppure sincronismi...). Infatti, in Internet si ragiona utilizzando
+il \textit{Time To Live} per poter dirigere e guidare una comunicazione multicast: se è progettato male, l'intero
+sistema si ingolfa. 
+IGMP è un protocollo che permette ai nodi di una rete di lavorare in gruppo (si registrano tutti a uno stesso indirizzo
+multicast). Richiede quindi l'utilizzo di un router di supporto, in maniera tale da poter controllare sia il traffico in
+entrata che in uscita; sfrutta infatti dei particolari messaggi IGMP, come le query, per vericare chi si sia registrato
+a quell'indirizzo multicast mediante un messaggio di tipo report. Si cerca quindi di lavorare in un ambiente locale tale
 da garantire che le azioni di multicast siano valide per quella rete.
-Nella versione iniziale del protocollo, vi erano degli altri problemi di gestione,
-dovuti al fatto che vi fosse un singolo router a dover gestire tutta l'infrastruttura
-IGMP. Con la versione 2, un router può in realtà controllare più reti, perché
-diventa possibile utilizzare anche più router. La versione 2 inoltre introduce un
-messaggio di leave dal gruppo che mancava: prima era comunque tutto a carico
-del router, che doveva inviare i messaggi query periodicamente e attendere le
-risposte dai clienti.
+Nella versione iniziale del protocollo, vi erano degli altri problemi di gestione, dovuti al fatto che vi fosse un
+singolo router a dover gestire tutta l'infrastruttura IGMP. Con la versione 2, un router può in realtà controllare più
+reti, perché diventa possibile utilizzare anche più router. La versione 2 inoltre introduce un messaggio di leave dal
+gruppo che mancava: prima era comunque tutto a carico del router, che doveva inviare i messaggi query periodicamente
+e attendere le risposte dai clienti.
 \subsection{Realizzare il routing multicast}
 Non esistono soluzioni standard per realizzare il routing multicast. Lo scenario
 studiato è quello di più utenti ma un unico trasmettitore. Si realizza quindi una
@@ -54,9 +44,7 @@ Il secondo passo riguarda quello della ricerca dei cammini condivisi, per cui
 dei router possono essere sfruttati per realizzare un cammino più efficiente (spanu
 ning tree minimo). Si viene così a realizzare una bone o backbone multicast.
 \i{}
-15 L'alternativa è peggiore: fare un ooding globale! Ma per mandare un messaggio a
-tutti,i router dovrebbero avere uno stato, e vericare che il messaggio non l'abbiano già
-ricevuto. . . quanto deve durare lo stato?
+
 39
 Inne, la radice raccoglie le informazioni ricevute per determinare lo spanning
 tree minimo.
@@ -134,7 +122,7 @@ L'idea è quindi quella di realizzare dei meccanismi molto semplici, in maniera
 da poter garantire un controllo16 per poter effettuare la ritrasmissione. Si deve
 quindi studiare come richiedere o meno la ritrasmissione: per esempio, se avessimo una conferma positiva per ogni frame
 (si usa così un meccanismo di hold\i{}
-back, trattenendo i messaggi nch` non arriva la conferma che il precedente `
+back, trattenendo i messaggi finché non arriva la conferma che il precedente `
 stato ricevuto), il costo per il monitoring sarebbe elevato. Si riduce utilizzando
 le conferme negative, dove si può indicare cosa si è perso (si hanno dei messaggi
 ordinati . . . ). Un altro problema riguarda l'intervallo di tempo per aspettare,
@@ -258,7 +246,7 @@ d'interesse. E una prospettiva più ottimista e molto meno costosa (infatti si
 riduce la comunicazione solo agli eventi signicativi, evitando di dover tenere
 aggiornati gli orologi sici).
 Vi sono diversi sistemi per poter ordinare in base agli eventi di interesse.
-Quello meno importante è quello basato su delle priorit` denite in maniera
+Quello meno importante è quello basato su delle priorità denite in maniera
 statica. Infatti così si viene a realizzare una politica molto rigida, con rischio
 \i{}
 di starvation (andrebbe bene se l'architettura prevede dei processi che debbano
@@ -359,7 +347,7 @@ $\bullet$ Fairness (Non vi possono essere processi che rischiano starvation).19
 18 Non
 19 Un
 si incrementa in realtà sempre, per il rischio di giungere velocemente ad overow
-sistema basato su priorit` non garantisce liveness e fairness
+sistema basato su priorità non garantisce liveness e fairness
 46
 Si può realizzare un sistema per accesso alle risorse che rispetti questi invario
 anti creando un processo gestore20 , in grado di lavorare FIFO, e sfruttando un
@@ -481,9 +469,9 @@ giunge quindi di nuovo a chi lo ha generato, diviene il nuovo token21 . Visto ch
 più processi possono mandare il token d'elezione, si ha che si decide in maniera
 statica quale è il più prioritario, numerando i processi.
 Un protocollo di elezione molto semplice da fare ed efficiente è Bully: l'idea
-` che un processo di priorit` superiore zittisca le richieste di processi inferiori,
+` che un processo di priorità superiore zittisca le richieste di processi inferiori,
 per divenire lui il gestore. Si ha quindi che un processo di basso livello manda
-verso l'alto un messaggio d'elezione. Se un processo di priorit` superiore può
+verso l'alto un messaggio d'elezione. Se un processo di priorità superiore può
 assumere il compito di gestore, manda un Answer verso il basso, e propaga verso
 l'alto la sua elezione. Se non riceve nessun Answer entro un certo tempo, assume
 di essere diventato il gestore. Questo protocollo rischi di presentare molte fasi
