@@ -263,64 +263,52 @@ Nel caso delle copie attive, vi sono 5 passaggi che si devono fare in ordine:
  fornisce al cliente. La gestione è maggiormente semplificata.
 \end{enumerate}
 \subsection{Politiche di aggiornamento}
-Esistono diverse possibilità per effettuare l'aggiornamento delle copie. Vi potrebbe
-essere una copia primaria che si preoccupa di aggiornare le altre, oppure tutte
-le copie possono assumere questo compito. Si deve poi decidere se privilegiare
-la correttezza (situazione eager o pessimista, si prevede di aggiornare tutte le
-copie prima di fornire la risposta al cliente, quindi a scapito della prontezza della risposta), oppure il tempo di
-risposta (situazione lazy o ottimista, aggiorno
-prima il client e poi le altre copie).
-$\bullet$ Copia primaria eager : una copia esegue, si preoccupa di aggiornare tutte
-le altre copie, e quindi fornisce il risultato al cliente. Esegue quindi
-un'operazione alla volta
-$\bullet$ Copia primaria lazy: aggiorna prima il cliente poi le altre copie. Pu`
-`
-quindi eseguire più operazioni alla volta. E compito del gestore controllare
-gli aggiornamenti e vericare che siano stati recepiti da tutte le copie in
-maniera corretta, coordinandole.
-$\bullet$ Aggiornamento di tutte eager : tutte le copie devono eseguire, mettesi d'accordo (two-phase commit) e quindi
-fornire il risultato: è in questo caso
-che si potrebbero avere undo costosi. Un'altra soluzione sarebbe che una
-copia, ricevuta la richiesta, la propaga a tutte utilizzando un'operazione
-multicast atomica.
-Il problema del coordinamento è che è costoso: tuttavia, è anche lo strumento
-che ci fornisce le maggiori garanzie di correttezza. Vi possono essere dei rilassamenti, per esempio: si parla di copie
-tiepide quando i checkpoint sono fatti a
-determinati intervalli, per ridurre il costo dell'operazione.
-25
+Esistono diverse possibilità per effettuare l'aggiornamento delle copie. Vi potrebbe essere una copia primaria che si
+preoccupa di aggiornare le altre, oppure tutte le copie possono assumere questo compito. Si deve poi decidere se
+privilegiare la correttezza (situazione eager o pessimista, si prevede di aggiornare tutte le copie prima di fornire
+la risposta al cliente, quindi a scapito della prontezza della risposta), oppure il tempo di risposta (situazione 
+lazy o ottimista, aggiorno prima il client e poi le altre copie).
+\begin{itemize}
+ \item \textit{Copia primaria eager}: una copia esegue, si preoccupa di aggiornare tutte le altre copie, e quindi
+ fornisce il risultato al cliente. Esegue quindi un'operazione alla volta
+ \item \textit{Copia primaria lazy}: aggiorna prima il cliente poi le altre copie. Può quindi eseguire più operazioni
+ alla volta. È compito del gestore controllare gli aggiornamenti e vericare che siano stati recepiti da tutte le copie
+ in maniera corretta, coordinandole.
+ \item \textit{Aggiornamento di tutte eager}: tutte le copie devono eseguire, mettesi d'accordo (two-phase commit) e
+ quindi fornire il risultato: è in questo caso che si potrebbero avere undo costosi. Un'altra soluzione sarebbe che
+ una copia, ricevuta la richiesta, la propaga a tutte utilizzando un'operazione \textit{multicast atomica}.
+\end{itemize}
+Il problema del coordinamento è che è costoso: tuttavia, è anche lo strumento che ci fornisce le maggiori garanzie di
+correttezza. Vi possono essere dei rilassamenti, per esempio: si parla di copie tiepide quando i checkpoint sono fatti
+a determinati intervalli, per ridurre il costo dell'operazione.
 \subsection{Clustering}
-L'idea del cluster è quella di realizzare un insieme di risorse replicate sempre
-disponibili (high availability), cercando di snellire il tutto per non avere un tempo di risposta troppo alto. L'idea
-quindi sarebbe avere un protocollo semplice
-e le soluzioni sempre disponibili (ma spesso è solo un bello slogan).
-Per realizzare ciò si utilizzano componenti o the shelf, a basso costo e facilo
-mente reperibili e sostituibili (alla Google). Si può cercare anche di bilanciare
-il carico: all'arrivo di una richiesta, una sola copia lavora, possibilmente quella
-più libera (esecuzione dinamica quindi). In generale quindi:
-$\bullet$ Si riceve la richiesta
-$\bullet$ La si smista alla macchina meno carica
-$\bullet$ Esecuzione
-$\bullet$ Viene fornito il risultato al client.
-`
-Per decidere quale copia debba eseguire, come si fa? E necessario un sistema
-di monitoring (necessario per la QoS), uno scheduler (in generale strutturato
-master/slave). Questo sistema deve anche essere in grado di identificare eventuali copie guaste, e quindi di escluderle
-per mantenere delle buone prestazioni,
-possibilmente facendo migrare i servizi sulle macchine al momento migliori. Per
-determinare se una copia è attiva, si usano degli heartbeat, ovvero si mandano
-dei messaggi per vericare se la copia è viva: se non risponde, si suppone che
-ci siano problemi. Questo sistema deve essere correttamente dimensionato (ogni quanto si manda l'impulso? Qual'` il
-tempo di comunicazione? Il massimo
-ritardo accettabile? In generale vi è una macchina apposita per questo compito).
+L'idea del cluster è quella di realizzare un insieme di risorse replicate sempre disponibili (high availability),
+cercando di snellire il tutto per non avere un tempo di risposta troppo alto. L'idea quindi sarebbe avere un protocollo
+semplice e le soluzioni sempre disponibili (ma spesso è solo un bello slogan).
+Per realizzare ciò si utilizzano componenti \textit{off the shelf}, a basso costo e facilmente reperibili e 
+sostituibili (alla Google). Si può cercare anche di bilanciare il carico: all'arrivo di una richiesta, una sola copia
+lavora, possibilmente quella più libera (esecuzione dinamica quindi). In generale quindi:
+\begin{enumerate}
+ \item Si riceve la richiesta
+ \item La si smista alla macchina meno carica
+ \item Esecuzione
+ \item Viene fornito il risultato al client.
+\end{enumerate}
+Per decidere quale copia debba eseguire, come si fa? È necessario un sistema di monitoring (necessario per la QoS), 
+uno scheduler (in generale strutturato master/slave). Questo sistema deve anche essere in grado di identificare
+eventuali copie guaste, e quindi di escluderle per mantenere delle buone prestazioni, possibilmente facendo migrare i
+servizi sulle macchine al momento migliori. Per determinare se una copia è attiva, si usano degli \textit{heartbeat},
+ovvero si mandano dei messaggi per vericare se la copia è viva: se non risponde, si suppone che ci siano problemi.
+Questo sistema deve essere correttamente dimensionato (ogni quanto si manda l'impulso? Qual è il tempo di 
+comunicazione? Il massimo ritardo accettabile? In generale vi è una macchina apposita per questo compito).
 Nel caso di fail-over, vi sono due diverse politiche da attuare:
-$\bullet$ O si attiva una macchina che era passiva
-$\bullet$ Oppure si sfrutta una macchina che era già attiva per un altro servizio,
-caricandola ulteriormente. Ciò può essere costoso alle volte
-o o
+\begin{itemize}
+ \item O si attiva una macchina che era passiva
+ \item Oppure si sfrutta una macchina che era già attiva per un altro servizio, caricandola ulteriormente. Ciò può
+ essere costoso alle volte
+\end{itemize}
 Se l'heartbeat non è progettato correttamente, potrebbe causare fail-over!
-Se si partizionano le risorse (abbiamo per esempio due sottoreti) cosa succede? Pu` essere problematico, il cluster
-dovrebbe lavorare comunque! Si deve
-ripristinare la rete globale. Il servizio deve funzionare anche se vi sono problemi
-di coordinamento, quindi in realtà si prosegue lo stesso, e si rinvia l'aggiornaa
-mento ad un secondo momento. Le due sotto-reti quindi si coordineranno più
-avanti!
+Se si partizionano le risorse (abbiamo per esempio due sottoreti) cosa succede? Può essere problematico, il cluster
+dovrebbe lavorare comunque! Si deve ripristinare la rete globale. Il servizio deve funzionare anche se vi sono problemi
+di coordinamento, quindi in realtà si prosegue lo stesso, e si rinvia l'aggiornamento ad un secondo momento. Le due
+sotto-reti quindi si coordineranno più avanti!
