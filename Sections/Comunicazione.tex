@@ -34,7 +34,7 @@ unico trasmettitore. Si realizza quindi una struttura ad albero dinamico (si pos
  \item I nodi padre sono i router che rendono possibile il cammino.
 \end{itemize}
 La struttura ad albero è efficiente: evita infatti la presenza di cicli e maglie.
-Tuttavia, la struttura dell'albero può inuenzare notevolmente l'efficienza dell'architettura.
+Tuttavia, la struttura dell'albero può influenzare notevolmente l'efficienza dell'architettura.
 Il primo passo è quello di realizzare uno spanning tree per cui si manda in flooding un messaggio per ogni destinatario,
 così che la radice riesca ad individuare i cammini possibili, sfruttando i messaggi del protocollo unicast. Il
 problema è che questo protocollo ha un costo che cresce tantissimo all'aumentare del numero dei partecipanti.
