@@ -335,32 +335,30 @@ Come si fa a stabilire il ritardo, è dovuto a congestione o all'applicazione? P
 meno messaggi, è applicato ancora meno.
 Vi sono esempi di implementazioni:
 \begin{itemize}
- \item CATOCS,Causal Totally Ordered Comunication Operation Support: è un sistema scalabile, mantenedo limitato il
- numero dei partecipanti. Si mantengono infatti continuamente dei gestori coordinati fra di loro, in grado di servire
- le richieste, si utilizza broadcast in casi specici.
-
-\item ISIS: è un sistema totalmente basato su gruppi e risorse di gruppo, per cui si necessita di coordinarsi fra le
-varie copie attive dotate di replicazione.
-Prevede l'utilizzo di diverse forme di multicast, distinte a seconda del tipo di ordinamento. Di base si hanno infatti
-le multicast per i 3 ordinamenti specificati (FIFO, causal e atomic), ma inoltre è presente una particolare
-multicast, che serve proprio per la gestione del gruppo stesso. Utilizzando questa multicast, infatti, un gruppo può
-cambiare la propria granularità, eliminando copie non attive o reintroducendo quelle che hanno subito recovery.
-Caratteristica fondamentale è che il messaggio di gestione venga ricevuto solo dopo che tutti gli altri messaggi, dovuti
-agli altri tipi di multicast, siano stati ricevuti da ogni membro del gruppo. Riesce a fornire un sistema di monitoring
-(basandosi anche su delle tabelle che vengono aggiornate da questi multicast).
-L'atomic multicast di ISIS in particolare utilizza Lamport e le code locali ai processi per poter decidere con una
-politica di gruppo l'ordine dei messaggi. Ogni messaggio ricevuto quindi da una copia deve essere spedito a
-tutte le altre copie, con un'indicazione di timestamp. Ogni copia lo marca con il proprio timestamp, e lo rispedisce
-indietro al primo mittente, il quale lo marca definitivamente con il timestamp maggiore e lo rispedisce a tutti gli
-altri (costo di Lamport).
-Il causal multicast aggiunge un costo visto che la dipendenza di relazione è al di fuori del gruppo: si tratta di un
-ordine parziale, però richiede che comunque vi sia un coordinamento fra i clock logici dei mittenti, per poi
-far arrivare l'informazione in maniera corretta anche ai riceventi.
+ \item \textbf{CATOCS}, \textit{Causal Totally Ordered Comunication Operation Support}: è un sistema scalabile,
+ mantenedo limitato il numero dei partecipanti. Si mantengono infatti continuamente dei gestori coordinati fra di loro,
+ in grado di servire le richieste, si utilizza broadcast in casi specici.
+ \item \textbf{ISIS}: è un sistema totalmente basato su gruppi e risorse di gruppo, per cui si necessita di coordinarsi
+ fra le varie copie attive dotate di replicazione.
+ Prevede l'utilizzo di diverse forme di multicast, distinte a seconda del tipo di ordinamento. Di base si hanno 
+ infatti le multicast per i 3 ordinamenti specificati (FIFO, causal e atomic), ma inoltre è presente una particolare
+ multicast, che serve proprio per la gestione del gruppo stesso. Utilizzando questa multicast, infatti, un gruppo può
+ cambiare la propria granularità, eliminando copie non attive o reintroducendo quelle che hanno subito recovery.
+ Caratteristica fondamentale è che il messaggio di gestione venga ricevuto solo dopo che tutti gli altri messaggi,
+ dovuti agli altri tipi di multicast, siano stati ricevuti da ogni membro del gruppo. Riesce a fornire un sistema di
+ monitoring (basandosi anche su delle tabelle che vengono aggiornate da questi multicast).
+ L'atomic multicast di ISIS in particolare utilizza Lamport e le code locali ai processi per poter decidere con una
+ politica di gruppo l'ordine dei messaggi. Ogni messaggio ricevuto quindi da una copia deve essere spedito a
+ tutte le altre copie, con un'indicazione di timestamp. Ogni copia lo marca con il proprio timestamp, e lo rispedisce
+ indietro al primo mittente, il quale lo marca definitivamente con il timestamp maggiore e lo rispedisce a tutti gli
+ altri (costo di Lamport).
+ Il causal multicast aggiunge un costo visto che la dipendenza di relazione è al di fuori del gruppo: si tratta di un
+ ordine parziale, però richiede che comunque vi sia un coordinamento fra i clock logici dei mittenti, per poi
+ far arrivare l'informazione in maniera corretta anche ai riceventi.
 \end{itemize}
 \subsection{Sincronizzazione a token}
 Si tratta di un altro modello per superare il problema del gestore centralizzato. L'idea è quella di avere un anello
-totalmente ideale, per cui i processi si
-conoscano solo in maniera limitata (prossimo ed antecedente). I vari processi
+totalmente ideale, per cui i processi si conoscano solo in maniera limitata (prossimo ed antecedente). I vari processi
 si passano un unico, sempre presente token, che stabilisce la sincronizzazione
 (chi ce l'ha è il gestore dinamico della risorsa, ovvero vi può accedere se ne
 ha bisogno). Si tratta di una soluzione molto pro attiva, poich` il token gira
