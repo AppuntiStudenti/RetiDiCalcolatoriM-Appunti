@@ -32,7 +32,7 @@ bile.
 $\bullet$ WSDL: Web Service Description Language è il linguaggio basato su XML
 per poter definire dei WS.
 $\bullet$ UDDI : Universal Discovery Distribution Integration: questo invece è il
-protocollo che specica come i servizi si possano raccogliere in appositi
+protocollo che specifica come i servizi si possano raccogliere in appositi
 contenitori, realizzando un apposito sistema di nomi.
 I servizi sono deniti one-shot, il che signica che sono eseguiti in maniera unica,
 isolata! Per ogni richiesta, si attiva un solo servizio. Siamo quindi in presenza
@@ -42,7 +42,7 @@ provider abbia stato!
 Nelle prime implementazioni dei WS non erano previsti meccanismi per la
 sicurezza, il management e la QoS. Si aveva quindi, per esempio, solo crittograa
 a livello applicativo, il che però non era un sistema standard!
-Perch` si è deciso di utilizzare XML? Permette di specicare in una maniera
+Perch` si è deciso di utilizzare XML? Permette di specificare in una maniera
 e e
 fortemente strutturata (realizzando dati che si possono validare formalmente, e
 utilizzando DTD/XSD si possono anche controllare dal punto di vista sintatticosemantico), potendo quindi esprimere le
@@ -51,14 +51,14 @@ preferenze in maniera dinamica!
 `
 E il protocollo per la comunicazione, in grado quindi di strutturare l'interazione.
 Denisce quindi come si può accedere agli oggetti. Presenta un alto overhead
-perché si deve specicar tutto: siamo infatti in un'interazione senza stato, per
-cui si deve specicare URI, . . . Non vi è quindi nessun supporto semantico, e vi
+perché si deve specificar tutto: siamo infatti in un'interazione senza stato, per
+cui si deve specificare URI, . . . Non vi è quindi nessun supporto semantico, e vi
 possono essere più interazioni.
 SOAP quindi permette di definire operazioni, dati e parametri. Sfrutta
 HTTP come protocollo per la trasmissione, e XML per poter serializzare i dati.
 In questo modo, si possono definire operazioni remote sfruttando l'XML: un
 servitore riceve una richiesta standard, e la sua implementazione non interessa i
-WS. Un provider dovrà soltanto rispondere rispettando la specica fornita con
+WS. Un provider dovrà soltanto rispondere rispettando la specifica fornita con
 SOAP!
 SOAP quindi permette di descrivere l'interazione ma non solo: possiamo
 avere operazioni senza risultati, o in grado emulare il comportamento C/S39 ,
@@ -74,7 +74,7 @@ SOAP si basa sull'idea di incapsulare mediante XML le informazioni necessarie al
 un'envelope:
 $\bullet$ Il body contiene le informazioni richieste per la comunicazione, cioè il
 contenuto vero e proprio del messaggio, e le corrispondenti risposte.
-$\bullet$ L'header specica altre informazioni utili per la comunicazione (es, per la
+$\bullet$ L'header specifica altre informazioni utili per la comunicazione (es, per la
 sicurezza)
 $\bullet$ Si può anche definire una sezione di fault, nel caso che l'operazione non
 avesse avuto successo.
@@ -88,7 +88,7 @@ quali servizi un provider può fornire. Descrive quindi l'interfaccia, indicando
 `
 operazioni disponibili presso un certo provider. E una sorta di IDL. Quindi,
 WSDL riesce a descrivere in maniera precisa come una richiesta debba essere
-strutturata, e come una risposta sarà ritornata. Si può anche specicare dove il
+strutturata, e come una risposta sarà ritornata. Si può anche specificare dove il
 servizio risieda, e come lo si può invocare.
 Questo sistema, a differenza di altri già visti, impone che il cliente debba
 conoscere il servitore: viene a sapere in maniera concreta chi e come realizza

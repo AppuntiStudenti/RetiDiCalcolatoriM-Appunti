@@ -171,7 +171,7 @@ maniera statica! Non sono quindi mw dinamici.
 Ogni attore interessato presenta una propria coda locale, dove saranno depositati i messaggi: questo è un supporto
 fornito quindi dal MOM, per cui si
 tratta di gestire delle code orientate (o in ingresso o in uscita). Quello che realizza un MOM è quindi un'overlay
-network, specicando quindi un sistema di
+network, specificando quindi un sistema di
 nomi, routing, . . .
 I messaggi possono o essere P2P oppure forme di multicast. Le API che il
 mw prevede sono quindi quelle per poter fare delle send e receive dei messaggi
@@ -327,7 +327,7 @@ crearlo in maniera automatica. Come si potrebbe però gestire il risultato
 per più clienti (utilizzo della trasparenza, servizi di multicast?) oppure
 più interazioni (tanti poll object)?
 $\bullet$ Call-back Object: è comunque presente un intermediario, ma si può ine
-serire logica in questo oggetto! Il client infatti può specicarlo, e una
+serire logica in questo oggetto! Il client infatti può specificarlo, e una
 volta che ha ottenuto il risultato è l'oggetto stesso ad avvertire il client,
 fornendogli il risultato! Questo sistema è sicuramente più complesso e non
 gestibile direttamente in maniera automatica da un mw, però fornisce un
@@ -409,7 +409,7 @@ Si tratta di servizi che possono aiutare l'utente ad esprimere determinate opera
 dipendere dal contesto utilizzato, la sessione, o
 da una serie di eventi che si sono venuti a vericare.
 In particolare, l'Invocation Context è molto utile: in generale, infatti, i mw
-vengono sviluppati in maniera tale che l'utente non sia costretto a specicare
+vengono sviluppati in maniera tale che l'utente non sia costretto a specificare
 nelle sue operazioni parametri di supporto, ma solo quelli necessari per la business logic. Però può capitare che in
 certi casi questi parametri siano proprio
 necessari per l'operazione (tipo per realizzare delle transazioni sicure): questo
@@ -419,7 +419,7 @@ oltre il C/S primitivo, introducendo una separazione dei compiti (client prepara
 la richiesta, proxy aggiunge informazioni di contesto necessarie).
 60
 La sessione è un altro pattern per poter fornire un supporto al servitore:
-si utilizza per mantenere la specica dell'oggetto remoto, permettendo così di
+si utilizza per mantenere la specifica dell'oggetto remoto, permettendo così di
 \i{}
 creare un thin client.
 Un altro pattern inne è il call-chain interception: vi sono diversi gestori

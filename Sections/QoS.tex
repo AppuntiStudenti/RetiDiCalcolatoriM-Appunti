@@ -19,7 +19,7 @@ un cliente, si deve anche poter interagire con lui, per avere un'idea di quale
 qualità gli possa interessare: ciò però è contro la trasparenza! La negoziazione
 oe
 e l'accordo controllato con il cliente fanno in modo che i servizi moderni non
-risultino trasparenti, proprio perché l'utente può (e spesso deve) specicare delle
+risultino trasparenti, proprio perché l'utente può (e spesso deve) specificare delle
 preferenze! Il sistema deve essere dinamico, in grado di reagire all'evoluzione
 delle richieste, in maniera da mantenere la QoS concordata: deve apportare
 delle azioni correttive durante l'esecuzione! In generale, i parametri che un
@@ -92,8 +92,8 @@ l'introduzione di nuovi protocolli e nuove
 applicazioni
 Le applicazioni classiche di Internet (tipo mail) sono elastiche, ovvero sono
 in grado di adattarsi alla configurazione della rete, e non richiedono QoS al
-supporto (possono tuttavia specicare un tempo di latenza per poter eseguire).
-In queste applicazioni quindi l'utente non specica dei tempi rigidi per poter
+supporto (possono tuttavia specificare un tempo di latenza per poter eseguire).
+In queste applicazioni quindi l'utente non specifica dei tempi rigidi per poter
 eseguire.
 Le applicazioni moderne invece sono non elastiche: questo perché presentano
 dei vincoli temporali precisi, e quindi richiedono QoS. Di queste, quelle real-time
@@ -105,7 +105,7 @@ $\bullet$ Adattative per la latenza: il servizio è erogabile, ma con un ritardo
 giore, riducendo la QoS: uno streaming audio che perde pacchetti, un video
 che perde dei frame.7
 Bisogna ricordare che in generale la latenza non è costante: potrebbe essere
-conveniente quindi specicare la latenza su ogni frame.
+conveniente quindi specificare la latenza su ogni frame.
 Un servizio per Internet potrebbe quindi richiedere garanzie diverse:
 $\bullet$ Il classico best-eort
 $\bullet$ Un controlled load, ovvero la gestione di una latenza limitata. Spesso
@@ -172,9 +172,9 @@ standard per poter definire risorse e azioni, necessarie per la gestione. Le inf
 sono codicare utilizzando il CMIB,
 Common Management Information Base. OSI quindi sarebbe in grado, mediante queste informazioni, di poter gestire i
 singoli nodi di una rete (tipo, poter
-specicare la banda erogabile presente su un nodo9 , . . . ). OSI struttura il management con l'idea che vi siano manager
+specificare la banda erogabile presente su un nodo9 , . . . ). OSI struttura il management con l'idea che vi siano manager
 in grado di comunicare con gli agenti,i
-responsabili delle singole risorse: non vi è una specica precisa, permettendo
+responsabili delle singole risorse: non vi è una specifica precisa, permettendo
 quindi di poter realizzare architetture più o meno complesse.
 In realtà, il protocollo più diuso per la gestione di una rete è anche uno
 dei più semplici, detto Simple Network Management Protocol, sviluppato dall'Iu
@@ -197,8 +197,8 @@ quindi limitato dal numero di agenti presenti. Solo però con la terza versione 
 SNMP presenta alcuni problemi: prima di tutto, la perdita/sostituzione di
 un agente provoca la riconfigurazione di tutto il sistema. Inoltre, si tratta sempre di variabili, che sono solo
 rappresentazioni della risorsa: per esempio, con
-SNMP non si può specicare la banda di un router, non la può controllare! Il
-manager poi comunica con gli agent, ma sempre esternamente deve essere specicata come avviene la comunicazione (ogni
+SNMP non si può specificare la banda di un router, non la può controllare! Il
+manager poi comunica con gli agent, ma sempre esternamente deve essere specificata come avviene la comunicazione (ogni
 quanto interroga gli agent?). Inne,
 gli agent forniscono informazioni strettamente locali alla risorsa che gestiscono:
 per poter fornire delle informazioni più generali sullo stato della rete è necessario
@@ -294,7 +294,7 @@ N $-$n+1
 (16)
 (17)
 10 Osservazione: le politiche dicono come i router possono trattare i ussi, ma tocca poi
-all'utente specicare quali ussi debbano essere trattati in quale modo!
+all'utente specificare quali ussi debbano essere trattati in quale modo!
 33
 Un altro modello di scheduling, derivato proprio da come funziona quello del
 singolo processore, è il general scheduling processor : l'idea è che mediante un
@@ -316,7 +316,7 @@ si potrebbe usare un weighted round robin, per poter pesare diversamente
 i datagrammi. Pi` un datagramma è pesato, maggiori risorse vi sono
 associate. La normalizzazione è dicile da realizzare per ussi troppo
 corti) Il round robin viene spesso implementata in quei router in cui non
-si possono specicare delle priorità speciche, ma in cui comunque i ussi
+si possono specificare delle priorità speciche, ma in cui comunque i ussi
 devono competere per delle risorse.
 3. Decit round robin: si associa una storia ad ogni usso, perché si impone
 un limite per ciascuno. Se un usso supera la soglia consentita, non viene
@@ -366,7 +366,7 @@ Nonostante il costo, i servizi integrati lavorano proprio al livello applicativo
 questo signica che su ogni nodo si lavorer` a livello applicativo, in maniera tale
 da poter individuare fra i possibili cammini il cammino migliore, che divverr` ata
 tivo. Per far ciò si utilizza un protocollo detto Reservation Protocol ; questo proo
-tocollo infatti permette di specicare un cammino attivo in grado di rispettare
+tocollo infatti permette di specificare un cammino attivo in grado di rispettare
 una determinata SLA, senza considerare il traffico corrente, ovvero permette di
 riservare delle risorse in maniera attiva per il servizio. L'idea è che si inviino
 delle informazione dal ricevente al mittente (e viceversa) per poter valutare le
@@ -426,7 +426,7 @@ disposizione solo meccanismi ma non politiche
 RTP è sempre accompagnato da RTCP. Il primo è un servizio fortemente
 erogato dal servitore verso il ricevente (da chi sa poco a chi sa molto), mentre
 il secondo serve per fornire al gestore informazioni di gestione, e quindi naviga
-in entrambe le direzioni. Tuttavia, si devono specicare in maniera precisa entrambi perché utilizzano le stesse risorse,
+in entrambe le direzioni. Tuttavia, si devono specificare in maniera precisa entrambi perché utilizzano le stesse risorse,
 e potrebbero aumentare l'intrusione;
 si stabilisce per esempio quale è la banda che RTCP può sfruttare. RTP in
 particolare consente ai singoli intermediari di intervenire sui singoli messaggi,
@@ -437,7 +437,7 @@ di un nodo); tuttavia, si deve sempre considerare che tutto ciò è particolarme
 oe
 costoso.
 Questi protocolli sono anche veicoli di informazioni applicative, cioè si pose
-sono specicare nei datagrammi informazioni per le singole applicazioni: sono
+sono specificare nei datagrammi informazioni per le singole applicazioni: sono
 protocolli hop-to-hop, che lavorano su tutti i nodi, per cui bisogna garantire che
 i nodi intemedi non modichino le informazioni a livello applicativo. Le possono
 vedere, ma non modicare.

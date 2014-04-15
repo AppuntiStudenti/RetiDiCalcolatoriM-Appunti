@@ -1,7 +1,7 @@
 \section{CORBA}
-CORBA è uno standard, specica di un mw, nato dall'idea di mettere a dispoe
+CORBA è uno standard, specifica di un mw, nato dall'idea di mettere a dispoe
 sizione di 440 aziende una possibile soluzione per le loro esigenze!
-Essendo uno standard, quindi solo una specica cartacea, si ha che esistono
+Essendo uno standard, quindi solo una specifica cartacea, si ha che esistono
 diverse implementazioni (IBM, Java, Orbix, Jacorb, . . . ), ma che rispettando le
 speciche possono anche essere interoperabili fra di loro!
 Un mw deve avere oggetti remoti, invocabili da diversi client su diverse macchine: il sistema di supporto deve essere
@@ -36,7 +36,7 @@ $\bullet$ Event e notication: sono sistemi meno orientati agli oggetti, ma che
 quindi aumentano le capacità del sistema! Infatti, oltre alla maniera sina
 crona/asincrona bloccante, in questo modo si possono introdurre sistemi
 molto più essibili.
-26 Tuttavia, CORBA resta solo una specica: come debba essere fatto il deployment
+26 Tuttavia, CORBA resta solo una specifica: come debba essere fatto il deployment
 dell'ORB è in realtà a carico delle singole implementazioni
 27 Questo servizio per esempio è più potente del servizio di nomi dei WS, che è solo locale
 e u
@@ -81,7 +81,7 @@ linguaggi specici di implementazione!
 l'ORB lo sfrutta per individuare il servizio (si lavora quindi ad un livello più
 63
 alto dell'implementazione: l'IDL stesso non è legato a nessun linguaggio di proe
-grammazione (deriva dal C++ come specica, ma è diverso)). Una connessione
+grammazione (deriva dal C++ come specifica, ma è diverso)). Una connessione
 statica fa in modo che il proxy del client (lo stub) contenga l'IDL, con cui ci
 si interfaccia all'ORB. Questi cerca il servizio descritto dall'IDL, propone la
 richiesta in maniera adeguata usando un Object Adapter, e riporta quindi la
@@ -94,9 +94,9 @@ sistema perché il compilatore scelto realizzi quindi uno stub e skeleton static
 vocazione dinamica del servizio, aggiungendolo al servitore!). Senza un servizio
 di invocazione dinamico, non si può trovare un servizio se non è stato definito
 un contratto (ovvero, è stato definito all'interno dell'interface repository!).
-IDL resta però sempre e solo una specica: sarà sfruttato dai compilatori
+IDL resta però sempre e solo una specifica: sarà sfruttato dai compilatori
 delle varie implementazioni per creare realmente gli oggetti e i servitori. Infatti,
-serve solo come specica delle operazioni possibili.
+serve solo come specifica delle operazioni possibili.
 Stub e skeleton son necessari per fare le operazioni di marshalling ed unmarshalling. Si ha che si realizza un diverso
 proxy (quindi stub e skeleton) per ogni
 interfaccia che si definisce.
@@ -119,8 +119,8 @@ l'eterogeneità.
 Restano comunque problemi nel realizzare un mapping corretto fra l'IDL e
 i vari linguaggi di implementazione! Per esempio, Java non prevede parametri
 28 IMPORTANTE: per legame statico si intende dire solo l'interfaccia, che viene quindi
-denita in maniera statica. Il binding fra client e servitore non è statico, qui si specica solo
-che i servizi del servitore devono essere specicati in maniera statica
+denita in maniera statica. Il binding fra client e servitore non è statico, qui si specifica solo
+che i servizi del servitore devono essere specificati in maniera statica
 64
 di output. Per ovviare a questi problemi, CORBA realizza delle apposite classi dette holder : è un wrapper che permette
 di leggere e scrivere in maniera
@@ -130,7 +130,7 @@ rispetto a CORBA (narrowing) e di fornire diverse funzioni di varia utilità.
 \subsection{Gli Object Adapter}
 Gli adattatori sono diventati dei componenti quasi più importanti dell'ORB
 stesso, visto che sono gli abilitatori del servizio stesso. L'ORB si preoccupa di
-crearlo ed abilitarlo, mediante diverse politiche specicabili.
+crearlo ed abilitarlo, mediante diverse politiche specificabili.
 A cosa serve quindi? A superare le disomogeneit` e dierenze che vi sono
 fra le varie implementazioni degli ORB, dovute appunto all'eterogeneità (per
 esempio, riuscendo a far colloquiare linguaggi non tipati con quelli tipati!).
@@ -260,7 +260,7 @@ mente a più oggetti: un POA riceve il riferimento e deve accedere all'oggetto
 desiderato. In generale, meno POA son presenti e meglio è: infatti, le varie
 implementazioni forniscono un POA di base, che contiene tutte le politiche di
 gestione già definite. Un suo glio non eredita direttamente tutte le politiche, ma
-deve essere specicato quali politiche si vogliono attivate: abbiamo quindi in realtà un gestore per i POA, che
+deve essere specificato quali politiche si vogliono attivate: abbiamo quindi in realtà un gestore per i POA, che
 stabilisce per ogni POA quante e quali politiche
 debba implementare (attiva/disattiva i POA, blocca/scarta le richieste per i
 POA). Si potrebbe permettere all'utente di modicare dinamicamente l'active
@@ -272,7 +272,7 @@ fra oggetti transienti e quelli persistenti.
 Quali sono quindi le politiche d'attivazione per gli oggetti? Possiamo avere:
 $\bullet$ Explicit Object Activation: è tutto a carico del client
 $\bullet$ Single servant: viene attivato un servant per ogni richiesta, uno solo.
-$\bullet$ On demand : sono le politiche per poter scegliere i servant in base alle richieste specicate. Se si tratta di
+$\bullet$ On demand : sono le politiche per poter scegliere i servant in base alle richieste specificate. Se si tratta di
 un singolo metodo non vi è stato, altrimene
 ti si tratta di On-demand per una durata indenita. Una caratteristica
 particolare è che le politiche si possono combinare!
@@ -286,7 +286,7 @@ al sincrono bloccante.
 Si vuole quindi chiedere o fornire un servizio senza avere il proxy/skeleton è già pronto. E un problema di tutti i mw.
 Nel caso del client, si parla di Dinamyc Invocation Interface. Si realizza un oggetto che funziona come il proxy che si
 avrebbe avuto in maniera statica. Si ha quindi un oggetto Request, che è uno pseudo-object 31 , che permette di
-specicare e una richiesta dinamica. Si tratta quindi di un contenitore fornito dall'ambiente,
+specificare e una richiesta dinamica. Si tratta quindi di un contenitore fornito dall'ambiente,
 per cui un client effettua una invoke, e l'ORB utilizza il servant giusto per
 richiamare l'operazione e fornire il risultato. Si potrebbero realizzare tutte le
 operazioni dinamiche, ma hanno un costo molto elevato! Tuttavia, vi sono
@@ -309,7 +309,7 @@ sistema solo statico, si avrebbe che si
 dovrebbe spegnere il sistema e aggiornare staticamente i servant.
 Nel modello dinamico (Dinamyc Skeleton Interface) si ha invece che è pree
 sente un altro tipo di pseudo-object detto ServerRequest, mediante il quale si può
-specicare le operazioni, parametri e contesti da aggiungere! L'idea è che queste
+specificare le operazioni, parametri e contesti da aggiungere! L'idea è che queste
 informazioni si debbano agganciare ad un'interfaccia che esiste già. Quindi, ci
 si collega all'IR per ottenere un'implementazione già presente, e ci si registra
 presso l'IR come sistema in grado di rispondere (il servant si potr` usare sia in
@@ -376,7 +376,7 @@ Method Invocation, che è un ulteriore modo per definire una comunicazione
 sincrona non bloccante: il cliente non deve attendere quindi per il risultato.
 Si ottiene cambiando solo l'interfaccia, per cui si delega un altro oggetto per
 attendere la risposta, separando la fase di richiesta da quella callback. Tuttavia,
-` necessario che sia il cliente a specicare il codice della callback da eseguire.
+` necessario che sia il cliente a specificare il codice della callback da eseguire.
 Inoltre, si può anche definire che il client recuperi il risultato usando un pollo
 object. Nel caso di call-back quindi si utilizza un sistema di re and forget. In
 entrambi i casi si lavora solo dal lato del client, per estendere la funzionalità.

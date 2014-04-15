@@ -189,14 +189,14 @@ disaccoppiamento fra le varie entità è lo spazio di
 a e
 `
 tuple. E un meccanismo generale per la comunicazione e la sincronizzazione, in
-cui si specica uno spazio di informazioni fortemente tipato. (Una tipica informazione può essere $<$ mittente,
+cui si specifica uno spazio di informazioni fortemente tipato. (Una tipica informazione può essere $<$ mittente,
 destinatario, data $>$, per cui tutti i dati devono
 essere diversi perché possa essere inserita)
 Si hanno quindi due operazioni principali: la out consiste nell'inserire nello
 spazio delle tuple un nuovo messaggio, mentre la in (bloccante) estrae la prima
 tupla che fa match (in caso di più tuple che facciano match, è una scelta non
 deterministica). Ovviamente, si avrà sempre un numero inferiore di in rispetto
-alle out. Se la in è completamente specicata, si parla di sincronizzazione e non
+alle out. Se la in è completamente specificata, si parla di sincronizzazione e non
 di comunicazione. Uno spazio di tuple permette anche l'introduzione di QoS,
 grazie alla persistenza della tupla nello spazio.
 Gerlenter, con Linda, presenta due diversi modelli:
