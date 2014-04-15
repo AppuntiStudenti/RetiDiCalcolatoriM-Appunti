@@ -63,7 +63,7 @@ degli intermediari a supporto: a seconda del carico di lavoro presente su di lor
 `
 il tempo di latenza può variare notevolmente! E quindi necessario pensare anche
 a una QoS distribuita fra i vari nodi !
-Lo skew rappresentalo sfasamento fra due ussi, che dovrebbero essere invece
+Lo skew rappresentalo sfasamento fra due flussi, che dovrebbero essere invece
 percepiti come una singola entità dall'utente nale (per esempio, discrepanze
 nella velocit` fra audio e video).
 Spesso, in realtà, la QoS è un parametro che è trascurato in fase progeta
@@ -127,7 +127,7 @@ trasparente, ma non va bene se abbiamo un alto jitter!
 29
 $\bullet$ Servizi dierenziati, RFC 2475: si propone di introdurre QoS a livello di
 rete, quindi la proposta è quella di lavorare contemporaneamente su più
-ussi per migliorare in maniera globale il routing.
+flussi per migliorare in maniera globale il routing.
 \subsection{Gestire la QoS}
 Come gestire quindi la QoS? Il controllo della qualità dovrebbe essere fatto dua
 rante l'esecuzione, e in generale abbiamo una fase iniziale (prima dell'erogazione,
@@ -224,11 +224,11 @@ L'idea alla base dell'introduzione di QoS in Internet è che sui nodi intermedi 
 hanno delle informazioni sullo stato del servizio. Un router semplice prende e
 rispedisce i pacchetti, in generale sfruttando la politica FIFO, senza sfruttare
 tutte le possibilità per l'instradamento: garantisce best-eort, ma non QoS,
-poich` i ussi sono limitati da altri ussi!
+poich` i flussi sono limitati da altri flussi!
 Lo sviluppo sarebbe quindi quello di realizzare un router che ragiona in termini dierenziati : deve essere in grado
-quindi di marcare i ussi, e deve riuscire
-a trattare la gestione dei ussi in maniera da favorire i ussi più prioritari (magu
-ari scartando/ritardando i pacchetti dei ussi meno prioritari). Si ha che quindi
+quindi di marcare i flussi, e deve riuscire
+a trattare la gestione dei flussi in maniera da favorire i flussi più prioritari (magu
+ari scartando/ritardando i pacchetti dei flussi meno prioritari). Si ha che quindi
 lo stato del router dipende dal singolo pacchetto, che a sua volta dipende dal
 traffico. In particolare, è da notare che il costo di una determinata politica
 viene riesso su ogni usso/messaggio: per questo vuole l'intrusione minima,
@@ -262,7 +262,7 @@ datagramma e non vi sono condizioni per cui il usso è rallentato e le code son
 libere, il router lavora alla Internet, reinstradando subito il pacchetto. Infatti,
 per la legge di Kleinrock, il router non può essere in una condizione di idle se
 vi sono dei pacchetti da portare in uscita. La legge di kleinrock stabilisce che,
-dati n ussi, con traffico $\lambda$n e tempo medio di servizio $\mu$n :
+dati n flussi, con traffico $\lambda$n e tempo medio di servizio $\mu$n :
 $\bullet$ Il prodotto $\rho$n = $\lambda$n · $\mu$n rappresenta l'utilizzo medio del router
 $\bullet$ Denito qn il tempo medio di attesa si ha che
 $\rho$n · qn = K
@@ -273,13 +273,13 @@ ritardo) in realtà se ne deve per forza sfavorire un altro (diminuzione della b
 da, aumento del ritardo).
 Si è sempre detto che le politiche vengono giudicate dal loro costo, e che
 politiche più semplici sono meno costose. Tuttavia, nel caso di router, si deve
-anche tener conto se la politica è fair o meno (vi sono ussi in condizione di
+anche tener conto se la politica è fair o meno (vi sono flussi in condizione di
 starving?10 ).
 Un primo esempio, spesso implementato mediante politiche più semplici
 perché non è realmente implementabile ma solo un modello a tendere, è la
 min-max fairness. Si immagini di avere un numero di richieste superiore alle
 risorse disponibili, e si devono quindi dividere le risorse in maniera fair. L'idea
-` quella di classificare i ussi in base alle loro esigenze, privilegiando i ussi che
+` quella di classificare i flussi in base alle loro esigenze, privilegiando i flussi che
 richiedono meno risorse, per poter così lasciare più risorse a chi ne ha maggior\i{}
 mente bisogno; x1 $<$ x2 $<$ . . . $<$ xn indica quindi la priorità con cui servire,
 mentre C indica la capacità massima a disposizione del router. Si possono quina
@@ -293,8 +293,8 @@ mi
 N $-$n+1
 (16)
 (17)
-10 Osservazione: le politiche dicono come i router possono trattare i ussi, ma tocca poi
-all'utente specificare quali ussi debbano essere trattati in quale modo!
+10 Osservazione: le politiche dicono come i router possono trattare i flussi, ma tocca poi
+all'utente specificare quali flussi debbano essere trattati in quale modo!
 33
 Un altro modello di scheduling, derivato proprio da come funziona quello del
 singolo processore, è il general scheduling processor : l'idea è che mediante un
@@ -304,35 +304,35 @@ si lavora a pacchetti e non a bit. Anche questo modello in realtà serve solo pe
 studiare le politiche pensate e confrontarle, per determinarne la fairness.
 In realtà, fra le politiche realmente diuse ed implementate in router con
 QoS vi sono:
-1. Priorit` ai ussi : vi sono diversi livelli di priorità con cui poter etichettare
-un usso. Il router quindi si preoccupa di favorire prima i ussi a massima
+1. Priorit` ai flussi : vi sono diversi livelli di priorità con cui poter etichettare
+un usso. Il router quindi si preoccupa di favorire prima i flussi a massima
 priorità. Questo però non è una politica fair ! Se continuano ad arrivare
-pacchetti di questi ussi, quelli meno prioritari non verranno mai serviti
+pacchetti di questi flussi, quelli meno prioritari non verranno mai serviti
 (non avranno mai banda a sucienza)!
 2. Round robin: è una politica più fair, che garantisce comunque ad ogni
 usso una propria share della banda, ed è una politica molto buona se i
-datagrammi dei vari ussi sono circa delle stesse dimensioni (altrimenti,
+datagrammi dei vari flussi sono circa delle stesse dimensioni (altrimenti,
 si potrebbe usare un weighted round robin, per poter pesare diversamente
 i datagrammi. Pi` un datagramma è pesato, maggiori risorse vi sono
-associate. La normalizzazione è difficile da realizzare per ussi troppo
+associate. La normalizzazione è difficile da realizzare per flussi troppo
 corti) Il round robin viene spesso implementata in quei router in cui non
-si possono specificare delle priorità speciche, ma in cui comunque i ussi
+si possono specificare delle priorità speciche, ma in cui comunque i flussi
 devono competere per delle risorse.
 3. Decit round robin: si associa una storia ad ogni usso, perché si impone
 un limite per ciascuno. Se un usso supera la soglia consentita, non viene
 erogato dal router ma si memorizza tale decit. L'erogazione riprender`
-solo quando gli altri ussi avranno superato tale limite.
+solo quando gli altri flussi avranno superato tale limite.
 4. Fair queueing: si tratta di round-robin fatto bit a bit. Si fa avanzare
 sempre il usso con il pacchetto più indietro, ovvero quello che se si fosse
 realmente fatta una comunicazione bit a bit, avrebbe terminato la comunicazione per primo! Questa è una delle politiche
 maggiormente usate,
 anche in ambienti Internet, perché si hanno dei calcoli in tempi accettabili.
 Un problema di tutte le politiche è in realtà il fatto di non sapere cosa aspettarsi
-all'arrivo, cioè cosa aspettarsi dai ussi che entrano nel router e che devono come
+all'arrivo, cioè cosa aspettarsi dai flussi che entrano nel router e che devono come
 petere per le risorse. Una soluzione possibile è quindi quella di inviare insieme
 al usso un'idea dello stato del usso, per vagliare quanto sia pesante o meno!
 Perch` un router possa fornire QoS, deve essere dinamicamente ricongurae
-bile (cioè deve poter ammettere/spegnere ussi in maniera dinamica). Questo
+bile (cioè deve poter ammettere/spegnere flussi in maniera dinamica). Questo
 per esempio è un requisito fondamentale per risolvere il problema della cone
 gestione, addirittura in certi casi prevenendolo. Invece che scartare i pacchetti
 34
@@ -354,7 +354,7 @@ coda!
 Questa politica preventiva evita la congestione.
 \subsection{Servizi integrati, RFC 2210}
 L'idea alla base dei servizi integrati è quella di essere in grado di riconoscere i
-singoli ussi, grazie al router, in modo da poter dierenziare l'uso delle risorse
+singoli flussi, grazie al router, in modo da poter dierenziare l'uso delle risorse
 a seconda del usso che si viene a presentare. Il Service Level Agreement `
 quindi fatto a livello di singolo usso, e quindi si può decidere la QoS per ogni
 usso. Si deve quindi stabilire la QoS fra mittente, ricevente e necessaria per
@@ -388,7 +388,7 @@ Un cliente quindi dovrà rinnovare mediante gli stessi messaggi la richiesta di
 servizio, tuttavia sono previsiti anche degli appositi messaggi (tear ) sia da parte
 del cliente che del servitore, per poter interrompere l'erogazione del servizio,
 e permettere una riconfigurazione del servizio. Il protocollo stabilisce che si
-possono richiedere risorse in esclusiva o in condivisione con altri ussi (particolarmente utile per ottimizzare la
+possono richiedere risorse in esclusiva o in condivisione con altri flussi (particolarmente utile per ottimizzare la
 comunicazione). Gli scambi di messaggi
 ovviamente avvengono fra nodi vicini, cercando quindi di limitare il costo senza
 eseguire un broadcast.
@@ -460,10 +460,10 @@ applicativo, ma a livello di rete. Facendo ciò, in realtà, si ha che si sono d
 molti meno protocolli rispetto ai servizi integrati (risultando essere inoltre molto
 più scalabili). I servizi dierenziati sono studiati per supportare le applicazioni
 legacy e per domini specici (comunità di utenti). L'idea è quella che si devono
-aggreggare i ussi in diverse categorie, e a seconda delle categorie si definisce la
+aggreggare i flussi in diverse categorie, e a seconda delle categorie si definisce la
 QoS. Un pacchetto viene quindi classicato dal router in base al suo contenuto,
 e viene associato ad una possibile classe, e quindi ad un possibile trattamento.
-Si ha che quindi l'SLA è stipulato sulla classicazione dei ussi, e le garanzie
+Si ha che quindi l'SLA è stipulato sulla classicazione dei flussi, e le garanzie
 vengono fornite dalle politiche implementate dai router (la politica è concordata
 solo fra l'utente e il server).
 Possibili esempi di servizio sono:
