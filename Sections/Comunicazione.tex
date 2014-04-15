@@ -197,194 +197,166 @@ I metodi più interessanti sono invece:
  e chi ha il token è il coordinatore.
 \end{itemize}
 \subsection{Ordinamento di Lamport}
-L'ordinamento di Lamport si basa di avere diversi processi in grado di mantenere
-una propria storia interna (gli eventi su uno stesso processore sono già ordinati
-grazie alla storia), e in grado di comunicare fra di loro, in maniera punto a
-punto con dei messaggi (non si usano multicast, non si possono mandare batch
-44
-di messaggi !). L'idea è che il numero degli eventi interessanti è sicuramente
-inferiore al clock sico, e quindi si possono usare per ordinare.
-L'ordinamento di Lamport si basa sulla relazione happened-before, per poter
-ordinare gli eventi, imponendo prima di tutto un ordine locale. Si ha quindi che
-se l'evento a precede l'evento b sullo stesso processore, si ha che:
-a$\rightarrow$b
-(18)
-Ovviamente questa relazione vale anche per la comunicazione fra più processi,
-nel senso: se a è l'evento di invio di un messaggio, e b la sua ricezione da un altro
-processore, chiaramente sono in relazione di precedenza! Ovviamente, questa
-relazione presenta anche la proprietà della transitivit`.
-Tuttavia, questo ordinamento non è globale. Basta pensare a due processi che
-comunicano con gli eventi a e b, ed entrambi presentano un evento che li precede
-localmente, k e q rispettivamente. Non esiste un ordinamento fra questi due
-eventi, per cui si stabilisce un'altra relazione, ovvero quella sulla concorrenza;
-due eventi k e q son concorrenti se non si può imporre una relazione di happened
-before fra di loro:
-k $\uparrow$$\uparrow$ q =!(k $\rightarrow$ q)$\land$!(q $\rightarrow$ k)
-(19)
-In questo genere di relazione si può osservare che il ricevente ha sicuramente più
-vincoli rispetto al mittente, trattandosi di una relazione fortemente orientata.
-In questo modo si hanno diversi orologi locali, ma non ancora un unico orologio globale. In particolare, se si trattasse
-di un mondo asincrono, non si avrebbe
-nessuna ipotesi sulla sincronicit` fra i processi (i tempi di invio potrebbero esa
-sere molto lunghi, maggiori di qualunque tempo osservabile). Si deve quindi
-trovare un modo per definire un orologio globale.
-L'idea è che se a $\rightarrow$ b, allora si ha che il tempo dell'evento a è minore del
-tempo dell'evento b:
-a $\rightarrow$ b $\Rightarrow$ T S(a) $<$ T S(b)
-(20)
-Questa è la condizione di clock logico, il quale può solo crescere. Si tratta di
-realizzare quindi una sorta di timestamp, per identicare in maniera univoca gli
-eventi nel sistema!
-Nel caso di una trasmissione, per cui a $\in$ Pi e b $\in$ Pj , si definisce la relazione
-di clock logico:
-a $\rightarrow$ b $\Rightarrow$ LCi (a) $<$ LCi (b)
-(21)
-Ogni processo incrementa il valore del clock logico fra due eventi, tuttavia
-l'aggiornamento del processo ricevente deve tener conto anche del timestamp
-ricevuto insieme al messaggio per aggiornare correttamente l'orologio:
-LCj = max(T Sricevuto , LCilocale ) + 1
-(22)
-Resta però il problema della relazione di concorrenza, per cui la relazione `
-ancora un ordine parziale! Per ovviare a questo problema, si deve estendere la
-relazione di happend before:
-Se a $\in$ Pi e b $\in$ Pj , si ha che a $\Rightarrow$ b se e solo se:
-45
-1. LCi (a) $<$ LCj (b) oppure
-2. LCi (a) = LCj (b) e Pi $<$ Pj
-Ovvero, fondamentalmente si impone un ordine fra i processori stessi! Bisogna
-quindi considerare il problema dei sistemi dinamici, in cui il numero dei processori può variare dinamicamente. Servono
-quindi degli appositi gestori per gli
-indici.
-La relazione di Lamport in genere tende ad aggiornare solo processi che
-ricevono messaggi da altri processi : chi li produce soltanto può avere anche dei
-timestamp molto bassi. Se tutti comunicano fra di loro (entrambe le direzioni),
-allora tutti i processi saranno sincronizzati in maniera univoca. Esistono però
-dei casi in cui la relazione di Lamport potrebbe avere dei problemi:
-$\bullet$ Problema del canale nascosto: se ci fossero dei processi che usano dei
-canali preferenziali non noti, non si potrebbe sincronizzare correttamente
-(ma è un problema progettuale non reale!)
-$\bullet$ Problema della causalit` vera: la relazione di Lamport è anche biettiva,
-cioè è valido anche la relazione opposta? In realtà no, due eventi che
-e e
-soddisfano la relazione di Lamport potrebbero non essere in rapporto di
-causa ed effetto!
-Un sistema per realizzare l'architettura basata su Lamport è quella basata sui
-clock vettoriali : ogni processo tiene conto in realtà anche dei clock logici degli
-altri processori. In questo modo però si hanno strutture dati e protocolli più
-complessi! Tale sistema infatti non è scalabile:
-1. L'emettitore di un messaggio invia il proprio vector clock, aggiornandolo.18
-2. Il ricevitore ottiene il vector clock, lo confronta con il proprio clock locale
-e quindi aggiorna quest'ultimo.
-Il vector clock garantisce di poter propagare le informazioni e di fornire una
-garanzia sul fatto che siano state propagate. Tuttavia, a differenza dei normali
-clock logici, non si ha una relazione d'ordine globale! Si potrebbe complicare
-ulteriormente realizzando delle matrici di clock.
-La relazione di Lamport si può usare per sincronizzare, per esempio, l'accesso
-ad una risorsa condivisa. Permette di garantire delle caratteristiche fondamentali che sono:
-$\bullet$ Correttezza (un solo processo accede alla volta)
-$\bullet$ Liveness (Vi è un tempo limitato per accedere alla risorsa)
-$\bullet$ Fairness (Non vi possono essere processi che rischiano starvation).19
-18 Non
-19 Un
-si incrementa in realtà sempre, per il rischio di giungere velocemente ad overow
-sistema basato su priorità non garantisce liveness e fairness
-46
-Si può realizzare un sistema per accesso alle risorse che rispetti questi invario
-anti creando un processo gestore20 , in grado di lavorare FIFO, e sfruttando un
-protocollo di tipo {`}request-reply-release'. L'idea è quella di soddisfare prima le
-richieste arrivate per prime. Il gestore concede l'uso solo al processo con cui
-risponde con reply, il quale lo avviser` con il release una volta terminata l'esea
-cuzione. Il gestore potr` quindi fornire la risorsa al prossimo processo. Si ha un
-totale di 3 messaggi per ogni accesso alla risorsa.
-Per realizzare questo sistema invece con Lamport e senza uso di un gestore
-centrale, si deve supporre:
-1. Che tutti i processi siano in grado di comunicare l'uno con l'altro. Se
-quindi vi sono n processi, vi devono essere almeno
-n · (n $-$ 1)
-2
-(23)
-canali per poter comunicare.
-2. Supposizione per la qualità: i canali sono FIFO, e non perdono messaggi.
-3. Ogni processo gestisce una propria coda per i messaggi. La sincronizzazione si basa propria sulla coda locale ad ogni
-processo.
-4. Il primo messaggio che ogni processo contiene è quello sull'indicazione
-locale del tempo, T0 : P0 , che corrisponde ad un tempo sempre inferiore
-a quello che si potr` mai trasmettere.
-Il protocollo si basa sempre sull'idea di scambiare dei messaggi, e chi riceve tutti
-gli assensi può accedere alla risorsa:
-1. Un processo che vuole accedre alla risorsa invia a tutti gli altri processi un
-messaggio con l'indicazione del proprio tempo e di chi si tratta: Tm : Pi .
-2. Gli altri processi ricevono il messaggio, e devono mandare tutti un assenso:
-sono quindi n $-$ 1 messaggi.
-3. Il processo richiedente può accedere alla risorsa solo se ha ricevuto tutti
-gli assensi, ma anche se nella sua coda non vi è una richiesta superiore
-alla propria (in base alla relazione di Lamport)!
-4. Una volta che un processo ha nito di lavorare sulla risorsa, elimina dalla
-propria coda ilsuo messaggio, e invia a tutti gli altri n $-$ 1 avvisi, in modo
-che anche loro possano cancellare la richiesta completata.
-Si ha quindi che la coda deve essere mantenuta ordinata secondo timestamp!
-L'attesa che si ha per avere le risposte è proprio il sistema con cui si garantisce
-la fairness: i messaggi infatti possono essere ritardati, ma comunque arrivano;
-20 Soliti problemi per la QoS: se cade il gestore? Essendo un processo, avrà dei processi che
-favorisce o meno in base alla vicinaza relativa. . .
-47
-se un altro processo aveva richiesto la risorsa prima ma il messaggio è in ritardo
-su alcuni processi, verr` comunque servito prima.
-Tale sistema però è molto costoso: richiede per ogni sincronizzazione 3(n$-$1)
-oe
-messaggi, e richiede garanzie sull'aaidabilit` del sistema (se un nodo è guasa
-to e non risponde mai?) e che il gruppo sia statico. Per ottimizzarlo, ci
-dovrebbe pensare l'infrastruttura, magari sfruttando in maniera opportuna il
-broadcast/multicast per eseguire una richiesta!
+L'ordinamento di Lamport si basa di avere diversi processi in grado di mantenere una propria storia interna (gli 
+eventi su uno stesso processore sono già ordinati grazie alla storia), e in grado di comunicare fra di loro, in maniera
+punto a punto con dei messaggi (non si usano multicast, non si possono mandare batch di messaggi !). L'idea è che il
+numero degli eventi interessanti è sicuramente inferiore al clock fisico, e quindi si possono usare per ordinare.
+L'ordinamento di Lamport si basa sulla relazione happened-before, per poter ordinare gli eventi, imponendo prima di
+tutto un ordine locale. Si ha quindi che se l'evento a precede l'evento b sullo stesso processore, si ha che:
+\begin{equation}
+ a \rightarrow b 
+\end{equation}
+Ovviamente questa relazione vale anche per la comunicazione fra più processi, nel senso: se a è l'evento di invio di 
+un messaggio, e b la sua ricezione da un altro processore, chiaramente sono in relazione di precedenza! Ovviamente,
+questa relazione presenta anche la proprietà della transitività.
+Tuttavia, questo ordinamento non è globale. Basta pensare a due processi che comunicano con gli eventi a e b, ed
+entrambi presentano un evento che li precede localmente, k e q rispettivamente. Non esiste un ordinamento fra questi
+due eventi, per cui si stabilisce un'altra relazione, ovvero quella sulla concorrenza; due eventi k e q sono
+concorrenti se non si può imporre una relazione di happened before fra di loro:
+\begin{equation}
+ k \uparrow\uparrow q =!(k \rightarrow q)\land!(q \rightarrow k)
+\end{equation}
+In questo genere di relazione si può osservare che il ricevente ha sicuramente più vincoli rispetto al mittente,
+trattandosi di una relazione fortemente orientata. In questo modo si hanno diversi orologi locali, ma non ancora un
+unico orologio globale. In particolare, se si trattasse di un mondo asincrono, non si avrebbe nessuna ipotesi sulla
+sincronicità fra i processi (i tempi di invio potrebbero essere molto lunghi, maggiori di qualunque tempo osservabile).
+Si deve quindi trovare un modo per definire un orologio globale.
+
+L'idea è che se $a \rightarrow b$, allora si ha che il tempo dell'evento a è minore del tempo dell'evento b:
+\begin{equation}
+a \rightarrow b \Rightarrow T S(a) < T S(b) 
+\end{equation}
+Questa è la condizione di clock logico, il quale può solo crescere. Si tratta di realizzare quindi una sorta di
+timestamp, per identicare in maniera univoca gli eventi nel sistema!
+Nel caso di una trasmissione, per cui $a \in P_i$ e $b \in P_j$ , si definisce la relazione di clock logico:
+\begin{equation}
+a \rightarrow b \Rightarrow LC_i (a) < LC_i (b) 
+\end{equation}
+Ogni processo incrementa il valore del clock logico fra due eventi, tuttavia l'aggiornamento del processo ricevente
+deve tener conto anche del timestamp ricevuto insieme al messaggio per aggiornare correttamente l'orologio:
+\begin{equation}
+ LC_j = max(TS_{ricevuto} , LC_{i locale}) + 1
+\end{equation}
+Resta però il problema della relazione di concorrenza, per cui la relazione è ancora un ordine parziale! Per ovviare
+a questo problema, si deve estendere la relazione di happend before:
+
+Se $a \in P_i$ e $b \in P_j$ , si ha che $a \Rightarrow b$ se e solo se:
+\begin{enumerate}
+ \item $LC_i (a) < LC_j (b)$ oppure
+ \item $LC_i (a) = LC_j (b)$ e $P_i < P_j$
+\end{enumerate}
+Ovvero, fondamentalmente si impone un ordine fra i processori stessi! Bisogna quindi considerare il problema dei 
+sistemi dinamici, in cui il numero dei processori può variare dinamicamente. Servono quindi degli appositi gestori 
+per gli indici.
+
+La relazione di Lamport in genere tende ad aggiornare solo processi che \textit{ricevono messaggi da altri processi}:
+chi li produce soltanto può avere anche dei timestamp molto bassi. Se tutti comunicano fra di loro (entrambe le
+direzioni), allora tutti i processi saranno sincronizzati in maniera univoca. Esistono però dei casi in cui la relazione
+di Lamport potrebbe avere dei problemi:
+\begin{itemize}
+ \item \textit{Problema del canale nascosto}: se ci fossero dei processi che usano dei canali preferenziali non noti,
+ non si potrebbe sincronizzare correttamente (ma è un problema progettuale non reale!)
+ \item \textit{Problema della causalità vera}: la relazione di Lamport è anche biettiva, cioè è valido anche la
+ relazione opposta? In realtà no, due eventi che soddisfano la relazione di Lamport potrebbero non essere in rapporto
+ di causa ed effetto!
+\end{itemize}
+Un sistema per realizzare l'architettura basata su Lamport è quella basata sui \textit{clock vettoriali}: ogni 
+processo tiene conto in realtà anche dei clock logici degli altri processori. In questo modo però si hanno strutture
+dati e protocolli più complessi! Tale sistema infatti non è scalabile:
+\begin{enumerate}
+ \item L'emettitore di un messaggio invia il proprio vector clock, aggiornandolo.\footnote{Non si incrementa in realtà
+sempre, per il rischio di giungere velocmente ad overflow}
+ \item Il ricevitore ottiene il vector clock, lo confronta con il proprio clock locale e quindi aggiorna quest'ultimo.
+\end{enumerate}
+Il vector clock garantisce di poter propagare le informazioni e di fornire una garanzia sul fatto che siano state
+propagate. Tuttavia, a differenza dei normali clock logici, non si ha una relazione d'ordine globale! Si potrebbe
+complicare ulteriormente realizzando delle matrici di clock.
+La relazione di Lamport si può usare per sincronizzare, per esempio, l'accesso ad una risorsa condivisa. Permette di
+garantire delle caratteristiche fondamentali che sono:
+\begin{itemize}
+ \item Correttezza (un solo processo accede alla volta)
+ \item Liveness (Vi è un tempo limitato per accedere alla risorsa)
+ \item Fairness (Non vi possono essere processi che rischiano starvation).\footnote{Un sistema basato su priorità non
+ garantisce liveness e fairness}
+\end{itemize}
+Si può realizzare un sistema per accesso alle risorse che rispetti questi invarianti creando un processo
+gestore\footnote{Soliti problemi per la QoS: se cade il gestore? Essendo un processo, avrà dei processi che
+favorisce o meno in base alla vicinaza relativa...}, in grado di lavorare FIFO, e sfruttando un protocollo di tipo
+``request-reply-release''. L'idea è quella di soddisfare prima le richieste arrivate per prime. Il gestore concede 
+l'uso solo al processo con cui risponde con reply, il quale lo avviserà con il release una volta terminata
+l'esecuzione. Il gestore potrà quindi fornire la risorsa al prossimo processo. Si ha un totale di 3 messaggi per ogni
+accesso alla risorsa.
+Per realizzare questo sistema invece con Lamport e senza uso di un gestore centrale, si deve supporre:
+\begin{enumerate}
+ \item Che tutti i processi siano in grado di comunicare l'uno con l'altro. Se quindi vi sono n processi, vi devono
+ essere almeno
+ \begin{equation}
+  n · (n - 1)
+ \end{equation}
+ canali per poter comunicare.
+ \item Supposizione per la qualità: i canali sono FIFO, e non perdono messaggi.
+ \item Ogni processo gestisce una propria coda per i messaggi. La sincronizzazione si basa propria sulla coda locale
+ ad ogni processo.
+ \item Il primo messaggio che ogni processo contiene è quello sull'indicazione locale del tempo, T0 : P0 , che
+corrisponde ad un tempo sempre inferiore a quello che si potrà mai trasmettere.
+\end{enumerate}
+Il protocollo si basa sempre sull'idea di scambiare dei messaggi, e chi riceve tutti gli assensi può accedere alla
+risorsa:
+\begin{enumerate}
+ \item Un processo che vuole accedre alla risorsa invia a tutti gli altri processi un messaggio con l'indicazione del
+proprio tempo e di chi si tratta: Tm : Pi .
+ \item Gli altri processi ricevono il messaggio, e devono mandare tutti un assenso: sono quindi $n - 1$ messaggi.
+ \item Il processo richiedente può accedere alla risorsa solo se ha ricevuto tutti gli assensi, ma anche se nella sua
+ coda non vi è una richiesta superiore alla propria (in base alla relazione di Lamport)!
+ \item Una volta che un processo ha finito di lavorare sulla risorsa, elimina dalla propria coda il suo messaggio, e
+ invia a tutti gli altri $n - 1$ avvisi, in modo che anche loro possano cancellare la richiesta completata.
+\end{enumerate}
+Si ha quindi che \underline{la coda deve essere mantenuta ordinata secondo timestamp}!
+L'attesa che si ha per avere le risposte è proprio il sistema con cui si garantisce la fairness: i messaggi infatti
+possono essere ritardati, ma comunque arrivano; se un altro processo aveva richiesto la risorsa prima ma il messaggio
+è in ritardo su alcuni processi, verrà comunque servito prima.
+Tale sistema però è molto costoso: richiede per ogni sincronizzazione $3(n-1)$ messaggi, e richiede garanzie
+sull'affidabilità del sistema (se un nodo è guasto e non risponde mai?) e che il gruppo sia statico. Per ottimizzarlo,
+ci dovrebbe pensare l'infrastruttura, magari sfruttando in maniera opportuna il broadcast/multicast per eseguire una
+richiesta!
 A differenza del protocollo centralizzato, se le copie sono studiate correttamente (con una giusta replicazione), la
-responsabilità risulta essere ben disa
-tribuita, e non si dipende più da un unico gestore centralizzato. Tuttavia, si
-deve tener conto dei guasti, su come escludere/ripristinare le copie e così via. . .
-\i{}
-Un protocollo più efficiente ma sempre basato su Lamport è quello di Ricart
-e Agrawal: l'idea è quella di limitare il numero dei messaggi in circolo, aggiune
-gendo intelligenza ai processi. Infatti, adesso il reply viene fatto o da processi
-meno prioritari o che non hanno interesse alla risorsa. In questo modo, in realtà,
-solo un processo ricever` gli n $-$ 1 reply. Il rilascio costa uguale, ma il protocollo
-in tot viene a costare 2(n $-$ 1) messaggi per accesso alla risorsa. Il reply è invece
-ritardato nel caso che il processo che riceve la request sia proprio quello che la
+responsabilità risulta essere ben distribuita, e non si dipende più da un unico gestore centralizzato. Tuttavia, si
+deve tener conto dei guasti, su come escludere/ripristinare le copie e così via...
+
+Un protocollo più efficiente ma sempre basato su Lamport è quello di Ricart e Agrawal: l'idea è quella di limitare il
+numero dei messaggi in circolo, aggiungendo intelligenza ai processi. Infatti, adesso il reply viene fatto o da 
+processi meno prioritari o che non hanno interesse alla risorsa. In questo modo, in realtà, solo un processo riceverà
+gli $n - 1$ reply. Il rilascio costa uguale, ma il protocollo in totale viene a costare $2(n - 1)$ messaggi per accesso
+alla risorsa. Il reply è invece ritardato nel caso che il processo che riceve la request sia proprio quello che la
 sta usando.
-`
-Il problema in ciò è come si fa a definire il ritardo? E un'idea scivolosa/rischiosa,
-oe
-per cui si mescolano ai meccanismi di un protocollo meccanismi di supporto!
-Come si fa a stabilireil ritardo, è dovuto a congestione o all'applicazione? Per
-quanto quindi questo sistema usi meno messaggi, è applicato ancora meno.
+Il problema in ciò è come si fa a definire il ritardo? E un'idea scivolosa/rischiosa, per cui si mescolano ai 
+meccanismi di un protocollo meccanismi di supporto!
+Come si fa a stabilire il ritardo, è dovuto a congestione o all'applicazione? Per quanto quindi questo sistema usi 
+meno messaggi, è applicato ancora meno.
 Vi sono esempi di implementazioni:
-$\bullet$ CATOCS,Causal Totally Ordered Comunication Operation Support: `
-un sistema scalabile, mantenedo limitato il numero dei partecipanti. Si
-mantengono infatti continuamente dei gestori coordinati fra di loro, in
-grado di servire le richieste, si utilizza broadcast in casi specici.
-$\bullet$ ISIS: è un sistema totalmente basato su gruppi e risorse di gruppo, per cui
-si necessita di coordinarsi fra le varie copie attive dotate di replicazione.
-Prevede l'utilizzo di diverse forme di multicast, distinte a seconda del tipo
-di ordinamento. Di base si hanno infatti le multicast per i 3 ordinamenti
-specificati (FIFO, causal e atomic), ma inoltre è presente una particolare
-multicast, che serve proprio per la gestione del gruppo stesso. Utilizzando
-questa multicast, infatti, un gruppo può cambiare la propria granularit`,
-eliminando copie non attive o reintroducendo quelle che hanno subito recovery. Caratteristica fondamentale è che il
-messaggio di gestione venga
-ricevuto solo dopo che tutti gli altri messaggi, dovuti agli altri tipi di multicast, siano stati ricevuti da ogni
-membro del gruppo. Riesce a fornire
-un sistema di monitoring (basandosi anche su delle tabelle che vengono
-aggiornate da questi multicast).
-L'atomic multicast di ISIS in particolare utilizza Lamport e le code locali
-ai processi per poter decidere con una politica di gruppo l'ordine dei mes-
-48
-saggi. Ogni messaggio ricevuto quindi da una copia deve essere spedito a
+\begin{itemize}
+ \item CATOCS,Causal Totally Ordered Comunication Operation Support: è un sistema scalabile, mantenedo limitato il
+ numero dei partecipanti. Si mantengono infatti continuamente dei gestori coordinati fra di loro, in grado di servire
+ le richieste, si utilizza broadcast in casi specici.
+
+\item ISIS: è un sistema totalmente basato su gruppi e risorse di gruppo, per cui si necessita di coordinarsi fra le
+varie copie attive dotate di replicazione.
+Prevede l'utilizzo di diverse forme di multicast, distinte a seconda del tipo di ordinamento. Di base si hanno infatti
+le multicast per i 3 ordinamenti specificati (FIFO, causal e atomic), ma inoltre è presente una particolare
+multicast, che serve proprio per la gestione del gruppo stesso. Utilizzando questa multicast, infatti, un gruppo può
+cambiare la propria granularità, eliminando copie non attive o reintroducendo quelle che hanno subito recovery.
+Caratteristica fondamentale è che il messaggio di gestione venga ricevuto solo dopo che tutti gli altri messaggi, dovuti
+agli altri tipi di multicast, siano stati ricevuti da ogni membro del gruppo. Riesce a fornire un sistema di monitoring
+(basandosi anche su delle tabelle che vengono aggiornate da questi multicast).
+L'atomic multicast di ISIS in particolare utilizza Lamport e le code locali ai processi per poter decidere con una
+politica di gruppo l'ordine dei messaggi. Ogni messaggio ricevuto quindi da una copia deve essere spedito a
 tutte le altre copie, con un'indicazione di timestamp. Ogni copia lo marca con il proprio timestamp, e lo rispedisce
-indietro al primo mittente, il
-quale lo marca definitivamente con il timestamp maggiore e lo rispedisce
-a tutti gli altri (costo di Lamport).
-Il causal multicast aggiunge un costo visto che la dipendenza di relazione
-` al di fuori del gruppo: si tratta di un ordine parziale, però richiede che
-comunque vi sia un coordinamento fra i clock logici dei mittenti, per poi
+indietro al primo mittente, il quale lo marca definitivamente con il timestamp maggiore e lo rispedisce a tutti gli
+altri (costo di Lamport).
+Il causal multicast aggiunge un costo visto che la dipendenza di relazione è al di fuori del gruppo: si tratta di un
+ordine parziale, però richiede che comunque vi sia un coordinamento fra i clock logici dei mittenti, per poi
 far arrivare l'informazione in maniera corretta anche ai riceventi.
+\end{itemize}
 \subsection{Sincronizzazione a token}
 Si tratta di un altro modello per superare il problema del gestore centralizzato. L'idea è quella di avere un anello
 totalmente ideale, per cui i processi si
@@ -455,7 +427,7 @@ non riceve su tutti i suoi canali di input il marker rosso (ovvero le risposte
 dagli altri nodi!). A tale evento, si ferma e salva lo snapshot. Si potrebbe
 anche sviluppare protocolli più complessi, per cui il marker viene inviato solo
 su determinati canali. Da osservare che quindi un processo in stato rosso non
-potr` mai mandare un messaggio a un processo in stato bianco, altrimenti non
+potrà mai mandare un messaggio a un processo in stato bianco, altrimenti non
 si salva correttamente!
 Ma no a quando si salva? Fino al prossimo marker! Questo è un sistema
 assolutamente scalabile! Il problema è che il marker tiene un'indicazione del
@@ -464,4 +436,4 @@ lo snapshot, si dovrebbe estendere la politica, magari estendendo in maniera
 semplice le informazioni del marker, che indichi a quale snapshot è riferito quello
 `
 stato. A chi si manda poi lo stato in ogni modo? E una politica da decidere, o
-a un nodo che fa da repository oppure a chi ha iniziato lo snapshot. . .
+a un nodo che fa da repository oppure a chi ha iniziato lo snapshot...
