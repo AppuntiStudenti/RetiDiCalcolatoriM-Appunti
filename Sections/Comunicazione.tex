@@ -78,168 +78,124 @@ Per risolvere il problema, conviene suddividerlo in due sottoproblemi:
  sistema da prevedere se si vuole affidabilità.
  Tuttavia, si potrebbe rimbalzare il problema a livello applicativo: per esempio Chorus effettua multicast mai 
  ripetuti, quindi unreliable, ma specifica agli sviluppatori di realizzare il sistema di ritrasmissione.
+ \item Fornire l'\textit{atomicità della trasmissione}: per atomicità si intende l'ordine con cui i messaggi giungono
+ al gruppo. Si dovrebbe fare in modo infatti che tutti i membri del gruppo li ricevano nello stesso ordine? Non è
+ detto (solo letture si potrebbero fare in ordine diverso)! Può essere infatti che a seconda dell'ordine dei messaggi
+ si debbano attuare politiche diverse. L'atomicità è lo studio di questo problema.
 \end{enumerate}
-
-1. 
-2. Fornire l'atomicità della trasmissione: per atomicità si intende l'ordine
-con cui i messaggi giungono al gruppo. Si dovrebbe fare in modo infatti
-che tutti i membri del gruppo li ricevano nello stesso ordine?Non è detto
-(solo letture si potrebbero fare in ordine diverso)! Può essere infatti che
-a seconda dell'ordine dei messaggi si debbano attuare politiche diverse.
-L'atomicità è lo studio di questo problema.
-ae
-Questi due aspetti devono essere tenuti separati : in questo caso quindi si ha
-che l'atomicità fa l'ipotesi che in ogni modo i messaggi giungano sempre a desa
-tinazione. Nel progetto di una comunicazione di gruppo non è quindi solo ime
-portante la singola operazione, ma l'ordine con cui giungono al gruppo.
-L'affidabilità viene a mancare se si perde un messaggio, oppure un crash
-delle due parti. In particolare, per poter garantire l'affidabilità si deve fare in
-modo che i gruppi siano dinamici : se una copia cade, in maniera trasparente
-si deve proseguire. Per tutti i fault l'infrastruttura dovrebbe essere in grado di
-reagire: è ovvio quindi che serve un sistema di monitoring dell'infrastruttura,
-per poter effettuare le possibili azioni correttive:
-$\bullet$ Ritrasmissione di eventuali messaggi persi
-$\bullet$ Aggiustamento del gruppo dinamico.
-Ovviamente, si deve cercare di minimizzare i costi che si vengono aggiungere,
-tenendo conto del principio di minima intrusione.
-L'idea è quindi quella di realizzare dei meccanismi molto semplici, in maniera
-da poter garantire un controllo16 per poter effettuare la ritrasmissione. Si deve
-quindi studiare come richiedere o meno la ritrasmissione: per esempio, se avessimo una conferma positiva per ogni frame
-(si usa così un meccanismo di hold\i{}
-back, trattenendo i messaggi finché non arriva la conferma che il precedente `
-stato ricevuto), il costo per il monitoring sarebbe elevato. Si riduce utilizzando
-le conferme negative, dove si può indicare cosa si è perso (si hanno dei messaggi
-ordinati . . . ). Un altro problema riguarda l'intervallo di tempo per aspettare,
-che deve essere opportunatamente dimensionato.
-16 Da
-non sottovalutare: e se fallisce il controllore? Chi controlla il controllore?
-41
+Questi due aspetti \textit{devono essere tenuti separati}: in questo caso quindi si ha che l'atomicità fa l'ipotesi
+che in ogni modo i messaggi giungano sempre a destinazione. Nel progetto di una comunicazione di gruppo non è quindi
+solo importante la singola operazione, ma l'ordine con cui giungono al gruppo.
+L'affidabilità viene a mancare se si perde un messaggio, oppure un crash delle due parti. In particolare, per poter
+garantire l'affidabilità si deve fare in modo che i gruppi siano \textit{dinamici}: se una copia cade, in maniera
+trasparente si deve proseguire. Per tutti i fault l'infrastruttura dovrebbe essere in grado di reagire: è ovvio quindi
+che serve un sistema di monitoring dell'infrastruttura, per poter effettuare le possibili azioni correttive:
+\begin{itemize}
+ \item Ritrasmissione di eventuali messaggi persi
+ \item Aggiustamento del gruppo dinamico.
+\end{itemize}
+Ovviamente, si deve cercare di minimizzare i costi che si vanno ad aggiungere, tenendo conto del principio di minima
+intrusione.
+L'idea è quindi quella di realizzare dei meccanismi molto semplici, in maniera da poter garantire un
+controllo\footnote{Da non sottovalutare: e se fallisce il controllore? Chi controlla il controllore?} per
+poter effettuare la ritrasmissione. Si deve quindi studiare come richiedere o meno la ritrasmissione: per esempio, se
+avessimo una conferma positiva per ogni frame (si usa così un meccanismo di hold back, trattenendo i messaggi finché
+non arriva la conferma che il precedente è stato ricevuto), il costo per il monitoring sarebbe elevato. Si riduce
+utilizzando le conferme negative, dove si può indicare cosa si è perso (si hanno dei messaggi ordinati...). Un altro
+problema riguarda l'intervallo di tempo per aspettare, che deve essere opportunatamente dimensionato.
 \subsection{Ordinamenti}
 L'atomicità è l'aspetto in cui l'utente dovrebbe essere maggiormente coinvolto.
 
-Infatti, non lavorando nel concentrato, certe ipotesi d'ordine che si potevano
-fare non sono più valide in maniera gratuita! Come devono lavorare le copie?
-Se potessero lavorare in maniera indipendente, per cui ogni copia può proo
-cessare i messaggi nell'ordine in cui le arrivano, senza preoccuparsi dell'ordine
-delle altre, si avrebbe un'infrastruttura a costo minimo. . . tuttavia ciò non è
-sempre possibile.
-L'ordinamento classico è quello FIFO: l'ipotesi generale è che si abbia seme
-preun emettitore (si estende anche a casi con più emettitori, ma l'ordinamento
-FIFO riferisce sempre i messaggi provenienti dallo stesso emettitore). Questo
-ordinamento stabilisce che se vengono inviati i messaggi in ordine m1, m2, tutte
-le copie devono ricevere i messaggi nello stesso ordine! Nel caso di più emetu
-titori, infatti, l'importante è che i messaggi provenienti dallo stesso emettitore
-siano sempre nello stesso ordine, ma fra emettitori diversi no; se un emettitore
-emette m1, m2 e un altro m3, m4
-$\bullet$ m1, m2, m3, m4, m1, m3, m2, m4, m3, m1, m4, m2,. . . vanno bene
-$\bullet$ m2, m1, m3, m4 no!
-Le copie devono quindi essere progettate in maniera tale da mantenere lo stato,
-ovvero da chi arriva la comunicazione? Se vi sono omissioni, si può così attivare
-\i{}
-un procedimento di hold-back.
-Tuttavia, l'ordinamento FIFO non è sempre quello desiderato, proprio perché
-non si possono imporre vincoli di precedenza fra messaggi provenienti da emettitori diversi. Basti pensare ai newsgroup:
-spesso succede che arrivi prima
-la risposta della domanda, perché non sono presenti degli orologi sincronizzae
-ti. Questo succede perché a livello di supporto non si garantisce il rapporto di
-causa-eetto
-L'ordinamento causale tiene conto di questo problema, si basa proprio sulla
-presenza di emettitori diversi, che possono inviare messaggi in relazione di causaeetto fra di loro. Questo vuol dire
-che se un messaggo m1 è causa di un
-messaggio m3 da parte di un altro emettitore, la comunicazione sarà valida se
-e solo se m1 preceder` m3 sempre (per altri messaggi non è stabilito l'ordine).
-Il problema del causale è che è di dicile realizzazione: non vi sono supporti
-che lo realizzano. Nel caso di un singolo mittente, il causale è praticamente un
-FIFO, ed è di semplice realizzazione. Ma se si hanno gruppi dinamici, e quindi
-dipendenze dinamiche fra i messaggi, non è banale!
-Inoltre, non tutto a questo mondo si può rappresentare con il rapporto di
-causa-eetto: per esempio, se si avessero due multicast che sono rispettivamente
-un accredito e una valutazione degli interessi, l'ordine è fondamentale. . . ma le
-due operazioni non dipendono l'una dall'altra! Resta che l'ordinamento su tutte
-le copie deve essere il medesimo, altrimenti si avrebbero dei conti sballati!
-42
-Questo problema non si risolve neanche con il FIFO perché, come il causale,
-si tratta di un ordinamento parziale. Si può pensare invece di risolverlo utilizo
-zando un ordinamento atomico, che è globale. Questo perché è un ordinamento
-ee
-deciso dal gruppo! Il gruppo può decidere una famiglia di ordinamenti che tutte
-le copie devono rispettare, fornendo così anche implementazioni diverse. L'or\i{}
-dinamento atomico non è interessato infatti all'ordine specifico, ma al fatto che
-tutti i componenti del gruppo ricevano i messaggi nello stesso ordine. L'ordinamento atomico può essere realizzato in
-maniera da rispettare sia (o uno solo, o
-nessuno) l'ordinamento FIFO che quello causale.
-Per poter realizzare l'ordinamento atomico, si deve pensare comunque alla
-presenza di un frontend, in grado di smistare alle varie copie i messaggi che
-arrivano: ogni copia lavora in maniera indipendente, così che se manca un mes\i{}
-saggio ad una le altre non sono bloccate. Questo vuol dire che non sono sincrone
-fra di loro, ma l'obiettivo è solo il raggiungimento di uno stato nale coeso. Il
-coordinamento quindi può non rispettare il FIFO, ed è tutto interno al gruppo.
-L'ordinamento è un costo aggiuntivo che si deve considerare, tuttavia i divere
-si ordinamenti hanno un costo diverso. In particolare, il causale è l'ordinamento
-maggiormente costoso in generale, anche se non vi è una risposta univoca, dipene
-dendo da caso a caso. Tuttavia, l'atomico vista la sua variabilit` può presentare
-a o
-dei costi molto diversi.
-In tutte le architetture per il multicast basato su ordinamento atomico in
-generale si pensa ad un frontend che possa smistare i messaggi secondo l'ordinamento imposto: tuttavia, per garantire
-affidabilità, si deve considerare anche il
-caso che il frontend non sia disponibile. Si deve trovare un modo di aggiungere
-qualità (per esempio, replicazione dei frontend, con token per chi è eettivaa
-mente attivo. . . ). Esistono altre architetture meno centralizzate, ma risultano
+Infatti, non lavorando nel concentrato, certe ipotesi d'ordine che si potevano fare non sono più valide in maniera
+gratuita! Come devono lavorare le copie?
+Se potessero lavorare in maniera indipendente, per cui ogni copia può processare i messaggi nell'ordine in cui le
+arrivano, senza preoccuparsi dell'ordine delle altre, si avrebbe un'infrastruttura a costo minimo... tuttavia ciò non
+è sempre possibile.
+L'ordinamento classico è quello FIFO: l'ipotesi generale è che si abbia sempr eun emettitore (si estende anche a casi
+con più emettitori, ma l'ordinamento FIFO riferisce sempre i messaggi provenienti dallo stesso emettitore). Questo
+ordinamento stabilisce che se vengono inviati i messaggi in ordine m1, m2, tutte le copie devono ricevere i messaggi
+nello stesso ordine! Nel caso di più emettitori, infatti, l'importante è che i messaggi provenienti dallo stesso
+emettitore siano sempre nello stesso ordine, ma fra emettitori diversi no; se un emettitore emette m1, m2 e un altro 
+m3, m4
+\begin{itemize}
+ \item m1, m2, m3, m4; m1, m3, m2, m4; m3, m1, m4, m2... \textbf{vanno bene}
+ \item m2, m1, m3, m4 \textbf{no!}
+\end{itemize}
+Le copie devono quindi essere progettate in maniera tale da mantenere lo stato, ovvero da chi arriva la comunicazione?
+Se vi sono omissioni, si può così attivare un procedimento di hold-back.
+Tuttavia, l'ordinamento FIFO non è sempre quello desiderato, proprio perché non si possono imporre vincoli di 
+precedenza fra messaggi provenienti da emettitori diversi. Basti pensare ai newsgroup: spesso succede che arrivi 
+prima la risposta della domanda, perché non sono presenti degli orologi sincronizzati. Questo succede perché a livello
+di supporto non si garantisce il rapporto di causa-effetto.
+L'ordinamento causale tiene conto di questo problema, si basa proprio sulla presenza di emettitori diversi, che 
+possono inviare messaggi in relazione di causa-effetto fra di loro. Questo vuol dire che se un messaggo m1 è causa di
+un messaggio m3 da parte di un altro emettitore, la comunicazione sarà valida se e solo se m1 precederà m3 sempre (per
+altri messaggi non è stabilito l'ordine).
+Il problema del causale è che è di difficile realizzazione: non vi sono supporti che lo realizzano. Nel caso di un
+singolo mittente, il causale è praticamente un FIFO, ed è di semplice realizzazione. Ma se si hanno gruppi dinamici, 
+e quindi dipendenze dinamiche fra i messaggi, non è banale!
+Inoltre, non tutto a questo mondo si può rappresentare con il rapporto di causa-effetto: per esempio, se si avessero
+due multicast che sono rispettivamente un accredito e una valutazione degli interessi, l'ordine è fondamentale... ma
+le due operazioni non dipendono l'una dall'altra! Resta che l'ordinamento su tutte le copie deve essere il medesimo,
+altrimenti si avrebbero dei conti sballati!
+Questo problema non si risolve neanche con il FIFO perché, come il causale, si tratta di un ordinamento parziale. Si
+può pensare invece di risolverlo utilizzando un ordinamento atomico, che è globale. Questo perché è un ordinamento
+deciso dal gruppo! Il gruppo può decidere una famiglia di ordinamenti che tutte le copie devono rispettare, fornendo
+così anche implementazioni diverse. L'ordinamento atomico non è interessato infatti all'ordine specifico, ma al fatto
+che tutti i componenti del gruppo ricevano i messaggi nello stesso ordine. L'ordinamento atomico può essere realizzato
+in maniera da rispettare sia (o uno solo, o nessuno) l'ordinamento FIFO che quello causale.
+Per poter realizzare l'ordinamento atomico, si deve pensare comunque alla presenza di un frontend, in grado di smistare
+alle varie copie i messaggi che arrivano: ogni copia lavora in maniera indipendente, così che se manca un messaggio
+ad una le altre non sono bloccate. Questo vuol dire che non sono sincrone fra di loro, ma l'obiettivo è solo il
+raggiungimento di uno stato finale coeso. Il coordinamento quindi può non rispettare il FIFO, ed è tutto interno al
+gruppo.
+L'ordinamento è un costo aggiuntivo che si deve considerare, tuttavia i diversi ordinamenti hanno un costo diverso. 
+In particolare, il causale è l'ordinamento maggiormente costoso in generale, anche se non vi è una risposta univoca,
+dipendendo da caso a caso. Tuttavia, l'atomico vista la sua variabilità può presentare dei costi molto diversi.
+In tutte le architetture per il multicast basato su ordinamento atomico in generale si pensa ad un frontend che possa
+smistare i messaggi secondo l'ordinamento imposto: tuttavia, per garantire affidabilità, si deve considerare anche il
+caso che il frontend non sia disponibile. Si deve trovare un modo di aggiungere qualità (per esempio, replicazione dei
+frontend, con token per chi è effettivamente attivo...). Esistono altre architetture meno centralizzate, ma risultano
 essere maggiormente complesse.
-Inoltre, l'ordinamento atomico basato su frontend può essere unfair: clienti
-più vicini al front end sono favoriti. Altre soluzioni si sono preoccupate di suu
-perare questo problema, introducendo però ulteriori costi.
+Inoltre, l'ordinamento atomico basato su frontend può essere unfair: clienti più vicini al front end sono favoriti.
+Altre soluzioni si sono preoccupate di superare questo problema, introducendo però ulteriori costi.
 \subsection{Il problema della sincronizzazione}
-Per poter coordinare un insieme di copie, è necessario quindi che queste siano
-sincronizzate. La sincronizzazione non è nient'altro che la sequenzializzazione
-di operazioni parallele 17 , mediante la quale si impongono degli invarianti che
-devono essere rispettati : si ha quindi un ordine.
-Tuttavia, la sincronizzazione è diversa dalla comunicazione: questa infatti
-` interessata ad un contenuto da trasmettere, mentre la sincronizzazione è solo
-l'ordine. Nelle classiche architetture C/S i due aspetti sono accoppiati, ma ciò
-non vale in altri casi.
-17 Esempio,
-realizzazione della mutua esclusione
-43
-Per poter sincronizzare non è necessario stabilire un ordinamento prescritto:
-si può scegliere quello più adatto a seconda delle esigenze, in maniera anche
-molto indeterministica. In questo modo si hanno spazi di implementazione
-molto variabili. In generale, essendo la sincronizzazione nel distribuito molto
-più costosa, si cerca di fornire un ordine solo per gli eventi necessari.
-Nel distribuito, i clock non sono sincronizzati. Si potrebbe pensare di realizzare un unico clock per tutti, ma `
-impensabile (si pensi a derive nella
-comunicazione del tempo). Esistono standard per stabilire un formato univoco per il tempo (UTC, Universal Coordinated
-Time), ma che funzionano solo
-se il numero dei partecipanti è limitato. Per coordinarsi infatti i diversi client
-chiedono e ricevono il clock mediante uno scambio di messaggi, e quindi si cerca
-di ottenere una mediazione, aggiustando di volta in volta il clock locale. Ma per
-far ciò serve un gestore continuo che faccia monitoring!
-Esiste anche un protocollo, Network Time Protocol, definito per il distribuito,
-in grado di basarsi su UTC per fornire un tempo comune a tutti i partecipanti.
-Si realizza una gerarchia di server, che coinvolge tutti i partecipanti: più si `
-u e
-vicini alla radice, maggiormente il tempo sarà preciso. Allontanandosi invece si
-hanno delle derive. Ma se si guasta un server?
+Per poter coordinare un insieme di copie, è necessario quindi che queste siano sincronizzate. La sincronizzazione non
+è nient'altro che la \textit{sequenzializzazione di operazioni parallele}\footnote{Esempio, realizzazione della mutua
+esclusione}, mediante la quale si \textit{impongono degli invarianti che devono essere rispettati}: si ha quindi un
+ordine.
+Tuttavia, la sincronizzazione è diversa dalla comunicazione: questa infatti è interessata ad un contenuto da
+trasmettere, mentre la sincronizzazione è solo l'ordine. Nelle classiche architetture C/S i due aspetti sono accoppiati,
+ma ciò non vale in altri casi.
+Per poter sincronizzare non è necessario stabilire un ordinamento prescritto: si può scegliere quello più adatto a
+seconda delle esigenze, in maniera anche molto indeterministica. In questo modo si hanno spazi di implementazione
+molto variabili. In generale, essendo la sincronizzazione nel distribuito molto più costosa, si cerca di fornire un
+ordine solo per gli eventi necessari.
+Nel distribuito, i clock non sono sincronizzati. Si potrebbe pensare di realizzare un unico clock per tutti, ma è
+impensabile (si pensi a derive nella comunicazione del tempo). Esistono standard per stabilire un formato univoco per
+il tempo (UTC, Universal Coordinated Time), ma che funzionano solo se il numero dei partecipanti è limitato. Per
+coordinarsi infatti i diversi client chiedono e ricevono il clock mediante uno scambio di messaggi, e quindi si cerca
+di ottenere una mediazione, aggiustando di volta in volta il clock locale. Ma per far ciò serve un gestore continuo
+che faccia monitoring!
+Esiste anche un protocollo, Network Time Protocol, definito per il distribuito, in grado di basarsi su UTC per fornire
+un tempo comune a tutti i partecipanti.
+Si realizza una gerarchia di server, che coinvolge tutti i partecipanti: più si è vicini alla radice, maggiormente il
+tempo sarà preciso. Allontanandosi invece si hanno delle derive. Ma se si guasta un server?
 Questi protocolli son troppo complessi e costosi per garantire un tempo univoco. Il rischio è sempre che un evento venga
-etichettato male, per via di derive
-nel clock locale rispetto a quello globale. L'idea è quindi quella di lasciar perdere
-il tempo sico, il clock, ma di realizzare una sincronizzazione solo sugli eventi
-`
-d'interesse. E una prospettiva più ottimista e molto meno costosa (infatti si
-riduce la comunicazione solo agli eventi signicativi, evitando di dover tenere
-aggiornati gli orologi sici).
-Vi sono diversi sistemi per poter ordinare in base agli eventi di interesse.
-Quello meno importante è quello basato su delle priorità definite in maniera
-statica. Infatti così si viene a realizzare una politica molto rigida, con rischio
-\i{}
-di starvation (andrebbe bene se l'architettura prevede dei processi che debbano
-eseguire a scapito di altri).
+etichettato male, per via di derive nel clock locale rispetto a quello globale. L'idea è quindi quella di lasciar
+perdere il tempo fisico, il clock, ma di realizzare una sincronizzazione solo sugli eventi d'interesse. È una
+prospettiva più ottimista e molto meno costosa (infatti si riduce la comunicazione solo agli eventi signicativi,
+evitando di dover tenere aggiornati gli orologi fisici).
+Vi sono diversi sistemi per poter ordinare in base agli eventi di interesse. Quello meno importante è quello basato su
+delle priorità definite in maniera statica. Infatti così si viene a realizzare una politica molto rigida, con rischio
+di starvation (andrebbe bene se l'architettura prevede dei processi che debbano eseguire a scapito di altri).
 I metodi più interessanti sono invece:
-$\bullet$ basati sull'ordinamento di Lamport, utilizzato soprattutto in US. Si realizzano dei clock logici da usare al
-posto dei clock sici.
-$\bullet$ basati sull'uso del sistema di token passing, utilizzato soprattutto in UE.
-Si realizza una struttura ad anello, e chi ha il token è il coordinatore.
+\begin{itemize}
+ \item basati sull'ordinamento di Lamport, utilizzato soprattutto in US. Si realizzano dei clock logici da usare al
+ posto dei clock fisici.
+ \item basati sull'uso del sistema di token passing, utilizzato soprattutto in UE. Si realizza una struttura ad anello,
+ e chi ha il token è il coordinatore.
+\end{itemize}
 \subsection{Ordinamento di Lamport}
 L'ordinamento di Lamport si basa di avere diversi processi in grado di mantenere
 una propria storia interna (gli eventi su uno stesso processore sono già ordinati
@@ -311,7 +267,7 @@ $\bullet$ Problema della causalit` vera: la relazione di Lamport è anche bietti
 cioè è valido anche la relazione opposta? In realtà no, due eventi che
 e e
 soddisfano la relazione di Lamport potrebbero non essere in rapporto di
-causa ed eetto!
+causa ed effetto!
 Un sistema per realizzare l'architettura basata su Lamport è quella basata sui
 clock vettoriali : ogni processo tiene conto in realtà anche dei clock logici degli
 altri processori. In questo modo però si hanno strutture dati e protocolli più
