@@ -230,7 +230,7 @@ d'interesse. E una prospettiva più ottimista e molto meno costosa (infatti si
 riduce la comunicazione solo agli eventi signicativi, evitando di dover tenere
 aggiornati gli orologi sici).
 Vi sono diversi sistemi per poter ordinare in base agli eventi di interesse.
-Quello meno importante è quello basato su delle priorità denite in maniera
+Quello meno importante è quello basato su delle priorità definite in maniera
 statica. Infatti così si viene a realizzare una politica molto rigida, con rischio
 \i{}
 di starvation (andrebbe bene se l'architettura prevede dei processi che debbano
@@ -423,7 +423,7 @@ ai processi per poter decidere con una politica di gruppo l'ordine dei mes-
 saggi. Ogni messaggio ricevuto quindi da una copia deve essere spedito a
 tutte le altre copie, con un'indicazione di timestamp. Ogni copia lo marca con il proprio timestamp, e lo rispedisce
 indietro al primo mittente, il
-quale lo marca denitivamente con il timestamp maggiore e lo rispedisce
+quale lo marca definitivamente con il timestamp maggiore e lo rispedisce
 a tutti gli altri (costo di Lamport).
 Il causal multicast aggiunge un costo visto che la dipendenza di relazione
 ` al di fuori del gruppo: si tratta di un ordine parziale, però richiede che

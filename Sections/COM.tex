@@ -149,7 +149,7 @@ $\bullet$ In-process: lavora nello stesso spazio di lavoro del client, mediante 
 $\bullet$ Locale: lavora in un processo diverso, ma sulla stessa macchina.
 $\bullet$ Remoto altrimenti.
 Il problema di COM è che, volendo garantire un'alta trasparenza, richiedeche
-vengano denite tantissime interfacce. Un'altra interfaccia è per esempio COe
+vengano definite tantissime interfacce. Un'altra interfaccia è per esempio COe
 MOBJ, che si preoccupa di cercare nel registry l'esistenza delle DLL necessarie,
 ne fornisce il riferimento o le carica in memoria. Questo comporta che l'utente debba conoscere i meccanismi presenti in
 COM ! Fortunatamente, gli stessi
@@ -253,7 +253,7 @@ e input dei componenti. Questo sistema semplica la realizzazione, permettendo qu
 semplicemente un gestore degli oggetti
 contenuti, in grado di attivarli attravero un'interfaccia uniforme e al sistema dell'introspezione. Il container deve
 solo fornire un'interfaccia IDispatch! Quindi,
-il container implementa la dispinterface denita dall'oggetto contenuto (questo
+il container implementa la dispinterface definita dall'oggetto contenuto (questo
 deve solo definire quali eventi sono interessanti per lui); uno è la sorgente dele
 l'interfaccoa, l'altro il pozzo che la realizza. A sua volta, il container sfrutta
 degli oggetti intermedi per poter comunicare con l'oggetto contenuto.

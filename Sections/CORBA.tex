@@ -119,7 +119,7 @@ l'eterogeneità.
 Restano comunque problemi nel realizzare un mapping corretto fra l'IDL e
 i vari linguaggi di implementazione! Per esempio, Java non prevede parametri
 28 IMPORTANTE: per legame statico si intende dire solo l'interfaccia, che viene quindi
-denita in maniera statica. Il binding fra client e servitore non è statico, qui si specifica solo
+definita in maniera statica. Il binding fra client e servitore non è statico, qui si specifica solo
 che i servizi del servitore devono essere specificati in maniera statica
 64
 di output. Per ovviare a questi problemi, CORBA realizza delle apposite classi dette holder : è un wrapper che permette
@@ -274,7 +274,7 @@ $\bullet$ Explicit Object Activation: è tutto a carico del client
 $\bullet$ Single servant: viene attivato un servant per ogni richiesta, uno solo.
 $\bullet$ On demand : sono le politiche per poter scegliere i servant in base alle richieste specificate. Se si tratta di
 un singolo metodo non vi è stato, altrimene
-ti si tratta di On-demand per una durata indenita. Una caratteristica
+ti si tratta di On-demand per una durata indefinita. Una caratteristica
 particolare è che le politiche si possono combinare!
 \subsection{Binding dinamico}
 Avendo a disposizione prima le interfacce, si possono implementare direttamente client e servant. Tuttavia, è mediante
@@ -355,7 +355,7 @@ definire un legame indiretto oltre a quello diretto: la differenza sostanziale �
 veramente permanente, mentre riferendolo direttamente si hanno più gradi di libertà, un collegamento maggiormente
 lasco. L'ObjId di uno IOR riferisce quindi il servizio sicuramente, ma non è detto l'oggetto.
 \subsection{Gli interceptor in CORBA}
-Sono deniti come negli altri mw, ovvero è un sistema per poter definire dei come
+Sono definiti come negli altri mw, ovvero è un sistema per poter definire dei come
 ponenti che devono essere attivati prima o dopo l'esecuzione di una determinata
 richiesta (per introdurre per esempio un sistema di sicurezza). Gli interceptor
 son pensati per poter lavorare a diversi livelli (applicativo, trasporto, . . . ).
@@ -367,7 +367,7 @@ I componenti non sono altro che degli oggetti inseriti in un apposito contenitor
 d'esecuzione, detto engine. Il servizio
 di questi componenti è quindi fornito soltanto nell'ambito del container stesso,
 70
-sfruttando delle politiche di default denite proprio dal contenitore. Un esempio
+sfruttando delle politiche di default definite proprio dal contenitore. Un esempio
 di componente di questo genere sono gli EJB.
 I componenti sono un fattore trainante per ottenere una base d'utenza sempre più ampia: aumenta la possibilità di
 adattare il sistema alle proprie esigenze.
