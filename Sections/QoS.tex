@@ -57,56 +57,45 @@ medio, il massimo ritardo accettabile per non dover scartare un pacchetto...). P
 ottimizzare la trasmissione è quella di introdurre delle risorse sul client, e di bufferizzarla: si trasmette quindi
 soltanto avendo un certo numero di frame a disposizione.
 \subsection{QoS in Internet}
-Il mondo di Internet si basa sul protocollo TCP/IP, che lavora best effort: ciò
-signica che non può garantire QoS 6 . OSI è da sempre stato progettato con
-6 Perché ciò? Internet non prenota o mantiene le risorse, ma cerca di determinare un
-e o
-cammino fra C/S che quindi può variare. Non abbiamo garanzia del servizio. OSI invece
-definisce la possibilità di definire gli intermediati e riservarli, in maniera da distribuire la
-latenza totale del servizio su di loro, e in maniera da progettare i nodi intermedi con le risorse
-28
-l'idea di supportare QoS, ma risulta essere ancora lontana da essere realmente
-implementata. Si tratta quindi di individuare tecniche per garantire QoS in Internet. Le idee principali riguardano
-l'introduzione di nuovi protocolli e nuove
-applicazioni
-Le applicazioni classiche di Internet (tipo mail) sono elastiche, ovvero sono
-in grado di adattarsi alla configurazione della rete, e non richiedono QoS al
-supporto (possono tuttavia specificare un tempo di latenza per poter eseguire).
-In queste applicazioni quindi l'utente non specifica dei tempi rigidi per poter
-eseguire.
-Le applicazioni moderne invece sono non elastiche: questo perché presentano
-dei vincoli temporali precisi, e quindi richiedono QoS. Di queste, quelle real-time
-moderne sono tolleranti rispetto a problemi che si possono vericare, ovvero
-possiamo avere che sono:
-$\bullet$ Adattative in banda: il servizio è erogabile ma con una banda minore, e
-quindi qualità diminuita: si parla per esempio di un video peggiore.
-$\bullet$ Adattative per la latenza: il servizio è erogabile, ma con un ritardo mage
-giore, riducendo la QoS: uno streaming audio che perde pacchetti, un video
-che perde dei frame.7
-Bisogna ricordare che in generale la latenza non è costante: potrebbe essere
-conveniente quindi specificare la latenza su ogni frame.
-Un servizio per Internet potrebbe quindi richiedere garanzie diverse:
-$\bullet$ Il classico best-eort
-$\bullet$ Un controlled load, ovvero la gestione di una latenza limitata. Spesso
-questa è la scelta per i servizi elastici, trattandosi di una via di mezzo fra
-il best-eort e la garanzia di determinati valori.
-$\bullet$ Il guaranteed load, per cui si ha un limite temporale stretto al ritardo, ma
-non limitato al jitter.
-Per poter fornire servizi che si basino sulle ultime due opzioni, è necessario
-far evolvere Internet da un sistema best-eort (dovuto all'uso di IP) elastico
-(grazie a TCP) ad un sistema con QoS. Si parla quindi di una transizione da
-una struttura a basso costo e senza garanzie ad una con costi dierenziati a
-seconda delle prestazioni da erogare. Vi sono due proposte, incompatibili fra di
-loro:
-$\bullet$ Servizi integrati, RFC 2210: si ragiona per singolo servizio, e quindi si
-cerca di definire per ogni singolo usso la QoS
-necessarie per soddisfare la banda
-7 Questo non si può fare con TCP,perché garantisce che si ricevano sempre i frame in ordine:
-trasparente, ma non va bene se abbiamo un alto jitter!
-29
-$\bullet$ Servizi dierenziati, RFC 2475: si propone di introdurre QoS a livello di
-rete, quindi la proposta è quella di lavorare contemporaneamente su più
-flussi per migliorare in maniera globale il routing.
+Il mondo di Internet si basa sul protocollo TCP/IP, che lavora best effort: ciò significa che non può garantire
+QoS\footnote{Perché ciò? Internet non prenota o mantiene le risorse, ma cerca di determinare un cammino fra C/S che
+quindi può variare. Non abbiamo garanzia del servizio. OSI invece definisce la possibilità di definire gli intermediati
+e riservarli, in maniera da distribuire la latenza totale del servizio su di loro, e in maniera da progettare i nodi
+intermedi con le risorse necessarie per soddisfare la banda}. OSI è da sempre stato progettato con l'idea di supportare
+QoS, ma risulta essere ancora lontana da essere realmente implementata. Si tratta quindi di individuare tecniche per
+garantire QoS in Internet. Le idee principali riguardano l'introduzione di nuovi protocolli e nuove applicazioni.
+Le applicazioni classiche di Internet (tipo mail) sono elastiche, ovvero sono in grado di adattarsi alla configurazione
+della rete, e non richiedono QoS al supporto (possono tuttavia specificare un tempo di latenza per poter eseguire).
+In queste applicazioni quindi l'utente non specifica dei tempi rigidi per poter eseguire.
+Le applicazioni moderne invece sono non elastiche: questo perché presentano dei vincoli temporali precisi, e quindi
+richiedono QoS. Di queste, quelle real-time moderne sono tolleranti rispetto a problemi che si possono vericare, 
+ovvero possiamo avere che sono:
+\begin{itemize}
+ \item \textit{Adattative in banda}: il servizio è erogabile ma con una banda minore, e quindi qualità diminuita: si
+ parla per esempio di un video peggiore.
+ \item \textit{Adattative per la latenza}: il servizio è erogabile, ma con un ritardo maggiore, riducendo la QoS: uno
+ streaming  audio che perde pacchetti, un video che perde dei frame.\footnote{Questo non si può fare con TCP,perché
+garantisce  che si ricevano sempre i frame in ordine: trasparente, ma non va bene se abbiamo un alto jitter!}
+\end{itemize}
+Bisogna ricordare che in generale la latenza non è costante: potrebbe essere conveniente quindi specificare la latenza
+su ogni frame. Un servizio per Internet potrebbe quindi richiedere garanzie diverse:
+\begin{itemize}
+ \item Il classico \textit{best-effort}
+ \item Un \textit{controlled load}, ovvero la gestione di una latenza limitata. Spesso questa è la scelta per i 
+ servizi elastici, trattandosi di una via di mezzo fra il best-effort e la garanzia di determinati valori.
+ \item Il \textit{guaranteed load}, per cui si ha un limite temporale stretto al ritardo, ma non limitato al jitter.
+\end{itemize}
+Per poter fornire servizi che si basino sulle ultime due opzioni, è necessario far evolvere Internet da un sistema
+best-effort (dovuto all'uso di IP) elastico (grazie a TCP) ad un sistema con QoS. Si parla quindi di una transizione
+da una struttura a basso costo e senza garanzie ad una con costi differenziati a seconda delle prestazioni da erogare. 
+Vi sono due proposte, incompatibili fra di loro:
+\begin{itemize}
+ \item \textit{Servizi integrati}, RFC 2210: si ragiona per singolo servizio, e quindi si cerca di definire per ogni
+ singolo flusso la QoS
+ \item \textit{Servizi differenziati}, RFC 2475: si propone di introdurre QoS a livello di rete, quindi la proposta è
+ quella di lavorare contemporaneamente su più flussi per migliorare in maniera globale il routing.
+\end{itemize}
+
 \subsection{Gestire la QoS}
 Come gestire quindi la QoS? Il controllo della qualità dovrebbe essere fatto dua
 rante l'esecuzione, e in generale abbiamo una fase iniziale (prima dell'erogazione,
@@ -204,9 +193,9 @@ possono essere anche molto complessi (non una singola risorsa come con SNMP).
 L'idea alla base dell'introduzione di QoS in Internet è che sui nodi intermedi si
 hanno delle informazioni sullo stato del servizio. Un router semplice prende e
 rispedisce i pacchetti, in generale sfruttando la politica FIFO, senza sfruttare
-tutte le possibilità per l'instradamento: garantisce best-eort, ma non QoS,
+tutte le possibilità per l'instradamento: garantisce best-effort, ma non QoS,
 poiché i flussi sono limitati da altri flussi!
-Lo sviluppo sarebbe quindi quello di realizzare un router che ragiona in termini dierenziati : deve essere in grado
+Lo sviluppo sarebbe quindi quello di realizzare un router che ragiona in termini differenziati : deve essere in grado
 quindi di marcare i flussi, e deve riuscire
 a trattare la gestione dei flussi in maniera da favorire i flussi più prioritari (magu
 ari scartando/ritardando i pacchetti dei flussi meno prioritari). Si ha che quindi
@@ -249,7 +238,7 @@ $\bullet$ Denito qn il tempo medio di attesa si ha che
 $\rho$n · qn = K
 (15)
 dove K è una costante
-Questo signica che per favorire un usso (aumento della banda, riduzione del
+Questo significa che per favorire un usso (aumento della banda, riduzione del
 ritardo) in realtà se ne deve per forza sfavorire un altro (diminuzione della bana
 da, aumento del ritardo).
 Si è sempre detto che le politiche vengono giudicate dal loro costo, e che
@@ -344,7 +333,7 @@ le varie parti devono sostenere: la politica locale sarà implementata a livelli
 inferiori localmente dalle singole entità.
 Nonostante il costo, i servizi integrati lavorano proprio al livello applicativo
 (OSI), proprio perché a questo livello le risorse sono note e si possono valutare:
-questo signica che su ogni nodo si lavorerà a livello applicativo, in maniera tale
+questo significa che su ogni nodo si lavorerà a livello applicativo, in maniera tale
 da poter individuare fra i possibili cammini il cammino migliore, che divverrà ata
 tivo. Per far ciò si utilizza un protocollo detto Reservation Protocol ; questo proo
 tocollo infatti permette di specificare un cammino attivo in grado di rispettare
@@ -377,7 +366,7 @@ Questo è un sistema conveniente per reti locali e non globali (si ha un alto nu
 mero di messaggi in circolazione): troppi clienti e si avrebbero errori nel riservare
 le risorse perché prenotate prima da altri, e deve essere noto alle applicazioni
 che lavorano che lo scambio di informazioni si basa su tale protocollo. Infatti,
-al degradare delle prestazioni si può giungere ad una condizione di best-eort,
+al degradare delle prestazioni si può giungere ad una condizione di best-effort,
 per cui è necessaria la rinegoziazione. Ogni ricevente deve quindi mantenere
 uno stato per avere idea in che situazione si trova. Sicuramente conviene condividere ove possibile. Si possono anche
 fare spesso delle supposizioni per limitare
@@ -441,7 +430,7 @@ caso non fosse sufficiente.
 L'approccio a servizi differenziati consiste nel cercare di fornire QoS non a livello
 applicativo, ma a livello di rete. Facendo ciò, in realtà, si ha che si sono definiti
 molti meno protocolli rispetto ai servizi integrati (risultando essere inoltre molto
-più scalabili). I servizi dierenziati sono studiati per supportare le applicazioni
+più scalabili). I servizi differenziati sono studiati per supportare le applicazioni
 legacy e per domini specici (comunità di utenti). L'idea è quella che si devono
 aggreggare i flussi in diverse categorie, e a seconda delle categorie si definisce la
 QoS. Un pacchetto viene quindi classicato dal router in base al suo contenuto,
@@ -472,5 +461,5 @@ a e
 essere di supporto anche ai servizi integrati, quindi potrebbe essere un'ottima
 estensione per Internet.
 Oltre a questi approcci, si sta cercando di sviluppare dei sistemi in grado
-di far convivere (in maniera competitiva) servizi integrati e dierenziati, per
+di far convivere (in maniera competitiva) servizi integrati e differenziati, per
 cercare di sfruttare i vantaggi di entrambi.
