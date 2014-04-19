@@ -9,7 +9,7 @@ $\bullet$ La banda, cioè quanti bit/byte al secondo si riescono a trasmettere (
 trasmessi con successo)
 $\bullet$ L'affidabilità del sistema
 $\bullet$ Lo throughput, ovvero il numero di servizi che si riescono ad erogare
-nell'unit` di tempo.
+nell'unità di tempo.
 Tuttavia, questi non sono gli unici indicatori, e probabilmente non sono neanche
 quelli più interessanti per un utente che volesse pagare per un servizio. Vi sono
 infatti degli altri parametri più qualitativi da considerare, perché requisiti dalu
@@ -30,9 +30,9 @@ $\bullet$ Il costo da dover sopportare
 $\bullet$ La garanzia di avere degli adeguati supporti per la sicurezza (non ripudio
 del servizio, autenticazione, . . . )
 \subsection{Calcolare la QoS}
-Oltre alla quantit` di dati trasmessi con successo (la banda), un altro parametro
+Oltre alla quantità di dati trasmessi con successo (la banda), un altro parametro
 fondamentale da tener da conto è il tempo di latenza: questo consiste nella
-quantit` di tempo necessaria per trasmettere un'unit` di informazione. Questo
+quantità di tempo necessaria per trasmettere un'unità di informazione. Questo
 dipende da tre contributi:
 TL = Tpropagazione segnale + Ttrasmissione + Tritardo
 (14)
@@ -65,7 +65,7 @@ il tempo di latenza può variare notevolmente! E quindi necessario pensare anche
 a una QoS distribuita fra i vari nodi !
 Lo skew rappresentalo sfasamento fra due flussi, che dovrebbero essere invece
 percepiti come una singola entità dall'utente finale (per esempio, discrepanze
-nella velocit` fra audio e video).
+nella velocità fra audio e video).
 Spesso, in realtà, la QoS è un parametro che è trascurato in fase progeta
 tuale, nonostante sia un obiettivo. Questo perché durante lo sviluppo si hanno
 situazioni con traffico molto limitato. Ciò però non è vero per tutti i servizi
@@ -80,7 +80,7 @@ si trasmette quindi soltanto avendo un certo numero di frame a disposizione.
 \subsection{QoS in Internet}
 Il mondo di Internet si basa sul protocollo TCP/IP, che lavora best effort: ciò
 signica che non può garantire QoS 6 . OSI è da sempre stato progettato con
-6 Perch` ciò? Internet non prenota o mantiene le risorse, ma cerca di determinare un
+6 Perché ciò? Internet non prenota o mantiene le risorse, ma cerca di determinare un
 e o
 cammino fra C/S che quindi può variare. Non abbiamo garanzia del servizio. OSI invece
 definisce la possibilità di definire gli intermediati e riservarli, in maniera da distribuire la
@@ -304,7 +304,7 @@ si lavora a pacchetti e non a bit. Anche questo modello in realtà serve solo pe
 studiare le politiche pensate e confrontarle, per determinarne la fairness.
 In realtà, fra le politiche realmente diuse ed implementate in router con
 QoS vi sono:
-1. Priorit` ai flussi : vi sono diversi livelli di priorità con cui poter etichettare
+1. Priorità ai flussi : vi sono diversi livelli di priorità con cui poter etichettare
 un usso. Il router quindi si preoccupa di favorire prima i flussi a massima
 priorità. Questo però non è una politica fair ! Se continuano ad arrivare
 pacchetti di questi flussi, quelli meno prioritari non verranno mai serviti
@@ -313,14 +313,14 @@ pacchetti di questi flussi, quelli meno prioritari non verranno mai serviti
 usso una propria share della banda, ed è una politica molto buona se i
 datagrammi dei vari flussi sono circa delle stesse dimensioni (altrimenti,
 si potrebbe usare un weighted round robin, per poter pesare diversamente
-i datagrammi. Pi` un datagramma è pesato, maggiori risorse vi sono
+i datagrammi. Più un datagramma è pesato, maggiori risorse vi sono
 associate. La normalizzazione è difficile da realizzare per flussi troppo
 corti) Il round robin viene spesso implementata in quei router in cui non
 si possono specificare delle priorità speciche, ma in cui comunque i flussi
 devono competere per delle risorse.
 3. Decit round robin: si associa una storia ad ogni usso, perché si impone
 un limite per ciascuno. Se un usso supera la soglia consentita, non viene
-erogato dal router ma si memorizza tale decit. L'erogazione riprender`
+erogato dal router ma si memorizza tale decit. L'erogazione riprenderà
 solo quando gli altri flussi avranno superato tale limite.
 4. Fair queueing: si tratta di round-robin fatto bit a bit. Si fa avanzare
 sempre il usso con il pacchetto più indietro, ovvero quello che se si fosse
@@ -331,7 +331,7 @@ Un problema di tutte le politiche è in realtà il fatto di non sapere cosa aspe
 all'arrivo, cioè cosa aspettarsi dai flussi che entrano nel router e che devono come
 petere per le risorse. Una soluzione possibile è quindi quella di inviare insieme
 al usso un'idea dello stato del usso, per vagliare quanto sia pesante o meno!
-Perch` un router possa fornire QoS, deve essere dinamicamente ricongurae
+Perché un router possa fornire QoS, deve essere dinamicamente ricongurae
 bile (cioè deve poter ammettere/spegnere flussi in maniera dinamica). Questo
 per esempio è un requisito fondamentale per risolvere il problema della cone
 gestione, addirittura in certi casi prevenendolo. Invece che scartare i pacchetti
@@ -363,7 +363,7 @@ le varie parti devono sostenere: la politica locale sarà implementata a livelli
 inferiori localmente dalle singole entità.
 Nonostante il costo, i servizi integrati lavorano proprio al livello applicativo
 (OSI), proprio perché a questo livello le risorse sono note e si possono valutare:
-questo signica che su ogni nodo si lavorer` a livello applicativo, in maniera tale
+questo signica che su ogni nodo si lavorerà a livello applicativo, in maniera tale
 da poter individuare fra i possibili cammini il cammino migliore, che divverrà ata
 tivo. Per far ciò si utilizza un protocollo detto Reservation Protocol ; questo proo
 tocollo infatti permette di specificare un cammino attivo in grado di rispettare

@@ -87,7 +87,7 @@ da gestire anche a fronte di guasti.
 $\bullet$ Modello a foresta: un esempio è Micros. Vi è una gerarchi di processori, in
 genere rappresentata ad albero, quindi più dinamica. Possibilità di rappreu
 sentare anche foreste di processori. Al livello più basso vi sono i processori
-che lavorano direttamente sulle risorse (worker), e i loro padri sono i manager: la profondit` dell'albero dipende
+che lavorano direttamente sulle risorse (worker), e i loro padri sono i manager: la profondità dell'albero dipende
 quindi dal numero delle risorse che
 si vengono a definire (in generale si cerca di avere un albero binario). L'obiettivo di Micros è quello di gestire un
 elevato numero di risorse ed utenti,
@@ -155,7 +155,7 @@ correttamente grazie al sistema a link! Il forwarder tuttavia è una struttura
 temporanea, finché il link al processo non viene riqualificato, ovvero anche i
 client riescono ad accederci direttamente senza dover passare dal nodo iniziale
 (si può comunque anche fare un sistema a scarto di messaggi, per cui la reo
-sponsabilit` del trovare il nuovo processore tocchi al cliente). Si deve quindi
+sponsabilità del trovare il nuovo processore tocchi al cliente). Si deve quindi
 fermare l'esecuzione del processo sul nodo originale, trasferire lo stato sul nuovo
 processore, attivarlo e attivare il forwarder temporaneo. Si ha quindi alla ne
 una trasparenza all'allocazione.
@@ -169,7 +169,7 @@ La migrazione è un modo molto buono per poter separare meccanismi e
 politiche. Le politiche per la migrazione dipendono da diverse considerazioni:
 1. Vale la pena migrare?
 2. Chi e quando trasferisce il processo?
-3. Su quale processore si allocher` il nuovo processo?
+3. Su quale processore si allocherà il nuovo processo?
 In generale possiamo osservare che vi sono dei meccanismi/caratteristiche comuni, per cui vi sono solo certe categorie
 di processi che si possono spostare, ed
 ` necessario un gestore per la migrazione per ogni nodo. Si deve quindi essere in
@@ -201,7 +201,7 @@ Le politiche possono essere più o meno complesse, realizzando magari politiche
 incondizionate (meccanismi random) o condizionate: queste ultime sonopiù cosu
 tose, presentando un overhead dovuto ad una comuncaizione per fare delle negoziazioni ! Questo sistema è detto probing,
 perché ovviamente si cerca nel
-vicinato, per limitare il costo (non ha senso cercare nella globalit` !). Si possono
+vicinato, per limitare il costo (non ha senso cercare nella globalità !). Si possono
 anche realizzare politiche di bidding, per ricercare un processore disponibile ad
 eseguire il processo, e scegliendo la migliore oerta proposta.
 88
@@ -213,7 +213,7 @@ misto risulta quindi essere il migliore.
 La migrazione è un sistema che deve essere studiato attentamente: può
 infatti ridurre notevolmente i tempi dell'applicazione, sfruttando politiche semplici. Si ha quindi un'intrusione
 limitata per ottenere i risultati desiderati. Si
-deve quindi puntare all'efficienza, tendere all'ottimalit` e realizzare un sistema
+deve quindi puntare all'efficienza, tendere all'ottimalità e realizzare un sistema
 stabile.
 \subsection{Sistemi ad agenti mobili}
 I sistemi ad agenti mobili si mappa molto bene con il problema della migrazione.
@@ -295,7 +295,7 @@ incapsulamento, perché non sia un nodo a modicare il codice contenuto da un
 agente!
 A cosa può essere utile tutto ciò? A realizzare mobile computing (utenti in
 grado di muoversi e di mantenere uno stato/sessione costante, anche cambiando
-terminale, ottenendo così la massima accessibilit`) ottenendo per esempio la
+terminale, ottenendo così la massima accessibilità) ottenendo per esempio la
 \i{}
 generazione di reti spontanee (utili per esempio per creare reti per giochi, solo su
 disponibilità), possibilità di coordinare utenti mobili in ambienti civili e militari,

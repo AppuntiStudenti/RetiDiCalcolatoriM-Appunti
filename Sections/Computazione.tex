@@ -167,7 +167,7 @@ così una comunicazione a 3 entità. In questo modello, il ricevente deve
 sapere dove si trova l'oggetto poll, e vi deve essere un oggetto per ogni
 `
 risultato. E conveniente se si hanno operazioni corte, e attese brevi.
-2. Oggetti callback : è sempre un oggetto che conterr` il risultato, ma dotato
+2. Oggetti callback : è sempre un oggetto che conterrà il risultato, ma dotato
 di una sua vita indipendente, e dotato di codice particolare da eseguire
 `
 quando giunge il risultato. E lui quindi a dover fornire il risultato al
@@ -354,7 +354,7 @@ processori, che diventa fondamentale.
 Una possibile soluzione, imponendo la condizione d'identità, è quella di utilizzare
 a e
 un albero binario per fare la sommma: le radici sommano i numeri, che passano
-il risultato al padre, e così via. Supponendo quindi un albero con profondit` H,
+il risultato al padre, e così via. Supponendo quindi un albero con profondità H,
 \i{}
 possiamo osservare che N = 2H+1 e P = 2H+1 $-$ 1, per cui P è simile a N . Si
 ha che quindi:
@@ -362,7 +362,7 @@ TP (N ) = O(H)
 = O(log2 (N ))
 = 2 · log2 (N )
 14
-Perch` 2? Perch` abbiamo 2 comunicazioni in ogni nodo. Possiamo quindi
+Perché 2? Perché abbiamo 2 comunicazioni in ogni nodo. Possiamo quindi
 valutare l'efficienza di questa architettura:
 1
 log2 (N )

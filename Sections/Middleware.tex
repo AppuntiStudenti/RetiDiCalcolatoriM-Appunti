@@ -15,7 +15,7 @@ l'utente in maniera che possa trascurare l'aspetto tecnologico, concentrandosi
 solo sul servizio da fornire: è quindi fondamentale per poter astrarre!
 Un middleware si pone come uno strato intermedio fra l'applicazione e le
 risorse di più basso livello (S.O., dischi, . . . ): si possono inserire diverse funzionu
-alit` (non solo comunicazione), come per esempio un supporto alla trasparenza
+alità (non solo comunicazione), come per esempio un supporto alla trasparenza
 (non importa il livello sottostante, le API del middleware fanno in modo che
 il comportamento sia sempre il medesimo!). Quindi, un middleware non solo
 semplica l'aspetto dell'applicazione, ma anche quello di supporto del sistema
@@ -287,7 +287,7 @@ ordine attivare i servizi, e i vari servitori (sistema di nomi, come e quando
 istanziare l'oggetto remoto, . . . ). Devono essere quindi presenti diverse
 strategie d'attivazione, magari denibili in maniera opportuna dai client!
 $\bullet$ Holder : questo è un pattern necessario per risolvere certi problemi d'eteroe
-geneit`. Si preoccupa infatti di incapsulare in maniera opportuna gli
+geneità. Si preoccupa infatti di incapsulare in maniera opportuna gli
 oggetti per presentarli a certi sistemi in maniera che possano trattarli
 mediante le semantiche da loro definite. Un esempio riguarda per esempio linguaggi che permettono parametri di in/out e
 quelli che non lo
@@ -392,7 +392,7 @@ per altri oggetti. Alla richiesta dell'oggetto, il server si preoccuperò di ria
 varlo, ricaricando lo stato salvato. Questo pattern è molto importante per la
 scalabilità del sistema.
 Un pattern simile è il lease, per cui però il servitore decide di distruggere le
-istanze non usate. Perch` resti attivo un oggetto, il client deve presentare entro
+istanze non usate. Perché resti attivo un oggetto, il client deve presentare entro
 il tempo di lease la richiesta di voler ancora adoperare l'oggetto. Si può quindi
 realizzare usando il tempo di passivation e il tempo di presentazione del lease,
 per far scegliere al server quale politica adottare!
@@ -443,7 +443,7 @@ oggetti ad un livello superiore, applicativo proprio per la QoS (esempio:
 gestione dei nodi, per privilegiare certe entità rispetto ad altre, passivando
 server meno prioritari!) Si hanno quindi politiche denibili dierenziate!
 $\bullet$ Custom marshaller : è un sistema per fornire sistemi dierenziati per la
-presentazione dei dati (XML o formato binario: leggibilit` o efficienza
+presentazione dei dati (XML o formato binario: leggibilità o efficienza
 . . . ).
 $\bullet$ Sistema a plug-in: si tratta della possibilità di estendere il mw, introa
 ducendo dei gestori per azioni particolari di determinati protocolli (per
