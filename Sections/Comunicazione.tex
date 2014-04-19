@@ -375,7 +375,7 @@ lo ha generato, diviene il nuovo token\footnote{Se si fosse ripresentato il vecc
 stato eliminato}. Visto che più processi possono mandare il token d'elezione, si ha che si decide in maniera
 statica quale è il più prioritario, numerando i processi.
 Un protocollo di elezione molto semplice da fare ed efficiente è Bully: l'idea
-` che un processo di priorità superiore zittisca le richieste di processi inferiori,
+è che un processo di priorità superiore zittisca le richieste di processi inferiori,
 per divenire lui il gestore. Si ha quindi che un processo di basso livello manda
 verso l'alto un messaggio d'elezione. Se un processo di priorità superiore può
 assumere il compito di gestore, manda un Answer verso il basso, e propaga verso
@@ -402,7 +402,7 @@ che un messaggio che inzia nello snapshot x e termini nello snapshot x + 1 deve
 essere salvato per poter mantenere il sistema consistente, mentre l'opposto non
 va bene! Non garantirebbe la consistenza (come si fa a capire nello stato x chi
 `
-` il sender del messaggio? E noto solo nello stato successivo!)
+è il sender del messaggio? E noto solo nello stato successivo!)
 Ogni nodo è tenuto a salvare il proprio stato locale, così da avere inizialmente
 \i{}
 almeno consistenza locale. Questa è la base per fare uno snapshot globale dise

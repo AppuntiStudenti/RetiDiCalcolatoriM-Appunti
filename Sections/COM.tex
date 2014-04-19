@@ -39,7 +39,7 @@ mento ed il gestore del documento. Ogni tipologia di documento, infatti, ha un
 proprio gestore che viene richiamato all'atto del caricamento del documento.
 Tuttavia, un documento può essere fatto di diverse parti, ovvero di altri
 documenti: si deve quindi anche caricare il gestore degli altri documenti di cui
-` composto. In particolare si può avere che:
+è composto. In particolare si può avere che:
 $\bullet$ Il documento contiene un riferimento all'altra tipologia di documento,
 ovvero si fa linking
 $\bullet$ Il documento contiene proprio una copia dell'altro documento, ovvero si
@@ -84,7 +84,7 @@ un grafo che rappresenta l'ereditarietà, che spesso è difficile da navigare! I
 univoci sono infatti tutti registrati nel registry, a seconda della loro applicazione.
 L'interfaccia IUnknown presenta solo 3 metodi (presenti sempre nei primi
 3 slot di ogni VMT di ogni componente): uno per aggiungere un riferimento
-all'oggetto, uno per farne il release, e inne un QueryInterface. Quest'ultimo `
+all'oggetto, uno per farne il release, e inne un QueryInterface. Quest'ultimo è
 fondamentale per poter interagire con l'oggetto stesso: prende infatti il GUID e
 verica se esiste un oggetto che implementi quell'interfaccia. In caso aermativo,
 si preoccupa di restituire un puntatore all'interfaccia corrispondente. Questo è un metodo pervasivo, è l'unico modo con
@@ -232,13 +232,13 @@ o e
 integrare il sistema legacy precedente.
 Quello che infatti succede è che in automation le DLL diventano oggetti ade
 hoc. Questi oggetti, riassunti ed estensioni, sono i cosidetti ActiveX. Includono
-anche idee come OLE, ma restano molto complessi da realizzare, per cui `
+anche idee come OLE, ma restano molto complessi da realizzare, per cui è
 necessario sfruttare degli appositi wizard. Sono quindi fondamentalmente dei
 piccoli server OLE, in grado di attivarsi con il metodo della in-place activation,
 ma con un comportamento diverso: infatti, lavorano in maniera inside out,
 ovvero son sempre pronti, attivi, no a che l'oggetto contenuto è presente. Si
 tratta quindi di un sistema ad aggregazione sempre attiva (il componente interno
-` sempre attivo).
+è sempre attivo).
 \subsection{Standardizzazione dei componenti}
 Un merito di COM e DCOM è stato quello di fornire un primo tentativo di stane
 dardizzare il concetto di componente. Prima si dovevano definire sempre diverse

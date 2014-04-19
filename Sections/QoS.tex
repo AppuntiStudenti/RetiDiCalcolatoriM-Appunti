@@ -51,7 +51,7 @@ un'idea del ritardo fra mittente e ricevente, e di quante informazioni sono stat
 inviate nel frattempo. Si rappresenta così il numero eettivo di bit trasmessi,
 \i{}
 perché non sarà mai uguale alla banda essendo presente proprio il tempo di
-latenza! Su questi indicatori, una prima possibile strategia molto semplice `
+latenza! Su questi indicatori, una prima possibile strategia molto semplice è
 quella di occupare sempre al massimo le pipe (e quindi la banda), per poter
 garantire i tempi di risposta concordati: tuttavia, si deve tener conto anche
 del tempo di latenza nel far ciò. . . Spesso quindi si incorpora un tempo per il
@@ -146,9 +146,9 @@ La fase dinamica invece è caratterizzata dal monitoring dell'erogazione del
 servizio, che è strettamente necessario per poter magari fare una rinegoziazione
 nel caso sia necessaria (introduzione di nuovi intermediari, presenza di nodi
 guasti, . . . ) per poter mantenere la QoS stabilitae garantire che ciò avvenga:
-questa è la condizione necessaria perché un servizio venga retribuito. Questa `
+questa è la condizione necessaria perché un servizio venga retribuito. Questa è
 la fase più costosa, perché i vari nodi si devono adattare alle situazioni che si
-vengono a vericare, oppure devono essere estromessi se non adatti. L'idea `
+vengono a vericare, oppure devono essere estromessi se non adatti. L'idea è
 quella di basarsi il più possibile sulla località : più le azioni sono locali, senza
 dover far intervenire un agente esterno, un fruitore, minore è il costo; anche per
 questa fase si deve cercare di progettare dei protocolli ottimizzati che costino
@@ -157,7 +157,7 @@ costose quindi, e limitare l'uso delle risorse necessarie al monitoring! In un
 ipotetico sistema quindi il piano utente (quello della gestione del servizio) e
 quello del management sono accoppiati, ma dovrebbero essere strutturati in
 maniera tale da condividere il minor numero di risorse. Il problema di Internet
-` che siamo sempre in piano utente, e quindi è difficile capire se ci sono problemi.
+è che siamo sempre in piano utente, e quindi è difficile capire se ci sono problemi.
 Il piano del management in realtà può essere scomposto in diverse sottoparti,
 a o
 a seconda di cosa si vuole gestire: vi è una parte per l'identicazione di fault
@@ -191,9 +191,9 @@ semplicemente delle GET e SET su queste variabili.
 Una prima reingegnerizzazione di SNMP ha portato alla possibilità di poter
 definire il manager come una struttura gerarchica (sfruttando l'idea di realizzare
 degli agenti proxy, una via di mezzo fra un agent e un master), in maniera da
-ridurre i rischi di una congestione, suddividendo la responsabilità. Il costo `
+ridurre i rischi di una congestione, suddividendo la responsabilità. Il costo è
 quindi limitato dal numero di agenti presenti. Solo però con la terza versione si
-` introdotto in SNMP anche il concetto di sicurezza.
+è introdotto in SNMP anche il concetto di sicurezza.
 SNMP presenta alcuni problemi: prima di tutto, la perdita/sostituzione di
 un agente provoca la riconfigurazione di tutto il sistema. Inoltre, si tratta sempre di variabili, che sono solo
 rappresentazioni della risorsa: per esempio, con
@@ -279,7 +279,7 @@ Un primo esempio, spesso implementato mediante politiche più semplici
 perché non è realmente implementabile ma solo un modello a tendere, è la
 min-max fairness. Si immagini di avere un numero di richieste superiore alle
 risorse disponibili, e si devono quindi dividere le risorse in maniera fair. L'idea
-` quella di classificare i flussi in base alle loro esigenze, privilegiando i flussi che
+è quella di classificare i flussi in base alle loro esigenze, privilegiando i flussi che
 richiedono meno risorse, per poter così lasciare più risorse a chi ne ha maggior\i{}
 mente bisogno; x1 $<$ x2 $<$ . . . $<$ xn indica quindi la priorità con cui servire,
 mentre C indica la capacità massima a disposizione del router. Si possono quina
@@ -355,7 +355,7 @@ Questa politica preventiva evita la congestione.
 \subsection{Servizi integrati, RFC 2210}
 L'idea alla base dei servizi integrati è quella di essere in grado di riconoscere i
 singoli flussi, grazie al router, in modo da poter dierenziare l'uso delle risorse
-a seconda del usso che si viene a presentare. Il Service Level Agreement `
+a seconda del usso che si viene a presentare. Il Service Level Agreement è
 quindi fatto a livello di singolo usso, e quindi si può decidere la QoS per ogni
 usso. Si deve quindi stabilire la QoS fra mittente, ricevente e necessaria per
 ogni nodo intermedio. Questi protocolli descrivono solo la comunicazione che
@@ -475,14 +475,14 @@ queuing pesata.
 $\bullet$ l'assured forwarding, in cui i pacchetti sono marcati a seconda della possibile congestione.
 Vi è però un problema: come si possono definire queste classi, nel protocollo
 IPv4 non vi è possibilità. L'idea migliore sarebbe quella di passare ad IPv6, che
-grazie a 128 bit contro 32, garantisce la presenza di ancora molti nomi, ove `
+grazie a 128 bit contro 32, garantisce la presenza di ancora molti nomi, ove è
 presente un apposito campo dove si può classificare il singolo pacchetto!
 IPv6 è stato pensato per essere compatibile con IPv4, ma gestisce gli ine
 dirizzi in maniera diversa (il broadcast è stato eliminato, divenendo in realtà
 multicast; sono stati aggiunti il P2P e l'anycast14 , ed è in grado di fornire un
 suo supporto alla replicazione! IPv6 in particolare semplica l'header, facendo
 in modo di puntare altri header per poterlo estendere! Un'altra caratteristica
-` che IPv6 è stato progettato per essere mobile, ovvero: un indirizzo di questo
+è che IPv6 è stato progettato per essere mobile, ovvero: un indirizzo di questo
 tipo si può spostare senza problema da una rete a quell'altra, grazie al fatto che
 lo si memorizza in un'apposita struttura. IPv6 in realtà è stato studiato per
 a e

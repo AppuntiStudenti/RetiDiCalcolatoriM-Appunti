@@ -295,7 +295,7 @@ permettono. Si hanno quindi come possibili operazioni read/write.
 57
 \subsection{Pattern per la comunicazione}
 Di base, i mw ad oggetti tendono ad introdurre come primo modello di comunicazione l'interazione sincrona bloccante.
-Tuttavia, questa comunicazione `
+Tuttavia, questa comunicazione è
 alquanto pesante, perché lega in maniera pesante il client al server e viceversa.
 Per questo vi sono dei pattern per introdurre altri modelli.
 Per ottenere una comunicazione asincrona, si possono usare:
@@ -311,7 +311,7 @@ attendere. Non è presente in tutti i mw ad oggetti.
 $\bullet$ Catch and return: il client attende più a lungo rispetto al caso precedente,
 ma in questo modello deve attendere che sia il server stub a generare un
 processo per risolvere la richiesta, e che quindi faccia return. Dipende
-quindi anche dal tempo di comunicazione dei nodi! Questo modello `
+quindi anche dal tempo di comunicazione dei nodi! Questo modello è
 spesso presente, perché permette di realizzare un'operazione asincrona
 più garantita, ovvero fornisce una maggiore sicurezza sulla consegna della
 richiesta!

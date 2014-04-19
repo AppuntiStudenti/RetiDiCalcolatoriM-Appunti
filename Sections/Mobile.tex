@@ -78,7 +78,7 @@ Si sono visti diversi modelli per l'esecuzione di processi per ilload sharing:
 $\bullet$ Modello a ring logico: un esempio è V-kernel. Si definisce quindi una
 struttura ssa, statica, che spiega come i processi possano muoversi. Vi
 85
-` un token che stabilisce quale processore è il gestore in quel momento, il
+è un token che stabilisce quale processore è il gestore in quel momento, il
 quale richiede informazioni sul sistema mediante un broadcast. Ottenute
 le risposte, si genera il bilanciamento distribuendo il carico (che non si
 `
@@ -96,7 +96,7 @@ prio perché permette anche di fare un'allocazione dinamica delle risorse,
 richiedendole al livello superiore. L'architettura è fault-tolerant.
 $\bullet$ Modello derivato dai worm d'Internet: si tratta di un buon livello per
 la ridistribuzione del carico. Rappresenta un sistema molto dinamico che
-richiede pochissime informazioni sull'architettura del sistema. L'idea `
+richiede pochissime informazioni sull'architettura del sistema. L'idea è
 quella di ricopiare l'applicazione che si ricerca, valutando i nodi vicini e
 scegliendo quelli liberi.
 Nel caso di load balancing si parla di migrazione: un processo viene trasferito su
@@ -172,7 +172,7 @@ politiche. Le politiche per la migrazione dipendono da diverse considerazioni:
 3. Su quale processore si allocherà il nuovo processo?
 In generale possiamo osservare che vi sono dei meccanismi/caratteristiche comuni, per cui vi sono solo certe categorie
 di processi che si possono spostare, ed
-` necessario un gestore per la migrazione per ogni nodo. Si deve quindi essere in
+è necessario un gestore per la migrazione per ogni nodo. Si deve quindi essere in
 grado di definire cosa trasferire, cosa si può migrare, ovvero la costituzione steso
 sa della risorsa! Si ha che quindi si blocca il processo, se ne crea una copia sul
 nuovo processore, e quindi si avvia un sistema per riqualicare i link, elimando
@@ -247,7 +247,7 @@ problemi di supporto.
 $\bullet$ Debole: Si vincola invece la posizione in cui si può mettere la {`}move': tale
 sistema è meno essibile, ma maggiormente e facilmente gestibile.
 La differenza quindi è nella continuità della mobilità (o avviene sempre, oppure
-solo in certi momenti prestabiliti). Come risolvere la mobilità forte? L'idea `
+solo in certi momenti prestabiliti). Come risolvere la mobilità forte? L'idea è
 quella di realizzare un sistema a codice intermedio, potendo così fornire su ogni
 \i{}
 nodo degli interpreti del codice intermedio (per poter superare così i diversi
