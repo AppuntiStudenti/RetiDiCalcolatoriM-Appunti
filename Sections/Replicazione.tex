@@ -11,7 +11,7 @@ I possibili guasti si possono catalogare in maniera logica:
 previsti: ciò è dovuto a un sistema progettato male. Il failure è l'effetto visibile, riscontrabile dall'utente.
  \item Un errore è invece il difetto che genera un failure del sistema, la causa concreta che ha portato il sistema 
  in uno stato non corretto.
- \item Un fault infine è proprio il comportamento che si è venuto a vericare che ha portato il sistema a generare un
+ \item Un fault infine è proprio il comportamento che si è venuto a verificare che ha portato il sistema a generare un
  failure: corrisponde quindi proprio alla causa a monte.
 \end{itemize}
 I fault si possono classificare a seconda di quanto si ripetono:
@@ -76,7 +76,7 @@ oppurtune tecniche di replicazione spaziali e/o temporali:
 Una singola macchina non basta per \textit{identificare e correggere} un guasto! La replicazione è fondamentale,
 almeno per fare monitoring (utilizzo di cluster per fare il controllo di una risorsa): si potrebbero utilizzare delle
 speciche parti per controllare e correggere l'architettura, ma è necessario rispettare sempre il principio della minima
-intrusione: il rischio sarebbe che troppe risorse sono allocate solo per vericare che il sistema funzioni correttamente,
+intrusione: il rischio sarebbe che troppe risorse sono allocate solo per verificare che il sistema funzioni correttamente,
 riducendone l'efficienza! La replicazione è un costo che si va ad aggiungere al sistema: ma in generale si tratta di un
 costo sso, a fronte di possibili costi molto peggiori in caso di fallimento del sistema!
 \subsection{Possibili guasti}
@@ -272,7 +272,7 @@ lazy o ottimista, aggiorno prima il client e poi le altre copie).
  \item \textit{Copia primaria eager}: una copia esegue, si preoccupa di aggiornare tutte le altre copie, e quindi
  fornisce il risultato al cliente. Esegue quindi un'operazione alla volta
  \item \textit{Copia primaria lazy}: aggiorna prima il cliente poi le altre copie. Può quindi eseguire più operazioni
- alla volta. È compito del gestore controllare gli aggiornamenti e vericare che siano stati recepiti da tutte le copie
+ alla volta. È compito del gestore controllare gli aggiornamenti e verificare che siano stati recepiti da tutte le copie
  in maniera corretta, coordinandole.
  \item \textit{Aggiornamento di tutte eager}: tutte le copie devono eseguire, mettesi d'accordo (two-phase commit) e
  quindi fornire il risultato: è in questo caso che si potrebbero avere undo costosi. Un'altra soluzione sarebbe che
@@ -298,7 +298,7 @@ Per decidere quale copia debba eseguire, come si fa? È necessario un sistema di
 uno scheduler (in generale strutturato master/slave). Questo sistema deve anche essere in grado di identificare
 eventuali copie guaste, e quindi di escluderle per mantenere delle buone prestazioni, possibilmente facendo migrare i
 servizi sulle macchine al momento migliori. Per determinare se una copia è attiva, si usano degli \textit{heartbeat},
-ovvero si mandano dei messaggi per vericare se la copia è viva: se non risponde, si suppone che ci siano problemi.
+ovvero si mandano dei messaggi per verificare se la copia è viva: se non risponde, si suppone che ci siano problemi.
 Questo sistema deve essere correttamente dimensionato (ogni quanto si manda l'impulso? Qual è il tempo di 
 comunicazione? Il massimo ritardo accettabile? In generale vi è una macchina apposita per questo compito).
 Nel caso di fail-over, vi sono due diverse politiche da attuare:

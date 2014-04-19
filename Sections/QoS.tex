@@ -31,7 +31,7 @@ dipende da tre contributi:
 T_L = T_{propagazione\:segnale} + T_{trasmissione} + T_{ritardo}
 \end{equation}
 Il tempo di trasmissione dipende dalla dimensione del messaggio e dalla banda disponibile, mentre il tempo di ritardo
-dipende dai tempi di accodamento che si vengono a vericare. In particolare, è quest'ultimo a tener da conto gli
+dipende dai tempi di accodamento che si vengono a verificare. In particolare, è quest'ultimo a tener da conto gli
 overhead presenti nel sistema (spesso è alto, e lo si può ridurre realizzando un buon protocollo).
 La qualità di servizio dipende da come si riescono a risolvere i colli di bottiglia dell'applicazione, cioè su cosa è
 orientata (trasmettere tanti dati di dimensioni molto limitate? Prevale il tempo di latenza. trasmettere diversi dati 
@@ -68,7 +68,7 @@ Le applicazioni classiche di Internet (tipo mail) sono elastiche, ovvero sono in
 della rete, e non richiedono QoS al supporto (possono tuttavia specificare un tempo di latenza per poter eseguire).
 In queste applicazioni quindi l'utente non specifica dei tempi rigidi per poter eseguire.
 Le applicazioni moderne invece sono non elastiche: questo perché presentano dei vincoli temporali precisi, e quindi
-richiedono QoS. Di queste, quelle real-time moderne sono tolleranti rispetto a problemi che si possono vericare, 
+richiedono QoS. Di queste, quelle real-time moderne sono tolleranti rispetto a problemi che si possono verificare, 
 ovvero possiamo avere che sono:
 \begin{itemize}
  \item \textit{Adattative in banda}: il servizio è erogabile ma con una banda minore, e quindi qualità diminuita: si
@@ -97,26 +97,21 @@ Vi sono due proposte, incompatibili fra di loro:
 \end{itemize}
 
 \subsection{Gestire la QoS}
-Come gestire quindi la QoS? Il controllo della qualità dovrebbe essere fatto dua
-rante l'esecuzione, e in generale abbiamo una fase iniziale (prima dell'erogazione,
-azioni preventive o statiche), una fase durante il deployment (azioni reattive o
-dinamiche). Tuttavia, in Internet non vi è n` la fase iniziale (detta anche proe e
-visioning), e non vi è soprattutto il controllo della qualità durante l'esecuzione
-(come controllare i diversi intermediari??), e soprattutto non esistono protocolli
-standard! Va valutato caso per caso come strutturare la gestione della QoS.
-Nella parte statica quindi client e server si devono mettere d'accordo prima
-di erogare il servizio: è la fase di negoziazione della QoS. Questa fase cone
-siste nel definire un Service Level Agreement fra le varie parti, che dovrà essere
-descritto in una maniera opportuna, e quindi nel definire/riservare le risorse necessarie. La fase che precede
-l'erogazione è senza costo, perché non vi è ancora
-il monitoring ma solo la predisposizione del servizio.
-La fase dinamica invece è caratterizzata dal monitoring dell'erogazione del
-servizio, che è strettamente necessario per poter magari fare una rinegoziazione
-nel caso sia necessaria (introduzione di nuovi intermediari, presenza di nodi
-guasti, . . . ) per poter mantenere la QoS stabilitae garantire che ciò avvenga:
-questa è la condizione necessaria perché un servizio venga retribuito. Questa è
-la fase più costosa, perché i vari nodi si devono adattare alle situazioni che si
-vengono a vericare, oppure devono essere estromessi se non adatti. L'idea è
+Come gestire quindi la QoS? Il controllo della qualità dovrebbe essere fatto durante l'esecuzione, e in generale 
+abbiamo una fase iniziale (prima dell'erogazione, azioni preventive o statiche), una fase durante il deployment 
+(azioni reattive o dinamiche). Tuttavia, in Internet non vi è né la fase iniziale (detta anche provisioning), e non 
+vi è soprattutto il controllo della qualità durante l'esecuzione (come controllare i diversi intermediari??), e
+soprattutto non esistono protocolli standard! Va valutato caso per caso come strutturare la gestione della QoS.
+Nella parte statica quindi client e server si devono mettere d'accordo prima di erogare il servizio: è la fase di
+negoziazione della QoS. Questa fase cone siste nel definire un \textit{Service Level Agreement} fra le varie parti, 
+che dovrà essere descritto in una maniera opportuna, e quindi nel definire/riservare le risorse necessarie. La fase 
+che precede l'erogazione è senza costo, perché non vi è ancora il monitoring ma solo la predisposizione del servizio.
+La fase dinamica invece è caratterizzata dal monitoring dell'erogazione del servizio, che è strettamente necessario 
+per poter magari fare una rinegoziazione nel caso sia necessaria (introduzione di nuovi intermediari, presenza di 
+nodi guasti...) per poter mantenere la QoS stabilita e garantire che ciò avvenga: questa è la condizione necessaria
+perché un servizio venga retribuito. Questa è la fase più costosa, perché i vari nodi si devono adattare alle 
+situazioni che si
+vengono a verificare, oppure devono essere estromessi se non adatti. L'idea è
 quella di basarsi il più possibile sulla località : più le azioni sono locali, senza
 dover far intervenire un agente esterno, un fruitore, minore è il costo; anche per
 questa fase si deve cercare di progettare dei protocolli ottimizzati che costino

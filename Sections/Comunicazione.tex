@@ -9,7 +9,7 @@ lavora comunque con una località. Se invece si dovesse lavorare su più gruppi,
 IGMP (utilizzo quindi di un protocollo non locale), che permette a una o più reti di trasmettere in multicast,
 realizzando una sorta di\footnote{Obiettivo: raggiungere un qualunque indirizzo della classe specificata, che sia il più
 vicino o il più comodo} broadcast locale (comunque abbastanza costoso)\footnote{L'alternativa è peggiore: fare un
-flooding globale! Ma per mandare un messaggio a tutti, i router dovrebbero avere uno stato, e vericare che il messaggio
+flooding globale! Ma per mandare un messaggio a tutti, i router dovrebbero avere uno stato, e verificare che il messaggio
 non l'abbiano già ricevuto... quanto deve durare lo stato?}. Oltre al costo, queste comunicazioni mancano prima di 
 tutto di QoS (IGMP non garantisce l'ordine dei messaggi!), ma hanno anche una debole capacità espressiva (non si riesce
 per esempio a definire priorità nelle comunicazioni, oppure sincronismi...). Infatti, in Internet si ragiona utilizzando
@@ -17,7 +17,7 @@ il \textit{Time To Live} per poter dirigere e guidare una comunicazione multicas
 sistema si ingolfa. 
 IGMP è un protocollo che permette ai nodi di una rete di lavorare in gruppo (si registrano tutti a uno stesso indirizzo
 multicast). Richiede quindi l'utilizzo di un router di supporto, in maniera tale da poter controllare sia il traffico in
-entrata che in uscita; sfrutta infatti dei particolari messaggi IGMP, come le query, per vericare chi si sia registrato
+entrata che in uscita; sfrutta infatti dei particolari messaggi IGMP, come le query, per verificare chi si sia registrato
 a quell'indirizzo multicast mediante un messaggio di tipo report. Si cerca quindi di lavorare in un ambiente locale tale
 da garantire che le azioni di multicast siano valide per quella rete.
 Nella versione iniziale del protocollo, vi erano degli altri problemi di gestione, dovuti al fatto che vi fosse un
