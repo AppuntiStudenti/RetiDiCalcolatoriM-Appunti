@@ -361,21 +361,18 @@ Si tratta di un altro modello per superare il problema del gestore centralizzato
 totalmente ideale, per cui i processi si conoscano solo in maniera limitata (prossimo ed antecedente). I vari processi
 si passano un unico, sempre presente token, che stabilisce la sincronizzazione (chi ce l'ha è il gestore dinamico della
 risorsa, ovvero vi può accedere se ne ha bisogno). Si tratta di una soluzione molto proattiva, poiché il token gira
-lungo l'anello anche senza la presenza di richieste di sincronizzazione. Rispetto
-a Lamport il costo è inferiore, n $-$ 1 messaggi sempre.
-In questo sistema si deve però pensare anche all'affidabilità del token: se
-non arriva? Si dovrà rigenerarlo, facendo in modo però che vi sia sempre e solo
-un unico token in giro per l'anello. Si hanno quindi delle situazioni di elezione,
-per cui più partecipanti vorrebbero eseguire l'azione di recovery, ma deve essere
-sempre uno solo! L'idea alla base è che vi sia un time-out per cui scaduto, un
-processo può leggittimamente pensare che il nodo che aveva il token sia guasto.
-Questo processo allora crea un token d'elezione, che deve essere approvato da
-tutti i nodi perché diventi il nuovo token dell'anello. Questo signica che però
-ogni nodo deve avere una conoscenza migliore dell'anello (per esempio, non solo
-il prossimo ma anche il nodo ancora successivo, e così via). Se il token d'elezione
-\i{}
-giunge quindi di nuovo a chi lo ha generato, diviene il nuovo token21 . Visto che
-più processi possono mandare il token d'elezione, si ha che si decide in maniera
+lungo l'anello anche senza la presenza di richieste di sincronizzazione. Rispetto a Lamport il costo è inferiore, 
+$n-1$ messaggi sempre.
+In questo sistema si deve però pensare anche all'affidabilità del token: se non arriva? Si dovrà rigenerarlo, facendo
+in modo però che vi sia sempre e solo un unico token in giro per l'anello. Si hanno quindi delle situazioni di elezione,
+per cui più partecipanti vorrebbero eseguire l'azione di recovery, ma deve essere sempre uno solo! L'idea alla base è
+che vi sia un time-out per cui scaduto, un processo può leggittimamente pensare che il nodo che aveva il token sia
+guasto.
+Questo processo allora crea un token d'elezione, che deve essere approvato da tutti i nodi perché diventi il nuovo 
+token dell'anello. Questo signica che però ogni nodo deve avere una conoscenza migliore dell'anello (per esempio, non
+solo il prossimo ma anche il nodo ancora successivo, e così via). Se il token d'elezione giunge quindi di nuovo a chi
+lo ha generato, diviene il nuovo token\footnote{Se si fosse ripresentato il vecchio token, quello d’elezione sarebbe
+stato eliminato}. Visto che più processi possono mandare il token d'elezione, si ha che si decide in maniera
 statica quale è il più prioritario, numerando i processi.
 Un protocollo di elezione molto semplice da fare ed efficiente è Bully: l'idea
 ` che un processo di priorità superiore zittisca le richieste di processi inferiori,
