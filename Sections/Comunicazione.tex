@@ -359,9 +359,8 @@ Vi sono esempi di implementazioni:
 \subsection{Sincronizzazione a token}
 Si tratta di un altro modello per superare il problema del gestore centralizzato. L'idea è quella di avere un anello
 totalmente ideale, per cui i processi si conoscano solo in maniera limitata (prossimo ed antecedente). I vari processi
-si passano un unico, sempre presente token, che stabilisce la sincronizzazione
-(chi ce l'ha è il gestore dinamico della risorsa, ovvero vi può accedere se ne
-ha bisogno). Si tratta di una soluzione molto pro attiva, poich` il token gira
+si passano un unico, sempre presente token, che stabilisce la sincronizzazione (chi ce l'ha è il gestore dinamico della
+risorsa, ovvero vi può accedere se ne ha bisogno). Si tratta di una soluzione molto proattiva, poiché il token gira
 lungo l'anello anche senza la presenza di richieste di sincronizzazione. Rispetto
 a Lamport il costo è inferiore, n $-$ 1 messaggi sempre.
 In questo sistema si deve però pensare anche all'affidabilità del token: se
