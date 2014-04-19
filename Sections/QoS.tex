@@ -110,24 +110,19 @@ La fase dinamica invece è caratterizzata dal monitoring dell'erogazione del ser
 per poter magari fare una rinegoziazione nel caso sia necessaria (introduzione di nuovi intermediari, presenza di 
 nodi guasti...) per poter mantenere la QoS stabilita e garantire che ciò avvenga: questa è la condizione necessaria
 perché un servizio venga retribuito. Questa è la fase più costosa, perché i vari nodi si devono adattare alle 
-situazioni che si
-vengono a verificare, oppure devono essere estromessi se non adatti. L'idea è
-quella di basarsi il più possibile sulla località : più le azioni sono locali, senza
-dover far intervenire un agente esterno, un fruitore, minore è il costo; anche per
-questa fase si deve cercare di progettare dei protocolli ottimizzati che costino
-poco, sfruttando il principio della minima intrusione quindi ! Politiche poco
-costose quindi, e limitare l'uso delle risorse necessarie al monitoring! In un
-ipotetico sistema quindi il piano utente (quello della gestione del servizio) e
-quello del management sono accoppiati, ma dovrebbero essere strutturati in
-maniera tale da condividere il minor numero di risorse. Il problema di Internet
-è che siamo sempre in piano utente, e quindi è difficile capire se ci sono problemi.
-Il piano del management in realtà può essere scomposto in diverse sottoparti,
-a o
-a seconda di cosa si vuole gestire: vi è una parte per l'identicazione di fault
-e recovery delle risorse, una parte per il controllo della performance (quindi
-eventuali aggiustamenti del servizio per poter garantire la QoS). Altri settori
-fondamentali riguardano l'accounting e la sicurezza dei servizi.
-30
+situazioni che si vengono a verificare, oppure devono essere estromessi se non adatti. L'idea è quella di basarsi il 
+più possibile sulla \textit{località}: più le azioni sono locali, senza dover far intervenire un agente esterno, un
+fruitore, minore è il costo; anche per questa fase si deve cercare di progettare dei protocolli ottimizzati che 
+costino poco, \textit{sfruttando il principio della minima intrusione quindi}! Politiche poco costose quindi, e
+limitare l'uso delle risorse necessarie al monitoring! In un ipotetico sistema quindi il piano utente (quello della
+gestione del servizio) e quello del management sono accoppiati, ma dovrebbero essere strutturati in maniera tale da
+condividere il minor numero di risorse. Il problema di Internet è che siamo sempre in piano utente, e quindi è 
+difficile capire se ci sono problemi.
+Il piano del management in realtà può essere scomposto in diverse sottoparti, a seconda di cosa si vuole gestire: vi 
+è una parte per l'identicazione di fault e recovery delle risorse, una parte per il controllo della performance 
+(quindi eventuali aggiustamenti del servizio per poter garantire la QoS). Altri settori fondamentali riguardano
+l'accounting e la sicurezza dei servizi.
+
 \subsection{Gestione dei sistemi: OSI e SNMP}
 OSI ha definito un sistema per poter monitorare/gestire un insieme di risorse
 mediante l'uso di risorse astratte 8 : l'idea è quella di utilizzare delle descrizioni
