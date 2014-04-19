@@ -291,7 +291,7 @@ Per realizzare questo sistema invece con Lamport e senza uso di un gestore centr
  \item Che tutti i processi siano in grado di comunicare l'uno con l'altro. Se quindi vi sono n processi, vi devono
  essere almeno
  \begin{equation}
-  n · (n - 1)
+  n \cdot (n - 1)
  \end{equation}
  canali per poter comunicare.
  \item Supposizione per la qualità: i canali sono FIFO, e non perdono messaggi.
@@ -374,60 +374,42 @@ solo il prossimo ma anche il nodo ancora successivo, e così via). Se il token d
 lo ha generato, diviene il nuovo token\footnote{Se si fosse ripresentato il vecchio token, quello d’elezione sarebbe
 stato eliminato}. Visto che più processi possono mandare il token d'elezione, si ha che si decide in maniera
 statica quale è il più prioritario, numerando i processi.
-Un protocollo di elezione molto semplice da fare ed efficiente è Bully: l'idea
-è che un processo di priorità superiore zittisca le richieste di processi inferiori,
-per divenire lui il gestore. Si ha quindi che un processo di basso livello manda
-verso l'alto un messaggio d'elezione. Se un processo di priorità superiore può
-assumere il compito di gestore, manda un Answer verso il basso, e propaga verso
-l'alto la sua elezione. Se non riceve nessun Answer entro un certo tempo, assume
-di essere diventato il gestore. Questo protocollo rischi di presentare molte fasi
-in base alla disponibilità relativa dei processi, ma in realtà si risolve abbastanza
-velocemente. I protocolli di elezione sono strutture tipiche delle infrastrutture
-dove le entità possono cambiare ruolo.
-21 Se
-si fosse ripresentato il vecchio token, quello d'elezione sarebbe stato eliminato
-49
+Un protocollo di elezione molto semplice da fare ed efficiente è Bully: l'idea è che un processo di priorità superiore
+zittisca le richieste di processi inferiori, per divenire lui il gestore. Si ha quindi che un processo di basso livello
+manda verso l'alto un messaggio d'elezione. Se un processo di priorità superiore può assumere il compito di gestore,
+manda un Answer verso il basso, e propaga verso l'alto la sua elezione. Se non riceve nessun Answer entro un certo
+tempo, assume di essere diventato il gestore. Questo protocollo rischia di presentare molte fasi in base alla
+disponibilità relativa dei processi, ma in realtà si risolve abbastanza velocemente. I protocolli di elezione sono
+strutture tipiche delle infrastrutture dove le entità possono cambiare ruolo.
 \subsection{Snapshot distribuiti}
-Come si definisce uno stato nel distribuito? Si vuole uno stato globale, ma
-non è sempre possibile salvarsi tutta la memoria sul disco, specialmente con
-un'alta replicazione. L'idea è quindi quella di realizzare un sistema in cui i
-processi si scambino dei messaggi, mediante dei canali fortemente orientati, per
-poter salvare in maniera opportuna delle foto del sistema. Si tratta quindi di
-effettuare dei tagli, in maniera tale da determinare gli stati signicativi e quelli
-no, per poter inglobare i primi per poter formare uno snapshot globale! Lo stato
-infatti è la composizione dei singoli stati di ogni processo.
-Come si decide quali tagli vanno bene e quali no? I tagli realizzano degli
-snapshot numerati (ovvero sono ordinati), per cui un taglio che faccia in modo
-che un messaggio che inzia nello snapshot x e termini nello snapshot x + 1 deve
-essere salvato per poter mantenere il sistema consistente, mentre l'opposto non
-va bene! Non garantirebbe la consistenza (come si fa a capire nello stato x chi
-`
-è il sender del messaggio? E noto solo nello stato successivo!)
-Ogni nodo è tenuto a salvare il proprio stato locale, così da avere inizialmente
-\i{}
-almeno consistenza locale. Questa è la base per fare uno snapshot globale dise
-tribuito. L'idea è che si utilizzi un protocollo che indichi quando fare la foto
-locale e quando terminarla. Si sfrutta un apposito messaggio, detto marker, per
-cui ogni nodo può presentare due stati:
-$\bullet$ bianco per indicare lo stato iniziale, prima dello snapshot.
-$\bullet$ rosso per indicare lo stato successivo.
-Una transizione dal bianco al rosso `una richiesta sul nodo perché esegua uno
-snapshot, e come una catena ordina anche agli altri nodi di eseguire uno snapshot: l'idea è quindi che ognuno salvi il
-proprio stato e poi rimandi il marker.
-L'idea è quindi che un nodo o riceve un marker rosso o diventa rosso per
-fare lo snapshot: salva lo stato, e poi invia il marker su tutti i suoi canali
-d'uscita. Continua a salvare i messaggi che riceve e a restare rosso no a quando
-non riceve su tutti i suoi canali di input il marker rosso (ovvero le risposte
-dagli altri nodi!). A tale evento, si ferma e salva lo snapshot. Si potrebbe
-anche sviluppare protocolli più complessi, per cui il marker viene inviato solo
-su determinati canali. Da osservare che quindi un processo in stato rosso non
-potrà mai mandare un messaggio a un processo in stato bianco, altrimenti non
-si salva correttamente!
-Ma no a quando si salva? Fino al prossimo marker! Questo è un sistema
-assolutamente scalabile! Il problema è che il marker tiene un'indicazione del
-nodo che ha iniziato lo snapshot, per cui se si volesse che 2 nodi distinti facessero
-lo snapshot, si dovrebbe estendere la politica, magari estendendo in maniera
-semplice le informazioni del marker, che indichi a quale snapshot è riferito quello
-`
-stato. A chi si manda poi lo stato in ogni modo? E una politica da decidere, o
-a un nodo che fa da repository oppure a chi ha iniziato lo snapshot...
+Come si definisce uno stato nel distribuito? Si vuole uno stato globale, ma non è sempre possibile salvarsi tutta la
+memoria sul disco, specialmente con un'alta replicazione. L'idea è quindi quella di realizzare un sistema in cui i
+processi si scambino dei messaggi, mediante dei canali fortemente orientati, per poter salvare in maniera opportuna
+delle foto del sistema. Si tratta quindi di effettuare dei tagli, in maniera tale da determinare gli stati signicativi 
+e quelli no, per poter inglobare i primi per poter formare uno snapshot globale! Lo stato infatti è la composizione 
+dei singoli stati di ogni processo.
+Come si decide quali tagli vanno bene e quali no? I tagli realizzano degli snapshot numerati (ovvero sono ordinati), 
+per cui un taglio che faccia in modo che un messaggio che inzia nello snapshot x e termini nello snapshot x + 1 deve
+essere salvato per poter mantenere il sistema consistente, mentre l'opposto non va bene! Non garantirebbe la 
+consistenza (come si fa a capire nello stato x chi è il sender del messaggio? E noto solo nello stato successivo!)
+Ogni nodo è tenuto a salvare il proprio stato locale, così da avere inizialmente almeno consistenza locale. Questa è 
+la base per fare uno snapshot globale distribuito. L'idea è che si utilizzi un protocollo che indichi quando fare la
+foto locale e quando terminarla. Si sfrutta un apposito messaggio, detto marker, per cui ogni nodo può presentare due
+stati:
+\begin{itemize}
+ \item bianco per indicare lo stato iniziale, prima dello snapshot.
+ \item rosso per indicare lo stato successivo.
+\end{itemize}
+Una transizione dal bianco al rosso è una richiesta sul nodo perché esegua uno snapshot, e come una catena ordina 
+anche agli altri nodi di eseguire uno snapshot: l'idea è quindi che ognuno salvi il proprio stato e poi rimandi il
+marker. Quindi un nodo o riceve un marker rosso o diventa rosso per fare lo snapshot: salva lo stato, e poi invia il
+marker su tutti i suoi canali d'uscita. Continua a salvare i messaggi che riceve e a restare rosso fino a quando
+non riceve su tutti i suoi canali di input il marker rosso (ovvero le risposte dagli altri nodi!). A tale evento, si
+ferma e salva lo snapshot. Si potrebbe anche sviluppare protocolli più complessi, per cui il marker viene inviato solo
+su determinati canali. Da osservare che quindi un processo in stato rosso non potrà mai mandare un messaggio a un
+processo in stato bianco, altrimenti non si salva correttamente!
+Ma fino a quando si salva? Fino al prossimo marker! Questo è un sistema assolutamente scalabile! Il problema è che il
+marker tiene un'indicazione del nodo che ha iniziato lo snapshot, per cui se si volesse che 2 nodi distinti facessero
+lo snapshot, si dovrebbe estendere la politica, magari estendendo in maniera semplice le informazioni del marker, che
+indichi a quale snapshot è riferito quello stato. A chi si manda poi lo stato in ogni modo? E una politica da decidere,
+o un nodo che fa da repository oppure a chi ha iniziato lo snapshot...
