@@ -163,82 +163,56 @@ La base per ogni mw ad oggetti sono:
 \end{itemize}
 Inoltre, si parla di pattern anche per la gestione delle risorse, della QoS, e la definizione di nuovi servizi.
 \subsection{Pattern per l'interazione remota}
-Idea di base: un cliente vuole riferirsi ad un oggetto remoto; per cui serve un
-sistema per avere dei riferimenti remoti. Gli oggetti remoti si possono creare o
-localmente da parte del server, o in maniera remota su richiesta del client. Una
-volta istanziato, deve essere fornito il riferimento al client. Questa è la versione
-di base, di seguito, i diversi pattern che si possono utilizzare per risolvere questo
-problema:
-$\bullet$ Proxy: il client riferisce localmente un'altra struttura detta proxy, che si
-occupa di gestire le richieste al server remoto. Il proxy potrebbe anche
-essere scritto in un altro linguaggio. Il proxy permette di accedere al server
-come se fosse presente localmente.
-Una sua variazione, il pattern stub, realizza invece un proxy lato server.
-Questi oggetti si preoccupano di ricevere le richieste e di ridirigerle direttamente all'oggetto remoto che gestisce.
-Ogni stub potrebbe gestire anche
-una collezione di oggetti remoti.
-Si deve cercare di limitare il numero di questi oggetti, per ridurre l'overhead nel sistema.
-$\bullet$ ObjectID: questo pattern si preoccupa di definire un oggetto reale, a cui
-`
-può accedere un client. E quindi necessario trasferire le informazioni dal C
-al S. Spesso e volentieri si abbina al proxy (il client può anche fornire l'id
-al proxy, che si preoccupa di recuperare il riferimento dell'oggetto: si parla
-spesso anche di nomi globali unici ), il quale potrebbe tener memorizzato
-per comodità l'id. L'ObjectID deve quindi avere la caratteristica di essere
-univoco.
-Non è un pattern strettamente necessario, a seconda di come si vuole reale
-izzare l'architettura: si potrebbe volere per esempio che l'utente non abbia
-conoscenza del riferimento remoto, ma che in maniera trasparente sia il
-supporto a fornire l'oggetto con i servizi richiesti dal cliente24 . L'ObjectId potrebbe essere troppo vincolante. Se
-non è necessario uno stato, in
-24 Questo sistema introduce però altri problemi: due richieste vicine per esempio riferiscono
-lo stesso oggetto
-56
-generale è più conveniente questo modo di lavorare, perché è il mw che si
-e u
-ee
-preoccupa di associare gli oggetti in maniera efficiente.
-$\bullet$ Marshalling/Unmarshalling: nel concentrato in generale o si lavora per
-valore o per riferimento. Nel concentrato quest'ultima opzione è quele
-la usata normalmente. Tuttavia, come si fa a passare proprio l'oggetto
-(necessario per l'operazione sul server, oppure un oggetto risultante nell'operazione?)? Se ne deve fare proprio una
-copia, ed ecco la necessità
-di avere un sistema che sia in grado di fare marshalling e unmarshalling,
-cioè: si crea una copia dell'oggetto che viene opportunatamente serialize
-zata, trasmessa e poi deserializzata da parte del client! In certi casi però
-si potrebbe anche volere un oggetto che non sia una copia, ma proprio
-l'oggetto unico presente sul server: si deve quindi trovare una maniera per
-distinguire fra due diversi tipi di marshalling. In generale, si può peno
-sare che la maggior parte delle volte al server si può passare un oggetto
-by-value.
-$\bullet$ Gestione degli errori : deve essere possibile anche trasmettere gli errori
-sia da parte del client che da parte del server, e sempre a chiunque possa
-risolvere il problema.
-$\bullet$ Naming support: si tratta di un pattern molto utile per la gestione dei
-riferimenti remoti, ovvero si riferisce un nameserver che mantiene memorizzati gli ObjectID. Si può anche aumentare la
-trasparenza, facendo in
-modo di riferire proxy e stub dal name server! Si presenta però il problema
-di capire come il client conosca il name server!
-$\bullet$ Singleton: questo pattern si preoccupa di definire che vi sia sempre e solo
-`
-al massimo un'istanza di un tipo di oggetto. E utile per esempio per
-la sopravvivvenza di questo al di fuori della durata dell'applicazione. Un
-esempio di singleton per esempio può essere il servizio di nomi: deve essere
-sempre presente, e possibilmente unico (o magari gerarchizzato in maniera
-`
-intelligente). E usato sicuramente per configurare certi oggetti complessi
-una volta sola.
-$\bullet$ Server Application: Come realizzare il deployment nel sistema? In che
-ordine attivare i servizi, e i vari servitori (sistema di nomi, come e quando
-istanziare l'oggetto remoto, . . . ). Devono essere quindi presenti diverse
-strategie d'attivazione, magari denibili in maniera opportuna dai client!
-$\bullet$ Holder : questo è un pattern necessario per risolvere certi problemi d'eteroe
-geneità. Si preoccupa infatti di incapsulare in maniera opportuna gli
-oggetti per presentarli a certi sistemi in maniera che possano trattarli
-mediante le semantiche da loro definite. Un esempio riguarda per esempio linguaggi che permettono parametri di in/out e
-quelli che non lo
-permettono. Si hanno quindi come possibili operazioni read/write.
-57
+Idea di base: un cliente vuole riferirsi ad un oggetto remoto; per cui serve un sistema per avere dei riferimenti
+remoti. Gli oggetti remoti si possono creare o localmente da parte del server, o in maniera remota su richiesta del
+client. Una volta istanziato, deve essere fornito il riferimento al client. Questa è la versione di base, di seguito,
+i diversi pattern che si possono utilizzare per risolvere questo problema:
+\begin{itemize}
+ \item \textit{Proxy}: il client riferisce localmente un'altra struttura detta proxy, che si occupa di gestire le
+ richieste al server remoto. Il proxy potrebbe anche essere scritto in un altro linguaggio. Il proxy permette di
+ accedere al server come se fosse presente localmente.
+ Una sua variazione, il pattern stub, realizza invece un proxy lato server. 
+ Questi oggetti si preoccupano di ricevere le richieste e di ridirigerle direttamente all'oggetto remoto che gestisce.
+ Ogni stub potrebbe gestire anche una collezione di oggetti remoti. 
+ Si deve cercare di limitare il numero di questi oggetti, per ridurre l'overhead nel sistema.
+ \item \textit{ObjectID}: questo pattern si preoccupa di definire un oggetto reale, a cui può accedere un client. E
+ quindi necessario trasferire le informazioni dal C al S. Spesso e volentieri si abbina al proxy (il client può anche
+ fornire l'id al proxy, che si preoccupa di recuperare il riferimento dell'oggetto: si parla spesso anche di nomi
+ globali unici), il quale potrebbe tener memorizzato per comodità l'id. L'ObjectID deve quindi avere la caratteristica
+ di essere univoco.
+ Non è un pattern strettamente necessario, a seconda di come si vuole reale izzare l'architettura: si potrebbe volere
+ per esempio che l'utente non abbia conoscenza del riferimento remoto, ma che in maniera trasparente sia il
+ supporto a fornire l'oggetto con i servizi richiesti dal cliente\footnote{Questo sistema introduce però altri
+ problemi: due richieste vicine per esempio riferiscono lo stesso oggetto} L'ObjectId potrebbe essere troppo
+ vincolante. Se non è necessario uno stato, in generale è più conveniente questo modo di lavorare, perché è il mw 
+ che si preoccupa di associare gli oggetti in maniera efficiente.
+ \item \textit{Marshalling/Unmarshalling}: nel concentrato in generale o si lavora per valore o per riferimento. Nel
+ concentrato quest'ultima opzione è quella usata normalmente. Tuttavia, come si fa a passare proprio l'oggetto
+ (necessario per l'operazione sul server, oppure un oggetto risultante nell'operazione?)? Se ne deve fare proprio una
+ copia, ed ecco la necessità di avere un sistema che sia in grado di fare marshalling e unmarshalling, cioè: si crea 
+ una copia dell'oggetto che viene opportunatamente serializzata, trasmessa e poi deserializzata da parte del client! 
+ In certi casi però si potrebbe anche volere un oggetto che non sia una copia, ma proprio l'oggetto unico presente 
+ sul server: si deve quindi trovare una maniera per distinguire fra due diversi tipi di marshalling. In generale, si 
+ può pensare che la maggior parte delle volte al server si può passare un oggetto by-value.
+ \item \textit{Gestione degli errori}: deve essere possibile anche trasmettere gli errori sia da parte del client che
+ da parte del server, e sempre a chiunque possa risolvere il problema.
+ \item \textit{Naming support}: si tratta di un pattern molto utile per la gestione dei riferimenti remoti, ovvero si
+ riferisce un nameserver che mantiene memorizzati gli ObjectID. Si può anche aumentare la trasparenza, facendo in
+ modo di riferire proxy e stub dal name server! Si presenta però il problema di capire come il client conosca il name
+ server!
+ \item \textit{Singleton}: questo pattern si preoccupa di definire che vi sia sempre e solo al massimo un'istanza di 
+ un tipo di oggetto. E utile per esempio per la sopravvivvenza di questo al di fuori della durata dell'applicazione. 
+ Un esempio di singleton per esempio può essere il servizio di nomi: deve essere sempre presente, e possibilmente unico
+ (o magari gerarchizzato in maniera intelligente). E usato sicuramente per configurare certi oggetti complessi una 
+ volta sola.
+ \item \textit{Server Application}: Come realizzare il deployment nel sistema? In che ordine attivare i servizi, e i
+ vari servitori (sistema di nomi, come e quando istanziare l'oggetto remoto...). Devono essere quindi presenti
+ diverse strategie d'attivazione, magari definibili in maniera opportuna dai client!
+ \item \textit{Holder}: questo è un pattern necessario per risolvere certi problemi d'eterogeneità. Si preoccupa 
+ infatti di incapsulare in maniera opportuna gli oggetti per presentarli a certi sistemi in maniera che possano
+ trattarli mediante le semantiche da loro definite. Un esempio riguarda per esempio linguaggi che permettono parametri
+ di in/out e quelli che non lo permettono. Si hanno quindi come possibili operazioni read/write.
+\end{itemize}
 \subsection{Pattern per la comunicazione}
 Di base, i mw ad oggetti tendono ad introdurre come primo modello di comunicazione l'interazione sincrona bloccante.
 Tuttavia, questa comunicazione è
@@ -387,7 +361,7 @@ client e attivare (mediante i pattern descritti prima) i server necessari.
 $\bullet$ Life cycle manager : si tratta di un sistema per poter gestire la vita degli
 oggetti ad un livello superiore, applicativo proprio per la QoS (esempio:
 gestione dei nodi, per privilegiare certe entità rispetto ad altre, passivando
-server meno prioritari!) Si hanno quindi politiche denibili differenziate!
+server meno prioritari!) Si hanno quindi politiche definibili differenziate!
 $\bullet$ Custom marshaller : è un sistema per fornire sistemi differenziati per la
 presentazione dei dati (XML o formato binario: leggibilità o efficienza
 . . . ).
