@@ -248,74 +248,53 @@ Invece, per realizzare una comunicazione sincrona non bloccante:
 Questi ultimi due modelli son presenti in CORBA, .NET e diversi altri mw.
 
 \subsection{Pattern per la gestione delle risorse e dei servizi}
-Spesso questi pattern rappresentano politiche possibili per il deployment e o la
-configurazione dei vari servizi. I mw possono prevederne più di uno, a seconda
-delle esigenze dell'utenza.
-$\bullet$ Il pattern più semplice è quello delle istanze preconfigurate: viene deciso
-il deployment presso il server in maniera statica, primache il client possa
-`
-eseguire delle richieste. E una politica rigida rispetto ad altre, e si deve
-considerare il fatto che troppe istanze potrebbero ingolfare il sistema. Si
-può gestire uno stato? Tutti i client devono essere trattati in maniera
-uguale, quindi verrebbe da dire di no. . .
-$\bullet$ Attivazione On Demand : esattamente l'opposto, i servitori son dotati di
-stato, e si possono realizzare operazioni diverse a seconda del tipo di client
-che si collega. I servitori son creati by-need, e quindi solo quando sono
-richiesti dal client. Quindi, se una tipologia di servizio non è richiesta
-spesso, il suo servitore sarà attivo poco spesso, consumando poche risorse:
-si ha quindi un costo limitato! Questa è la politica di default di quasi tutti
-i mw, visto il suo costo.
-Si può anche decidere di introdurre un tempo di vita per limitare ulterio
-ormente il costo, per cui un servitore non richiesto per un tot di tempo
-viene deallocato.
-Come gestire però il problema del riferimento remoto? Se per esempio
-un client ha conoscenza di un riferimento remoto di un oggetto, per cui
-volesse riferirlo direttamente senza utilizzare la procedura d'attivazione,
-ma questo è stato nel frattempo deallocato? Si avrà un errore, per cui si
-dovrà gestire.
-$\bullet$ Attivazione a singola richiesta: limite estremo, si ha che l'oggetto è si
-creato al presentarsi di una richiesta, ma anche terminato quando questa è stata espletata! È quindi un sistema molto
-reattivo, che però ha ancora problemi nella rappresentazione dello stato (gli oggetti non sono persistenti!). Questo
-modello è quindi utilizzato solo in situazioni in cui lo stato non sia necessario. Per limitare l'overhead e il consumo
-delle risorse, è necessario un controllo sul numero d'istanze attivate.
-$\bullet$ Pool di istanze sempre pronte: si tratta sempre di creare al deployment
-(e quindi in maniera statica) un certo numero di istanze disponibili per
-il client, prima che questo possa fare richiesta. Questo modello quindi
-non presenta nessun costo d'attivazione e disattivazione, ma necessita che
-lo stato sia memorizzato sul client (infatti, sfruttando un meccanismo di
-trasparenza, un client potrebbe non riutilizzare la stessa istanza già usaa
-ta!). Vi sono però problemi di dimensionamento di cui tener conto (se son
-troppe istanze rispetto al traffico, si consumano inutilmente le risorse, se
-invece son poche o si estende il pool, oppure si è necessaria una coda dove
-memorizzare le richieste). Si potrebbe ottimizzare per esempio facendo
-59
-in modo che gni istanza possa gestire più di una richiesta, e vericando
-(monitoring) il numero di istanze contemporanee per ottimizzare.
-
-$\bullet$ Attivazione dal client: E compito invece del client attivare l'istanza, e
-
-diventa lui il responsabile e gestore della risorsa remota. E una logica
-spesso scelta, che garantisce al client di utilizzare un'entità a lui riservata.
-Si ha però un accoppiamento forte fra C e sessione di lavoro.
-Esistono poi pattern per gestire la durata della vita degli oggetti, come il passivation:se un C non accede per un
-determinato tempo ad una sua risorsa, il
-server potrebbe decidere di farne lo store da qualche parte, e liberarne le risorse
-per altri oggetti. Alla richiesta dell'oggetto, il server si preoccuperò di riattia
-varlo, ricaricando lo stato salvato. Questo pattern è molto importante per la
-scalabilità del sistema.
-Un pattern simile è il lease, per cui però il servitore decide di distruggere le
-istanze non usate. Perché resti attivo un oggetto, il client deve presentare entro
-il tempo di lease la richiesta di voler ancora adoperare l'oggetto. Si può quindi
-realizzare usando il tempo di passivation e il tempo di presentazione del lease,
-per far scegliere al server quale politica adottare!
-Il pattern Factory è un pattern di supporto alla creazione di oggetti: si trate
-ta di un attivatore delle classi, e si può pensare di realizzarne uno per nodo,
-in grado di creare tutti gli oggetti considerati necessari. Sfruttando il factory,
-si possono realizzare politiche nascoste per ottimizzare quindi il deployment (a
-tutto pensa lui!).
-Spesso, il tempo di vita di un oggetto è un qualcosa di molto complesso. Vi
-sono quindi dei meccanismi comuni nei mw per valutarne il tempo d'esistenza
-(sfruttando passivation, lease, reference counting, . . . ).
+Spesso questi pattern rappresentano politiche possibili per il deployment o la configurazione dei vari servizi. I mw
+possono prevederne più di uno, a seconda delle esigenze dell'utenza.
+\begin{itemize}
+ \item Il pattern più semplice è quello delle \textit{istanze preconfigurate}: viene deciso il deployment presso il
+ server in maniera statica, primache il client possa eseguire delle richieste. E una politica rigida rispetto ad altre,
+ e si deve considerare il fatto che troppe istanze potrebbero ingolfare il sistema. Si può gestire uno stato? Tutti i
+ client devono essere trattati in maniera uguale, quindi verrebbe da dire di no...
+ \item \textit{Attivazione On Demand}: esattamente l'opposto, i servitori son dotati di stato, e si possono realizzare
+ operazioni diverse a seconda del tipo di client che si collega. I servitori son creati by-need, e quindi solo quando
+ sono richiesti dal client. Quindi, se una tipologia di servizio non è richiesta spesso, il suo servitore sarà attivo
+ poco spesso, consumando poche risorse: si ha quindi un costo limitato! Questa è la politica di default di quasi tutti
+ i mw, visto il suo costo. 
+ Si può anche decidere di introdurre un tempo di vita per limitare ulteriormente il costo, per cui un servitore non
+ richiesto per un tot di tempo viene deallocato.
+ Come gestire però il problema del riferimento remoto? Se per esempio un client ha conoscenza di un riferimento remoto 
+ di un oggetto, per cui volesse riferirlo direttamente senza utilizzare la procedura d'attivazione, ma questo è stato 
+ nel frattempo deallocato? Si avrà un errore, per cui si dovrà gestire.
+ \item \textit{Attivazione a singola richiesta}: limite estremo, si ha che l'oggetto è si creato al presentarsi di una
+ richiesta, ma anche terminato quando questa è stata espletata! È quindi un sistema molto reattivo, che però ha ancora
+ problemi nella rappresentazione dello stato (gli oggetti non sono persistenti!). Questo modello è quindi utilizzato
+ solo in situazioni in cui lo stato non sia necessario. Per limitare l'overhead e il consumo delle risorse, è 
+ necessario un controllo sul numero d'istanze attivate.
+ \item \textit{Pool di istanze sempre pronte}: si tratta sempre di creare al deployment (e quindi in maniera statica)
+ un certo numero di istanze disponibili per il client, prima che questo possa fare richiesta. Questo modello quindi
+ non presenta nessun costo d'attivazione e disattivazione, ma necessita che lo stato sia memorizzato sul client
+ (infatti, sfruttando un meccanismo di trasparenza, un client potrebbe non riutilizzare la stessa istanza già usata!).
+ Vi sono però problemi di dimensionamento di cui tener conto (se son troppe istanze rispetto al traffico, si consumano
+ inutilmente le risorse, se invece son poche o si estende il pool, oppure si è necessaria una coda dove memorizzare le
+ richieste). Si potrebbe ottimizzare per esempio facendo in modo che ogni istanza possa gestire più di una richiesta, 
+ e vericando (monitoring) il numero di istanze contemporanee per ottimizzare.
+ \item \textit{Attivazione dal client}: E compito invece del client attivare l'istanza, e diventa lui il responsabile
+ e gestore della risorsa remota. È una logica spesso scelta, che garantisce al client di utilizzare un'entità a lui
+ riservata. Si ha però un accoppiamento forte fra C e sessione di lavoro.
+\end{itemize}
+Esistono poi pattern per gestire la durata della vita degli oggetti, come il passivation: se un C non accede per un
+determinato tempo ad una sua risorsa, ilvserver potrebbe decidere di farne lo store da qualche parte, e liberarne le
+risorse per altri oggetti. Alla richiesta dell'oggetto, il server si preoccuperò di riattivarlo, ricaricando lo stato
+salvato. Questo pattern è molto importante per la scalabilità del sistema.
+Un pattern simile è il lease, per cui però il servitore decide di distruggere le istanze non usate. Perché resti 
+attivo un oggetto, il client deve presentare entro il tempo di lease la richiesta di voler ancora adoperare l'oggetto.
+Si può quindi realizzare usando il tempo di passivation e il tempo di presentazione del lease, per far scegliere al
+server quale politica adottare!
+Il pattern Factory è un pattern di supporto alla creazione di oggetti: si tratta di un attivatore delle classi, e si 
+può pensare di realizzarne uno per nodo, in grado di creare tutti gli oggetti considerati necessari. Sfruttando il
+factory, si possono realizzare politiche nascoste per ottimizzare quindi il deployment (a tutto pensa lui!).
+Spesso, il tempo di vita di un oggetto è un qualcosa di molto complesso. Vi sono quindi dei meccanismi comuni nei mw 
+per valutarne il tempo d'esistenza (sfruttando passivation, lease, reference counting...).
 \subsection{I servizi addizionali}
 Si tratta di servizi che possono aiutare l'utente ad esprimere determinate operazioni. I servizi infatti possono
 dipendere dal contesto utilizzato, la sessione, o
