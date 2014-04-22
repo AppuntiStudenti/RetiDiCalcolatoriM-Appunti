@@ -132,57 +132,57 @@ e quella implicita (decisa in toto dal sistema).
 
 \subsection{Altri modelli oltre il C/S}
 Esistono diversi altri modelli oltre il classico C/S:
-$\bullet$ Push: il servitore fornisce il servizio al cliente
-$\bullet$ Pull: il cliente recupera il servizio che necessita in maniera diretta.
-$\bullet$ Modello a delega: il cliente delega un altro agente per attendere il risultato,
-e poi lo recupera da questo.
-$\bullet$ Modello a notica: simile al precedente, solo che il delegato notica al
-cliente la disponibilità del risultato.
-$\bullet$ Modello ad eventi: il tipico modello consumer/provider, in cui chi è intere
-essato si registra a chi produce gli eventi.
-$\bullet$ Modello a provisioning: oltre agli end-point, vi sono intermediari interessati al risultato.
+\begin{itemize}
+ \item \textit{Push}: il servitore fornisce il servizio al cliente
+ \item \textit{Pull}: il cliente recupera il servizio che necessita in maniera diretta.
+ \item \textit{Modello a delega}: il cliente delega un altro agente per attendere il risultato, e poi lo recupera da
+ questo.
+ \item \textit{Modello a notifica}: simile al precedente, solo che il delegato notifica al cliente la disponibilità 
+ del risultato.
+ \item \textit{Modello ad eventi}: il tipico modello consumer/provider, in cui chi è interessato si registra a chi
+ produce gli eventi.
+ \item \textit{Modello a provisioning}: oltre agli end-point, vi sono intermediari interessati al risultato.
+\end{itemize}
 Di particolare interesse è la classificazione dei modelli a scambio di messaggi :
-$\bullet$ In fase di progettazione, si parla di sistemi sincroni se si è interessati al
-risultati, altrimenti asincroni.
-$\bullet$ In fase implementativa, si parla di comunicazione bloccante se il richiedente
-si blocca in attesa del risultato, altrimenti non bloccante
-9
+\begin{itemize}
+ \item In fase di progettazione, si parla di sistemi sincroni se si è interessati al risultati, altrimenti asincroni.
+ \item In fase implementativa, si parla di comunicazione bloccante se il richiedente si blocca in attesa del risultato,
+ altrimenti non bloccante
+\end{itemize}
 Oltre alla classicazioni principali, altre caratteristiche con cui si possono classificare i modelli a scambio di
 messaggi:
-$\bullet$ In fase di progettazione si parla di
--- un sistema simmetrico se mittente e ricevente si conoscono (rarissimo) oppure asimmetrico (caso tipico:C/S).
--- un sistem diretto (cioè se avviene una comunicazione diretta fra i
-processi), oppure indiretto (se si utilizzano strutture tipo le socket)
-$\bullet$ In fase di implemtazione si parla di
--- un sistema bufferizzato se la comunicazione richiede un certo numero
-di messaggi prima di poter trasmettere
--- Sistemi reliable se possono fornire QoS, senza perdere messaggi.
-Nel caso si introduca un terzo oggetto che faccia da mediatore, si può quindi
-lavorare in maniera sincrona ma non bloccante: è il mediatore che resta in
-attesa, sganciando il ricevente. Si possono avere due diverse modalità:
-1. Oggetti poll : è un contenitore per la risposta alla richiesta, che viene
-periodicamente interrogato dal ricevente con un sistema a polling. Si ha
-così una comunicazione a 3 entità. In questo modello, il ricevente deve
-\i{}
-sapere dove si trova l'oggetto poll, e vi deve essere un oggetto per ogni
-`
-risultato. E conveniente se si hanno operazioni corte, e attese brevi.
-2. Oggetti callback : è sempre un oggetto che conterrà il risultato, ma dotato
-di una sua vita indipendente, e dotato di codice particolare da eseguire
-`
-quando giunge il risultato. E lui quindi a dover fornire il risultato al
-richiedente, svincolandolo del tutto da questo! Conveniente in caso di
-operazioni lunghe, indipendenti dal chiamante.
-Spesso e volentieri, questi intermediari vengono realizzati da proxy, che sono in
-grado di ridurre la complessità logica della soluzione, integrando diverse funzionalità.
-In un modello basato sugli eventi, si ha un fortissimo disaccoppiamento (non
-vuol dire che non si conoscono, ma che non è necessario che siano attivi conteme
-poraneamente per poter fare la comunicazione; è una caratteristica fondamene
-tale per i middleware) fra le entità interessate al risultato, e quelle che forniscono
-i servizi. In questo modello si ha quindi un'interazione molti a molti, per cui si
-può facilmente mappare il multicast. In generale gli eventi non sono persistenti,
-tuttavia non è l'unico modello possibile.
-10
+\begin{itemize}
+ \item In fase di progettazione si parla di
+ \begin{itemize}
+  \item un sistema simmetrico se mittente e ricevente si conoscono (rarissimo) oppure asimmetrico (caso tipico:C/S).
+  \item un sistem diretto (cioè se avviene una comunicazione diretta fra i processi), oppure indiretto (se si 
+  utilizzano strutture tipo le socket)
+ \end{itemize}
+ \item In fase di implemtazione si parla di
+ \begin{itemize}
+  \item un sistema bufferizzato se la comunicazione richiede un certo numero di messaggi prima di poter trasmettere
+  \item sistemi reliable se possono fornire QoS, senza perdere messaggi.
+ \end{itemize}
+\end{itemize}
+Nel caso si introduca un terzo oggetto che faccia da mediatore, si può quindi lavorare in maniera sincrona ma non
+bloccante: è il mediatore che resta in attesa, sganciando il ricevente. Si possono avere due diverse modalità:
+\begin{enumerate}
+ \item \textit{Oggetti poll}: è un contenitore per la risposta alla richiesta, che viene periodicamente interrogato 
+ dal ricevente con un sistema a polling. Si ha così una comunicazione a 3 entità. In questo modello, il ricevente 
+ deve sapere dove si trova l'oggetto poll, e vi deve essere un oggetto per ogni risultato. E conveniente se si hanno
+ operazioni corte, e attese brevi.
+ \item \textit{Oggetti callback}: è sempre un oggetto che conterrà il risultato, ma dotato di una sua vita 
+ indipendente, e dotato di codice particolare da eseguire quando giunge il risultato. E lui quindi a dover fornire il
+ risultato al richiedente, svincolandolo del tutto da questo! Conveniente in caso di operazioni lunghe, indipendenti 
+ dal chiamante.
+\end{enumerate}
+Spesso e volentieri, questi intermediari vengono realizzati da proxy, che sono in grado di ridurre la complessità 
+logica della soluzione, integrando diverse funzionalità. 
+In un modello basato sugli eventi, si ha un fortissimo disaccoppiamento (non vuol dire che non si conoscono, ma che 
+non è necessario che siano attivi contemporaneamente per poter fare la comunicazione; è una caratteristica 
+fondamentale per i middleware) fra le entità interessate al risultato, e quelle che forniscono i servizi. In questo
+modello si ha quindi un'interazione molti a molti, per cui si può facilmente mappare il multicast. In generale gli
+eventi non sono persistenti, tuttavia non è l'unico modello possibile.
 \subsection{Spazi di tuple}
 Un modello che deriva dall'astrazione della memoria condivisa e della comunicazione, e che garantisce il
 disaccoppiamento fra le varie entità è lo spazio di
