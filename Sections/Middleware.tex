@@ -1,45 +1,41 @@
 \section{I middleware}
-Un middleware è un insieme di strumenti di supporto all'utente/sviluppatore
-per meglio poter arontare la complessità di un sistema in ambienti aperti
-(eterogenei ). Un middleware permette quindi di integrare diverse applicazioni,
+Un middleware è un insieme di strumenti di supporto all'utente/sviluppatore per meglio poter affrontare la complessità 
+d un sistema in ambienti aperti (eterogenei). Un middleware permette quindi di integrare diverse applicazioni,
 fornendo un supporto alla comunicazione fra sistemi diversi.
-Un middleware mette a disposzione delle risorse per l'utente (ottica B2C),
-ma anche componenti reintegrabili in altre applicazioni (ottica B2B).
-Qual'` il problema dell'eterogeneità? Si può risolvere con approcci ad-hoc,
-ma ciò risulta in sistemi non portabili. Quello che si vuole quindi realizzare è un
-supporto per cui un client e un server, di ambienti diversi, riescano comunque
-a comunicare!
-Un middleware può fornire supporto a livelli diversi, sia a livello sico (replio
-cazione per esempio) che applicativo (proxy, . . . ): fornisce degli strumenti per
-l'utente in maniera che possa trascurare l'aspetto tecnologico, concentrandosi
-solo sul servizio da fornire: è quindi fondamentale per poter astrarre!
-Un middleware si pone come uno strato intermedio fra l'applicazione e le
-risorse di più basso livello (S.O., dischi, . . . ): si possono inserire diverse funzionu
-alità (non solo comunicazione), come per esempio un supporto alla trasparenza
-(non importa il livello sottostante, le API del middleware fanno in modo che
-il comportamento sia sempre il medesimo!). Quindi, un middleware non solo
-semplica l'aspetto dell'applicazione, ma anche quello di supporto del sistema
-distribuito!22
-Spesso un middleware viene addottato per la sua capacità di gestire uno o più
-sistemi legacy fondamentali per l'azienda, che altrimenti sarebbero intrattabili
-(evoluzione dei sistemi, e perdita di conoscenza). Fondamentalmente, nel caso
-aziendale, il compito di un middleware è l'integrazione di risorse aziendali !
-In ambito accademico, invece, in generale un middleware viene proposto da
-una comunità per risolvere diversi problemi ed essere introdotto come standard.
-Questo spesso può risultare problematico perché i diversi standard non sono
-interoperabili fra di loro! Esistono diversi dialetti/linguaggi per realizzare la
-comunicazione, che sono uno incompatibile con quell'altro.
+Un middleware mette a disposzione delle risorse per l'utente (ottica B2C), ma anche componenti reintegrabili in altre
+applicazioni (ottica B2B).
+Qual è il problema dell'eterogeneità? Si può risolvere con approcci ad-hoc, ma ciò risulta in sistemi non portabili.
+Quello che si vuole quindi realizzare è un supporto per cui un client e un server, di ambienti diversi, riescano
+comunque a comunicare!
+Un middleware può fornire supporto a livelli diversi, sia a livello fisico (replicazione per esempio) che applicativo
+(proxy...): fornisce degli strumenti per l'utente in maniera che possa trascurare l'aspetto tecnologico, 
+concentrandosi solo sul servizio da fornire: è quindi fondamentale per poter astrarre!
+Un middleware si pone come uno strato intermedio fra l'applicazione e le risorse di più basso livello 
+(S.O., dischi...): si possono inserire diverse funzionalità (non solo comunicazione), come per esempio un supporto 
+alla trasparenza (non importa il livello sottostante, le API del middleware fanno in modo che il comportamento sia
+sempre il medesimo!). Quindi, un middleware non solo semplica l'aspetto dell'applicazione, ma anche quello di supporto
+del sistema distribuito!\footnote{Ma in un sistema distribuito, dove si pone il middleware? Dipende! Certi middleware
+devono avere risorse su ogni nodo, altri no... In ogni caso, ogni nodo dell'architettura può essere target}
+Spesso un middleware viene addottato per la sua capacità di gestire uno o più sistemi legacy fondamentali per 
+l'azienda, che altrimenti sarebbero intrattabili (evoluzione dei sistemi, e perdita di conoscenza). Fondamentalmente,
+nel caso aziendale, il compito di un middleware è l'integrazione di risorse aziendali!
+In ambito accademico, invece, in generale un middleware viene proposto da una comunità per risolvere diversi problemi 
+ed essere introdotto come standard.
+Questo spesso può risultare problematico perché i diversi standard non sono interoperabili fra di loro! Esistono 
+diversi dialetti/linguaggi per realizzare la comunicazione, che sono uno incompatibile con quell'altro.
 \subsection{Valutare un middleware}
 Un middleware viene giudicato dalla ricchezza di funzionalità che sono messe a
 disposizione, e quindi dalle aree in cui riesce ad intervenire. Esistono diverse
-aree di gestione (Presentation, Computation, Information [loggin i.e.], Communication, Control [thread i.e.] e System
+aree di gestione (Presentation, Computation, Information [loggMa in un sistema distribuito, dove si pone il middleware?
+Dipende! Certi middleware
+devono avere risorse su ogni nodo, altri no. . . In ogni caso, ogni nodo dell'architettura possono
+essere targetMa in un sistema distribuito, dove si pone il middleware?
+Dipende! Certi middleware
+devono avere risorse su ogni nodo, altri no. . . In ogni caso, ogni nodo dell'architettura possono
+essere targetin i.e.], Communication, Control [thread i.e.] e System
 [sicurezza i.e.]): alcune di queste sono
 fondamentali per un middleware (senza, non lo sarebbe), altre rappresentano
 un valore aggiunto.
-22 Ma in un sistema distribuito, dove si pone il middleware? Dipende! Certi middleware
-devono avere risorse su ogni nodo, altri no. . . In ogni caso, ogni nodo dell'architettura possono
-essere target
-51
 In generale si possono dividere in 4 livelli le tipologie possibili di un servizio
 per il middleware:
 $\bullet$ Host infrastructure middleware: si tratta del livello più basso, il più viciu
