@@ -204,68 +204,48 @@ Gerlenter, con Linda, presenta due diversi modelli:
  \item \textit{A matrice}: le out vengono eseguite sulle righe, mentre le in si fanno sulle colonne.
 \end{itemize}
 \subsection{Modelli a contenimento}
-Si tratta di supporti presenti in ogni middleware: sono funzionalità che aga
-gregano diverse attività utili, che si possono replicare. In questo modo, uno
-sviluppatore si concentra soltanto sullo sviluppo della business logic vera e
-propria, utilizzando le politiche di default fornite dal middleware per quanto
-riguarda il supporto al tempo di vita, il gestore della concorrenza, fornire la
-QoS, sistemi di nomi. . . Fondamentalmente, un container è un delegato che si
+Si tratta di supporti presenti in ogni middleware: sono funzionalità che aggregano diverse attività utili, che si
+possono replicare. In questo modo, uno sviluppatore si concentra soltanto sullo sviluppo della business logic vera e
+propria, utilizzando le politiche di default fornite dal middleware per quanto riguarda il supporto al tempo di vita,
+il gestore della concorrenza, fornire la QoS, sistemi di nomi... Fondamentalmente, un container è un delegato che si
 comporta come supervisore di certe attività.
 \subsection{Il problema della trasparenza}
 Esistono diversi signicati per la trasparenza: per esempio, si intende per l'allocazione l'indipendenza dalla località
-delle risorse. In generale, per trasparenza si
-intende un sistema in grado di fornire all'utente finale un comportamento omogeneo, anche se ai livelli sottostanti sta
-lavorando con oggetti/servizi diversi
-(remoti/locali, server principale/copia, . . . ).
-11
-Non è sempre un elemento positivo, perché in molti casi i sistemi son così
-\i{}
-complessi, che non si possono gestire in maniera totalmente trasparente: si
-richiede l'intervento dell'utente. Un esempio è nella trasparenza dell'allocazione:
-se non sappiamo dove si trova l'utente, come facciamo a dargli il servizio desiderato? La trasparenza non è corretta a
-livello di infrastruttura in questo caso;
-l'utente infatti è sempre più coinvolto.
-Per esempio, TINA-C2 prevede sia un sistema trasparente, che un sistema
-non trasparente in cui si possano definire le risorse inizialmente, e quindi introdurre la trasparenza.
+delle risorse. In generale, per trasparenza si intende un sistema in grado di fornire all'utente finale un comportamento
+omogeneo, anche se ai livelli sottostanti sta lavorando con oggetti/servizi diversi (remoti/locali, server
+principale/copia...).
+Non è sempre un elemento positivo, perché in molti casi i sistemi son così complessi, che non si possono gestire in
+maniera totalmente trasparente: si richiede l'intervento dell'utente. Un esempio è nella trasparenza dell'allocazione:
+se non sappiamo dove si trova l'utente, come facciamo a dargli il servizio desiderato? La trasparenza non è corretta 
+a livello di infrastruttura in questo caso; l'utente infatti è sempre più coinvolto.
+Per esempio, TINA-C\footnote{Si tratta di un consorzio di aziende per le telecomunicazioni, con l'obiettivo di andare
+oltre OSI: l'idea è quella di immaginare anche i possibili servizi, fornendo un modello più coordinato, e
+un'infrastruttura con molti provider: si definisce un accordo/negoziazione fra i fornitori dei servizi e i clienti, 
+per poter per esempio stabilire la QoS, e quindi si fornisce il servizio con i parametri indicati} prevede sia un
+sistema trasparente, che un sistema non trasparente in cui si possano definire le risorse inizialmente, e quindi
+introdurre la trasparenza.
 \subsection{Le macchine astratte}
-Son stati sviluppati diversi modelli per l'esecuzione, ma alla base vi è la Rane
-dom Access Machine: è una macchina special purpose, con codice inalterabile,
-in grado di eseguire istruzioni in sequenza (tutte le istruzioni hanno la stessa
-durata), memoria limitata e un sistema di input e uno di output.
-Un primo modello per la comunicazione è la Parallel RAM, in cui simmagina
-diversi programmi da eseguire contemporaneamente. Una PRAM è costituita
-quindi da P macchina RAM, ognuna delle quali esegue un programma, e ad ogni
-clock vengono eseguite P istruzioni. Alla base vi è una memoria condivisa, per
-tutte le macchine, dove scrivere e leggere i risultati (anche i dispositivi di I/O
-sono unici per tutte le macchine). Si tratta di un modello MIMD sincrono, per
-cui quando tutti i programmi niscono, anche la macchina termina. Essendo
-dotata di un'unica memoria, come devino essere strutturate le operazioni? La
-concorrenza è un requisito difficile da realizzare, in confronto al mettere le opere
-azioni in sequenza. Le diverse PRAM si possono quindi categorizzare a seconda
-della tipologia delle operazioni (in generale si hanno letture concorrenti e scritture sequenziali; la concorrenza è
-invece utilizzata per il sistema di I/O, per
-limitarne il collo di bottiglia). Un PRAM è difficile da realizzare perché non è
-scalabile.
-Un secondo modello è il Message Passing RAM, che è sempre una collezione
-di RAM, ma ognuna con la sua memoria dedicata (i sistemi di I/O son sempre
-condivisi). Si ha quindi che le diverse macchine comunicano mediante dei canali
-prestabiliti (vi devono essere almeno P-1 connessioni). Si hanno istruzioni ad
-hoc, cioè delle send e receive con rendez-vous, una semantica sincrona: questo
-vuol dire che un'operazione sblocca la sua duale. Una MP-RAM è più facilmente
-e u
-realizzabile, e rappresenta meglio un modello locale. Se per esempio si volesse
-eseguire un broadcast, servono almeno P-1 istruzioni, mentre una PRAM, per
-quanto più difficile da realizzare, richiederebbe una sola operazione: è un modu
-ello con maggiore capacità espressiva. Restano comunque entrambi dei modelli
-troppo astratti per poter essere implementati realmente. Aggiungendo vincoli
-2 Si tratta di un consorzio di aziende per le telecomunicazioni, con l'obiettivo di andare
-oltre OSI: l'idea è quella di immaginare anche i possibili servizi, fornendo un modello più
-coordinato, e un'infrastruttura con molti provider: si definisce un accordo/negoziazione fra i
-fornitori dei servizi e i clienti, per poter per esempio stabilire la QoS, e quindi si fornisce il
-servizio con i parametri indicati
-12
-e limitandoci quindi ad un'ipotesi di località, il progetto risulta più facilmente
-realizzabile.
+Son stati sviluppati diversi modelli per l'esecuzione, ma alla base vi è la Random Access Machine: è una macchina
+special purpose, con codice inalterabile, in grado di eseguire istruzioni in sequenza (tutte le istruzioni hanno la
+stessa durata), memoria limitata e un sistema di input e uno di output.
+Un primo modello per la comunicazione è la Parallel RAM, in cui si immagina diversi programmi da eseguire
+contemporaneamente. Una PRAM è costituita quindi da P macchine RAM, ognuna delle quali esegue un programma, e ad ogni
+clock vengono eseguite P istruzioni. Alla base vi è una memoria condivisa, per tutte le macchine, dove scrivere e
+leggere i risultati (anche i dispositivi di I/O sono unici per tutte le macchine). Si tratta di un modello MIMD
+sincrono, per cui quando tutti i programmi finiscono, anche la macchina termina. Essendo dotata di un'unica memoria,
+come devono essere strutturate le operazioni? La concorrenza è un requisito difficile da realizzare, in confronto al
+mettere le operazioni in sequenza. Le diverse PRAM si possono quindi categorizzare a seconda della tipologia delle
+operazioni (in generale si hanno letture concorrenti e scritture sequenziali; la concorrenza è invece utilizzata per 
+il sistema di I/O, per limitarne il collo di bottiglia). Un PRAM è difficile da realizzare perché non è scalabile.
+Un secondo modello è il Message Passing RAM, che è sempre una collezione di RAM, ma ognuna con la sua memoria dedicata
+(i sistemi di I/O son sempre condivisi). Si ha quindi che le diverse macchine comunicano mediante dei canali
+prestabiliti (vi devono essere almeno P-1 connessioni). Si hanno istruzioni ad hoc, cioè delle send e receive con
+rendez-vous, una semantica sincrona: questo vuol dire che un'operazione sblocca la sua duale. Una MP-RAM è più
+facilmente realizzabile, e rappresenta meglio un modello locale. Se per esempio si volesse eseguire un broadcast,
+servono almeno P-1 istruzioni, mentre una PRAM, per quanto più difficile da realizzare, richiederebbe una sola
+operazione: è un modello con maggiore capacità espressiva. Restano comunque entrambi dei modelli troppo astratti per
+poter essere implementati realmente. Aggiungendo vincoli e limitandoci quindi ad un'ipotesi di località, il progetto
+risulta più facilmente realizzabile.
 \subsection{Indicatori dell'efficienza}
 In generale, ci si limita alla complessità temporale, TP (N ), dove P è il numero
 di processori considerati: se è pari ad 1, siamo in un ambiente sequenziale.
