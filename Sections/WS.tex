@@ -1,89 +1,63 @@
 \section{I Web Services}
-L'idea alla base dei Web Services è quella di fornire dei servizi B2B invece dei
-classici servizi Web. La logica è che il Web è l'installato più diffuso e facilmente
-accedibile al mondo, perché non sfruttarlo?
-Si ha infatti che molti mw richiedono configurazioni che vanno per esempio
-contro certi principi delle aziende (aperture di ulteriori porte verso l'esterno),
-aggiungendo dei vincoli organizzativi che possono renderne l'applicazione ancora
-più complessa.
-Con i Web Services si vuole sviluppare un sistema assolutamente standard
-(basandosi su XML per descrivere i servizi, per fornire le risposte, . . . ), in grado quindi di superare in maniera
-facile l'eterogeneità (utilizzo di sistemi solo
-standard). Gli obiettivi sono quindi quelli di realizzare delle Service Oriented
-Application (mappando l'interfaccia di interazione ad alto livello) o delle Enterprise Application Integration,come SAP,
-ovvero un sistema in grado di integrare
-anche sistemi legacy.
-Perché allora non usare sempre il web, perché esistono anche altri mw ancoe
-ra? Il problema è che il Web ha un costo molto elevato, per cui potrebbe essere
-utile per sistemi che richiedono una grana molto grossa.
+L'idea alla base dei Web Services è quella di fornire dei servizi B2B invece dei classici servizi Web. La logica è che
+il Web è l'installato più diffuso e facilmente accedibile al mondo, perché non sfruttarlo?
+Si ha infatti che molti mw richiedono configurazioni che vanno per esempio contro certi principi delle aziende 
+(aperture di ulteriori porte verso l'esterno), aggiungendo dei vincoli organizzativi che possono renderne 
+l'applicazione ancora più complessa.
+Con i Web Services si vuole sviluppare un sistema assolutamente standard (basandosi su XML per descrivere i servizi, 
+per fornire le risposte...), in grado quindi di superare in maniera facile l'eterogeneità (utilizzo di sistemi solo
+standard). Gli obiettivi sono quindi quelli di realizzare delle \textit{Service Oriented Application} (mappando
+l'interfaccia di interazione ad alto livello) o delle Enterprise Application Integration, come SAP, ovvero un sistema
+in grado di integrare anche sistemi legacy.
+Perché allora non usare sempre il Web, perché esistono anche altri mw ancora? Il problema è che il Web ha un costo 
+molto elevato, per cui potrebbe essere utile per sistemi che richiedono una grana molto grossa.
 \subsection{Struttura generale de WS}
-Un WS funziona mediante l'emissione da parte di un client di una richiesta,
-per cui si ricerca attravero un apposito broker (ma è una struttura diversa
-38 Server
-può anche interrogare il client prima di deallocare la risorsa
-80
-dall'ORB di CORBA: funziona soprattutto come un directory per i servizi ) il
+Un WS funziona mediante l'emissione da parte di un client di una richiesta, per cui si ricerca attravero un apposito
+broker (ma è una struttura diversa dall'ORB di CORBA: funziona soprattutto come un directory per i servizi) il
 servizio adatto a soddisfare quella determinata richiesta.
-L'idea è che quindi vi siano diversi provider in grado di servire i servizi
-richiesti. Per realizzare ciò, sono stati realizzati diversi protocolli standard :
-$\bullet$ SOAP : Simple Object Access Protocol, consiste nel protocollo per poter
-eseguire le richieste e ricevere le risposte, ed è ovviamente XML compatie
-bile.
-$\bullet$ WSDL: Web Service Description Language è il linguaggio basato su XML
-per poter definire dei WS.
-$\bullet$ UDDI : Universal Discovery Distribution Integration: questo invece è il
-protocollo che specifica come i servizi si possano raccogliere in appositi
-contenitori, realizzando un apposito sistema di nomi.
-I servizi sono definiti one-shot, il che significa che sono eseguiti in maniera unica,
-isolata! Per ogni richiesta, si attiva un solo servizio. Siamo quindi in presenza
-di un mw senza stato. Questo è sempre dovuto al fatto che si deve lavorare con
-dati a grana molto grossa, che auto-contiene l'interazione: non si assume che il
-provider abbia stato!
-Nelle prime implementazioni dei WS non erano previsti meccanismi per la
-sicurezza, il management e la QoS. Si aveva quindi, per esempio, solo crittograa
-a livello applicativo, il che però non era un sistema standard!
-Perché si è deciso di utilizzare XML? Permette di specificare in una maniera
-e e
-fortemente strutturata (realizzando dati che si possono validare formalmente, e
-utilizzando DTD/XSD si possono anche controllare dal punto di vista sintatticosemantico), potendo quindi esprimere le
-preferenze in maniera dinamica!
+L'idea è che quindi vi siano diversi provider in grado di servire i servizi richiesti. Per realizzare ciò, sono stati
+realizzati diversi protocolli standard:
+\begin{itemize}
+ \item \textit{SOAP}: Simple Object Access Protocol, consiste nel protocollo per poter eseguire le richieste e ricevere
+ le risposte, ed è ovviamente XML compatibile.
+ \item \textit{WSDL}: Web Service Description Language è il linguaggio basato su XML per poter definire dei WS.
+ \item \textit{UDDI}: Universal Discovery Distribution Integration: questo invece è il protocollo che specifica come i
+ servizi si possano raccogliere in appositi contenitori, realizzando un apposito sistema di nomi.
+\end{itemize}
+I servizi sono definiti one-shot, il che significa che sono eseguiti in maniera unica, isolata! Per ogni richiesta, si
+attiva un solo servizio. Siamo quindi in presenza di un mw senza stato. Questo è sempre dovuto al fatto che si deve
+lavorare con dati a grana molto grossa, che auto-contiene l'interazione: non si assume che il provider abbia stato!
+Nelle prime implementazioni dei WS non erano previsti meccanismi per la sicurezza, il management e la QoS. Si aveva
+quindi, per esempio, solo crittografia a livello applicativo, il che però non era un sistema standard!
+Perché si è deciso di utilizzare XML? Permette di specificare in una maniera fortemente strutturata (realizzando dati
+che si possono validare formalmente, e utilizzando DTD/XSD si possono anche controllare dal punto di vista
+sintatticosemantico), potendo quindi esprimere le preferenze in maniera dinamica!
 \subsection{SOAP}
-`
-E il protocollo per la comunicazione, in grado quindi di strutturare l'interazione.
-Denisce quindi come si può accedere agli oggetti. Presenta un alto overhead
-perché si deve specificar tutto: siamo infatti in un'interazione senza stato, per
-cui si deve specificare URI, . . . Non vi è quindi nessun supporto semantico, e vi
-possono essere più interazioni.
-SOAP quindi permette di definire operazioni, dati e parametri. Sfrutta
-HTTP come protocollo per la trasmissione, e XML per poter serializzare i dati.
-In questo modo, si possono definire operazioni remote sfruttando l'XML: un
-servitore riceve una richiesta standard, e la sua implementazione non interessa i
-WS. Un provider dovrà soltanto rispondere rispettando la specifica fornita con
-SOAP!
-SOAP quindi permette di descrivere l'interazione ma non solo: possiamo
-avere operazioni senza risultati, o in grado emulare il comportamento C/S39 ,
-39 Al posto delle RPC, si può definire che la comunicazione avviene con uno stile di tipo
-documento, per cui non si ha mai risposta, sempre asincrona
-81
-`
-ma possiamo anche quindi definire se si utilizza GET o POST per esempio. E
-un protocollo state-less, che non fornisce quindi informazioni semantiche sulla
-comunicazione. Non è vero che si parla di operazioni leggere e essibili, ma
-anche abbastanza pesanti alle volte.
+È il protocollo per la comunicazione, in grado quindi di strutturare l'interazione.
+Definisce quindi come si può accedere agli oggetti. Presenta un alto overhead perché si deve specificar tutto: siamo
+infatti in un'interazione senza stato, per cui si deve specificare URI... Non vi è quindi nessun supporto semantico,
+e vi possono essere più interazioni.
+SOAP quindi permette di definire operazioni, dati e parametri. Sfrutta HTTP come protocollo per la trasmissione, e XML
+per poter serializzare i dati.
+In questo modo, si possono definire operazioni remote sfruttando l'XML: un servitore riceve una richiesta standard, e 
+la sua implementazione non interessa i WS. Un provider dovrà soltanto rispondere rispettando la specifica fornita con
+SOAP! SOAP quindi permette di descrivere l'interazione ma non solo: possiamo avere operazioni senza risultati, o in
+grado emulare il comportamento C/S\footnote{Al posto delle RPC, si può definire che la comunicazione avviene con uno
+stile di tipo documento, per cui non si ha mai risposta, sempre asincrona}, ma possiamo anche quindi definire se si
+utilizza GET o POST per esempio. E un protocollo \textit{stateless}, che non fornisce quindi informazioni semantiche
+sulla comunicazione. Non è vero che si parla di operazioni leggere e flessibili, ma anche abbastanza pesanti alle volte.
 SOAP si basa sull'idea di incapsulare mediante XML le informazioni necessarie alla comunicazione, come se fosse
 un'envelope:
-$\bullet$ Il body contiene le informazioni richieste per la comunicazione, cioè il
-contenuto vero e proprio del messaggio, e le corrispondenti risposte.
-$\bullet$ L'header specifica altre informazioni utili per la comunicazione (es, per la
-sicurezza)
-$\bullet$ Si può anche definire una sezione di fault, nel caso che l'operazione non
-avesse avuto successo.
-La comunicazione non è necessariamente P2P ma anche molti a molti. Il problee
-ma di SOAP è che è altamente costoso (e poco efficiente), perché siamo costretti
-a lavorare a livello applicativo.
+\begin{itemize}
+ \item Il body contiene le informazioni richieste per la comunicazione, cioè il contenuto vero e proprio del 
+ messaggio, e le corrispondenti risposte.
+ \item L'header specifica altre informazioni utili per la comunicazione (es, per la sicurezza)
+ \item Si può anche definire una sezione di fault, nel caso che l'operazione non avesse avuto successo.
+\end{itemize}
+La comunicazione non è necessariamente P2P ma anche molti a molti. Il problema di SOAP è che è altamente costoso (e 
+poco efficiente), perché siamo costretti a lavorare a livello applicativo.
 \subsection{WSDL}
-`
-E il linguaggio per descrivere sia in maniera astratta che in maniera concreta
+È il linguaggio per descrivere sia in maniera astratta che in maniera concreta
 quali servizi un provider può fornire. Descrive quindi l'interfaccia, indicando le
 `
 operazioni disponibili presso un certo provider. E una sorta di IDL. Quindi,
@@ -103,7 +77,7 @@ messaggi), e le interfacce del servizio (insieme di operazioni)) e una più conc
 ta, a basso livello (in grado di definire i tipi, come il servizio si lega realmente
 ad un sistema, alle sue implementazioni concrete, detto binding (che protocollo
 si usa? HTTP, TCP,. . . ), su quali nodi risiede e i service, ovvero le implementazioni delle interfacce disponbili. La
-parte astratta è essibile, generalizzabile
+parte astratta è flessibile, generalizzabile
 e facilmente estendibile.
 WSDL prevede diversi modi di interazione! Non solo più modi sincroni (con
 attesa di messaggio o sollecitazione da parte del client) ma anche asincroni (one-
