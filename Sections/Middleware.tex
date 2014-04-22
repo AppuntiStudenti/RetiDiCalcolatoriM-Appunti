@@ -215,46 +215,38 @@ i diversi pattern che si possono utilizzare per risolvere questo problema:
 \end{itemize}
 \subsection{Pattern per la comunicazione}
 Di base, i mw ad oggetti tendono ad introdurre come primo modello di comunicazione l'interazione sincrona bloccante.
-Tuttavia, questa comunicazione è
-alquanto pesante, perché lega in maniera pesante il client al server e viceversa.
+Tuttavia, questa comunicazione è alquanto pesante, perché lega in maniera pesante il client al server e viceversa.
 Per questo vi sono dei pattern per introdurre altri modelli.
 Per ottenere una comunicazione asincrona, si possono usare:
-$\bullet$ Il Fire and Forget: il client richiama l'operazione, e quindi rinuncia ad
-avere qualunque informazione sul successo dell'operazione. Si ha quindi
-un'attesa minimale, per cui il client ottiene immediatamente il controllo
-appena inviata la richiesta per poter eseguire l'operazione. L'idea è quella
-di usare un proxy (anche un thread quindi) dal lato del client che si preoccupi di gestire il controllo dell'operazione
-remota. Non è garantito però
-che l'operazione non sia bloccante: il proxy in generale serve le richieste
-usando una coda da cui servirsi, e se la coda fosse piena il client dovrebbe
-attendere. Non è presente in tutti i mw ad oggetti.
-$\bullet$ Catch and return: il client attende più a lungo rispetto al caso precedente,
-ma in questo modello deve attendere che sia il server stub a generare un
-processo per risolvere la richiesta, e che quindi faccia return. Dipende
-quindi anche dal tempo di comunicazione dei nodi! Questo modello è
-spesso presente, perché permette di realizzare un'operazione asincrona
-più garantita, ovvero fornisce una maggiore sicurezza sulla consegna della
-richiesta!
+\begin{itemize}
+ \item Il \textit{Fire and Forget}: il client richiama l'operazione, e quindi rinuncia ad avere qualunque informazione
+ sul successo dell'operazione. Si ha quindi un'attesa minimale, per cui il client ottiene immediatamente il controllo
+ appena inviata la richiesta per poter eseguire l'operazione. L'idea è quella di usare un proxy (anche un thread quindi)
+ dal lato del client che si preoccupi di gestire il controllo dell'operazione remota. Non è garantito però che
+ l'operazione non sia bloccante: il proxy in generale serve le richieste usando una coda da cui servirsi, e se la coda
+ fosse piena il client dovrebbe attendere. Non è presente in tutti i mw ad oggetti.
+ \item \textit{Catch and return}: il client attende più a lungo rispetto al caso precedente, ma in questo modello deve
+ attendere che sia il server stub a generare un processo per risolvere la richiesta, e che quindi faccia return. Dipende
+ quindi anche dal tempo di comunicazione dei nodi! Questo modello è spesso presente, perché permette di realizzare
+ un'operazione asincrona più garantita, ovvero fornisce una maggiore sicurezza sulla consegna della richiesta!
+\end{itemize}
 Invece, per realizzare una comunicazione sincrona non bloccante:
-$\bullet$ Poll Object: il client non resta in attesa ma vuole comunque il risultato.
-Si fa allora attendere un oggetto al suo posto, che viene interrogato di
-tanto in tanto dal client (che è sbloccato, e quindi può proseguire). Una
-volta che il risultato è disponibile sull'oggetto poll, il client si preoccupa
-di recuperarlo.
-In generale, un oggetto poll è un oggetto semplice ritagliato su quello
-specifico risultato, e quindi non è generalizzato. Il mw si preoccupa di
-crearlo in maniera automatica. Come si potrebbe però gestire il risultato
-per più clienti (utilizzo della trasparenza, servizi di multicast?) oppure
-più interazioni (tanti poll object)?
-$\bullet$ Call-back Object: è comunque presente un intermediario, ma si può ine
-serire logica in questo oggetto! Il client infatti può specificarlo, e una
-volta che ha ottenuto il risultato è l'oggetto stesso ad avvertire il client,
-fornendogli il risultato! Questo sistema è sicuramente più complesso e non
-gestibile direttamente in maniera automatica da un mw, però fornisce un
-disaccoppiamento maggiore rispetto al poll object! Si può infatti inserire
-un qualunque comportamento in questo oggetto.
+\begin{itemize}
+ \item \textit{Poll Object}: il client non resta in attesa ma vuole comunque il risultato.
+ Si fa allora attendere un oggetto al suo posto, che viene interrogato di tanto in tanto dal client (che è sbloccato, 
+ e quindi può proseguire). Una volta che il risultato è disponibile sull'oggetto poll, il client si preoccupa di
+ recuperarlo.
+ In generale, un oggetto poll è un oggetto semplice ritagliato su quello specifico risultato, e quindi non è
+ generalizzato. Il mw si preoccupa di crearlo in maniera automatica. Come si potrebbe però gestire il risultato per
+ più clienti (utilizzo della trasparenza, servizi di multicast?) oppure più interazioni (tanti poll object)?
+ \item \textit{Call-back Object}: è comunque presente un intermediario, ma si può inserire logica in questo oggetto!
+ Il client infatti può specificarlo, e una volta che ha ottenuto il risultato è l'oggetto stesso ad avvertire il 
+ client, fornendogli il risultato! Questo sistema è sicuramente più complesso e non gestibile direttamente in maniera
+ automatica da un mw, però fornisce un disaccoppiamento maggiore rispetto al poll object! Si può infatti inserire
+ un qualunque comportamento in questo oggetto.
+\end{itemize}
 Questi ultimi due modelli son presenti in CORBA, .NET e diversi altri mw.
-58
+
 \subsection{Pattern per la gestione delle risorse e dei servizi}
 Spesso questi pattern rappresentano politiche possibili per il deployment e o la
 configurazione dei vari servizi. I mw possono prevederne più di uno, a seconda
