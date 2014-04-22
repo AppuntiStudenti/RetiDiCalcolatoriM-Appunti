@@ -339,39 +339,31 @@ ma se un frame non arriva si sfrutta UDP proprio perché non garantisce che i me
 push, in cui le informazioni arrivano dal server. Questo è un protocollo dal costo minimo, proprio perché non riserva
 nulla: lavora solo sugli end-point. E sempre possibile comunque tornare a RSVP nel caso non fosse sufficiente.
 \subsection{Servizi differenziati, RFC 2474}
-L'approccio a servizi differenziati consiste nel cercare di fornire QoS non a livello
-applicativo, ma a livello di rete. Facendo ciò, in realtà, si ha che si sono definiti
-molti meno protocolli rispetto ai servizi integrati (risultando essere inoltre molto
-più scalabili). I servizi differenziati sono studiati per supportare le applicazioni
-legacy e per domini specici (comunità di utenti). L'idea è quella che si devono
-aggreggare i flussi in diverse categorie, e a seconda delle categorie si definisce la
-QoS. Un pacchetto viene quindi classicato dal router in base al suo contenuto,
-e viene associato ad una possibile classe, e quindi ad un possibile trattamento.
-Si ha che quindi l'SLA è stipulato sulla classicazione dei flussi, e le garanzie
-vengono fornite dalle politiche implementate dai router (la politica è concordata
-solo fra l'utente e il server).
+L'approccio a servizi differenziati consiste nel cercare di fornire QoS non a livello applicativo, ma a livello di 
+rete. Facendo ciò, in realtà, si ha che si sono definiti molti meno protocolli rispetto ai servizi integrati 
+(risultando essere inoltre molto più scalabili). I servizi differenziati sono studiati per supportare le applicazioni
+legacy e per domini specici (comunità di utenti). L'idea è quella che si devono aggreggare i flussi in diverse
+categorie, e a seconda delle categorie si definisce la QoS. Un pacchetto viene quindi classificato dal router in base al
+suo contenuto, e viene associato ad una possibile classe, e quindi ad un possibile trattamento.
+Si ha che quindi l'SLA è stipulato sulla classicazione dei flussi, e le garanzie vengono fornite dalle politiche
+implementate dai router (la politica è concordata solo fra l'utente e il server).
 Possibili esempi di servizio sono:
-$\bullet$ l'expedited forwarding, per cui ogni router dispone di due diverse code, per
-37
-cui si garantisce che almeno i pacchetti classicati come expedited saranno
-consegnati con la qualità calcolata. Si possono pesare utilizzando una fair
-queuing pesata.
-$\bullet$ l'assured forwarding, in cui i pacchetti sono marcati a seconda della possibile congestione.
-Vi è però un problema: come si possono definire queste classi, nel protocollo
-IPv4 non vi è possibilità. L'idea migliore sarebbe quella di passare ad IPv6, che
-grazie a 128 bit contro 32, garantisce la presenza di ancora molti nomi, ove è
-presente un apposito campo dove si può classificare il singolo pacchetto!
-IPv6 è stato pensato per essere compatibile con IPv4, ma gestisce gli ine
-dirizzi in maniera diversa (il broadcast è stato eliminato, divenendo in realtà
-multicast; sono stati aggiunti il P2P e l'anycast14 , ed è in grado di fornire un
-suo supporto alla replicazione! IPv6 in particolare semplica l'header, facendo
-in modo di puntare altri header per poterlo estendere! Un'altra caratteristica
-è che IPv6 è stato progettato per essere mobile, ovvero: un indirizzo di questo
-tipo si può spostare senza problema da una rete a quell'altra, grazie al fatto che
-lo si memorizza in un'apposita struttura. IPv6 in realtà è stato studiato per
-a e
-essere di supporto anche ai servizi integrati, quindi potrebbe essere un'ottima
-estensione per Internet.
-Oltre a questi approcci, si sta cercando di sviluppare dei sistemi in grado
-di far convivere (in maniera competitiva) servizi integrati e differenziati, per
-cercare di sfruttare i vantaggi di entrambi.
+\begin{itemize}
+ \item l'\textit{expedited forwarding}, per cui ogni router dispone di due diverse code, per cui si garantisce che
+ almeno i pacchetti classificati come expedited saranno consegnati con la qualità calcolata. Si possono pesare
+ utilizzando una fair queuing pesata.
+ \item l'\textit{assured forwarding}, in cui i pacchetti sono marcati a seconda della possibile congestione.
+\end{itemize}
+Vi è però un problema: come si possono definire queste classi, nel protocollo IPv4 non vi è possibilità. L'idea 
+migliore sarebbe quella di passare ad IPv6, che grazie a 128 bit contro 32, garantisce la presenza di ancora molti 
+nomi, ove è presente un apposito campo dove si può classificare il singolo pacchetto!
+IPv6 è stato pensato per essere compatibile con IPv4, ma gestisce gli indirizzi in maniera diversa (il broadcast è 
+stato eliminato, divenendo in realtà multicast; sono stati aggiunti il P2P e l'anycast\footnote{Obiettivo: raggiungere
+un qualunque indirizzo della classe specificata, che sia il più vicino o il più comodo}, ed è in grado di fornire un
+suo supporto alla replicazione! IPv6 in particolare semplica l'header, facendo in modo di puntare altri header per
+poterlo estendere! Un'altra caratteristica è che IPv6 è stato progettato per essere mobile, ovvero: un indirizzo di
+questo tipo si può spostare senza problema da una rete a quell'altra, grazie al fatto che lo si memorizza in 
+un'apposita struttura. IPv6 in realtà è stato studiato per essere di supporto anche ai servizi integrati, quindi
+potrebbe essere un'ottima estensione per Internet.
+Oltre a questi approcci, si sta cercando di sviluppare dei sistemi in grado di far convivere (in maniera competitiva)
+servizi integrati e differenziati, per cercare di sfruttare i vantaggi di entrambi.
