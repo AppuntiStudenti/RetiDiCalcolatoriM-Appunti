@@ -24,7 +24,7 @@ Windows fa un uso pesante del modello ad eventi (il sistema graco fa un
 buon match con ciò). Si tratta di un modello fortemente push (all'epoca era
 anche l'unico modello esistente per lavorare quando non si avevano ancora i
 processi). Gli eventi vengono usati ancora anche a livello applicativo: a livelli
-inferiori risultano essere molto più essibili, sfruttando il modello a call-back:
+inferiori risultano essere molto più flessibili, sfruttando il modello a call-back:
 l'applicazione fornisce un handler/funzione da richiamare nel caso si presenti
 l'evento alla DLL opportuna34 . L'evento è lanciato da una qualunque intere
 azione dell'utente o presso una periferica esterna, e viene lanciato a tutti quelli
@@ -330,7 +330,8 @@ del tutto simile a CORBA!
 L'attivazione a chi tocca? Non son presenti dei POA come in CORBA,
 quindi si potrebbe prima di tutto pensare ad un'attivazione da parte del cliente
 (esistono meccanismi per fare il lease, e quindi mantenere il collegamento con il
-server oltre al tempo specificato38 ). In questa maniera si può anche mantenere
+server oltre al tempo specificato\footnote{Server può anche interrogare il client prima di deallocare la risorsa}). In
+questa maniera si può anche mantenere
 uno stato.
 Gli oggetti remoti possono anche essere attivati dai server, in due diversi
 modi:

@@ -16,7 +16,7 @@ l'esecuzione dell'applicazione stessa.
 Tipicamente, si ha già pensato a come realizzare il deployment delle risorse, alla
 loro allocazione, essendo l'approccio più semplice da gestire: questo però è un
 oe
-approccio poco essibile e dinamico.
+approccio poco flessibile e dinamico.
 Un esempio di sistema distribuito coordinato per le risorse potrebbe essere
 un File System distribuito: richiederebbe l'introduzione di agenti coordinati per
 gestirle (questi dovrebbero introdurre delle fasi di negoziazione, prima di poter
@@ -192,7 +192,7 @@ classificare come:
 $\bullet$ Statiche: sono molto facili da valutare, e risulta facile definire come trasferire
 (tipo, si decide che sono i processi nuovi a muoversi, fornendo però un rio
 schio di trashing). La locazione è statica, e anche se non risulta essere
-essibile, presenta un costo molto basso.
+flessibile, presenta un costo molto basso.
 $\bullet$ Semi-dinamiche: sono politiche più costose, perché dipendono dalla situu
 azione attuale. Si realizza una scelta ciclica dei processi e dei destinatari.
 Il carico è quindi dinamico.
@@ -247,7 +247,7 @@ sistemi sono in realtà dicilmente realizzabili, perché presentano grossi
 problemi di supporto.
 89
 $\bullet$ Debole: Si vincola invece la posizione in cui si può mettere la {`}move': tale
-sistema è meno essibile, ma maggiormente e facilmente gestibile.
+sistema è meno flessibile, ma maggiormente e facilmente gestibile.
 La differenza quindi è nella continuità della mobilità (o avviene sempre, oppure
 solo in certi momenti prestabiliti). Come risolvere la mobilità forte? L'idea è
 quella di realizzare un sistema a codice intermedio, potendo così fornire su ogni
