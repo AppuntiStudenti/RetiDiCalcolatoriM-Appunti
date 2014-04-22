@@ -185,31 +185,24 @@ modello si ha quindi un'interazione molti a molti, per cui si può facilmente ma
 eventi non sono persistenti, tuttavia non è l'unico modello possibile.
 \subsection{Spazi di tuple}
 Un modello che deriva dall'astrazione della memoria condivisa e della comunicazione, e che garantisce il
-disaccoppiamento fra le varie entità è lo spazio di
-a e
-`
-tuple. E un meccanismo generale per la comunicazione e la sincronizzazione, in
-cui si specifica uno spazio di informazioni fortemente tipato. (Una tipica informazione può essere $<$ mittente,
-destinatario, data $>$, per cui tutti i dati devono
-essere diversi perché possa essere inserita)
-Si hanno quindi due operazioni principali: la out consiste nell'inserire nello
-spazio delle tuple un nuovo messaggio, mentre la in (bloccante) estrae la prima
-tupla che fa match (in caso di più tuple che facciano match, è una scelta non
-deterministica). Ovviamente, si avrà sempre un numero inferiore di in rispetto
-alle out. Se la in è completamente specificata, si parla di sincronizzazione e non
-di comunicazione. Uno spazio di tuple permette anche l'introduzione di QoS,
-grazie alla persistenza della tupla nello spazio.
+disaccoppiamento fra le varie entità è lo spazio di tuple. È un meccanismo generale per la comunicazione e la
+sincronizzazione, in cui si specifica uno spazio di informazioni fortemente tipato. (Una tipica informazione può essere
+\texttt{<mittente, destinatario, data>}, per cui tutti i dati devono essere diversi perché possa essere inserita)
+Si hanno quindi due operazioni principali: la \textit{out} consiste nell'inserire nello spazio delle tuple un nuovo
+messaggio, mentre la \textit{in} (bloccante) estrae la prima tupla che fa match (in caso di più tuple che facciano
+match, è una scelta non deterministica). Ovviamente, si avrà sempre un numero inferiore di in rispetto alle out. Se 
+la in è \textit{completamente specificata}, si parla di sincronizzazione e non di comunicazione. Uno spazio di tuple
+permette anche l'introduzione di QoS, grazie alla persistenza della tupla nello spazio.
 Gerlenter, con Linda, presenta due diversi modelli:
-$\bullet$ A ring: si partiziona lo spazio delle tuple, per cui ogni nodo conosce
-precedente e successivo: si ha una conoscenza locale, quindi limitata. Un
-produttore può fare una out su un qualsiasi nodo, e il messaggio fa un
-ciclo per verificare che non sia già presente su un qualche nodo. Lo stesso
-discorso vale per la in, che fa un giro no a trovare un messaggio che fa
-match. In Linda sono state considerate ovviamente delle problematiche
-di replicazione (il messaggio deve essere ripetuto? Ma quindi lo si deve
-togliere da tutti i nodi che lo contengono), sfruttando gli hash dei messaggi
-$\bullet$ A matrice: le out vengono eseguite sulle righe, mentre le in si fanno sulle
-colonne.
+\begin{itemize}
+ \item \textit{A ring}: si partiziona lo spazio delle tuple, per cui ogni nodo conosce precedente e successivo: si ha
+ una conoscenza locale, quindi limitata. Un produttore può fare una out su un qualsiasi nodo, e il messaggio fa un
+ ciclo per verificare che non sia già presente su un qualche nodo. Lo stesso discorso vale per la in, che fa un giro
+ fino a trovare un messaggio che fa match. In Linda sono state considerate ovviamente delle problematiche di
+ replicazione (il messaggio deve essere ripetuto? Ma quindi lo si deve togliere da tutti i nodi che lo contengono),
+ sfruttando gli hash dei messaggi 
+ \item \textit{A matrice}: le out vengono eseguite sulle righe, mentre le in si fanno sulle colonne.
+\end{itemize}
 \subsection{Modelli a contenimento}
 Si tratta di supporti presenti in ogni middleware: sono funzionalità che aga
 gregano diverse attività utili, che si possono replicare. In questo modo, uno
