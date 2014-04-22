@@ -84,7 +84,7 @@ un grafo che rappresenta l'ereditarietà, che spesso è difficile da navigare! I
 univoci sono infatti tutti registrati nel registry, a seconda della loro applicazione.
 L'interfaccia IUnknown presenta solo 3 metodi (presenti sempre nei primi
 3 slot di ogni VMT di ogni componente): uno per aggiungere un riferimento
-all'oggetto, uno per farne il release, e inne un QueryInterface. Quest'ultimo è
+all'oggetto, uno per farne il release, e infine un QueryInterface. Quest'ultimo è
 fondamentale per poter interagire con l'oggetto stesso: prende infatti il GUID e
 verica se esiste un oggetto che implementi quell'interfaccia. In caso aermativo,
 si preoccupa di restituire un puntatore all'interfaccia corrispondente. Questo è un metodo pervasivo, è l'unico modo con
@@ -165,7 +165,7 @@ perenne dell'ORB
 componenti, si è sviluppato un apposito IDL, MIDL. Questo deriva e rispetta
 le specifiche di DCE, ma risulta comunque essere incompatibile con altri IDL.
 Come funziona quindi la comunicazione in COM? Si lavora per sequenza: si
-tenta inizialmente di accedere alla risorsa in process, poi in locale, ed inne si
+tenta inizialmente di accedere alla risorsa in process, poi in locale, ed infine si
 tenta in remoto sfruttando come meccanismo RPC. In certi casi, essendo poco
 costosa, si utilizza RPC anche in locale, di tipo diverso e più leggera.
 Per la gestione remota, vi è anche la presenza di un ulteriore attore al livello
@@ -205,7 +205,7 @@ quindi di interrogare ed invocare in maniera dinamica i componenti! Si tratta
 di un sistema del tutto analogo alla Request di CORBA.
 76
 Quindi, alcuni metodi riportano informazioni sul componente (GetTypeInfo,
-GetTypeInfoCount), altri preparano il client a richiedere l'invocazione (GetIDsOfNames) e inne vi è un metodo per
+GetTypeInfoCount), altri preparano il client a richiedere l'invocazione (GetIDsOfNames) e infine vi è un metodo per
 invocare in maniera dinamica l'oggetto
 stesso. IDispatch, essendo un'interfaccia COM, eredita direttamente da IUnknown. Possiamo così sostituire questa ed
 altre interfacce, permettendo un'ese\i{}
