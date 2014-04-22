@@ -143,27 +143,25 @@ broker in grado di ricevere/prendere i messaggi e di trattarli a seconda della Q
 ottimizzando il routing già basato su tabelle in base al contenuto del messaggio e quindi aggiungendo un po' di
 flessibilità...): introduce quindi un minimo di logica! Questi sistemi statici hanno la caratteristica di avere
 un'intrusione minima, ma non permettono molte ottimizzazioni...
+
 \subsection{I mw ad oggetti}
-Sono i mw più interessanti, in grado di lavorare ad alto livello. Si realizza un
-contratto fra clienti e servitori, in maniera tale da realizzare anche più impleu
-mentazioni dello stesso servizio! In particolare, questi mw si basano su un bus
-di interconnessione che si occupa di certe logiche di base, permettendo quindi
-all'utente di pensare solo alla business logic! Un mw ad oggetti si preoccupa di
-definire le interfacce degli oggetti e le interazioni possibili, realizzando anche un
-sistema aperto dove integrare sistemi eterogenei.
+Sono i mw più interessanti, in grado di lavorare ad alto livello. Si realizza un contratto fra clienti e servitori, 
+in maniera tale da realizzare anche più implementazioni dello stesso servizio! In particolare, questi mw si basano su
+un bus di interconnessione che si occupa di certe logiche di base, permettendo quindi all'utente di pensare solo alla
+business logic! Un mw ad oggetti si preoccupa di definire le interfacce degli oggetti e le interazioni possibili,
+realizzando anche un sistema aperto dove integrare sistemi eterogenei.
 
 È quindi un'estensione del C/S: un C richiede un servizio (ovvero un oggetto). L'interfaccia rappresenta il contratto
 dell'oggetto, ovvero i servizi richiedibili da parte di un client. In particolare, si possono definire delle operazioni
-55
 richiedibili sia dagli oggetti che dai clienti per ottenere servizi!
-Una caratteristica particolare ed importante dei mw ad oggetti è che pree
-sentano delle soluzioni che si ripetono, e delle possibili strategie da scegliere:
-abbiamo dei pattern, meccanismi che si ripetono!
+Una caratteristica particolare ed importante dei mw ad oggetti è che presentano delle soluzioni che si ripetono, e 
+delle possibili strategie da scegliere: abbiamo dei pattern, meccanismi che si ripetono!
 La base per ogni mw ad oggetti sono:
-$\bullet$ La possibilità di realizzare un'interazione remota
-$\bullet$ Possibilità di comunicare in maniera asincrona
-Inoltre, si parla di pattern anche per la gestione delle risorse, della QoS, e la
-denizione di nuovi servizi.
+\begin{itemize}
+ \item La possibilità di realizzare un'interazione remota
+ \item Possibilità di comunicare in maniera asincrona
+\end{itemize}
+Inoltre, si parla di pattern anche per la gestione delle risorse, della QoS, e la definizione di nuovi servizi.
 \subsection{Pattern per l'interazione remota}
 Idea di base: un cliente vuole riferirsi ad un oggetto remoto; per cui serve un
 sistema per avere dei riferimenti remoti. Gli oggetti remoti si possono creare o
