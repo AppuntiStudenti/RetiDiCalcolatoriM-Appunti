@@ -100,27 +100,21 @@ I diversi possibili modelli di mw che si possono trovare sono:
 \end{itemize}
 Esistono poi diversi mw nati proprio per risolvere dei problemi specifici (mobilità, reti ad-hoc...).
 \subsection{TINA-C}
-TINA-C rappresenta la proposta di un mw per le TLC. Si vuole realizzare un
-sistema dove siano previsti più provider, in grado quindi di lavorare su una
-rete. L'idea alla base è la possibilità di definire le varie entità, i servizi possibili
-e fornire quindi un sistema per definire la negoziazione per l'erogazione dei
-servizi, e quindi la QoS.
-Il modello computazionale di TINA-C è Distributed Processing Environment.
-Ogni nodo deve presentare delle funzionalità che permettono la comunicazione
-nel distribuito. Questo è ovviamente il livello di più alto livello, che si basa su
-livelli sottostanti che forniscono astrazionie e trasparenza. Il livello sottostante
-è il Native Computer and Compunication Environment, che ovviamente deve
-essere presente su tutti i nodi, per mascherare l'hw per il mw.
-Le applicazioni si possono quindi costruire sopra DPE, sfruttando delle applicazioni TINA-C già presenti ! Si hanno
-quindi una serie di oggetti presenti su
-ogni nodo. Queste applicazioni non sono localizzati, e si può trattare di servizi
-da offrire, risorse ed elementi della rete. Il sistema è quindi trasparente, perché
-non si vede mai dove le risorse sono realmente allocate.
-In realtà, TINA-C prevede anche una visione non trasparente! Lo standard
-del 2000 infatti definisce che l'utente deve esprimere le proprie preferenze, e
-quindi per poter sviluppare un modello complesso, si deve tener conto della
-locazione: si può progettare il sistema inizialmente come non trasparente, e
-quindi aggiungere la trasparenza!
+TINA-C rappresenta la proposta di un mw per le TLC. Si vuole realizzare un sistema dove siano previsti più provider, 
+in grado quindi di lavorare su una rete. L'idea alla base è la possibilità di definire le varie entità, i servizi
+possibili e fornire quindi un sistema per definire la negoziazione per l'erogazione dei servizi, e quindi la QoS.
+Il modello computazionale di TINA-C è \textit{Distributed Processing Environment}.
+Ogni nodo deve presentare delle funzionalità che permettono la comunicazione nel distribuito. Questo è ovviamente il
+livello di più alto livello, che si basa su livelli sottostanti che forniscono astrazioni e trasparenza. Il livello
+sottostante è il \textit{Native Computer and Compunication Environment}, che ovviamente deve essere presente su tutti
+i nodi, per mascherare l'hw per il mw.
+Le applicazioni si possono quindi costruire sopra DPE, sfruttando delle applicazioni TINA-C già presenti! Si hanno
+quindi una serie di oggetti presenti su ogni nodo. Queste applicazioni non sono localizzati, e si può trattare di
+servizi da offrire, risorse ed elementi della rete. Il sistema è quindi trasparente, perché non si vede mai dove le
+risorse sono realmente allocate.
+In realtà, TINA-C prevede anche una visione non trasparente! Lo standard del 2000 infatti definisce che l'utente deve
+esprimere le proprie preferenze, e quindi per poter sviluppare un modello complesso, si deve tener conto della
+locazione: si può progettare il sistema inizialmente come non trasparente, e quindi aggiungere la trasparenza!
 \subsection{I MOM}
 Si tratta in assoluto dei mw più semplicirealizzabili: sono a basso costo, e i
 messaggi lavorano a basso livello, garantendo un forte disaccoppiamento fra le
