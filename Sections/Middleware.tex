@@ -313,30 +313,24 @@ risposta). Questi intercettori possono anche bloccare l'invoke fino a quando non
 creando appunto una catena di responsabilità. Si possono anche combinare (caso tipico: encrypt/decrypt di messaggi,
 introducendo quindi anche catene sul client!).
 \subsection{Servizi per la QoS}
-Tutti i mw dispongono di servizi per fornire QoS, tranne i MOM. Anche qui, si
-possono riscontrare pattern che si ripetono:
-$\bullet$ Broker : si tratta di un gestore unificato per le connessioni. Viene quindi
-utilizzato per impedire che tutti i server utilizzino le risorse inutilmente,
-`
-per esempio. E quindi un front end, in grado di ricevere le richieste dal
-client e attivare (mediante i pattern descritti prima) i server necessari.
-$\bullet$ Life cycle manager : si tratta di un sistema per poter gestire la vita degli
-oggetti ad un livello superiore, applicativo proprio per la QoS (esempio:
-gestione dei nodi, per privilegiare certe entità rispetto ad altre, passivando
-server meno prioritari!) Si hanno quindi politiche definibili differenziate!
-$\bullet$ Custom marshaller : è un sistema per fornire sistemi differenziati per la
-presentazione dei dati (XML o formato binario: leggibilità o efficienza
-. . . ).
-$\bullet$ Sistema a plug-in: si tratta della possibilità di estendere il mw, introa
-ducendo dei gestori per azioni particolari di determinati protocolli (per
-esempio, per eseguire certi compiti prima dell'invoke finale).25
-$\bullet$ Il mw può anche gestire insiemi/gruppi di oggetti, fornendo quindi un
-supporto alla replicazione (gruppi diversi, QoS diversa).
-$\bullet$ Presenza di pseudo-oggetti : non sono oggetti veri e propri, ma entità speca
-icate dal mw, quindi oggetti accedibili normalmente ma che non hanno
-interesse da un punto di vista applicativo (un esempio di pseudo-object
-potrebbe essere il sistema di nomi!).
-25 Possono sembrare simili agli interceptor, ma è dierente il ruolo: questi son presenti per
-la singola invocazione del singolo oggetto, mentre un plugin è un componente per la parte di
-supporto
-61
+Tutti i mw dispongono di servizi per fornire QoS, tranne i MOM. Anche qui, si possono riscontrare pattern che si
+ripetono:
+\begin{itemize}
+ \item \textit{Broker}: si tratta di un gestore unificato per le connessioni. Viene quindi utilizzato per impedire 
+ che tutti i server utilizzino le risorse inutilmente, per esempio. E quindi un front end, in grado di ricevere le
+ richieste dal client e attivare (mediante i pattern descritti prima) i server necessari.
+ \item \textit{Life cycle manager}: si tratta di un sistema per poter gestire la vita degli oggetti ad un livello
+ superiore, applicativo proprio per la QoS (esempio: gestione dei nodi, per privilegiare certe entità rispetto ad
+ altre, passivando server meno prioritari!) Si hanno quindi politiche definibili differenziate!
+ \item \textit{Custom marshaller}: è un sistema per fornire sistemi differenziati per la presentazione dei dati (XML 
+ o formato binario: leggibilità o efficienza...).
+ \item \textit{Sistema a plug-in}: si tratta della possibilità di estendere il mw, introducendo dei gestori per azioni
+ particolari di determinati protocolli (per esempio, per eseguire certi compiti prima dell'invoke
+ finale).\footnote{Possono sembrare simili agli interceptor, ma è differente il ruolo: questi son presenti per la
+ singola invocazione del singolo oggetto, mentre un plugin è un componente per la parte di supporto}
+ \item Il mw può anche gestire insiemi/gruppi di oggetti, fornendo quindi un supporto alla replicazione (gruppi 
+ diversi, QoS diversa).
+ \item \textit{Presenza di pseudo-oggetti}: non sono oggetti veri e propri, ma entità specificate dal mw, quindi
+ oggetti accedibili normalmente ma che non hanno interesse da un punto di vista applicativo (un esempio di 
+ pseudo-object potrebbe essere il sistema di nomi!).
+\end{itemize}
