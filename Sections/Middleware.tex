@@ -24,48 +24,32 @@ ed essere introdotto come standard.
 Questo spesso può risultare problematico perché i diversi standard non sono interoperabili fra di loro! Esistono 
 diversi dialetti/linguaggi per realizzare la comunicazione, che sono uno incompatibile con quell'altro.
 \subsection{Valutare un middleware}
-Un middleware viene giudicato dalla ricchezza di funzionalità che sono messe a
-disposizione, e quindi dalle aree in cui riesce ad intervenire. Esistono diverse
-aree di gestione (Presentation, Computation, Information [loggMa in un sistema distribuito, dove si pone il middleware?
-Dipende! Certi middleware
-devono avere risorse su ogni nodo, altri no. . . In ogni caso, ogni nodo dell'architettura possono
-essere targetMa in un sistema distribuito, dove si pone il middleware?
-Dipende! Certi middleware
-devono avere risorse su ogni nodo, altri no. . . In ogni caso, ogni nodo dell'architettura possono
-essere targetin i.e.], Communication, Control [thread i.e.] e System
-[sicurezza i.e.]): alcune di queste sono
-fondamentali per un middleware (senza, non lo sarebbe), altre rappresentano
-un valore aggiunto.
-In generale si possono dividere in 4 livelli le tipologie possibili di un servizio
-per il middleware:
-$\bullet$ Host infrastructure middleware: si tratta del livello più basso, il più viciu
-`
-no alla macchina stessa. E quello infatti fondamentale per poter superare
-l'eterogeneità, in grado quindi di fornire una visione trasparente di quela
-lo che è presente a livello inferiore. Deve essere quindi un qualcosa di
-distribuito su ogni nodo dell'architettura! Un esempio è la JVM.
-$\bullet$ Distribution middleware: altro aspetto fondamentale, è quella parte di un
-middleware che permette di integrare le risorse distribuite, mediante un
-apposito sistema di comunicazione. Si tratta anche questo di un qualcosa che deve essere opportunatamente distribuito su
-tutti i nodi. Es`
-empi: RMI23 , JMS, CORBA. E quindi questo il livello che configura e
-gestisce le risorse distribuite. Introduce quindi API per la comunicazione
-e meccanismi di supporto alla comunicazione (per esempio, un sistema di
-nomi).
-$\bullet$ Common middleware services: questo invece è un aspetto che è presente in
-middleware maturi, per cui si possono fornire dei componenti distribuibili,
-utili per sviluppare in un'ottica a componenti. Spesso quindi si realizza
-una propria visione, ovvero il sistema si basa su un'architettura comune
-e un modello di supporto. Sono quindi i servizi trasversali, che spesso in
-realtà rappresentano il punto di forza di un mw: è in base alla loro qualità
-che si decide se sceglierlo o meno.
-$\bullet$ Domain middleware services: altro aspetto presente in middleware maturi,
-si propongono anche servizi applicativi già realizzati, specici per una dea
-terminata comunità. Infatti, spesso il successo di un middleware è dovuto
-dalla comunità di utenti che lo utilizzano, e dalle varie sottocomunità che
-si vengono a formare, che possono addirittura guidarne lo sviluppo! Basta
-pensare che CORBA è uno standard proposto da un consorzio d'azienda,
-l'OMG.
+Un middleware viene giudicato dalla ricchezza di funzionalità che sono messe a disposizione, e quindi dalle aree in 
+cui riesce ad intervenire. Esistono diverse aree di gestione (Presentation, Computation, Information [loggin i.e.],
+Communication, Control [thread i.e.] e System [sicurezza i.e.]): alcune di queste sono fondamentali per un middleware
+(senza, non lo sarebbe), altre rappresentano un valore aggiunto.
+In generale si possono dividere in 4 livelli le tipologie possibili di un servizio per il middleware:
+\begin{itemize}
+ \item \textit{Host infrastructure middleware}: si tratta del livello più basso, il più vicino alla macchina stessa. 
+ È quello infatti fondamentale per poter superare l'eterogeneità, in grado quindi di fornire una visione trasparente 
+ di quello che è presente a livello inferiore. Deve essere quindi un qualcosa di distribuito su ogni nodo
+ dell'architettura! Un esempio è la JVM.
+ \item \textit{Distribution middleware}: altro aspetto fondamentale, è quella parte di un middleware che permette di
+ integrare le risorse distribuite, mediante un apposito sistema di comunicazione. Si tratta anche questo di un 
+ qualcosa che deve essere opportunatamente distribuito su tutti i nodi. Esempi: RMI23 , JMS, CORBA. E quindi questo
+ il livello che configura e gestisce le risorse distribuite. Introduce quindi API per la comunicazione e meccanismi
+ di supporto alla comunicazione (per esempio, un sistema di nomi).
+ \item \textit{Common middleware services}: questo invece è un aspetto che è presente in middleware maturi, per cui si
+ possono fornire dei componenti distribuibili, utili per sviluppare in un'ottica a componenti. Spesso quindi si realizza
+ una propria visione, ovvero il sistema si basa su un'architettura comune e un modello di supporto. Sono quindi i
+ servizi trasversali, che spesso in realtà rappresentano il punto di forza di un mw: è in base alla loro qualità
+ che si decide se sceglierlo o meno.
+ \item Domain middleware services: altro aspetto presente in middleware maturi, si propongono anche servizi 
+ applicativi già realizzati, specifici per una determinata comunità. Infatti, spesso il successo di un middleware è
+ dovuto dalla comunità di utenti che lo utilizzano, e dalle varie sottocomunità che si vengono a formare, che possono
+ addirittura guidarne lo sviluppo! Basta pensare che CORBA è uno standard proposto da un consorzio d'aziende, l'OMG.
+\end{itemize}
+
 \subsection{Classicazione dei mw}
 I middleware si possono categorizzare in diversi modi, tuttavia la maggior parte
 dell'installato consiste in primis dai DOC, Distributed Object Computing (tipo
@@ -132,7 +116,7 @@ perché permette, in maniera dinamica, di definire via real-time come il
 componente funzioni!
 L'obiettivo è quindi fornire un sistema per la visibilità dei livelli sottostanti
 e permettere di adattatare e sistemare in base alle esigenze.
-Esistono poi diversi mw nati proprio per risolvere dei problemi specici (mobilità, reti ad-hoc, . . . ).
+Esistono poi diversi mw nati proprio per risolvere dei problemi specifici (mobilità, reti ad-hoc, . . . ).
 \subsection{TINA-C}
 TINA-C rappresenta la proposta di un mw per le TLC. Si vuole realizzare un
 sistema dove siano previsti più provider, in grado quindi di lavorare su una
@@ -421,7 +405,7 @@ creare un thin client.
 Un altro pattern inne è il call-chain interception: vi sono diversi gestori
 di supporto, i quali possono essere inseriti prima dell'invocazione (quindi, a
 differenza dell'invocation context, sono dal lato del server), per poter eseguire
-dei compiti specici (per es: in base al tipo della richiesta, decidono il formato
+dei compiti specifici (per es: in base al tipo della richiesta, decidono il formato
 dei dati per la risposta). Questi intercettori possono anche bloccare l'invoke no
 a quando non hanno terminato il loro compito, creando appunto una catena di
 responsabilità. Si possono anche combinare (caso tipico: encrypt/decrypt di
