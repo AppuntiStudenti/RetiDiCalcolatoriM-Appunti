@@ -128,7 +128,7 @@ Vi è infatti a possibilità di generare dei cicli assolutamente pericolosi.
 86
 4. Il sistema deve essere concorrente, in grado di realizzare migrazioni multiple.
 Si deve quindi progettare il processo in maniera da poter trasportare quello che
-serve: in generale lo stato corrente più eventuali modiche che sono state apporu
+serve: in generale lo stato corrente più eventuali modifiche che sono state apporu
 tate (magari si può trasportare anche solo un sottoinsieme delle informazioni).
 Il grosso problema della migrazione è quello del riuscire, nella maniera più
 efficiente e meno costosa, a fornire ai clienti un sistema per accedere al processo
@@ -136,7 +136,7 @@ anche se è stato spostato.
 Una prima possibilità è quella di ridirigere i messaggi, sfruttando per esemae
 pio un'apposita struttura detta forwarder, in grado di farlo in maniera traspar`
 ente. E una strategia pessimistica/pro-attiva. In questo modo il cliente non
-viene avvisato! Una prima modica consiste quindi nel riqualicare i messaggi,
+viene avvisato! Una prima modifica consiste quindi nel riqualicare i messaggi,
 avvisando anche il cliente oltre a ridirigerli per un certo tempo.
 Tuttavia, la strategia più brusca (ottimista e reattiva) è quella di far proprio
 fallire il client: in questo modo il client si accorge che vi è un qualche problema
@@ -293,7 +293,7 @@ via l'agente! Si deve quindi verificare mediante l'uso di diversi agenti se per
 verificare il comportamento del nodo.
 Un altro problema è sul fatto che il codice può essere letto senza problemi
 dal nodo su cui esegue: si devono quindi anche garantire certe proprietà di
-incapsulamento, perché non sia un nodo a modicare il codice contenuto da un
+incapsulamento, perché non sia un nodo a modificare il codice contenuto da un
 agente!
 A cosa può essere utile tutto ciò? A realizzare mobile computing (utenti in
 grado di muoversi e di mantenere uno stato/sessione costante, anche cambiando
