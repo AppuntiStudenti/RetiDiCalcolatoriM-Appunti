@@ -116,41 +116,33 @@ In realtà, TINA-C prevede anche una visione non trasparente! Lo standard del 20
 esprimere le proprie preferenze, e quindi per poter sviluppare un modello complesso, si deve tener conto della
 locazione: si può progettare il sistema inizialmente come non trasparente, e quindi aggiungere la trasparenza!
 \subsection{I MOM}
-Si tratta in assoluto dei mw più semplicirealizzabili: sono a basso costo, e i
-messaggi lavorano a basso livello, garantendo un forte disaccoppiamento fra le
-varie entità. Basandosi sui messaggi, si supera direttamente l'eterogeneità.
-Il problema è come fornire QoS ai messaggi? I messaggi devono essere pere
-manenti (non è necessaria la presenza di entrambi gli attori per realizzare la
-54
-comunicazione), ma soprattutto l'interconnessione è definita assolutamente in
+Si tratta in assoluto dei mw più semplici realizzabili: sono a basso costo, e i messaggi lavorano a basso livello,
+garantendo un forte disaccoppiamento fra le varie entità. Basandosi sui messaggi, si supera direttamente l'eterogeneità.
+Il problema è come fornire QoS ai messaggi? I messaggi devono essere permanenti (non è necessaria la presenza di
+entrambi gli attori per realizzare la comunicazione), ma soprattutto l'interconnessione è definita assolutamente in
 maniera statica! Non sono quindi mw dinamici.
 Ogni attore interessato presenta una propria coda locale, dove saranno depositati i messaggi: questo è un supporto
-fornito quindi dal MOM, per cui si
-tratta di gestire delle code orientate (o in ingresso o in uscita). Quello che realizza un MOM è quindi un'overlay
-network, specificando quindi un sistema di
-nomi, routing, . . .
-I messaggi possono o essere P2P oppure forme di multicast. Le API che il
-mw prevede sono quindi quelle per poter fare delle send e receive dei messaggi
-sulle code locali!Il mw si preoccupa di realizzare l'instradamento, è un integrae
-tore di nodi: spiega come i router si debbano coordinare (si possono avere diversi
-intermediari, ed esistono messaggi broker appositi per gestire l'eterogeneità)!
-Questi sono mw a basso costo, perché fanno da collante: non si aggiunge
-molto all'applicazione, ma solo la possibilità di mandare e ricevere messaggi! Il
-costo limitato facilita infatti l'integrazione di sistemi legacy!
-Uno dei MOM più diffusi è MQSeries di IBM: questo realizza uno stub per
-ogni client, e introduce degli agenti che non sono altro che nodi particolari che
-fanno da relay. I gestori delle code sono a loro volta degli agenti, ve ne è quindi
-uno per coda. Il problema è che gli agenti gestori dei canali (MCA) devono
-essere gestiti in fase di configurazione, quindi sono decisi in maniera statica!
-$\bullet$ Per ogni nodo si decide il numero e quali MCA
-$\bullet$ E quindi si attivano le connessioni
-La caratteristica di MQSeries è che, sfruttando le code, introduce QoS: in partie
-colare si possono realizzare dei broker in grado di ricevere/prendere i messaggi e
-di trattarli a seconda della QoS richiesta (trasformandoli, ottimizzando il routing già basato su tabelle in base al
-contenuto del messaggio e quindi aggiungendo
-un po' di flessibilità, . . . ): introduce quindi un minimo di logica!
-Questi sistemi statici hanno la caratteristica di avere un'intrusione minima,
-ma non permettono molte ottimizzazioni. . .
+fornito quindi dal MOM, per cui si tratta di gestire delle code orientate (o in ingresso o in uscita). Quello che
+realizza un MOM è quindi un'overlay network, specificando quindi un sistema di nomi, routing...
+I messaggi possono o essere P2P oppure forme di multicast. Le API che il mw prevede sono quindi quelle per poter fare
+delle send e receive dei messaggi sulle code locali! Il mw si preoccupa di realizzare l'instradamento, è un 
+integratore di nodi: spiega come i router si debbano coordinare (si possono avere diversi intermediari, ed esistono
+messaggi broker appositi per gestire l'eterogeneità)!
+Questi sono mw a basso costo, perché fanno da collante: non si aggiunge molto all'applicazione, ma solo la possibilità
+di mandare e ricevere messaggi! Il costo limitato facilita infatti l'integrazione di sistemi legacy!
+Uno dei MOM più diffusi è MQSeries di IBM: questo realizza uno stub per ogni client, e introduce degli agenti che non
+sono altro che nodi particolari che fanno da relay. I gestori delle code sono a loro volta degli agenti, ve ne è quindi
+uno per coda. Il problema è che gli agenti gestori dei canali (MCA) devono essere gestiti in fase di configurazione,
+quindi sono decisi in maniera statica!
+\begin{itemize}
+ \item Per ogni nodo si decide il numero e quali MCA
+ \item E quindi si attivano le connessioni
+\end{itemize}
+La caratteristica di MQSeries è che, sfruttando le code, introduce QoS: in particolare si possono realizzare dei
+broker in grado di ricevere/prendere i messaggi e di trattarli a seconda della QoS richiesta (trasformandoli,
+ottimizzando il routing già basato su tabelle in base al contenuto del messaggio e quindi aggiungendo un po' di
+flessibilità...): introduce quindi un minimo di logica! Questi sistemi statici hanno la caratteristica di avere
+un'intrusione minima, ma non permettono molte ottimizzazioni...
 \subsection{I mw ad oggetti}
 Sono i mw più interessanti, in grado di lavorare ad alto livello. Si realizza un
 contratto fra clienti e servitori, in maniera tale da realizzare anche più impleu
