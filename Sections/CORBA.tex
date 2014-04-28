@@ -46,74 +46,52 @@ compito del  gestore (nel trasporto, nel supporto alla QoS...). È un sistema ch
  \item E infine vi sono degli appositi protocolli per la comunicazione ed integrazione fra ORB diversi.
 \end{itemize}
 \subsection{L'ORB}
-L'ORB è il cuore del sistema, per comunicare si usa sempre l'ORB. Si potrebbe
-quindi pensare che è un collo di bottiglia, ma in realtà la comunicazione presente
-in CORBA è sempre a {`}grana grossa' (si passano oggetti, servizi pesanti): le
-operazioni sono quindi consistenti, e la comunicazione si paga. L'ORB aiuta
-fornendo diversi sistemi per facilitare il trasporto della richiesta da parte del
-client al server, e la risposta lungo il percorso opposto. Si tratta, quindi, di base
-di una comunicazione sempre sincrona.
-In particolare, l'ORB gestisce i servitori, preoccupandosi di fare l'allocation
-degli oggetti (è lui che deve trovare il server). In particolare, l'ORB permette
-che un cliente si leghi ad un servizio, non ad un servitore! CORBA è pensato
-infatti per essere da supporto ai sistemi legacy: non interessa chi serve, ma
-cosa serve! Fornisce quindi un supporto continuo, e sfrutta tutti i sistemi che
-verranno descritti in seguito (POA, interface repository, . . . ).
+L'ORB è il cuore del sistema, per comunicare si usa sempre l'ORB. Si potrebbe quindi pensare che è un collo di 
+bottiglia, ma in realtà la comunicazione presente in CORBA è sempre a ``grana grossa'' (si passano oggetti, servizi 
+pesanti): le operazioni sono quindi consistenti, e la comunicazione si paga. L'ORB aiuta fornendo diversi sistemi per 
+facilitare il trasporto della richiesta da parte del client al server, e la risposta lungo il percorso opposto. Si 
+tratta, quindi, di base di una comunicazione sempre sincrona.
+In particolare, l'ORB gestisce i servitori, preoccupandosi di fare l'allocation degli oggetti (è lui che deve trovare il 
+server). In particolare, l'ORB permette che un cliente si leghi ad un servizio, non ad un servitore! CORBA è pensato
+infatti per essere da supporto ai sistemi legacy: non interessa chi serve, ma cosa serve! Fornisce quindi un supporto 
+continuo, e sfrutta tutti i sistemi che verranno descritti in seguito (POA, interface repository...).
 \subsection{L'IDL}
-Il linguaggio per le interfacce è fondamentale per poter definire il contratto che
-si vuole realizzare (quindi la descrizione di tutti i servizi da offrire). Questo
-contratto sarà quindi incorporato nei vari proxy, ovvero sarà poi compilato nei
-linguaggi specifici di implementazione!
+Il linguaggio per le interfacce è fondamentale per poter definire il contratto che si vuole realizzare (quindi la 
+descrizione di tutti i servizi da offrire). Questo contratto sarà quindi incorporato nei vari proxy, ovvero sarà poi 
+compilato nei linguaggi specifici di implementazione!
 
-È mediante IDL che si stabiliscono tutti i collegamenti necessari, e anche
-l'ORB lo sfrutta per individuare il servizio (si lavora quindi ad un livello più
-63
-alto dell'implementazione: l'IDL stesso non è legato a nessun linguaggio di proe
-grammazione (deriva dal C++ come specifica, ma è diverso)). Una connessione
-statica fa in modo che il proxy del client (lo stub) contenga l'IDL, con cui ci
-si interfaccia all'ORB. Questi cerca il servizio descritto dall'IDL, propone la
-richiesta in maniera adeguata usando un Object Adapter, e riporta quindi la
-risposta al client.
-L'IDL è fondamentale per realizzare le connessioni statiche 28 , che sono molto
-usate in CORBA (quelle dinamiche, per quanto orano un servizio con maggiore
-QoS, sono molto costose). L'IDL definisce (è solo un sistema dichiarativo! un
-sistema perché il compilatore scelto realizzi quindi uno stub e skeleton statici
-(si può sfruttare per realizzare uno skeleton dinamico on the y mediante un'ino
-vocazione dinamica del servizio, aggiungendolo al servitore!). Senza un servizio
-di invocazione dinamico, non si può trovare un servizio se non è stato definito
-un contratto (ovvero, è stato definito all'interno dell'interface repository!).
-IDL resta però sempre e solo una specifica: sarà sfruttato dai compilatori
-delle varie implementazioni per creare realmente gli oggetti e i servitori. Infatti,
-serve solo come specifica delle operazioni possibili.
+È mediante IDL che si stabiliscono tutti i collegamenti necessari, e anche l'ORB lo sfrutta per individuare il servizio 
+(si lavora quindi ad un livello più alto dell'implementazione: l'IDL stesso non è legato a nessun linguaggio di 
+programmazione (deriva dal C++ come specifica, ma è diverso)). Una connessione statica fa in modo che il proxy del 
+client (lo stub) contenga l'IDL, con cui ci si interfaccia all'ORB. Questi cerca il servizio descritto dall'IDL, propone 
+la richiesta in maniera adeguata usando un Object Adapter, e riporta quindi la risposta al client.
+L'IDL è fondamentale per realizzare le connessioni statiche\footnote{IMPORTANTE: per legame statico si intende dire solo 
+l'interfaccia, che viene quindi definita in maniera statica. Il binding fra client e servitore non è statico, qui si 
+specifica solo che i servizi del servitore devono essere specificati in maniera statica}, che sono molto usate in CORBA 
+(quelle dinamiche, per quanto offrano un servizio con maggiore QoS, sono molto costose). L'IDL definisce (è solo un 
+sistema dichiarativo! un sistema perché il compilatore scelto realizzi quindi uno stub e skeleton statici (si può 
+sfruttare per realizzare uno skeleton dinamico on the fly mediante un'invocazione dinamica del servizio, aggiungendolo 
+al servitore!). Senza un servizio di invocazione dinamico, non si può trovare un servizio se non è stato definito un 
+contratto (ovvero, è stato definito all'interno dell'interface repository!).
+IDL resta però sempre e solo una specifica: sarà sfruttato dai compilatori delle varie implementazioni per creare 
+realmente gli oggetti e i servitori. Infatti, serve solo come specifica delle operazioni possibili.
 Stub e skeleton son necessari per fare le operazioni di marshalling ed unmarshalling. Si ha che si realizza un diverso
-proxy (quindi stub e skeleton) per ogni
-interfaccia che si definisce.
-Da ribadire: è definito un contratto statico fra client e servizio, ma non un
-binding statico fra client e servitore!
-CORBA non ore altro agli utenti: le interfacce sono gli unici oggetti manipolabili e visibili, e quindi quando si
+proxy (quindi stub e skeleton) per ogni interfaccia che si definisce.
+Da ribadire: è definito un contratto statico fra client e servizio, ma non un binding statico fra client e servitore!
+CORBA non offre altro agli utenti: le interfacce sono gli unici oggetti manipolabili e visibili, e quindi quando si
 programma si riferiscono altre interfacce!
-L'IDL di CORBA definisce in maniera automatica i metodi di accesso alle
-proprietà dell'interfaccia, ed è in grado di fornire delle informazioni sul coma
-pletamento corretto o meno dell'operazione. Si possono quindi definire (come
-in qualunque altra interfaccia) attributi, operazioni ed eccezioni. Le interfacce
-si possono ereditare, anche in maniera multipla, e si possono raggruppare in
-moduli logici coerenti.
-Di particolare interesse, nei tipi, è la possibilità di definire attributi di tipo
-ANY : un attributo di tale tipo può essere sia un valore che un riferimento. Fono
-damentalmente funziona come da contenitore, in grado di fornire informazioni
-su cosa contiene! Nell'ultima versione di CORBA, 3, si è stabilito che gli
-oggetti devono essere passati by-value, in maniera da superare correttamente
-l'eterogeneità.
-Restano comunque problemi nel realizzare un mapping corretto fra l'IDL e
-i vari linguaggi di implementazione! Per esempio, Java non prevede parametri
-28 IMPORTANTE: per legame statico si intende dire solo l'interfaccia, che viene quindi
-definita in maniera statica. Il binding fra client e servitore non è statico, qui si specifica solo
-che i servizi del servitore devono essere specificati in maniera statica
-64
-di output. Per ovviare a questi problemi, CORBA realizza delle apposite classi dette holder : è un wrapper che permette
-di leggere e scrivere in maniera
-coerente al linguaggio utilizzato realmente. Si possono anche determinare automaticamente altre classi d'aiuto dette
-helper, in maniera da armonizzare i dati
+L'IDL di CORBA definisce in maniera automatica i metodi di accesso alle proprietà dell'interfaccia, ed è in grado di 
+fornire delle informazioni sul completamento corretto o meno dell'operazione. Si possono quindi definire (come
+in qualunque altra interfaccia) attributi, operazioni ed eccezioni. Le interfacce si possono ereditare, anche in maniera 
+multipla, e si possono raggruppare in moduli logici coerenti.
+Di particolare interesse, nei tipi, è la possibilità di definire attributi di tipo ANY: un attributo di tale tipo può 
+essere sia un valore che un riferimento. Fondamentalmente funziona come da contenitore, in grado di fornire informazioni
+su cosa contiene! Nell'ultima versione di CORBA, 3, si è stabilito che gli oggetti devono essere passati by-value, in 
+maniera da superare correttamente l'eterogeneità.
+Restano comunque problemi nel realizzare un mapping corretto fra l'IDL e i vari linguaggi di implementazione! Per 
+esempio, Java non prevede parametri di output. Per ovviare a questi problemi, CORBA realizza delle apposite classi dette 
+\textit{holder}: è un wrapper che permette di leggere e scrivere in maniera coerente al linguaggio utilizzato realmente. 
+Si possono anche determinare automaticamente altre classi d'aiuto dette helper, in maniera da armonizzare i dati
 rispetto a CORBA (narrowing) e di fornire diverse funzioni di varia utilità.
 \subsection{Gli Object Adapter}
 Gli adattatori sono diventati dei componenti quasi più importanti dell'ORB
