@@ -202,42 +202,37 @@ Quali sono quindi le politiche d'attivazione per gli oggetti? Possiamo avere:
 \end{itemize}
 \subsection{Binding dinamico}
 Avendo a disposizione prima le interfacce, si possono implementare direttamente client e servant. Tuttavia, è mediante
-l'invocazione dinamica con cui
-si possono aggiungere nuovi servizi durante l'esecuzione. L'alternativa sarebbe
-dover spegnere il sistema, e riconfigurare il tutto. La dinamicità si basa sull'uso
-dell'IR, e permette di introdurre in CORBA altri modelli di comunicazione oltre
-al sincrono bloccante.
+l'invocazione dinamica con cui si possono aggiungere nuovi servizi durante l'esecuzione. L'alternativa sarebbe
+dover spegnere il sistema, e riconfigurare il tutto. La dinamicità si basa sull'uso dell'IR, e permette di introdurre in 
+CORBA altri modelli di comunicazione oltre al sincrono bloccante.
 Si vuole quindi chiedere o fornire un servizio senza avere il proxy/skeleton è già pronto. E un problema di tutti i mw.
-Nel caso del client, si parla di Dinamyc Invocation Interface. Si realizza un oggetto che funziona come il proxy che si
-avrebbe avuto in maniera statica. Si ha quindi un oggetto Request, che è uno pseudo-object 31 , che permette di
-specificare e una richiesta dinamica. Si tratta quindi di un contenitore fornito dall'ambiente,
-per cui un client effettua una invoke, e l'ORB utilizza il servant giusto per
-richiamare l'operazione e fornire il risultato. Si potrebbero realizzare tutte le
-operazioni dinamiche, ma hanno un costo molto elevato! Tuttavia, vi sono
-diversi modi per ottenere il risultato, non solo in maniera sincrona bloccante
-(utilizzando la GetAnswer), realizzando quindi delle operazioni maggiormente
-disaccoppiate. Si definiscono quindi la:
-$\bullet$ Send-deferred per realizzare un sistema sincrono non bloccante. Si utilizza
-un sistema basato su un oggetto poll-response.
-$\bullet$ Send-one-way invece per avere una comunicazione asincrona.32
-Ma come funziona? L'oggetto Request,opportunatamente costruito dal client
-(dati, eccezioni, . . . ), passa per l'IR, sfruttandolo proprio come un name server: lo interroga per sapere quale
-servant possiede quel servizio (quindi non si
+Nel caso del client, si parla di \textit{Dynamic Invocation Interface}. Si realizza un oggetto che funziona come il 
+proxy che si avrebbe avuto in maniera statica. Si ha quindi un oggetto Request, che è uno pseudo-object\footnote{Si 
+tratta di facilitatori, connati solo nell'ORB. Non si possono quindi riferire da CORBA,
+e non possiedono helper o holder}, che permette di specificare e una richiesta dinamica. Si tratta quindi di un 
+contenitore fornito dall'ambiente, per cui un client effettua una invoke, e l'ORB utilizza il servant giusto per
+richiamare l'operazione e fornire il risultato. Si potrebbero realizzare tutte le operazioni dinamiche, ma hanno un 
+costo molto elevato! Tuttavia, vi sono diversi modi per ottenere il risultato, non solo in maniera sincrona bloccante
+(utilizzando la GetAnswer), realizzando quindi delle operazioni maggiormente disaccoppiate. Si definiscono quindi la:
+\begin{itemize}
+ \item \textit{Send-deferred} per realizzare un sistema sincrono non bloccante. Si utilizza un sistema basato su un 
+ oggetto poll-response.
+ \item Send-one-way invece per avere una comunicazione asincrona.\footnote{Qual è il problema di lavorare in maniera 
+ dinamica? E che si possono avere errori a run-time, che sono più dicili da gestire!}
+\end{itemize}
+Ma come funziona? L'oggetto Request, opportunatamente costruito dal client (dati, eccezioni...), passa per l'IR, 
+sfruttandolo proprio come un name server: lo interroga per sapere quale servant possiede quel servizio (quindi non si
 richiede che il servant sia dinamico!). Quindi, l'oggetto Request deve essere particolarizzato in maniera opportuna
-dall'utente, in maniera da ottenere l'oggetto
-desiderato (ridotta trasparenza!).
-CORBA introduce anche la possibilità di estendere dinamicamente i servizi
-offerti da un servant (è meno utilizzato). Come fare ciò in realtà non è spiegato
-(si potrebbero attivare in maniera dinamica): CORBA si preoccupa di standardizzare le interfacce. Se si avesse un
-sistema solo statico, si avrebbe che si
-dovrebbe spegnere il sistema e aggiornare staticamente i servant.
-Nel modello dinamico (Dinamyc Skeleton Interface) si ha invece che è pree
-sente un altro tipo di pseudo-object detto ServerRequest, mediante il quale si può
-specificare le operazioni, parametri e contesti da aggiungere! L'idea è che queste
-informazioni si debbano agganciare ad un'interfaccia che esiste già. Quindi, ci
-si collega all'IR per ottenere un'implementazione già presente, e ci si registra
-presso l'IR come sistema in grado di rispondere (il servant si potrà usare sia in
-richieste statiche che dinamiche!).
+dall'utente, in maniera da ottenere l'oggetto desiderato (ridotta trasparenza!).
+CORBA introduce anche la possibilità di estendere dinamicamente i servizi offerti da un servant (è meno utilizzato). 
+Come fare ciò in realtà non è spiegato (si potrebbero attivare in maniera dinamica): CORBA si preoccupa di 
+standardizzare le interfacce. Se si avesse un sistema solo statico, si avrebbe che si dovrebbe spegnere il sistema e 
+aggiornare staticamente i servant.
+Nel modello dinamico (Dynamic Skeleton Interface) si ha invece che è presente un altro tipo di pseudo-object detto 
+ServerRequest, mediante il quale si può specificare le operazioni, parametri e contesti da aggiungere! L'idea è che 
+queste informazioni si debbano agganciare ad un'interfaccia che esiste già. Quindi, ci si collega all'IR per ottenere 
+un'implementazione già presente, e ci si registra presso l'IR come sistema in grado di rispondere (il servant si potrà 
+usare sia in richieste statiche che dinamiche!).
 \subsection{Politiche dei riferimenti di CORBA}
 CORBA si basa totalmente sull'uso degli ObjRef. CORBA fornisce quindi dei
 sistemi/funzionalità di base (per realizzare un primo supporto, da estendere a
@@ -247,12 +242,6 @@ dell'oggetto). Gli ObjRef sono opachi e gestibili solo dall'ORB.
 La politica però che persegue CORBA è che il riferimento punti al servizio,
 non al servitore: tuttavia, questa logica potrebbe non essere quella desiderata dal programmatore (si vorrebbe poter
 accedere sempre allo stesso servant
-31 Si tratta di facilitatori, connati solo nell'ORB. Non si possono quindi riferire da CORBA,
-e non possiedono helper o holder
-32 Qual è il problema di lavorare in maniera dinamica? E che si possono avere errori a
-`
-run-time, che sono più dicili da gestire!
-69
 sico). Ma quindi questi riferimenti non sono univoci: localmente si potrebbe
 anche puntare ad oggetti diversi, realizzando quindi incomprensioni e problemi
 (specialmente lato server)!
