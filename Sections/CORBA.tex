@@ -234,98 +234,73 @@ queste informazioni si debbano agganciare ad un'interfaccia che esiste già. Qui
 un'implementazione già presente, e ci si registra presso l'IR come sistema in grado di rispondere (il servant si potrà 
 usare sia in richieste statiche che dinamiche!).
 \subsection{Politiche dei riferimenti di CORBA}
-CORBA si basa totalmente sull'uso degli ObjRef. CORBA fornisce quindi dei
-sistemi/funzionalità di base (per realizzare un primo supporto, da estendere a
-seconda della QoS desiderata) per trattare in maniera opportuna i riferimenti
-(da string a riferimento o viceversa, funzioni di narrowing, duplicazione/release
-dell'oggetto). Gli ObjRef sono opachi e gestibili solo dall'ORB.
-La politica però che persegue CORBA è che il riferimento punti al servizio,
-non al servitore: tuttavia, questa logica potrebbe non essere quella desiderata dal programmatore (si vorrebbe poter
-accedere sempre allo stesso servant
-sico). Ma quindi questi riferimenti non sono univoci: localmente si potrebbe
-anche puntare ad oggetti diversi, realizzando quindi incomprensioni e problemi
-(specialmente lato server)!
-In CORBA 2 si è quindi introdotta la possibilità di puntare ad uno servant
-specifico, introducendo quindi un sistema per definire dei nomi univoci !
+CORBA si basa totalmente sull'uso degli ObjRef. CORBA fornisce quindi dei sistemi/funzionalità di base (per realizzare 
+un primo supporto, da estendere a seconda della QoS desiderata) per trattare in maniera opportuna i riferimenti
+(da string a riferimento o viceversa, funzioni di narrowing, duplicazione/release dell'oggetto). Gli ObjRef sono opachi 
+e gestibili solo dall'ORB.
+La politica però che persegue CORBA è che il riferimento punti al servizio, non al servitore: tuttavia, questa logica 
+potrebbe non essere quella desiderata dal programmatore (si vorrebbe poter accedere sempre allo stesso servant
+sico). Ma quindi questi riferimenti non sono univoci: localmente si potrebbe anche puntare ad oggetti diversi, 
+realizzando quindi incomprensioni e problemi (specialmente lato server)!
+In CORBA 2 si è quindi introdotta la possibilità di puntare ad uno servant specifico, introducendo quindi un sistema per 
+definire dei \textit{nomi univoci}!
 \subsection{Interoperabilità fra ORB}
-Per poter realizzare le comunicazioni fra ORB diversi, si è dovuto quindi reale
-izzare degli ObjRef interoperabili : questi sono gli IOR. Hanno un costo pesante
-a livello di implementazione, soprattutto perché una volta stabilito, deve essere
-valido in eterno!
-Gli IOR facilitano le gestioni degli ORB: si ha che se si registrano client/server
-e si vogliano riferire in remoto attraverso una rete di ORB, si definisce uno IOR
-sempre valido. In generale adesso gli oggetti in CORBA non sono mai deallocati
-automaticamente (potrebbe farlo), ma è tutto a carico dell'utente. Se si utilizza uno IOR, l'oggetto deve essere
-sempre presente!
+Per poter realizzare le comunicazioni fra ORB diversi, si è dovuto quindi realizzare degli \textit{ObjRef 
+interoperabili}: questi sono gli IOR. Hanno un costo pesante a livello di implementazione, soprattutto perché una volta 
+stabilito, deve essere valido in eterno!
+Gli IOR facilitano le gestioni degli ORB: si ha che se si registrano client/server e si vogliano riferire in remoto 
+attraverso una rete di ORB, si definisce uno IOR sempre valido. In generale adesso gli oggetti in CORBA non sono mai 
+deallocati automaticamente (potrebbe farlo), ma è tutto a carico dell'utente. Se si utilizza uno IOR, l'oggetto deve 
+essere sempre presente!
 Uno IOR è costituito da una serie di informazioni per renderlo univoco: il nome/indirizzo del nodo su cui risiede, un
-timestamp, il nome del POA che lo ha
-creato ed altre informazioni. Si realizza quindi in generale uno IOR incapsulando
+timestamp, il nome del POA che lo ha creato ed altre informazioni. Si realizza quindi in generale uno IOR incapsulando
 in maniera opportuna un ObjRef.
-Caratteristica importante degli IOR è che non è detto che puntino direte
-tamente ad un adattatore, ma possono anche riferire invece un altro repository, ovvero quello degli oggetti
-implementati! Si ha quindi la possibilità di
+Caratteristica importante degli IOR è che non è detto che puntino direttamente ad un adattatore, ma possono anche 
+riferire invece un altro repository, ovvero quello degli oggetti implementati! Si ha quindi la possibilità di
 definire un legame indiretto oltre a quello diretto: la differenza sostanziale è che l'oggetto riferito indirettamente è
 veramente permanente, mentre riferendolo direttamente si hanno più gradi di libertà, un collegamento maggiormente
 lasco. L'ObjId di uno IOR riferisce quindi il servizio sicuramente, ma non è detto l'oggetto.
 \subsection{Gli interceptor in CORBA}
-Sono definiti come negli altri mw, ovvero è un sistema per poter definire dei come
-ponenti che devono essere attivati prima o dopo l'esecuzione di una determinata
-richiesta (per introdurre per esempio un sistema di sicurezza). Gli interceptor
-son pensati per poter lavorare a diversi livelli (applicativo, trasporto, . . . ).
+Sono definiti come negli altri mw, ovvero è un sistema per poter definire dei componenti che devono essere attivati 
+prima o dopo l'esecuzione di una determinata richiesta (per introdurre per esempio un sistema di sicurezza). Gli 
+interceptor son pensati per poter lavorare a diversi livelli (applicativo, trasporto...).
 \subsection{Estensibilità di CORBA}
-CORBA è pensato per essere facilmente estensibile. In particolare, CORBA
-3 introduce l'uso di componenti, la possibilità di definire QoS, e un supporto
-anche ad Internet come ambiente di lavoro.
+CORBA è pensato per essere facilmente estensibile. In particolare, CORBA 3 introduce l'uso di componenti, la possibilità 
+di definire QoS, e un supporto anche ad Internet come ambiente di lavoro.
 I componenti non sono altro che degli oggetti inseriti in un apposito contenitore, ed inseriti in un apposito ambiente
-d'esecuzione, detto engine. Il servizio
-di questi componenti è quindi fornito soltanto nell'ambito del container stesso,
-70
-sfruttando delle politiche di default definite proprio dal contenitore. Un esempio
-di componente di questo genere sono gli EJB.
+d'esecuzione, detto engine. Il servizio di questi componenti è quindi fornito soltanto nell'ambito del container stesso,
+sfruttando delle politiche di default definite proprio dal contenitore. Un esempio di componente di questo genere sono 
+gli EJB.
 I componenti sono un fattore trainante per ottenere una base d'utenza sempre più ampia: aumenta la possibilità di
 adattare il sistema alle proprie esigenze.
-Con CORBA 3 in particolare si è intodotto il sistema dell'Asinchronous
-Method Invocation, che è un ulteriore modo per definire una comunicazione
-sincrona non bloccante: il cliente non deve attendere quindi per il risultato.
-Si ottiene cambiando solo l'interfaccia, per cui si delega un altro oggetto per
-attendere la risposta, separando la fase di richiesta da quella callback. Tuttavia,
-è necessario che sia il cliente a specificare il codice della callback da eseguire.
-Inoltre, si può anche definire che il client recuperi il risultato usando un pollo
-object. Nel caso di call-back quindi si utilizza un sistema di re and forget. In
-entrambi i casi si lavora solo dal lato del client, per estendere la funzionalità.
-Il servant continua a lavorare in maniera sincrona bloccante! Ciò che cambia
-oltre a chi richiama il metodo (nel primo caso è l'ORB, nel secondo è il client),
-l'interfaccia è leggermente diversa: nel poll i parametri necessari sono di out!
-Questo genere di interazione è molto diffusa, perché permette di richiedere
-contemporaneamente molte {`}istruzioni'.
+Con CORBA 3 in particolare si è intodotto il sistema dell'\textit{Asynchronous Method Invocation}, che è un ulteriore 
+modo per definire una comunicazione sincrona non bloccante: il cliente non deve attendere quindi per il risultato.
+Si ottiene cambiando solo l'interfaccia, per cui si delega un altro oggetto per attendere la risposta, separando la fase 
+di richiesta da quella callback. Tuttavia, è necessario che sia il cliente a specificare il codice della callback da 
+eseguire.
+Inoltre, si può anche definire che il client recuperi il risultato usando un poll object. Nel caso di call-back quindi 
+si utilizza un sistema di \textit{fire and forget}. In entrambi i casi si lavora solo dal lato del client, per estendere 
+la funzionalità.
+Il servant continua a lavorare in maniera sincrona bloccante! Ciò che cambia oltre a chi richiama il metodo (nel primo 
+caso è l'ORB, nel secondo è il client), l'interfaccia è leggermente diversa: nel poll i parametri necessari sono di out!
+Questo genere di interazione è molto diffusa, perché permette di richiedere contemporaneamente molte ``istruzioni''.
 \subsection{Servizi già presenti in CORBA}
 Come già detto, CORBA fornisce diversi servizi già utilizzabili.
-Per esempio, per realizzare un servizio di nomi si possono usare il naming
-service già presente, oppure addirittura un trading service. La differenza fra
-i 2 sistemi è che il name service permette di categorizzare i servizi in base ad
-un nome logico (si fornisce il nome logico, si ottiene il riferimento al servizio),
-mentre il trading service fornisce un sistema simile a quello delle pagine gialle,
-per cui i servizi sono catalogati in base al loro contenuto. In questo caso si
-ricerca quindi per chiavi: a default vengono forniti tutti i servizi, ma vi è la
-possibilità di ltrare i risultati, per ridurne il numero.33
-In entrambi i casi si può pensare (a differenza di Java RMI) di realizzare
-dei sistemi federati, ovvero una gerarchia di name o trader server federati, in
-maniera di essere coordinati!
-Un altro servizio che viene fornito è quello di poter lavorare ad eventi e
-notiche: questi infatti non sono strumenti propriamente tipici del modello ad
-oggetti, che possono essere sfruttati per realizzare facilmente architetture con
-molti clienti e produttori; non è quindi P2P, ma una comunicazione molti a
-molti.
-CORBA stabilisce delle apposite interfacce, denendo mediante ognuna il
-modo di comunicare (push dal produttore, pull dal consumatore, . . . ). Si
-definisce un canale come oggetto di delega, per poter inviare i messaggi ai
-33 Non
-si ricercano ovviamente interfacce, perché presenti sull'IR
-71
-client, o fare polling ai supplier. Un client si registra quindi al canale, e da
-quel momento comincia a ricevere gli eventi.
+Per esempio, per realizzare un servizio di nomi si possono usare il naming service già presente, oppure addirittura un 
+trading service. La differenza fra i 2 sistemi è che il name service permette di categorizzare i servizi in base ad
+un nome logico (si fornisce il nome logico, si ottiene il riferimento al servizio), mentre il trading service fornisce 
+un sistema simile a quello delle pagine gialle, per cui i servizi sono catalogati in base al loro contenuto. In questo 
+caso si ricerca quindi per chiavi: a default vengono forniti tutti i servizi, ma vi è la possibilità di filtrare i 
+risultati, per ridurne il numero.\footnote{Non si ricercano ovviamente interfacce, perché presenti sull'IR}
+In entrambi i casi si può pensare (a differenza di Java RMI) di realizzare dei sistemi federati, ovvero una gerarchia di 
+name o trader server federati, in maniera di essere coordinati!
+Un altro servizio che viene fornito è quello di poter lavorare ad eventi e notifiche: questi infatti non sono strumenti 
+propriamente tipici del modello ad oggetti, che possono essere sfruttati per realizzare facilmente architetture con
+molti clienti e produttori; non è quindi P2P, ma una comunicazione molti a molti.
+CORBA stabilisce delle apposite interfacce, denendo mediante ognuna il modo di comunicare (push dal produttore, pull dal 
+consumatore..). Si definisce un canale come oggetto di delega, per poter inviare i messaggi ai client, o fare polling ai 
+supplier. Un client si registra quindi al canale, e da quel momento comincia a ricevere gli eventi.
 Di solito, non è noto chi è che genera l'evento, è trasparente al consumatore.
-Gli eventi sono non persistenti, senza qualità, e senza possibilità di ltraggio: si
-ha che quindi la maniera più comoda per lavorare è il sistema push, e per avere
-QoS conviene utilizzare il notification service, che è in grado di fornire qualità
-e persistenza!
+Gli eventi sono non persistenti, senza qualità, e senza possibilità di filtraggio: si ha che quindi la maniera più 
+comoda per lavorare è il sistema push, e per avere QoS conviene utilizzare il notification service, che è in grado di 
+fornire qualità e persistenza!
