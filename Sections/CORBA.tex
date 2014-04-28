@@ -94,154 +94,112 @@ esempio, Java non prevede parametri di output. Per ovviare a questi problemi, CO
 Si possono anche determinare automaticamente altre classi d'aiuto dette helper, in maniera da armonizzare i dati
 rispetto a CORBA (narrowing) e di fornire diverse funzioni di varia utilità.
 \subsection{Gli Object Adapter}
-Gli adattatori sono diventati dei componenti quasi più importanti dell'ORB
-stesso, visto che sono gli abilitatori del servizio stesso. L'ORB si preoccupa di
-crearlo ed abilitarlo, mediante diverse politiche specificabili.
-A cosa serve quindi? A superare le disomogeneità e differenze che vi sono
-fra le varie implementazioni degli ORB, dovute appunto all'eterogeneità (per
-esempio, riuscendo a far colloquiare linguaggi non tipati con quelli tipati!).
+Gli adattatori sono diventati dei componenti quasi più importanti dell'ORB stesso, visto che sono gli abilitatori del 
+servizio stesso. L'ORB si preoccupa di crearlo ed abilitarlo, mediante diverse politiche specificabili.
+A cosa serve quindi? A superare le disomogeneità e differenze che vi sono fra le varie implementazioni degli ORB, dovute 
+appunto all'eterogeneità (per esempio, riuscendo a far colloquiare linguaggi non tipati con quelli tipati!).
 Questo sistema permette di disaccoppiare in maniera corretta l'ORB dall'implementazione del servizio stesso: l'ORB lo
-sfrutta, ma ci pensa l'adattatore a
-richiamarlo in maniera corretta a seconda della sua implementazione. L'adattatore riesce quindi ad integrare più
-componenti scritti in linguaggi diversi! Senza
-un adattatore, l'ORB non riuscirebbe a raggiungere il proxy del servitore, senza
-avere conoscenza della sua logica implementativa.
+sfrutta, ma ci pensa l'adattatore a richiamarlo in maniera corretta a seconda della sua implementazione. L'adattatore 
+riesce quindi ad integrare più componenti scritti in linguaggi diversi! Senza un adattatore, l'ORB non riuscirebbe a 
+raggiungere il proxy del servitore, senza avere conoscenza della sua logica implementativa.
 Inizialmente, lo standard prevedeva dei BOA, che erano delle implementazioni più semplici. Ora gli adattatori sono in
-grado di fornire servizi diversi a
-server diversi!
+grado di fornire servizi diversi a server diversi!
 \subsection{L'Interface repository}
-Si tratta del luogo dove vengono depositati gli IDL, e quindi da dove si possono
-recuperare le informazioni degli unici servizi utilizzabili nell'architettura!
-Questo sistema non è utilizzato nella gestione statica dell'architettura, ma
-in quella dinamica. Infatti, è ricavando l'IDL dall'IR che si può realizzare un
-binding dinamico, e quindi permettere di aggiungere in maniera dinamica dei
+Si tratta del luogo dove vengono depositati gli IDL, e quindi da dove si possono recuperare le informazioni degli unici 
+servizi utilizzabili nell'architettura!
+Questo sistema non è utilizzato nella gestione statica dell'architettura, ma in quella dinamica. Infatti, è ricavando 
+l'IDL dall'IR che si può realizzare un binding dinamico, e quindi permettere di aggiungere in maniera dinamica dei
 servizi ad un servitore/cliente.
-Un IR può essere realizzato in diversi modi, tuttavia è previsto che ogni
-interfaccia correttamente compilata ed inserita, venga depositata in un'apposita
-struttura ad albero, in base ai moduli che la contengono.
+Un IR può essere realizzato in diversi modi, tuttavia è previsto che ogni interfaccia correttamente compilata ed 
+inserita, venga depositata in un'apposita struttura ad albero, in base ai moduli che la contengono.
 \subsection{Protocolli per la comunicazione fra ORB}
-Inizialmente, CORBA era stato progettato per scambiare dati binari, in maniera
-da ottenere un'ottimizzazione della comunicazione. In seguito si sono introdotte
-estensioni come la possibilità di lavorare in Internet fra diversi ORB, o anche di
-realizzare comunicazioni fra ORB diversi con protocolli più generalizzati.
-Il problema di utilizzare ORB diversi è però la gestione di riferimenti remoti
-fra ORB diversi ! Il servizio si sa che non è legato allo specifico servitore, quindi
-65
-si dovrà trovare un sistema di rendere questi riferimenti globalmente unici (e
-qual è il loro tempo di vita?).
+Inizialmente, CORBA era stato progettato per scambiare dati binari, in maniera da ottenere un'ottimizzazione della 
+comunicazione. In seguito si sono introdotte estensioni come la possibilità di lavorare in Internet fra diversi ORB, o 
+anche di realizzare comunicazioni fra ORB diversi con protocolli più generalizzati.
+Il problema di utilizzare più di un ORB è però la gestione di riferimenti remoti fra ORB diversi! Il servizio si sa 
+che non è legato allo specifico servitore, quindi si dovrà trovare un sistema per rendere questi riferimenti 
+globalmente unici (e qual è il loro tempo di vita?).
 \subsection{Cosa è e cosa non è CORBA}
-CORBA è un sistema pesante, quindi non ha senso utilizzarlo per progetti
-semplici o dove le operazioni son semplici (tipo, settare il valore di una singola
-variabile). CORBA infatti sfrutta risorse a grana grossa, che non si muovono!
-Il problema di CORBA è infatti che se l'ORB non funziona (o la macchina che
-lo contiene non è raggiungibile) tutta l'architettura è oine!
-CORBA non è un ambiente di linguaggio, cioè non crea lui gli oggetti. L'ate
-tivazione degli oggetti, la loro politica di gestione è tutta a carico degli Object
-Adapter, che variano in base all'implementazione! Non vi è quindi uno stane
-dard, è il POA a decidere come/se salvare lo stato, . . . Infatti, i servant sono
-delle entità passive, a cui il POA porta la richiesta del client e da cui richiede
-la risposta corrispondente!
-CORBA fondamentalmente richiede la presenza di un riferimento remoto
-per poter lavorare: le funzioni base di CORBA sono quindi quelle di gestione e
-comunicazione dei riferimenti remoti (trasformazione da/a stringa).
+CORBA è un sistema pesante, quindi non ha senso utilizzarlo per progetti semplici o dove le operazioni son semplici 
+(tipo, settare il valore di una singola variabile). CORBA infatti sfrutta risorse a grana grossa, che non si muovono!
+Il problema di CORBA è infatti che se l'ORB non funziona (o la macchina che lo contiene non è raggiungibile) tutta 
+l'architettura è offline!
+CORBA non è un ambiente di linguaggio, cioè non crea lui gli oggetti. L'attivazione degli oggetti, la loro politica di 
+gestione è tutta a carico degli Object Adapter, che variano in base all'implementazione! Non vi è quindi uno standard, è 
+il POA a decidere come/se salvare lo stato... Infatti, i servant sono delle entità passive, a cui il POA porta la 
+richiesta del client e da cui richiede la risposta corrispondente!
+CORBA fondamentalmente richiede la presenza di un riferimento remoto per poter lavorare: le funzioni base di CORBA sono 
+quindi quelle di gestione e comunicazione dei riferimenti remoti (trasformazione da/a stringa).
 \subsection{Confronto fra Java e CORBA, e sua evoluzione}
-I due sistemi sono abbastanza compatibili, proprio perché hanno obiettivi diversi
-(Web invece che integrazione di sistemi legacy) e lavorano utilizzando risorse
-diverse (a grana ne vs grana grossa).
+I due sistemi sono abbastanza compatibili, proprio perché hanno obiettivi diversi (Web invece che integrazione di 
+sistemi legacy) e lavorano utilizzando risorse diverse (a grana ne vs grana grossa).
 CORBA ha subito diverse evoluzioni, guidate dalle esigenze delle varie aziende.
-Ogni evoluzione ha mantenuto i sistemi e gli oggetti già introdotti, cercando di
-estendere i concetti già introdotti (introducendo nuovi linguaggi, aumentando i
-servizi, . . . ). Per esempio, CORBA 3 introduce altri sistemi di comunicazione
-oltre alla maniera sincrona bloccante.
+Ogni evoluzione ha mantenuto i sistemi e gli oggetti già introdotti, cercando di estendere i concetti già introdotti 
+(introducendo nuovi linguaggi, aumentando i servizi...). Per esempio, CORBA 3 introduce altri sistemi di 
+comunicazione oltre alla maniera sincrona bloccante.
 \subsection{Invocazione statica}
-`
-E il modello base, ed è anche quello maggiormente utilizzato: permette solo una
-comunicazione di tipo sincrona bloccante29 . Si basa sull'utilizzo di due diversi
-proxy dal lato del client e del server (stub e skeleton). L'attivazione del servitore
-però è dinamica: se non è presente, il POA si preoccupa di attivarlo.
-oe
-L'invocazione statica bloccante è quella che costa di meno (semantica ate
-most-once), però può anche essere molto limitante. Questo perché i client e
-i servant devono avere già deciso i proxy in maniera statica, e quindi anche i
+È il modello base, ed è anche quello maggiormente utilizzato: permette solo una comunicazione di tipo sincrona 
+bloccante\footnote{Da ricordare che statico non significa che il client è legato allo specifico servant, ma che il
+contratto è deciso prima dell'esecuzione}. Si basa sull'utilizzo di due diversi proxy dal lato del client e del server 
+(stub e skeleton). L'attivazione del servitore però è dinamica: se non è presente, il POA si preoccupa di attivarlo.
+L'invocazione statica bloccante è quella che costa di meno (semantica at most-once), però può anche essere molto 
+limitante. Questo perché i client e i servant devono avere già deciso i proxy in maniera statica, e quindi anche i
 servizi! Tutto prima dell'esecuzione!
-Inizialmente si era introdotta anche un altra modalità, detta one-way, ma è
-deprecata (semantica best-effort, senza possibilità di introdurre QoS).
-29 Da ricordare che statico non significa che il client è legato allo specifico servant, ma che il
-contratto è deciso prima dell'esecuzione
-66
+Inizialmente si era introdotta anche un altra modalità, detta one-way, ma è deprecata (semantica best-effort, senza 
+possibilità di introdurre QoS).
 \subsection{Compiti e politiche di un adattatore}
-Non è un componente CORBA, ma che dipende dalle varie implementazioni:
-il loro compito è quello di dialogare con il servant, il quale si registra presso
-l'adattatore corrispondente. In un certo senso, quindi, fanno le veci di un sistema
+Non è un componente CORBA, ma che dipende dalle varie implementazioni: il suo compito è quello di dialogare con il 
+servant, il quale si registra presso l'adattatore corrispondente. In un certo senso, quindi, fa le veci di un sistema
 di nomi, fornendo ai servant anche le risorse dinamiche necessarie.
-La semantica degli adattatori è sempre sincrona. Vi sono diverse modalità
-d'attivazione iniziali:
-$\bullet$ Thread per request: per ogni richiesta l'adattatore30 si preoccupa di creare
-un thread, quindi si ha una creazione by-need. Ha quindi un costo abbastanza elevato.
-$\bullet$ Pool di thread : I thread sono pre-creati, in maniera da ridurre il costo
-d'attivazione (consumano poche risorse se non lavorano). Si deve quindi
-prevedere una coda delle richieste, per poter associare ad ogni richiesta un
-suo thread.
-Si potrebbe realizzare un pool dinamico, in grado quindi di estendere la
-sua dimensione in base all'esigenze che si riscontrano durante l'esecuzione.
-Il costo è più limitato, ma aumenta il tempo d'attesa.
-e u
-$\bullet$ Thread per sessione: è un sistema per fornire un maggiore accoppiamene
-to. Si trasferisce infatti la responsabilità sul client, permettendogli quina
-di di battere sullo stesso servant rispetto alla sessione. Si hanno quindi delle richieste sequenzializzate. Questo
-sistema limita ulteriormente il
-parallelismo.
-$\bullet$ Thread per servant: ogni oggetto viene incapsulato in un singolo servant,
-per cui si limita ulteriormente la parallelizzazione. Prima di poter servire
-un'ulteriore richiesta, il servant deve concludere la richiesta precedente.
-Si hanno dei problemi da considerare nel caso di ORB distribuiti: infatti, si
-immagini che si passi un riferimento remoto ad un client da un ORB diverso,
-utilizzando come modello il thread per sessione. CORBA dice che è possibile
-mantenere le stesse politiche anche se si passa il riferimento all'esterno, ma
-in realtà si potrebbe avere che un client diverso utilizzi delle politiche diverse
-(potrebbe non essere necessario, per limitare i costi, costringere il client ad utilizzare lo stesso servant). Si hanno
-così meno garanzie (non mantengo la stessa
-\i{}
-politica), ma si ottengono anche dei costi limitati. Si potrebbero anche avere
-politiche diverse fra ORB, dovuto tutto ad implementazioni diverse!
-Gli adattatori devono quindi garantire certte funzionalità, e nel corso del
-tempo è diventato sempre più un componente centrale dell'architettura. Cone
-trollano l'esecuzione delle operazione, forniscono un sistema per cui l'ORB non
-si preoccupi realmente dell'implementazione, ma per cui può semplicemente
-`
-portare la richiesta al servant e riportarne indietro la risposta. E il POA a
-30 Sono
-gli adattatori che devono fornire le politiche!
-67
-decidere quindi le politiche d'attivazione e il numero di servant necessari per
+La semantica degli adattatori è sempre sincrona. Vi sono diverse modalità d'attivazione iniziali:
+\begin{itemize}
+ \item \textit{Thread per request}: per ogni richiesta l'adattatore\footnote{Sono gli adattatori che devono fornire le 
+ politiche!} si preoccupa di creare un thread, quindi  si ha una creazione by-need. Ha quindi un costo abbastanza 
+ elevato.
+ \item \textit{Pool di thread}: I thread sono pre-creati, in maniera da ridurre il costo d'attivazione (consumano poche 
+ risorse se non lavorano). Si deve quindi prevedere una coda delle richieste, per poter associare ad ogni richiesta un
+ suo thread. Si potrebbe realizzare un pool dinamico, in grado quindi di estendere la sua dimensione in base 
+ all'esigenze che si riscontrano durante l'esecuzione. Il costo è più limitato, ma aumenta il tempo d'attesa.
+ \item \textit{Thread per sessione}: è un sistema per fornire un maggiore accoppiamento. Si trasferisce infatti la 
+ responsabilità sul client, permettendogli quindi di battere sullo stesso servant rispetto alla sessione. Si hanno 
+ quindi delle richieste sequenzializzate. Questo sistema limita ulteriormente il parallelismo.
+ \item \textit{Thread per servant}: ogni oggetto viene incapsulato in un singolo servant, per cui si limita 
+ ulteriormente la parallelizzazione. Prima di poter servire un'ulteriore richiesta, il servant deve concludere la 
+ richiesta precedente.
+\end{itemize}
+Si hanno dei problemi da considerare nel caso di ORB distribuiti: infatti, si immagini che si passi un riferimento 
+remoto ad un client da un ORB diverso, utilizzando come modello il thread per sessione. CORBA dice che è possibile
+mantenere le stesse politiche anche se si passa il riferimento all'esterno, ma in realtà si potrebbe avere che un client 
+diverso utilizzi delle politiche diverse (potrebbe non essere necessario, per limitare i costi, costringere il client ad 
+utilizzare lo stesso servant). Si hanno così meno garanzie (non mantengo la stessa politica), ma si ottengono anche dei 
+costi limitati. Si potrebbero anche avere politiche diverse fra ORB, dovuto tutto ad implementazioni diverse!
+Gli adattatori devono quindi garantire certe funzionalità, e nel corso del tempo è diventato sempre più un componente 
+centrale dell'architettura. Controllano l'esecuzione delle operazione, forniscono un sistema per cui l'ORB non
+si preoccupi realmente dell'implementazione, ma per cui può semplicemente portare la richiesta al servant e riportarne 
+indietro la risposta. E il POA a decidere quindi le politiche d'attivazione e il numero di servant necessari per
 l'esecuzione!
-Inizialmente si aveva i BOA: questi erano legati a poche interfacce, e ad un
-unico ambiente di linguaggio. I POA sono un'estensione, aggiungendo funzionalità, potendo interagire con servant dotati
-di interfacce e linguaggi diversi: da
-qui la definizione di portable! Non abbiamo infatti una chiara indicazione della
-sua locazione.
-CORBA è stato il primo standard che ha cercato di realizzare un sistema
-mw per gli oggetti attivi: un riferimento è quindi in grado di puntare potenziale
-mente a più oggetti: un POA riceve il riferimento e deve accedere all'oggetto
-desiderato. In generale, meno POA son presenti e meglio è: infatti, le varie
-implementazioni forniscono un POA di base, che contiene tutte le politiche di
-gestione già definite. Un suo glio non eredita direttamente tutte le politiche, ma
+Inizialmente si avevano i BOA: questi erano legati a poche interfacce, e ad un unico ambiente di linguaggio. I POA sono 
+un'estensione, aggiungendo funzionalità, potendo interagire con servant dotati di interfacce e linguaggi diversi: da
+qui la definizione di portable! Non abbiamo infatti una chiara indicazione della sua locazione.
+
+CORBA è stato il primo standard che ha cercato di realizzare un sistema mw per gli oggetti attivi: un riferimento è 
+quindi in grado di puntare potenziale mente a più oggetti: un POA riceve il riferimento e deve accedere all'oggetto
+desiderato. In generale, meno POA son presenti e meglio è: infatti, le varie implementazioni forniscono un POA di base, 
+che contiene tutte le politiche di gestione già definite. Un suo figlio non eredita direttamente tutte le politiche, ma
 deve essere specificato quali politiche si vogliono attivate: abbiamo quindi in realtà un gestore per i POA, che
-stabilisce per ogni POA quante e quali politiche
-debba implementare (attiva/disattiva i POA, blocca/scarta le richieste per i
-POA). Si potrebbe permettere all'utente di modificare dinamicamente l'active
-object map, ma è fatto di rado.
-Essendo il responsabile dell'oggetto, il POA è responsabile anche del suo
-riferimento. Deve essere in grado quindi di denirlo, identicare gli oggetti in
-base all'ID proposto e gestire i servant. In particolare, deve riuscire a distinguere
-fra oggetti transienti e quelli persistenti.
+stabilisce per ogni POA quante e quali politiche debba implementare (attiva/disattiva i POA, blocca/scarta le richieste 
+per i POA). Si potrebbe permettere all'utente di modificare dinamicamente l'active object map, ma è fatto di rado.
+Essendo il responsabile dell'oggetto, il POA è responsabile anche del suo riferimento. Deve essere in grado quindi di 
+definirlo, identicare gli oggetti in base all'ID proposto e gestire i servant. In particolare, deve riuscire a 
+distinguere fra oggetti transienti e quelli persistenti.
 Quali sono quindi le politiche d'attivazione per gli oggetti? Possiamo avere:
-$\bullet$ Explicit Object Activation: è tutto a carico del client
-$\bullet$ Single servant: viene attivato un servant per ogni richiesta, uno solo.
-$\bullet$ On demand : sono le politiche per poter scegliere i servant in base alle richieste specificate. Se si tratta di
-un singolo metodo non vi è stato, altrimene
-ti si tratta di On-demand per una durata indefinita. Una caratteristica
-particolare è che le politiche si possono combinare!
+\begin{itemize}
+ \item \textit{Explicit Object Activation}: è tutto a carico del client
+ \item \textit{Single servant}: viene attivato un servant per ogni richiesta, uno solo.
+ \item \textit{On demand}: sono le politiche per poter scegliere i servant in base alle richieste specificate. Se si 
+ tratta  di un singolo metodo non vi è stato, altrimenti si tratta di On-demand per una durata indefinita. Una 
+ caratteristica particolare è che le politiche si possono combinare!
+\end{itemize}
 \subsection{Binding dinamico}
 Avendo a disposizione prima le interfacce, si possono implementare direttamente client e servant. Tuttavia, è mediante
 l'invocazione dinamica con cui
