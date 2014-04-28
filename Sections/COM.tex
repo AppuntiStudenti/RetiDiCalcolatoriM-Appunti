@@ -1,127 +1,88 @@
-
 \section{COM, DCOM e .NET}
-Nell'architettura Microsoft, la GUI è sempre stata fondamentale (la finestra non è solo un elemento graco, ma è tutto
+Nell'architettura Microsoft, la GUI è sempre stata fondamentale (la finestra non è solo un elemento grafico, ma è tutto
 ciò a cui è costruito attorno il sistema; l'interazione fra i processi è guidata dalle finestre!). E da loro che è nata
-l'idea
-di dinamyc library, cioè di una libreria che si potesse caricare solo su bisogno:
-idea molto dinamica, che però richiede il costo del caricamento.
-Ma quindi, visto che le DLL si possono caricare/scaricare a piacimento, i
-processi non possono avere uno stato, specialmente se condividono codice, così
-\i{}
-da aumentare al massimo la condivisibilità. Il kernel Microsoft è un microa
-kernel, proprio sfruttando le DLL (si caricano sempre e solo quelle necessarie).
-Si utilizza un sistema di conteggio dei riferimenti per decidere se deallocare una
-DLL.
+l'idea di dinamyc library, cioè di una libreria che si potesse caricare solo su bisogno: idea molto dinamica, che però 
+richiede il costo del caricamento.
+Ma quindi, visto che le DLL si possono caricare/scaricare a piacimento, i processi non possono avere uno stato, 
+specialmente se condividono codice, così  da aumentare al massimo la condivisibilità. Il kernel Microsoft è un 
+microkernel, proprio sfruttando le DLL (si caricano sempre e solo quelle necessarie).
+Si utilizza un sistema di conteggio dei riferimenti per decidere se deallocare una DLL.
 Le DLL sono quindi ascrivibili in 3 diversi gruppi: kernel, utente (windowing) e GUI. Il sistema è però facilmente
-estendibile, potendo introdurre nuove
-DLL (es, WinSocket).
-Nei sistemi operativi Microsoft tutti i tipi di oggetti (sia utente che kernel)
-possiedono degli appositi handler per riferirli ed identicarli, in maniera tale da
-poterli utilizzare anche con le apposite API di Windows. A differenza di Unix,
-l'interfaccia per richiamare gli oggetti non è molto compatta, risultando essere
-molto complessa.
-Windows fa un uso pesante del modello ad eventi (il sistema graco fa un
-buon match con ciò). Si tratta di un modello fortemente push (all'epoca era
-anche l'unico modello esistente per lavorare quando non si avevano ancora i
-processi). Gli eventi vengono usati ancora anche a livello applicativo: a livelli
-inferiori risultano essere molto più flessibili, sfruttando il modello a call-back:
-l'applicazione fornisce un handler/funzione da richiamare nel caso si presenti
-l'evento alla DLL opportuna34 . L'evento è lanciato da una qualunque intere
-azione dell'utente o presso una periferica esterna, e viene lanciato a tutti quelli
-che lo necessitano (ogni programma ha una sua coda per gli eventi).
-Un'altra tecnologia importante introdotta dalla Microsoft è il cosidetto Obe
-ject Linking and Embedding, per cui si vuole gestire le applicazioni in maniera
-34 Quindi
-ogni finestra registra per ogni evento un possibile handler!
-72
-integrata. L'idea è quella di suddividere correttamente i compiti fra il docue
-mento ed il gestore del documento. Ogni tipologia di documento, infatti, ha un
-proprio gestore che viene richiamato all'atto del caricamento del documento.
-Tuttavia, un documento può essere fatto di diverse parti, ovvero di altri
-documenti: si deve quindi anche caricare il gestore degli altri documenti di cui
-è composto. In particolare si può avere che:
-$\bullet$ Il documento contiene un riferimento all'altra tipologia di documento,
-ovvero si fa linking
-$\bullet$ Il documento contiene proprio una copia dell'altro documento, ovvero si
-fa embedding. Quest'ultimo caso non è realizzabile direttamente con il
-modello ad oggetti!
-Mediante questa tecnologia si può quindi attivare un'applicazione all'interno
-dell'altra: vi possono essere problemi di duplicazione dell'oggetto o la presenza
-di riferimenti multipli e di molteplici gestori della stessa tipologia di documento
-(quanti ne attiviamo?). Tuttavia, nel concentrato non presenta grossi problemi
-e funziona bene.
-L'idea della Microsoft era però quella di estendere il concetto di OLE anche
-al distribuito, da qui la tecnologia COM. Nel concentrato era tutto più semplice
-perché si sfruttava il registry di Windows per identicare in maniera univoca un
-oggetto35 , e per poter registrare quindi i vari gestori.
+estendibile, potendo introdurre nuove DLL (es, WinSocket).
+Nei sistemi operativi Microsoft tutti i tipi di oggetti (sia utente che kernel) possiedono degli appositi handler per 
+riferirli ed identicarli, in maniera tale da poterli utilizzare anche con le apposite API di Windows. A differenza di 
+Unix, l'interfaccia per richiamare gli oggetti non è molto compatta, risultando essere molto complessa.
+Windows fa un uso pesante del modello ad eventi (il sistema grafico fa un buon match con ciò). Si tratta di un modello 
+fortemente push (all'epoca era anche l'unico modello esistente per lavorare quando non si avevano ancora i processi). 
+Gli eventi vengono usati ancora anche a livello applicativo: a livelli inferiori risultano essere molto più flessibili, 
+sfruttando il modello a call-back: l'applicazione fornisce un handler/funzione da richiamare nel caso si presenti
+l'evento alla DLL opportuna\footnote{Quindi ogni finestra registra per ogni evento un possibile handler!}. L'evento è 
+lanciato da una qualunque interazione dell'utente o presso una periferica esterna, e viene lanciato a tutti quelli che 
+lo necessitano (ogni programma ha una sua coda per gli eventi).
+Un'altra tecnologia importante introdotta dalla Microsoft è il cosidetto OLE (\textit{Object Linking and Embedding}), 
+per cui si vuole gestire le applicazioni in maniera integrata. L'idea è quella di suddividere correttamente i compiti 
+fra il documento ed il gestore del documento. Ogni tipologia di documento, infatti, ha un proprio gestore che viene 
+richiamato all'atto del caricamento del documento.
+Tuttavia, un documento può essere fatto di diverse parti, ovvero di altri documenti: si deve quindi anche caricare il 
+gestore degli altri documenti di cui è composto. In particolare si può avere che:
+\begin{itemize}
+ \item Il documento contiene un riferimento all'altra tipologia di documento, ovvero si fa linking
+ \item Il documento contiene proprio una copia dell'altro documento, ovvero si fa embedding. Quest'ultimo caso non è 
+ realizzabile direttamente con il modello ad oggetti!
+\end{itemize}
+Mediante questa tecnologia si può quindi attivare un'applicazione all'interno dell'altra: vi possono essere problemi di 
+duplicazione dell'oggetto o la presenza di riferimenti multipli e di molteplici gestori della stessa tipologia di 
+documento (quanti ne attiviamo?). Tuttavia, nel concentrato non presenta grossi problemi e funziona bene.
+L'idea della Microsoft era però quella di estendere il concetto di OLE anche al distribuito, da qui la tecnologia COM. 
+Nel concentrato era tutto più semplice perché si sfruttava il registry di Windows per identicare in maniera univoca un
+oggetto\footnote{Sfruttando il GUID, derivato dall'UUID descritto dal DCE. In Microsoft, i diversi GUID son classificati 
+in base al tipo di oggetti che riferiscono (interfacce, classi...)}, e per poter registrare quindi i vari gestori.
 \subsection{Architettura COM}
-COM è stato il sistema standard per la Microsoft per poter descrivere l'intere
-azione fra processi diversi, utilizzando come base i componenti e una comunicazione C/S sincrona. Si può notare la
-differenza con i precedenti modelli: nei
-sistemi precedenti la comunicazione si basava soprattutto sul modello ad eventi,
-che è molto lontano dalla comunicazione sincrona!
-Lo standard definisce delle specifiche per cui i componenti siano in grado
-di comunicare fra di loro, in maniera indipendente dal linguaggio utilizzato e
-dalle applicazioni che li usano. L'idea è quella di introdurre una uniformità nel
-comportamento: dll, componenti su macchine diverse, . . . Si ottiene così omo\i{}
-geneità a livello di comportamento fra oggetto locale e remoto, introducendo
-così trasparenza. In particolare, si utilizzano metodi standard per la comuni\i{}
-cazione remota, come RPC di DCE.
-Alla base di COM vi è l'uso delle interfacce: un componente, per poter
-essere usato, deve fornire un'interfaccia comune e conosciuta da tutti gli attori. L'interfaccia infatti definisce la
-visione logica. Tutte le interfacce COM
-derivano da una stessa interfaccia detta IUnknown. In COM ogni oggetto e ogni
-interfaccia possono essere identicati in maniera univoca da dei GUID, che però
-distinguono anche fra componenti ed interfacce.
-35 Sfruttando il GUID, derivato dall'UUID descritto dal DCE. In Microsoft, i diversi GUID
-son classificati in base al tipo di oggetti che riferiscono (interfacce, classi, . . . )
-73
+COM è stato il sistema standard per la Microsoft per poter descrivere l'interazione fra processi diversi, utilizzando 
+come base i componenti e una comunicazione C/S sincrona. Si può notare la differenza con i precedenti modelli: nei
+sistemi precedenti la comunicazione si basava soprattutto sul modello ad eventi, che è molto lontano dalla comunicazione 
+sincrona!
+Lo standard definisce delle specifiche per cui i componenti siano in grado di comunicare fra di loro, in maniera 
+indipendente dal linguaggio utilizzato e dalle applicazioni che li usano. L'idea è quella di introdurre una uniformità 
+nel comportamento: dll, componenti su macchine diverse... Si ottiene così omogeneità a livello di comportamento fra 
+oggetto locale e remoto, introducendo così trasparenza. In particolare, si utilizzano metodi standard per la 
+comunicazione remota, come RPC di DCE.
+Alla base di COM vi è l'uso delle interfacce: un componente, per poter essere usato, deve fornire un'interfaccia comune 
+e conosciuta da tutti gli attori. L'interfaccia infatti definisce la visione logica. Tutte le interfacce COM
+derivano da una stessa interfaccia detta IUnknown. In COM ogni oggetto e ogni interfaccia possono essere identicati in 
+maniera univoca da dei GUID, che però distinguono anche fra componenti ed interfacce.
 L'interfaccia funziona semplicemente come un puntatore alle funzioni che descrive, contenute in una virtual method
-table: ogni entry di questa tabella punta
-al codice che i metodi devono implementare. In COM non esiste l'ereditarietà
-a livello di classe ma solo (anche multipla) a livello di interfacce. Si ha quindi
-un grafo che rappresenta l'ereditarietà, che spesso è difficile da navigare! I nomi
-univoci sono infatti tutti registrati nel registry, a seconda della loro applicazione.
-L'interfaccia IUnknown presenta solo 3 metodi (presenti sempre nei primi
-3 slot di ogni VMT di ogni componente): uno per aggiungere un riferimento
-all'oggetto, uno per farne il release, e infine un QueryInterface. Quest'ultimo è
-fondamentale per poter interagire con l'oggetto stesso: prende infatti il GUID e
-verica se esiste un oggetto che implementi quell'interfaccia. In caso aermativo,
-si preoccupa di restituire un puntatore all'interfaccia corrispondente. Questo è un metodo pervasivo, è l'unico modo con
-cui accedere ai diversi metodi. Gli
-altri infatti sono utilizzati per gestire le risorse in maniera dinamica.
-La deallocazione degli oggetti può essere decisa: o si utilizza un garbage colo
-lector, oppure si utilizza il sistema del reference counting, oppure si può anche
-non gestire! Si può quindi osservare una differenza rispetto a CORBA: qui è
-necessario vedere come avviene l'interazione di basso livello! Si deve per forza
-passare per il metodo QueryInterface.
-In COM vi è quindi solo l'ereditarietà in base alle interfacce: questo perché
-l'ereditarietà all'epoca era vista come un sistema troppo accoppiante, e quindi da
-limitare. Infatti, ereditando solo le interfacce non si eredita l'implementazione
-ed eventuali comportamenti non desiderati. Fondamentalmente, l'ereditarietà
-rompeva il principio dell'incapsulamento (la classe derivata infatti può accedere
-alla classe base)!
-COM quindi introduce due metodi alternativi per poter estendere una classe:
-aggregazione o delegazione. In ogni modo, un oggetto non implementa tutti i
-metodi che la sua interfaccia espone, ma {`}ridirige' la richiesta di controllo ad
+table: ogni entry di questa tabella punta al codice che i metodi devono implementare. In COM non esiste l'ereditarietà
+a livello di classe ma solo (anche multipla) a livello di interfacce. Si ha quindi un grafo che rappresenta 
+l'ereditarietà, che spesso è difficile da navigare! I nomi univoci sono infatti tutti registrati nel registry, a seconda 
+della loro applicazione.
+L'interfaccia IUnknown presenta solo 3 metodi (presenti sempre nei primi 3 slot di ogni VMT di ogni componente): uno per 
+aggiungere un riferimento all'oggetto, uno per farne il release, e infine un QueryInterface. Quest'ultimo è fondamentale 
+per poter interagire con l'oggetto stesso: prende infatti il GUID e verica se esiste un oggetto che implementi 
+quell'interfaccia. In caso affermativo, si preoccupa di restituire un puntatore all'interfaccia corrispondente. Questo è 
+un metodo pervasivo, è l'unico modo con cui accedere ai diversi metodi. Gli altri infatti sono utilizzati per gestire le 
+risorse in maniera dinamica.
+La deallocazione degli oggetti può essere decisa: o si utilizza un garbage collector, oppure si utilizza il sistema del 
+reference counting, oppure si può anche non gestire! Si può quindi osservare una differenza rispetto a CORBA: qui è
+necessario vedere come avviene l'interazione di basso livello! Si deve per forza passare per il metodo QueryInterface.
+In COM vi è quindi solo l'ereditarietà in base alle interfacce: questo perché l'ereditarietà all'epoca era vista come un 
+sistema troppo accoppiante, e quindi da limitare. Infatti, ereditando solo le interfacce non si eredita 
+l'implementazione ed eventuali comportamenti non desiderati. Fondamentalmente, l'ereditarietà rompeva il principio 
+dell'incapsulamento (la classe derivata infatti può accedere alla classe base)!
+COM quindi introduce due metodi alternativi per poter estendere una classe: aggregazione o delegazione. In ogni modo, un 
+oggetto non implementa tutti i metodi che la sua interfaccia espone, ma ``ridirige'' la richiesta di controllo ad
 oggetti che implementano quei metodi (in un qualche modo li incapsula).
-La delegazione indica che fra gli oggetti vi deve essere una condivisione
-del comportamento, ma non dell'implementazione (non vi è l'obbligo di usare
-la stessa implementazione). La delegazione fondamentalmente corrisponde ad
-esplicitare il fatto che vi è un altro oggetto che si preoccupa di rispondere
-alla richiesta in maniera corretta. Questo è un oggetto interno, che deve esere
-sempre attivo, e puntato in maniera opportuna dalla VMT dell'oggetto esterno!
-Si tratta sicuramente di uno dei fattori di maggiore complessità dell'architettura
-COM.
-L'aggregazione invece gestisce il problema in maniera implicita, realizzando
-quindi una serie di oggetti aggregati. Non è come prima, per cui l'interfaccia
-esterna funzionava come un passacarte, ma si realizza come una copia dell'interfaccia dell'oggetto aggregato nella VMT
-dell'oggetto esterno! Fondamentalmente, quindi, l'oggetto aggregato fornisce i propri metodi all'esterno, direttamente
-nell'interfaccia dell'oggetto esterno! Anche questa maniera è complessa,
-più dell'ereditarietà. L'aggregazione è consigliata per una gestione a parti (a
-74
-differenza della delegazione, ogni oggetto si preoccupa di fare da gestore delle
-richieste ai metodi che implementa).
+La delegazione indica che fra gli oggetti vi deve essere una condivisione del comportamento, ma non dell'implementazione 
+(non vi è l'obbligo di usare la stessa implementazione). La delegazione fondamentalmente corrisponde ad esplicitare il 
+fatto che vi è un altro oggetto che si preoccupa di rispondere alla richiesta in maniera corretta. Questo è un oggetto 
+interno, che deve esere sempre attivo, e puntato in maniera opportuna dalla VMT dell'oggetto esterno!
+Si tratta sicuramente di uno dei fattori di maggiore complessità dell'architettura COM.
+L'aggregazione invece gestisce il problema in maniera implicita, realizzando quindi una serie di oggetti aggregati. Non 
+è come prima, per cui l'interfaccia esterna funzionava come un passacarte, ma si realizza come una copia 
+dell'interfaccia dell'oggetto aggregato nella VMT dell'oggetto esterno! Fondamentalmente, quindi, l'oggetto aggregato 
+fornisce i propri metodi all'esterno, direttamente nell'interfaccia dell'oggetto esterno! Anche questa maniera è 
+complessa, più dell'ereditarietà. L'aggregazione è consigliata per una gestione a parti (a differenza della delegazione, 
+ogni oggetto si preoccupa di fare da gestore delle richieste ai metodi che implementa).
 \subsection{Interazione C/S in COM}
 L'idea base è che vi sia uniformità di comportamento fra ogni tipologia d'oggete
 to: non interessa quindi come è fatto, ma la possibilità di poterci interagire in
