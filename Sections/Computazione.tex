@@ -231,7 +231,8 @@ stessa durata), memoria limitata e un sistema di input e uno di output.
 Un primo modello per la comunicazione è la Parallel RAM, in cui si immagina diversi programmi da eseguire
 contemporaneamente. Una PRAM è costituita quindi da P macchine RAM, ognuna delle quali esegue un programma, e ad ogni
 clock vengono eseguite P istruzioni. Alla base vi è una memoria condivisa, per tutte le macchine, dove scrivere e
-leggere i risultati (anche i dispositivi di I/O sono unici per tutte le macchine). Si tratta di un modello MIMD
+leggere i risultati (anche i dispositivi di I/O sono unici per tutte le 
+macchine). Si tratta di un modello MIMD (Multiple Instruction Multiple Data)
 sincrono, per cui quando tutti i programmi finiscono, anche la macchina termina. Essendo dotata di un'unica memoria,
 come devono essere strutturate le operazioni? La concorrenza è un requisito difficile da realizzare, in confronto al
 mettere le operazioni in sequenza. Le diverse PRAM si possono quindi categorizzare a seconda della tipologia delle
@@ -355,7 +356,8 @@ ed efficienza massimi.
 In questi indicatori si è tuttavia lasciato da parte il problema dell'I/O, che spesso è il vero collo di bottiglia in
 diverse architetture. Inoltre, vi son diversi fattori che possono influenzare l'efficienza e lo speed-up
 dell'architettura, come il deployment reale. Si possono quindi estendere gli indicatori considerando l'effetto 
-generale dell'overhead, $T_0(N)$, che rappresenta le risorse e il tempo realmente utilizzato per la comunicazione 
+generale dell'\textit{overhead}, $T_0(N)$, che rappresenta le risorse e il tempo 
+realmente utilizzato per la comunicazione 
 (caso ideale di deployment):
 \begin{equation}
 T_0(N) = \left|T_1(N) - P \cdot T_P(N)\right|

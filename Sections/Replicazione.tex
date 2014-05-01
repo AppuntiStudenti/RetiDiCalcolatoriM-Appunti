@@ -275,8 +275,11 @@ lazy o ottimista, aggiorno prima il client e poi le altre copie).
  alla volta. È compito del gestore controllare gli aggiornamenti e verificare che siano stati recepiti da tutte le copie
  in maniera corretta, coordinandole.
  \item \textit{Aggiornamento di tutte eager}: tutte le copie devono eseguire, mettesi d'accordo (two-phase commit) e
- quindi fornire il risultato: è in questo caso che si potrebbero avere undo costosi. Un'altra soluzione sarebbe che
- una copia, ricevuta la richiesta, la propaga a tutte utilizzando un'operazione \textit{multicast atomica}.
+ quindi fornire il risultato: è in questo caso che si potrebbero avere undo 
+ costosi.
+ \item \textit{atomic multicast} un'altra soluzione sarebbe che una copia, 
+ ricevuta la richiesta, la propaga a tutte utilizzando un'operazione di 
+ multicast atomico
 \end{itemize}
 Il problema del coordinamento è che è costoso: tuttavia, è anche lo strumento che ci fornisce le maggiori garanzie di
 correttezza. Vi possono essere dei rilassamenti, per esempio: si parla di copie tiepide quando i checkpoint sono fatti
@@ -303,11 +306,13 @@ Questo sistema deve essere correttamente dimensionato (ogni quanto si manda l'im
 comunicazione? Il massimo ritardo accettabile? In generale vi è una macchina apposita per questo compito).
 Nel caso di fail-over, vi sono due diverse politiche da attuare:
 \begin{itemize}
- \item O si attiva una macchina che era passiva
- \item Oppure si sfrutta una macchina che era già attiva per un altro servizio, caricandola ulteriormente. Ciò può
- essere costoso alle volte
+ \item \textit{Attiva-passiva} si attiva una macchina che era passiva
+ \item \textit{Attiva-attiva} si sfrutta una macchina che era già attiva 
+ per un altro servizio, caricandola ulteriormente.
 \end{itemize}
-Se l'heartbeat non è progettato correttamente, potrebbe causare fail-over!
+Nella politica attiva-passiva abbiamo tempi di fail-over più alti.
+Se il timeout e la frequenza degli heartbeat non sono dimensionati 
+correttamente potrebbero causare fail-over!
 Se si partizionano le risorse (abbiamo per esempio due sottoreti) cosa succede? Può essere problematico, il cluster
 dovrebbe lavorare comunque! Si deve ripristinare la rete globale. Il servizio deve funzionare anche se vi sono problemi
 di coordinamento, quindi in realtà si prosegue lo stesso, e si rinvia l'aggiornamento ad un secondo momento. Le due
