@@ -1,8 +1,8 @@
 \section{I middleware}
 Un middleware è un insieme di strumenti di supporto all'utente/sviluppatore per meglio poter affrontare la complessità
-d un sistema in ambienti aperti (eterogenei). Un middleware permette quindi di integrare diverse applicazioni,
+di un sistema in ambienti aperti (eterogenei). Un middleware permette quindi di integrare diverse applicazioni,
 fornendo un supporto alla comunicazione fra sistemi diversi.
-Un middleware mette a disposzione delle risorse per l'utente (ottica B2C), ma anche componenti reintegrabili in altre
+Un middleware mette a disposione delle risorse per l'utente (ottica B2C), ma anche componenti reintegrabili in altre
 applicazioni (ottica B2B).
 Qual è il problema dell'eterogeneità? Si può risolvere con approcci ad-hoc, ma ciò risulta in sistemi non portabili.
 Quello che si vuole quindi realizzare è un supporto per cui un client e un server, di ambienti diversi, riescano
@@ -13,7 +13,7 @@ concentrandosi solo sul servizio da fornire: è quindi fondamentale per poter as
 Un middleware si pone come uno strato intermedio fra l'applicazione e le risorse di più basso livello
 (S.O., dischi...): si possono inserire diverse funzionalità (non solo comunicazione), come per esempio un supporto
 alla trasparenza (non importa il livello sottostante, le API del middleware fanno in modo che il comportamento sia
-sempre il medesimo!). Quindi, un middleware non solo semplica l'aspetto dell'applicazione, ma anche quello di supporto
+sempre il medesimo!). Quindi, un middleware non solo semplifica l'aspetto dell'applicazione, ma anche quello di supporto
 del sistema distribuito!\footnote{Ma in un sistema distribuito, dove si pone il middleware? Dipende! Certi middleware
 devono avere risorse su ogni nodo, altri no... In ogni caso, ogni nodo dell'architettura può essere target}
 Spesso un middleware viene addottato per la sua capacità di gestire uno o più sistemi legacy fondamentali per
@@ -36,7 +36,7 @@ In generale si possono dividere in 4 livelli le tipologie possibili di un serviz
  dell'architettura! Un esempio è la JVM.
  \item \textit{Distribution middleware}: altro aspetto fondamentale, è quella parte di un middleware che permette di
  integrare le risorse distribuite, mediante un apposito sistema di comunicazione. Si tratta anche questo di un
- qualcosa che deve essere opportunatamente distribuito su tutti i nodi. Esempi: RMI\footnote{Limite di RMI rispetto
+ qualcosa che deve essere opportunatamente distribuito su tutti i nodi. Esempi: \footnote{Limite di RMI rispetto
  ad RPC: lega C/S ad una tecnologia, non è eterogeneo!}, JMS, CORBA. È quindi questo il livello che configura e
  gestisce le risorse distribuite. Introduce quindi API per la comunicazione e meccanismi  di supporto alla
  comunicazione (per esempio, un sistema di nomi).
@@ -90,7 +90,7 @@ I diversi possibili modelli di mw che si possono trovare sono:
  Proprio perché si basa sul modello ad oggetti, i mw di questa tipologia sono molto più variabili, e possono essere
  estesi molto più facilmente dei MOM. Spesso si hanno mw di questo tipo OpenSource, in grado di creare una comunità
  molto vasta ed attiva.
- \item \textit{Addattativi e Riessivi}: un mw addattativo è un mw che varia i servizi nel tempo, a seconda della
+ \item \textit{Addattativi e Rifessivi}: un mw addattativo è un mw che varia i servizi nel tempo, a seconda della
  situazione, quindi a caldo: deve essere quindi in grado di fornire nuovi modi di lavorare.
  Il fatto che sia riflessivo indica invece che un componente del mw deve essere in grado di esporre quello che fa. Un
  sistema riflessivo è maggiormente costoso di un sistema statico, ma è un sistema che viene valutato molto
@@ -121,16 +121,16 @@ garantendo un forte disaccoppiamento fra le varie entità. Basandosi sui messagg
 Il problema è come fornire QoS ai messaggi? I messaggi devono essere permanenti (non è necessaria la presenza di
 entrambi gli attori per realizzare la comunicazione), ma soprattutto l'interconnessione è definita assolutamente in
 maniera statica! Non sono quindi mw dinamici.
-Ogni attore interessato presenta una propria coda locale, dove saranno depositati i messaggi: questo è un supporto
+Ogni nodo presenta una coda locale per ogni altro nodo con cui vuole interagire, dove saranno depositati i messaggi: questo è un supporto
 fornito quindi dal MOM, per cui si tratta di gestire delle code orientate (o in ingresso o in uscita). Quello che
-realizza un MOM è quindi un'overlay network, specificando quindi un sistema di nomi, routing...
+realizza un MOM è quindi un'overlay network.
 I messaggi possono o essere P2P oppure forme di multicast. Le API che il mw prevede sono quindi quelle per poter fare
 delle send e receive dei messaggi sulle code locali! Il mw si preoccupa di realizzare l'instradamento, è un
 integratore di nodi: spiega come i router si debbano coordinare (si possono avere diversi intermediari, ed esistono
 messaggi broker appositi per gestire l'eterogeneità)!
 Questi sono mw a basso costo, perché fanno da collante: non si aggiunge molto all'applicazione, ma solo la possibilità
 di mandare e ricevere messaggi! Il costo limitato facilita infatti l'integrazione di sistemi legacy!
-Uno dei MOM più diffusi è MQSeries di IBM: questo realizza uno stub per ogni client, e introduce degli agenti che non
+Uno dei MOM più diffusi è MQSeries di IBM (ora IBM WebSphere MQ): questo realizza uno stub per ogni client, e introduce degli agenti che non
 sono altro che nodi particolari che fanno da relay. I gestori delle code sono a loro volta degli agenti, ve ne è quindi
 uno per coda. Il problema è che gli agenti gestori dei canali (MCA) devono essere gestiti in fase di configurazione,
 quindi sono decisi in maniera statica!
