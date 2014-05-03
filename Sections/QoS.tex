@@ -34,7 +34,7 @@ Il tempo di trasmissione dipende dalla dimensione del messaggio e dalla banda di
 dipende dai tempi di accodamento che si vengono a verificare. In particolare, è quest'ultimo a tener da conto gli
 overhead presenti nel sistema (spesso è alto, e lo si può ridurre realizzando un buon protocollo).
 La qualità di servizio dipende da come si riescono a risolvere i colli di bottiglia dell'applicazione, cioè su cosa è
-orientata (trasmettere tanti dati di dimensioni molto limitate? Prevale il tempo di latenza. trasmettere diversi dati 
+orientata (trasmettere tanti dati di dimensioni molto limitate? Prevale il tempo di latenza. trasmettere diversi dati
 di dimensioni elevate? E necessaria una banda sufficiente). Spesso, si utilizza come ulteriore indicatore il prodotto
 fra la latenza e la banda: riesce infatti a dare un'idea del ritardo fra mittente e ricevente, e di quante informazioni
 sono state inviate nel frattempo. Si rappresenta così il numero effettivo di bit trasmessi, perché non sarà mai uguale
@@ -68,7 +68,7 @@ Le applicazioni classiche di Internet (tipo mail) sono elastiche, ovvero sono in
 della rete, e non richiedono QoS al supporto (possono tuttavia specificare un tempo di latenza per poter eseguire).
 In queste applicazioni quindi l'utente non specifica dei tempi rigidi per poter eseguire.
 Le applicazioni moderne invece sono non elastiche: questo perché presentano dei vincoli temporali precisi, e quindi
-richiedono QoS. Di queste, quelle real-time moderne sono tolleranti rispetto a problemi che si possono verificare, 
+richiedono QoS. Di queste, quelle real-time moderne sono tolleranti rispetto a problemi che si possono verificare,
 ovvero possiamo avere che sono:
 \begin{itemize}
  \item \textit{Adattative in banda}: il servizio è erogabile ma con una banda minore, e quindi qualità diminuita: si
@@ -81,13 +81,13 @@ Bisogna ricordare che in generale la latenza non è costante: potrebbe essere co
 su ogni frame. Un servizio per Internet potrebbe quindi richiedere garanzie diverse:
 \begin{itemize}
  \item Il classico \textit{best-effort}
- \item Un \textit{controlled load}, ovvero la gestione di una latenza limitata. Spesso questa è la scelta per i 
+ \item Un \textit{controlled load}, ovvero la gestione di una latenza limitata. Spesso questa è la scelta per i
  servizi elastici, trattandosi di una via di mezzo fra il best-effort e la garanzia di determinati valori.
  \item Il \textit{guaranteed load}, per cui si ha un limite temporale stretto al ritardo, ma non limitato al jitter.
 \end{itemize}
 Per poter fornire servizi che si basino sulle ultime due opzioni, è necessario far evolvere Internet da un sistema
 best-effort (dovuto all'uso di IP) elastico (grazie a TCP) ad un sistema con QoS. Si parla quindi di una transizione
-da una struttura a basso costo e senza garanzie ad una con costi differenziati a seconda delle prestazioni da erogare. 
+da una struttura a basso costo e senza garanzie ad una con costi differenziati a seconda delle prestazioni da erogare.
 Vi sono due proposte, incompatibili fra di loro:
 \begin{itemize}
  \item \textit{Servizi integrati}, RFC 2210: si ragiona per singolo servizio, e quindi si cerca di definire per ogni
@@ -97,29 +97,29 @@ Vi sono due proposte, incompatibili fra di loro:
 \end{itemize}
 
 \subsection{Gestire la QoS}
-Come gestire quindi la QoS? Il controllo della qualità dovrebbe essere fatto durante l'esecuzione, e in generale 
-abbiamo una fase iniziale (prima dell'erogazione, azioni preventive o statiche), una fase durante il deployment 
-(azioni reattive o dinamiche). Tuttavia, in Internet non vi è né la fase iniziale (detta anche provisioning), e non 
+Come gestire quindi la QoS? Il controllo della qualità dovrebbe essere fatto durante l'esecuzione, e in generale
+abbiamo una fase iniziale (prima dell'erogazione, azioni preventive o statiche), una fase durante il deployment
+(azioni reattive o dinamiche). Tuttavia, in Internet non vi è né la fase iniziale (detta anche provisioning), e non
 vi è soprattutto il controllo della qualità durante l'esecuzione (come controllare i diversi intermediari??), e
 soprattutto non esistono protocolli standard! Va valutato caso per caso come strutturare la gestione della QoS.
 Nella parte statica quindi client e server si devono mettere d'accordo prima di erogare il servizio: è la fase di
-negoziazione della QoS. Questa fase cone siste nel definire un \textit{Service Level Agreement} fra le varie parti, 
-che dovrà essere descritto in una maniera opportuna, e quindi nel definire/riservare le risorse necessarie. La fase 
+negoziazione della QoS. Questa fase cone siste nel definire un \textit{Service Level Agreement} fra le varie parti,
+che dovrà essere descritto in una maniera opportuna, e quindi nel definire/riservare le risorse necessarie. La fase
 che precede l'erogazione è senza costo, perché non vi è ancora il monitoring ma solo la predisposizione del servizio.
-La fase dinamica invece è caratterizzata dal monitoring dell'erogazione del servizio, che è strettamente necessario 
-per poter magari fare una rinegoziazione nel caso sia necessaria (introduzione di nuovi intermediari, presenza di 
+La fase dinamica invece è caratterizzata dal monitoring dell'erogazione del servizio, che è strettamente necessario
+per poter magari fare una rinegoziazione nel caso sia necessaria (introduzione di nuovi intermediari, presenza di
 nodi guasti...) per poter mantenere la QoS stabilita e garantire che ciò avvenga: questa è la condizione necessaria
-perché un servizio venga retribuito. Questa è la fase più costosa, perché i vari nodi si devono adattare alle 
-situazioni che si vengono a verificare, oppure devono essere estromessi se non adatti. L'idea è quella di basarsi il 
+perché un servizio venga retribuito. Questa è la fase più costosa, perché i vari nodi si devono adattare alle
+situazioni che si vengono a verificare, oppure devono essere estromessi se non adatti. L'idea è quella di basarsi il
 più possibile sulla \textit{località}: più le azioni sono locali, senza dover far intervenire un agente esterno, un
-fruitore, minore è il costo; anche per questa fase si deve cercare di progettare dei protocolli ottimizzati che 
+fruitore, minore è il costo; anche per questa fase si deve cercare di progettare dei protocolli ottimizzati che
 costino poco, \textit{sfruttando il principio della minima intrusione quindi}! Politiche poco costose quindi, e
 limitare l'uso delle risorse necessarie al monitoring! In un ipotetico sistema quindi il piano utente (quello della
 gestione del servizio) e quello del management sono accoppiati, ma dovrebbero essere strutturati in maniera tale da
-condividere il minor numero di risorse. Il problema di Internet è che siamo sempre in piano utente, e quindi è 
+condividere il minor numero di risorse. Il problema di Internet è che siamo sempre in piano utente, e quindi è
 difficile capire se ci sono problemi.
-Il piano del management in realtà può essere scomposto in diverse sottoparti, a seconda di cosa si vuole gestire: vi 
-è una parte per l'identicazione di fault e recovery delle risorse, una parte per il controllo della performance 
+Il piano del management in realtà può essere scomposto in diverse sottoparti, a seconda di cosa si vuole gestire: vi
+è una parte per l'identicazione di fault e recovery delle risorse, una parte per il controllo della performance
 (quindi eventuali aggiustamenti del servizio per poter garantire la QoS). Altri settori fondamentali riguardano
 l'accounting e la sicurezza dei servizi.
 
@@ -132,14 +132,14 @@ Information Base}. OSI quindi sarebbe in grado, mediante queste informazioni, di
 rete (tipo, poter specificare la banda erogabile presente su un nodo\textit{Attenzione, OSI è solo comunicazione!! La
 banda dovrà poi essere stabilita dal singolo router, la tecnologia utilizzata deve essere indipendente da questa
 comunicazione!}...).
-OSI struttura il management con l'idea che vi siano manager in grado di comunicare con gli agenti, i responsabili 
+OSI struttura il management con l'idea che vi siano manager in grado di comunicare con gli agenti, i responsabili
 delle singole risorse: non vi è una specifica precisa, permettendo quindi di poter realizzare architetture più o meno
 complesse.
 In realtà, il protocollo più diffuso per la gestione di una rete è anche uno dei più semplici, detto \textbf{Simple
-Network Management Protocol}, sviluppato dall'IETF, e per questo \textit{incompatibile con OSI}: inizialmente non 
+Network Management Protocol}, sviluppato dall'IETF, e per questo \textit{incompatibile con OSI}: inizialmente non
 teneva conto della sicurezza, e si trattava di pura e semplice comunicazione.
 SNMP definisce (nella sua prima realizzazione) un unico manager centralizzato e diversi agenti non locali, quindi
-studiati per un sistema distribuito. Il manager si preoccupa quindi di fare delle richieste sugli agenti, i quali 
+studiati per un sistema distribuito. Il manager si preoccupa quindi di fare delle richieste sugli agenti, i quali
 devono rispondere, e possono anche avvisare di eventuali problemi/eventi mediante delle trap. Il protocollo è molto
 sincrono, ovvero si attende sempre una risposta!
 Un agente in realtà gestisce delle variabili standard (non se ne possono introdurre di nuove\footnote{le grandi
@@ -149,14 +149,14 @@ Una prima reingegnerizzazione di SNMP ha portato alla possibilità di poter defi
 gerarchica (sfruttando l'idea di realizzare degli agenti proxy, una via di mezzo fra un agent e un master), in maniera
 da ridurre i rischi di una congestione, suddividendo la responsabilità. Il costo è quindi limitato dal numero di agenti
 presenti. Solo però con la terza versione si è introdotto in SNMP anche il concetto di sicurezza.
-SNMP presenta alcuni problemi: prima di tutto, la perdita/sostituzione di un agente provoca la riconfigurazione di 
-tutto il sistema. Inoltre, si tratta sempre di variabili, che sono solo rappresentazioni della risorsa: per esempio, 
-con SNMP non si può specificare la banda di un router, non la può controllare! Il manager poi comunica con gli agent, 
-ma sempre esternamente deve essere specificata come avviene la comunicazione (ogni quanto interroga gli agent?). 
+SNMP presenta alcuni problemi: prima di tutto, la perdita/sostituzione di un agente provoca la riconfigurazione di
+tutto il sistema. Inoltre, si tratta sempre di variabili, che sono solo rappresentazioni della risorsa: per esempio,
+con SNMP non si può specificare la banda di un router, non la può controllare! Il manager poi comunica con gli agent,
+ma sempre esternamente deve essere specificata come avviene la comunicazione (ogni quanto interroga gli agent?).
 Infine, gli agent forniscono informazioni strettamente locali alla risorsa che gestiscono:
 per poter fornire delle informazioni più generali sullo stato della rete è necessario affiancare a SNMP un sistema di
 Remote MONitoring, per poter fornire all'utente maggiori possibilità. Si introducono quindi dei monitor (probe), in
-grado di lavorare in autonomia e comunicare con il manager, riportando informazioni filtrate. Anche RMON rappresenta 
+grado di lavorare in autonomia e comunicare con il manager, riportando informazioni filtrate. Anche RMON rappresenta
 una derivazione semplificata da OSI, quindi incompatibile.
 OSI permette di definire sistemi molto più complessi, grazie all'uso di un MIB più organizzato. Si possono infatti
 realizzare gerarchie dinamiche fra manager e agent, questi si possono quindi creare e distruggere a piacimento (senza
@@ -166,33 +166,33 @@ gestiti possono essere anche molto complessi (non una singola risorsa come con S
 \subsection{Evoluzione dei router}
 L'idea alla base dell'introduzione di QoS in Internet è che sui nodi intermedi si hanno delle informazioni sullo stato
 del servizio. Un router semplice prende e rispedisce i pacchetti, in generale sfruttando la politica FIFO, senza
-sfruttare tutte le possibilità per l'instradamento: garantisce best-effort, ma non QoS, poiché i flussi sono limitati 
+sfruttare tutte le possibilità per l'instradamento: garantisce best-effort, ma non QoS, poiché i flussi sono limitati
 da altri flussi!
-Lo sviluppo sarebbe quindi quello di realizzare un router che \textit{ragiona in termini differenziati}: deve essere 
+Lo sviluppo sarebbe quindi quello di realizzare un router che \textit{ragiona in termini differenziati}: deve essere
 in grado quindi di \textit{marcare i flussi}, e deve riuscire a trattarne la gestione in maniera da favorire
 quelli più prioritari (magari scartando/ritardando i pacchetti dei flussi meno prioritari). Si ha che quindi
-lo stato del router dipende dal singolo pacchetto, che a sua volta dipende dal traffico. In particolare, è da notare 
+lo stato del router dipende dal singolo pacchetto, che a sua volta dipende dal traffico. In particolare, è da notare
 che il costo di una determinata politica viene riflesso su ogni flusso/messaggio: per questo vuole l'intrusione minima,
 per minimizzare il costo.
 I router per la QoS si possono modellare mediante due modelli non reali, a bucket:
 \begin{itemize}
  \item \textit{Leaky bucket}: corrisponde a un secchio con perdita. L'idea è quella che un router si comporti come un
- regolatore del flusso in uscita. Si stabilisce quindi una banda massima, corrispondente alla capacità del bucket: 
+ regolatore del flusso in uscita. Si stabilisce quindi una banda massima, corrispondente alla capacità del bucket:
  tutto ciò che è oltre viene scartato dal router, i pacchetti troppo veloci vengono rallentati. Ogni router di questo
  tipo è quindi pensato per favorire un flusso alla volta.
  \item \textit{Token bucket}: si prevede la presenza di un token, che garantisce ai pacchetti del flusso che lo
- possiede di poter essere smistati dal router. Si associa quindi uno stato al flusso, e questo stato dipende proprio 
- dal numero di token presenti. In questo modello i pacchetti vengono solo ritardati, non possono essere persi. 
+ possiede di poter essere smistati dal router. Si associa quindi uno stato al flusso, e questo stato dipende proprio
+ dal numero di token presenti. In questo modello i pacchetti vengono solo ritardati, non possono essere persi.
  A seconda della capacità del bucket, si possono avere trasmissioni o rallentamenti. In particolare, un flusso potrebbe
  non aver sfruttato i token, e trovandosi quindi ad essere l'unico flusso con tutti i token può presentare dei burst.
  Spesso si attende infatti che un determinato flusso abbia un numero congruo di token per poter trasmettere tutti
  assieme un insieme di bit; si tratta quindi di un sistema di bufferizzazione, per cui son necessarie delle apposite
  risorse. I token vengono generati mediante un'apposita legge lineare.
 \end{itemize}
-Spesso si utilizzano i due bucket in serie, per evitare proprio i burst del token bucket (quindi prima il token, 
+Spesso si utilizzano i due bucket in serie, per evitare proprio i burst del token bucket (quindi prima il token,
 seguito a cascata dal leaky!).
-Le politiche che un router per la QoS può presentare son diverse, tuttavia l'idea è quella di realizzare delle 
-politiche conservative del lavoro: se arriva un datagramma e non vi sono condizioni per cui il flusso è rallentato 
+Le politiche che un router per la QoS può presentare son diverse, tuttavia l'idea è quella di realizzare delle
+politiche conservative del lavoro: se arriva un datagramma e non vi sono condizioni per cui il flusso è rallentato
 e le code son libere, il router lavora alla Internet, reinstradando subito il pacchetto. Infatti, per la legge di
 Kleinrock, il router non può essere in una condizione di idle se vi sono dei pacchetti da portare in uscita. La legge
 di kleinrock stabilisce che, dati n flussi, con traffico $\lambda n$ e tempo medio di servizio $\mu n$:
@@ -204,7 +204,7 @@ di kleinrock stabilisce che, dati n flussi, con traffico $\lambda n$ e tempo med
  \end{equation}
  dove K è una costante
 \end{itemize}
-Questo significa che per favorire un flusso (aumento della banda, riduzione del ritardo) in realtà se ne deve per 
+Questo significa che per favorire un flusso (aumento della banda, riduzione del ritardo) in realtà se ne deve per
 forza sfavorire un altro (diminuzione della banda, aumento del ritardo).
 Si è sempre detto che le politiche vengono giudicate dal loro costo, e che politiche più semplici sono meno costose.
 Tuttavia, nel caso di router, si deve anche tener conto se la politica è fair o meno (vi sono flussi in condizione di
@@ -224,9 +224,9 @@ m_n = min(x_n, M_n)
 \begin{equation}
 Mn = \frac{C - \sum_{i = 1}^{n} m_i}{N - n + 1}
 \end{equation}
-Un altro modello di scheduling, derivato proprio da come funziona quello del singolo processore, è il \textit{general 
+Un altro modello di scheduling, derivato proprio da come funziona quello del singolo processore, è il \textit{general
 scheduling processor}: l'idea è che mediante un algoritmo di tipo round-robin si faccia passare un bit per ogni flusso
-alla volta: tale politica è sicuramente molto fair, ma non applicabile realmente visto che si lavora a pacchetti e non 
+alla volta: tale politica è sicuramente molto fair, ma non applicabile realmente visto che si lavora a pacchetti e non
 a bit. Anche questo modello in realtà serve solo per studiare le politiche pensate e confrontarle, per determinarne la
 fairness.
 In realtà, fra le politiche realmente diffuse ed implementate in router con QoS vi sono:
@@ -239,28 +239,28 @@ In realtà, fra le politiche realmente diffuse ed implementate in router con QoS
  banda, ed è una politica molto buona se i datagrammi dei vari flussi sono circa delle stesse dimensioni (altrimenti,
  si potrebbe usare un weighted round robin, per poter pesare diversamente i datagrammi. Più un datagramma è pesato,
  maggiori risorse vi sono associate. La normalizzazione è difficile da realizzare per flussi troppo corti) Il round
- robin viene spesso implementata in quei router in cui non si possono specificare delle priorità specifiche, ma in 
+ robin viene spesso implementata in quei router in cui non si possono specificare delle priorità specifiche, ma in
  cui comunque i flussi devono competere per delle risorse.
- \item \textit{Deficit round robin}: si associa una storia ad ogni flusso, perché si impone un limite per ciascuno. 
+ \item \textit{Deficit round robin}: si associa una storia ad ogni flusso, perché si impone un limite per ciascuno.
  Se un flusso supera la soglia consentita, non viene erogato dal router ma si memorizza tale deficit. L'erogazione
  riprenderà solo quando gli altri flussi avranno superato tale limite.
  \item \textit{Fair queueing}: si tratta di round-robin fatto bit a bit. Si fa avanzare sempre il flusso con il
- pacchetto più indietro, ovvero quello che se si fosse realmente fatta una comunicazione bit a bit, avrebbe terminato 
+ pacchetto più indietro, ovvero quello che se si fosse realmente fatta una comunicazione bit a bit, avrebbe terminato
  la comunicazione per primo! Questa è una delle politiche maggiormente usate, anche in ambienti Internet, perché si
  hanno dei calcoli in tempi accettabili.
 \end{enumerate}
 Un problema di tutte le politiche è in realtà il fatto di non sapere cosa aspettarsi all'arrivo, cioè cosa aspettarsi
 dai flussi che entrano nel router e che devono competere per le risorse. Una soluzione possibile è quindi quella di
 inviare insieme al flusso un'idea dello stato del flusso, per vagliare quanto sia pesante o meno!
-Perché un router possa fornire QoS, deve essere dinamicamente riconfigurabile (cioè deve poter ammettere/spegnere 
-flussi in maniera dinamica). Questo per esempio è un requisito fondamentale per risolvere il problema della 
+Perché un router possa fornire QoS, deve essere dinamicamente riconfigurabile (cioè deve poter ammettere/spegnere
+flussi in maniera dinamica). Questo per esempio è un requisito fondamentale per risolvere il problema della
 congestione, addirittura in certi casi prevenendolo. Invece che scartare i pacchetti ricevuti in maniera silenziosa
 (alla Internet)\footnote{Vi è ICMP che prova ad avvertire l’utente che i pacchetti non son stati ricevuti, ma lavora
 sempre a livello di IP, quindi rischia di essere coinvolto nella congestione!}, si scartano i pacchetti in maniera
 visibile. Questo sistema è contro la trasparenza, ma è un'indicazione chiara per le applicazioni e gli utenti che vi
 sono dei problemi. Si possono quindi mettere in piedi delle politiche preventive, tipo la realizzazione di un'apposita
 finestra di trasmissione sul canale.
-Una politica sempre implementata, anche nei router a basso costo, è la Random Early Detection. Si tabilisce una coda 
+Una politica sempre implementata, anche nei router a basso costo, è la Random Early Detection. Si tabilisce una coda
 per ciascun flusso, insieme a due soglie:
 \begin{itemize}
  \item Se il flusso fa in modo che la coda sia sempre al di sotto della soglia minima, non si scarta nessun pacchetto
@@ -270,26 +270,26 @@ per ciascun flusso, insieme a due soglie:
 \end{itemize}
 Questa politica preventiva evita la congestione.
 \subsection{Servizi integrati, RFC 2210}
-L'idea alla base dei servizi integrati è quella di essere in grado di riconoscere i singoli flussi, grazie al router, 
+L'idea alla base dei servizi integrati è quella di essere in grado di riconoscere i singoli flussi, grazie al router,
 in modo da poter differenziare l'uso delle risorse a seconda del flusso che si viene a presentare. Il Service Level
 Agreement è quindi fatto a livello di singolo flusso, e quindi si può decidere la QoS per ogni flusso. Si deve quindi
 stabilire la QoS fra mittente, ricevente e necessaria per ogni nodo intermedio. Questi protocolli descrivono solo la
 comunicazione che le varie parti devono sostenere: la politica locale sarà implementata a livelli inferiori localmente
 dalle singole entità.
-Nonostante il costo, i servizi integrati lavorano proprio al livello applicativo (OSI), proprio perché a questo 
+Nonostante il costo, i servizi integrati lavorano proprio al livello applicativo (OSI), proprio perché a questo
 livello le risorse sono note e si possono valutare: questo significa che su ogni nodo si lavorerà a livello applicativo,
 in maniera tale da poter individuare fra i possibili cammini il cammino migliore, che divverrà attivo. Per far ciò si
-utilizza un protocollo detto \textit{Reservation Protocol}; questo protocollo infatti permette di specificare un 
+utilizza un protocollo detto \textit{Reservation Protocol}; questo protocollo infatti permette di specificare un
 cammino attivo in grado di rispettare una determinata SLA, senza considerare il traffico corrente, ovvero permette di
 riservare delle risorse in maniera attiva per il servizio. L'idea è che si inviino delle informazione dal ricevente al
 mittente (e viceversa) per poter valutare le risorse (ovvero ogni risorsa dovrà provvedere con un opportuno messaggio
 da inoltrare, per indicare la qualità di servizio che può offrire). Si ha quindi una propagazione della gestione, per
 indicare la disponibilità!
 Si tratta di un protocollo con soft state, ovvero il ricevente, una volta accordato il servizio e le modalità, dovrà
-preoccuparsi di rinnovare periodicamente la richiesta del servizio concordato. Si ha che quindi il protocollo è 
+preoccuparsi di rinnovare periodicamente la richiesta del servizio concordato. Si ha che quindi il protocollo è
 definito in tre passi:
 \begin{enumerate}
- \item Il cliente invia un messaggio di Resv per valutare la disponibilità 
+ \item Il cliente invia un messaggio di Resv per valutare la disponibilità
  \item Un servitore che è disponibile risponde con un messaggio di tipo Path
  \item Il cliente conferma il cammino scelto\footnote{Il protocollo non spiega come scegliere il cammino (problema
  implementativo), ma solo quali sono i messaggi di comunicazione che i diversi partecipanti devono scambiare}
@@ -297,10 +297,10 @@ definito in tre passi:
 \end{enumerate}
 Un cliente quindi dovrà rinnovare mediante gli stessi messaggi la richiesta di servizio, tuttavia sono previsiti anche
 degli appositi messaggi (tear) sia da parte del cliente che del servitore, per poter interrompere l'erogazione del
-servizio, e permettere una riconfigurazione del servizio. Il protocollo stabilisce che si possono richiedere risorse 
-in esclusiva o in condivisione con altri flussi (particolarmente utile per ottimizzare la comunicazione). Gli scambi 
+servizio, e permettere una riconfigurazione del servizio. Il protocollo stabilisce che si possono richiedere risorse
+in esclusiva o in condivisione con altri flussi (particolarmente utile per ottimizzare la comunicazione). Gli scambi
 di messaggi ovviamente avvengono fra nodi vicini, cercando quindi di limitare il costo senza eseguire un broadcast.
-Questo è un sistema conveniente per reti locali e non globali (si ha un alto numero di messaggi in circolazione): 
+Questo è un sistema conveniente per reti locali e non globali (si ha un alto numero di messaggi in circolazione):
 troppi clienti e si avrebbero errori nel riservare le risorse perché prenotate prima da altri, e deve essere noto alle
 applicazioni che lavorano che lo scambio di informazioni si basa su tale protocollo. Infatti, al degradare delle
 prestazioni si può giungere ad una condizione di best-effort, per cui è necessaria la rinegoziazione. Ogni ricevente
@@ -314,18 +314,18 @@ applicativo per la parte dinamica. Sono il Real Time Protocol e il Real Time Con
 basati su UDP, per il singolo flusso, che si preoccupano di portare materialmente i frame, incapsulandoli in maniera
 opportuna. Proprio per questo motivo non la garantiscono ma sono solo di supporto! RTP per esempio si preoccupa di
 marcare ed ordinare i singoli frame, in maniera di mandarli in ordine\footnote{Attenzione: la decisione di come mandare
-però non è a carico del protocollo, che mette a disposizione solo meccanismi ma non politiche}, mentre RTCP gestisce 
+però non è a carico del protocollo, che mette a disposizione solo meccanismi ma non politiche}, mentre RTCP gestisce
 la connessione astratta. RTP non definisce una sincronizzazione verso un tempo assoluto (nel distribuito questo ha dei
 costi improponibili), ma ha l'obiettivo di minimizzare il jitter. Questi primi protocolli ragionano sul cammino attivo,
 per poter definire correttamente i nodi intermedi. Sono protocolli IETF, con sempre l'obiettivo di giungere ad una
 facile e veloce implementazione.
-RTP è sempre accompagnato da RTCP. Il primo è un servizio fortemente erogato dal servitore verso il ricevente (da chi 
+RTP è sempre accompagnato da RTCP. Il primo è un servizio fortemente erogato dal servitore verso il ricevente (da chi
 sa poco a chi sa molto), mentre il secondo serve per fornire al gestore informazioni di gestione, e quindi naviga
 in entrambe le direzioni. Tuttavia, si devono specificare in maniera precisa entrambi perché utilizzano le stesse
-risorse, e potrebbero aumentare l'intrusione; si stabilisce per esempio qual è la banda che RTCP può sfruttare. 
-RTP in particolare consente ai singoli intermediari di intervenire sui singoli messaggi, per poter comunque garantire 
+risorse, e potrebbero aumentare l'intrusione; si stabilisce per esempio qual è la banda che RTCP può sfruttare.
+RTP in particolare consente ai singoli intermediari di intervenire sui singoli messaggi, per poter comunque garantire
 il raggiungimento della QoS stabilita. RTCP permette, in particolare con il receiver e il sender report, di poter
-stabilire lo stato del cammino, per poter quindi far eseguire eventuali operazioni (tipo recovery di un nodo); 
+stabilire lo stato del cammino, per poter quindi far eseguire eventuali operazioni (tipo recovery di un nodo);
 tuttavia, si deve sempre considerare che tutto ciò è particolarmente costoso.
 Questi protocolli sono anche veicoli di informazioni applicative, cioè si possono specificare nei datagrammi
 informazioni per le singole applicazioni: sono protocolli hop-to-hop, che lavorano su tutti i nodi, per cui bisogna
@@ -339,8 +339,8 @@ ma se un frame non arriva si sfrutta UDP proprio perché non garantisce che i me
 push, in cui le informazioni arrivano dal server. Questo è un protocollo dal costo minimo, proprio perché non riserva
 nulla: lavora solo sugli end-point. E sempre possibile comunque tornare a RSVP nel caso non fosse sufficiente.
 \subsection{Servizi differenziati, RFC 2474}
-L'approccio a servizi differenziati consiste nel cercare di fornire QoS non a livello applicativo, ma a livello di 
-rete. Facendo ciò, in realtà, si ha che si sono definiti molti meno protocolli rispetto ai servizi integrati 
+L'approccio a servizi differenziati consiste nel cercare di fornire QoS non a livello applicativo, ma a livello di
+rete. Facendo ciò, in realtà, si ha che si sono definiti molti meno protocolli rispetto ai servizi integrati
 (risultando essere inoltre molto più scalabili). I servizi differenziati sono studiati per supportare le applicazioni
 legacy e per domini specifici (comunità di utenti). L'idea è quella che si devono aggreggare i flussi in diverse
 categorie, e a seconda delle categorie si definisce la QoS. Un pacchetto viene quindi classificato dal router in base al
@@ -354,15 +354,15 @@ Possibili esempi di servizio sono:
  utilizzando una fair queuing pesata.
  \item l'\textit{assured forwarding}, in cui i pacchetti sono marcati a seconda della possibile congestione.
 \end{itemize}
-Vi è però un problema: come si possono definire queste classi, nel protocollo IPv4 non vi è possibilità. L'idea 
-migliore sarebbe quella di passare ad IPv6, che grazie a 128 bit contro 32, garantisce la presenza di ancora molti 
+Vi è però un problema: come si possono definire queste classi, nel protocollo IPv4 non vi è possibilità. L'idea
+migliore sarebbe quella di passare ad IPv6, che grazie a 128 bit contro 32, garantisce la presenza di ancora molti
 nomi, ove è presente un apposito campo dove si può classificare il singolo pacchetto!
-IPv6 è stato pensato per essere compatibile con IPv4, ma gestisce gli indirizzi in maniera diversa (il broadcast è 
+IPv6 è stato pensato per essere compatibile con IPv4, ma gestisce gli indirizzi in maniera diversa (il broadcast è
 stato eliminato, divenendo in realtà multicast; sono stati aggiunti il P2P e l'anycast\footnote{Obiettivo: raggiungere
 un qualunque indirizzo della classe specificata, che sia il più vicino o il più comodo}, ed è in grado di fornire un
 suo supporto alla replicazione! IPv6 in particolare semplica l'header, facendo in modo di puntare altri header per
 poterlo estendere! Un'altra caratteristica è che IPv6 è stato progettato per essere mobile, ovvero: un indirizzo di
-questo tipo si può spostare senza problema da una rete a quell'altra, grazie al fatto che lo si memorizza in 
+questo tipo si può spostare senza problema da una rete a quell'altra, grazie al fatto che lo si memorizza in
 un'apposita struttura. IPv6 in realtà è stato studiato per essere di supporto anche ai servizi integrati, quindi
 potrebbe essere un'ottima estensione per Internet.
 Oltre a questi approcci, si sta cercando di sviluppare dei sistemi in grado di far convivere (in maniera competitiva)

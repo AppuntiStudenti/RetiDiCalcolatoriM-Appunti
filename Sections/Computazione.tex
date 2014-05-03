@@ -8,11 +8,11 @@ Le prime distinzioni che si possono fare sono su come si possono prendere le dec
 \begin{itemize}
  \item modelli \textit{statici}: le decisioni vengono prese prima dell'esecuzione. Risulta quindi essere meno
 flessibile, e non si può variare nel corso dell'esecuzione, fornendo quindi poca qualità di servizio.
-\item modelli \textit{dinamici}: in questo modello le decisioni risultano essere maggiormente costose, proprio perché 
+\item modelli \textit{dinamici}: in questo modello le decisioni risultano essere maggiormente costose, proprio perché
 si prendono mentre il modello è in esecuzione.
 \end{itemize}
 Per fare un esempio, il collegamento fra un client e un Name Server come deve essere stabilito? In maniera statica o
-dinamica? E fra il client e server? Si tratta di problematiche da risolvere in fase di progettazione, tenendo conto 
+dinamica? E fra il client e server? Si tratta di problematiche da risolvere in fase di progettazione, tenendo conto
 dei costi. Un middleware introduce questi costi, fornendo possibilità statiche/dinamiche (non esiste un sistema
 totalmente dinamico, realmente totalmente aperto).
 Una seconda distinzione riguarda la reazione in caso di errori o concorrenza:
@@ -55,14 +55,14 @@ specificano quindi delle operazioni, e si tratta di modelli che tengono conto de
 funzionano molto
 bene con risorse locali e stato locali. Vi sono più modelli:
 \begin{itemize}
- \item \textit{Processi alla Unix}: si tratta di processi pesanti, ognuno dotato 
+ \item \textit{Processi alla Unix}: si tratta di processi pesanti, ognuno dotato
 di un proprio stato locale. In questo modello
-interessa solo in che modo i processi possono comunicare, essendo lo stato non 
+interessa solo in che modo i processi possono comunicare, essendo lo stato non
 condivisibile.
- \item \textit{Processi alla Java}: i processi son leggeri, hanno uno stato 
+ \item \textit{Processi alla Java}: i processi son leggeri, hanno uno stato
 condiviso che può essere usato anche per comunicare.
-Risulta essere più facile fare anche dei cambi di contesto, ma si possono 
-presentare delle interferenze. 
+Risulta essere più facile fare anche dei cambi di contesto, ma si possono
+presentare delle interferenze.
 \end{itemize}
 
 I thread di una JVM, proprio perché dotati di uno stato condiviso, si possono rapportare con un'altra JVM. I thread
@@ -77,39 +77,39 @@ esterne possono lavorare. Non sono quindi dotati di capacità propria d'esecuzio
 fra diversi processi che vogliono accedere allo stesso oggetto, non si ha un buon confinamento e si ha scarsa
 protezione.
   \item \textit{Oggetti attivi}: sono oggetti dotati di propria
-capacitàd'esecuzione. I processi quindi non entrano nell'oggetto, perché vi è 
-già all'interno dell'oggetto una propria logica di gestione (si ha quindi un 
-modello a request/response: un processo richiede di poter usare l'oggetto 
-mediante i ``metodi'' forniti da questo, e questo in base alla sua schedulazione 
-risponde alla richiesta. È sempre da osservare che un oggetto attivo ha comunque 
-un proprio stato interno, descritto da una parte sequenziale, ma a cui non vi si 
-accede con dei metodi, proprio grazie a questa logica interna: i metodi veri e 
-propri sono utilizzati solo internamente!). Un oggetto attivo è quindi dotato di 
-una coda delle richieste che si sono presentate, e una sua politica di 
-scheduling. Si supera in questo modo il problema degli oggetti passivi, 
-proteggendo del tutto l'oggetto e determinandolo completamente. Un oggetto 
-attivo quindi, massimizzando la parte sequenziale, si può spostare più 
-facilmente. Rappresenta lo stesso modello dei servitori paralleli, e, per 
-esempio, degli agenti mobili. Un oggetto attivo quindi si preoccupa di tutta la 
-gestione dell'esecuzione internamente (richieste, attività, errori, processi 
-interni...): si forniscono meccanismi, mediante il quale si possono specificare 
+capacitàd'esecuzione. I processi quindi non entrano nell'oggetto, perché vi è
+già all'interno dell'oggetto una propria logica di gestione (si ha quindi un
+modello a request/response: un processo richiede di poter usare l'oggetto
+mediante i ``metodi'' forniti da questo, e questo in base alla sua schedulazione
+risponde alla richiesta. È sempre da osservare che un oggetto attivo ha comunque
+un proprio stato interno, descritto da una parte sequenziale, ma a cui non vi si
+accede con dei metodi, proprio grazie a questa logica interna: i metodi veri e
+propri sono utilizzati solo internamente!). Un oggetto attivo è quindi dotato di
+una coda delle richieste che si sono presentate, e una sua politica di
+scheduling. Si supera in questo modo il problema degli oggetti passivi,
+proteggendo del tutto l'oggetto e determinandolo completamente. Un oggetto
+attivo quindi, massimizzando la parte sequenziale, si può spostare più
+facilmente. Rappresenta lo stesso modello dei servitori paralleli, e, per
+esempio, degli agenti mobili. Un oggetto attivo quindi si preoccupa di tutta la
+gestione dell'esecuzione internamente (richieste, attività, errori, processi
+interni...): si forniscono meccanismi, mediante il quale si possono specificare
 delle politiche diverse!
 \end{itemize}
 
-Come mai in Java tale modello non è stato implementato? Si tratta di un 
-\textit{modello molto costoso}, che non presenta delle scorciatoie utili se si 
-lavorasse solo in ambito locale! 
-Nei sistemi moderni, in realtà si parla di classi che contengono le definizioni 
-degli oggetti, e definiscono lo stato interno e i metodi con cui accedere. In 
+Come mai in Java tale modello non è stato implementato? Si tratta di un
+\textit{modello molto costoso}, che non presenta delle scorciatoie utili se si
+lavorasse solo in ambito locale!
+Nei sistemi moderni, in realtà si parla di classi che contengono le definizioni
+degli oggetti, e definiscono lo stato interno e i metodi con cui accedere. In
 particolare, in generale si parla di semantica per riferimento, che però è in
-grado di funzionare solo in un ambito locale. Per riferire in remoto, serve un 
-supporto esterno. Per esempio, si parla di utilizzare socket, protocolli 
+grado di funzionare solo in un ambito locale. Per riferire in remoto, serve un
+supporto esterno. Per esempio, si parla di utilizzare socket, protocolli
 standard de facto come TCP/IP...
 Tuttavia, è proprio questo il motivo per cui si vengono a definire dei middleware, ovvero delle strutture in grado di
 fornire un supporto completo alla comunicazione in remoto. Per esempio, Java Remote Method Invocation è un sistema in
 grado di estendere la semantica per riferimento locale, al remoto, cercando di fornire un sistema omogeneo per poter
 accedere sia ad oggetti locali che remoti. Nel caso specifico di RMI, per esempio, si utilizza un classico pattern dei
-middleware, il \textit{proxy come delegato per la comunicazione}. Si realizzano 
+middleware, il \textit{proxy come delegato per la comunicazione}. Si realizzano
 infatti uno stub lato cliente e uno skeleton lato
 server, che riescono a garantire un qualcosa di simile alla normale comunicazione locale. Si cerca di presentare
 un sistema trasparente per l'utente!
@@ -121,7 +121,7 @@ Ciò non è sempre possibile in Java RMI (si pensi ad un oggetto che riferisce u
 strettamente locale). Vi sono poi altri problemi da considerare:
 
 \begin{itemize}
- \item Un oggetto remoto viene registrato in un apposito registry, ma se 
+ \item Un oggetto remoto viene registrato in un apposito registry, ma se
  viene deattivato? Come viene gestita quindi la persistenza? E lo stato remoto?
  \item Due stub diversi possono riferire lo stesso oggetto remoto? Se sì come si
  gestisce la concorrenza?
@@ -153,7 +153,7 @@ Esistono diversi altri modelli oltre il classico C/S:
  \item \textit{Pull}: il cliente recupera il servizio che necessita in maniera diretta.
  \item \textit{Modello a delega}: il cliente delega un altro agente per attendere il risultato, e poi lo recupera da
  questo.
- \item \textit{Modello a notifica}: simile al precedente, solo che il delegato notifica al cliente la disponibilità 
+ \item \textit{Modello a notifica}: simile al precedente, solo che il delegato notifica al cliente la disponibilità
  del risultato.
  \item \textit{Modello ad eventi}: il tipico modello consumer/provider, in cui chi è interessato si registra a chi
  produce gli eventi.
@@ -170,35 +170,35 @@ messaggi:
 \begin{itemize}
  \item In fase di progettazione si parla di:
  \begin{itemize}
-  \item un \textit{sistema simmetrico} se mittente e ricevente si conoscono 
+  \item un \textit{sistema simmetrico} se mittente e ricevente si conoscono
   (rarissimo) oppure \textit{asimmetrico} (caso tipico :C/S).
-  \item un sistema diretto (cioè se avviene una comunicazione diretta fra i 
+  \item un sistema diretto (cioè se avviene una comunicazione diretta fra i
   processi), oppure indiretto (se si utilizzano strutture tipo le socket)
  \end{itemize}
  \item In fase di implemtazione si parla di:
  \begin{itemize}
-  \item un \textit{sistema bufferizzato} se la comunicazione richiede un certo 
-  numero di messaggi prima di poter trasmettere 
-  \item \textit{sistemi reliable} se possono fornire QoS, senza perdere 
+  \item un \textit{sistema bufferizzato} se la comunicazione richiede un certo
+  numero di messaggi prima di poter trasmettere
+  \item \textit{sistemi reliable} se possono fornire QoS, senza perdere
   messaggi.
  \end{itemize}
 \end{itemize}
 Nel caso si introduca un terzo oggetto che faccia da mediatore, si può quindi lavorare in maniera sincrona ma non
 bloccante: è il mediatore che resta in attesa, sganciando il ricevente. Si possono avere due diverse modalità:
 \begin{enumerate}
- \item \textit{Oggetti poll}: è un contenitore per la risposta alla richiesta, che viene periodicamente interrogato 
- dal ricevente con un sistema a polling. Si ha così una comunicazione a 3 entità. In questo modello, il ricevente 
+ \item \textit{Oggetti poll}: è un contenitore per la risposta alla richiesta, che viene periodicamente interrogato
+ dal ricevente con un sistema a polling. Si ha così una comunicazione a 3 entità. In questo modello, il ricevente
  deve sapere dove si trova l'oggetto poll, e vi deve essere un oggetto per ogni risultato. E conveniente se si hanno
  operazioni corte, e attese brevi.
- \item \textit{Oggetti callback}: è sempre un oggetto che conterrà il risultato, ma dotato di una sua vita 
+ \item \textit{Oggetti callback}: è sempre un oggetto che conterrà il risultato, ma dotato di una sua vita
  indipendente, e dotato di codice particolare da eseguire quando giunge il risultato. E lui quindi a dover fornire il
- risultato al richiedente, svincolandolo del tutto da questo! Conveniente in caso di operazioni lunghe, indipendenti 
+ risultato al richiedente, svincolandolo del tutto da questo! Conveniente in caso di operazioni lunghe, indipendenti
  dal chiamante.
 \end{enumerate}
-Spesso e volentieri, questi intermediari vengono realizzati da proxy, che sono in grado di ridurre la complessità 
-logica della soluzione, integrando diverse funzionalità. 
-In un modello basato sugli eventi, si ha un fortissimo disaccoppiamento (non vuol dire che non si conoscono, ma che 
-non è necessario che siano attivi contemporaneamente per poter fare la comunicazione; è una caratteristica 
+Spesso e volentieri, questi intermediari vengono realizzati da proxy, che sono in grado di ridurre la complessità
+logica della soluzione, integrando diverse funzionalità.
+In un modello basato sugli eventi, si ha un fortissimo disaccoppiamento (non vuol dire che non si conoscono, ma che
+non è necessario che siano attivi contemporaneamente per poter fare la comunicazione; è una caratteristica
 fondamentale per i middleware) fra le entità interessate al risultato, e quelle che forniscono i servizi. In questo
 modello si ha quindi un'interazione molti a molti, per cui si può facilmente mappare il multicast. In generale gli
 eventi non sono persistenti, tuttavia non è l'unico modello possibile.
@@ -209,7 +209,7 @@ sincronizzazione, in cui si specifica uno spazio di informazioni fortemente tipa
 \texttt{<mittente, destinatario, data>}, per cui tutti i dati devono essere diversi perché possa essere inserita)
 Si hanno quindi due operazioni principali: la \textit{out} consiste nell'inserire nello spazio delle tuple un nuovo
 messaggio, mentre la \textit{in} (bloccante) estrae la prima tupla che fa match (in caso di più tuple che facciano
-match, è una scelta non deterministica). Ovviamente, si avrà sempre un numero inferiore di in rispetto alle out. Se 
+match, è una scelta non deterministica). Ovviamente, si avrà sempre un numero inferiore di in rispetto alle out. Se
 la in è \textit{completamente specificata}, si parla di sincronizzazione e non di comunicazione. Uno spazio di tuple
 permette anche l'introduzione di QoS, grazie alla persistenza della tupla nello spazio.
 Gerlenter, con Linda, presenta due diversi modelli:
@@ -219,7 +219,7 @@ Gerlenter, con Linda, presenta due diversi modelli:
  ciclo per verificare che non sia già presente su un qualche nodo. Lo stesso discorso vale per la in, che fa un giro
  fino a trovare un messaggio che fa match. In Linda sono state considerate ovviamente delle problematiche di
  replicazione (il messaggio deve essere ripetuto? Ma quindi lo si deve togliere da tutti i nodi che lo contengono),
- sfruttando gli hash dei messaggi 
+ sfruttando gli hash dei messaggi
  \item \textit{A matrice}: le out vengono eseguite sulle righe, mentre le in si fanno sulle colonne.
 \end{itemize}
 \subsection{Modelli a contenimento}
@@ -235,11 +235,11 @@ omogeneo, anche se ai livelli sottostanti sta lavorando con oggetti/servizi dive
 principale/copia...).
 Non è sempre un elemento positivo, perché in molti casi i sistemi son così complessi, che non si possono gestire in
 maniera totalmente trasparente: si richiede l'intervento dell'utente. Un esempio è nella trasparenza dell'allocazione:
-se non sappiamo dove si trova l'utente, come facciamo a dargli il servizio desiderato? La trasparenza non è corretta 
+se non sappiamo dove si trova l'utente, come facciamo a dargli il servizio desiderato? La trasparenza non è corretta
 a livello di infrastruttura in questo caso; l'utente infatti è sempre più coinvolto.
 Per esempio, TINA-C\footnote{Si tratta di un consorzio di aziende per le telecomunicazioni, con l'obiettivo di andare
 oltre OSI: l'idea è quella di immaginare anche i possibili servizi, fornendo un modello più coordinato, e
-un'infrastruttura con molti provider: si definisce un accordo/negoziazione fra i fornitori dei servizi e i clienti, 
+un'infrastruttura con molti provider: si definisce un accordo/negoziazione fra i fornitori dei servizi e i clienti,
 per poter per esempio stabilire la QoS, e quindi si fornisce il servizio con i parametri indicati} prevede sia un
 sistema trasparente, che un sistema non trasparente in cui si possano definire le risorse inizialmente, e quindi
 introdurre la trasparenza.
@@ -250,12 +250,12 @@ stessa durata), memoria limitata e un sistema di input e uno di output.
 Un primo modello per la comunicazione è la Parallel RAM, in cui si immagina diversi programmi da eseguire
 contemporaneamente. Una PRAM è costituita quindi da P macchine RAM, ognuna delle quali esegue un programma, e ad ogni
 clock vengono eseguite P istruzioni. Alla base vi è una memoria condivisa, per tutte le macchine, dove scrivere e
-leggere i risultati (anche i dispositivi di I/O sono unici per tutte le 
+leggere i risultati (anche i dispositivi di I/O sono unici per tutte le
 macchine). Si tratta di un modello MIMD (Multiple Instruction Multiple Data)
 sincrono, per cui quando tutti i programmi finiscono, anche la macchina termina. Essendo dotata di un'unica memoria,
 come devono essere strutturate le operazioni? La concorrenza è un requisito difficile da realizzare, in confronto al
 mettere le operazioni in sequenza. Le diverse PRAM si possono quindi categorizzare a seconda della tipologia delle
-operazioni (in generale si hanno letture concorrenti e scritture sequenziali; la concorrenza è invece utilizzata per 
+operazioni (in generale si hanno letture concorrenti e scritture sequenziali; la concorrenza è invece utilizzata per
 il sistema di I/O, per limitarne il collo di bottiglia). Un PRAM è difficile da realizzare perché non è scalabile.
 Un secondo modello è il Message Passing RAM, che è sempre una collezione di RAM, ma ognuna con la sua memoria dedicata
 (i sistemi di I/O son sempre condivisi). Si ha quindi che le diverse macchine comunicano mediante dei canali
@@ -305,7 +305,7 @@ come fattore di carico, o loading factor:
 \end{equation}
 che definisce la complessità come viene suddivisa su ogni nodo. Vi possono essere diversi casi:
 \begin{itemize}
- \item \textit{N uguale a P}: su ogni processore viene posta una parte molto semplice del problema. Si dice ipotesi 
+ \item \textit{N uguale a P}: su ogni processore viene posta una parte molto semplice del problema. Si dice ipotesi
  di identità.
  \item Dipendenza di N da P
  \item Indipendenza, interessante al crescere di N
@@ -314,7 +314,7 @@ La legge di Grosh stabilisce che la soluzione migliore risulta essere quella di 
 ciò non è sempre possibile! Se per esempio vi sono risorse limitate? Oppure, oltre un certo valore di N, non si riesce
 più a lavorare nel concentrato, e la legge è sicuramente inutile nel caso di vincoli, tipo la presenza di risorse
 distribuite.
-La legge di Amdhal stabilisce che vi è un limite alla possibile parallelizzazione, dato che ogni programma è 
+La legge di Amdhal stabilisce che vi è un limite alla possibile parallelizzazione, dato che ogni programma è
 costituito da una parte parallela e una parte sequenziale, e quest'ultima limita lo speed-up: si ha quindi che non
 cresce linearmente, ma tende a un valore asintotico! Nella situazione migliore immaginabile, con le risorse
 correttamente allocate, si ha quindi che si avrà uno speedup fisso, mentre sarà l'efficienza a variare a seconda
@@ -324,11 +324,11 @@ complessità del problema, realizzando un sistema fortemente caricato: si defini
 \begin{equation}
  T_{HL} = \liminf_P{T_P(N)}
 \end{equation}
-Infatti, si lavora bene caricando molto ogni processore, i quali quindi lavorano per tutto il tempo necessario: 
+Infatti, si lavora bene caricando molto ogni processore, i quali quindi lavorano per tutto il tempo necessario:
 abbiamo quindi in questo modo un buon uso delle risorse.
 Tuttavia, per la legge di Amdhal, dobbiamo ricordare che vi è anche una parte sequenziale in ogni programma... che è
 proprio la parte di comunicazione fra i diversi processori! Al crescere del numero dei processori, si ha quindi
-che lo speed-up diminuisce, allontanandosi dal valore massimo; questo degrado delle prestazioni è dovuto proprio al 
+che lo speed-up diminuisce, allontanandosi dal valore massimo; questo degrado delle prestazioni è dovuto proprio al
 peso crescente della comunicazione fra i processori, che diventa fondamentale\footnote{per esempio se la parte
 sequenziale è $\frac{1}{5}$ del totale lo speedup massimo sarà il reciproco, ovvero 5}.
 \subsection{Caso di studio: somma di N numeri}
@@ -345,8 +345,8 @@ Perché 2? Perché abbiamo 2 comunicazioni in ogni nodo. Possiamo quindi valutar
  E_P \left( N \right) = O \left( \frac{1}{log_2\left(N\right)} \right)
 \end{equation}
 Ma quindi, al crescere di N, l'efficienza tende a 0! Per quanto riguarda lo speedup, si ha che non lavorano tutti i
-nodi, ovvero più si risale l'albero e meno i processori lavorano (il processore radice deve attendere, ovvero tempo 
-di idle, che tutti gli altri abbiano finito!). Se invece avessimo un flusso di dati, i processori risulterebbero 
+nodi, ovvero più si risale l'albero e meno i processori lavorano (il processore radice deve attendere, ovvero tempo
+di idle, che tutti gli altri abbiano finito!). Se invece avessimo un flusso di dati, i processori risulterebbero
 tutti sempre impegnati (potremmo risolvere un insieme di problemi).
 Come si possono quindi mantenere sempre impegnati i processori? Si deve incrementare il lavoro sul singolo processore,
 per cui:
@@ -369,14 +369,14 @@ Per cui, lo speed-up tende effettivamente a P
  E_P(N) &= \frac{S_P(N)}{P} \nonumber \\
         &= O \left(\frac{1}{1} + \frac{1}{N \cdot \log_2(P)}\right)
 \end{align}
-E l'efficienza tende ad 1. Quindi, caricando al massimo i processori ed usandoli correttamente, si ottiene speed-up 
+E l'efficienza tende ad 1. Quindi, caricando al massimo i processori ed usandoli correttamente, si ottiene speed-up
 ed efficienza massimi.
 \subsection{Considerare l'I/O}
 In questi indicatori si è tuttavia lasciato da parte il problema dell'I/O, che spesso è il vero collo di bottiglia in
 diverse architetture. Inoltre, vi son diversi fattori che possono influenzare l'efficienza e lo speed-up
-dell'architettura, come il deployment reale. Si possono quindi estendere gli indicatori considerando l'effetto 
-generale dell'\textit{overhead}, $T_0(N)$, che rappresenta le risorse e il tempo 
-realmente utilizzato per la comunicazione 
+dell'architettura, come il deployment reale. Si possono quindi estendere gli indicatori considerando l'effetto
+generale dell'\textit{overhead}, $T_0(N)$, che rappresenta le risorse e il tempo
+realmente utilizzato per la comunicazione
 (caso ideale di deployment):
 \begin{equation}
 T_0(N) = \left|T_1(N) - P \cdot T_P(N)\right|
@@ -403,7 +403,7 @@ Supponiamo quindi di avere come obiettivo per l'architettura di mantenere costan
                             T_0(N) &= \frac{1 - E}{E} \cdot T_1(N)        \nonumber \\
                             T_0(N) &= K \cdot T_1(N)
 \end{align}
-Se K fosse veramente una costante, saremmo in isoefficienza. Un sistema isoefficiente indica che, se manteniamo 
+Se K fosse veramente una costante, saremmo in isoefficienza. Un sistema isoefficiente indica che, se manteniamo
 costante la complessità e aumentiamo il numero dei processori, l'efficienza non varia. Il valore di K quindi determina
 se il sistema ha un buon comportamento. In particolare:
 \begin{itemize}
@@ -415,7 +415,7 @@ I sistemi reali sono scarsamente scalabili.
 Un progetto deve essere valutato attentamente, per cercare di dimensionarlo in maniera corretta: nel caso di una
 macchina singola l'heavily loaded limit è un ragionamento corretto, ma bisogna ricordarsi che si deve sempre cercare di
 parallelizzare (non utilizzare la legge di Grosh). Per esempio, qual è il numero ideale di processi da realizzare? Si
-può ben pensare che avere meno processi di processori risulti in processori che non lavorano, e quindi in un sistema 
+può ben pensare che avere meno processi di processori risulti in processori che non lavorano, e quindi in un sistema
 non efficiente: il limite superiore quindi è che il numero dei processi sia lo stesso del numero dei processori. Un
 processore è idle quando comunica, quindi si dovrebbe limitare la comunicazione, e quindi troppi processi comunicano
 troppo.

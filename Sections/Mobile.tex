@@ -3,125 +3,125 @@ Questa sezione \textbf{non fa più parte del programma} ma viene mantenuta per c
 
 Le risorse in un sistema distribuito possono essere o concentrate o distribuite.
 L'idea è comunque quella di cercare di offrire un servizio d trasparenza accedendo alla risorsa.
-Si deve quindi avere un sistema per descrivere le risorse, magari sfruttando l'XML se si sta lavorando ad alto livello. 
-Se inoltre si potesse definire la qualità sulla risorsa, si potrebbe dimostrare che si è capito il costo fondamentale 
+Si deve quindi avere un sistema per descrivere le risorse, magari sfruttando l'XML se si sta lavorando ad alto livello.
+Se inoltre si potesse definire la qualità sulla risorsa, si potrebbe dimostrare che si è capito il costo fondamentale
 nello sviluppo.
 Si possono avere due diversi piani per il progetto delle risorse:
 \begin{itemize}
- \item \textit{Statico}: si progettano le risorse no al deployment, realizzando anche delle politiche complesse per 
+ \item \textit{Statico}: si progettano le risorse no al deployment, realizzando anche delle politiche complesse per
  poter  descrivere dove inserirle, come replicarle...
- \item \textit{Dinamico}: si realizzano politiche per la gestione e il deployment durante l'esecuzione dell'applicazione 
+ \item \textit{Dinamico}: si realizzano politiche per la gestione e il deployment durante l'esecuzione dell'applicazione
  stessa.
 \end{itemize}
-Tipicamente, si ha già pensato a come realizzare il deployment delle risorse, alla loro allocazione, essendo l'approccio 
+Tipicamente, si ha già pensato a come realizzare il deployment delle risorse, alla loro allocazione, essendo l'approccio
 più semplice da gestire: questo però è un approccio poco flessibile e dinamico.
-Un esempio di sistema distribuito coordinato per le risorse potrebbe essere un File System distribuito: richiederebbe 
-l'introduzione di agenti coordinati per gestirle (questi dovrebbero introdurre delle fasi di negoziazione, prima di 
-poter fornire l'accesso alla risorsa). Garantisce trasparenza all'allocazione delle risorse, mantenendo un comportamento 
+Un esempio di sistema distribuito coordinato per le risorse potrebbe essere un File System distribuito: richiederebbe
+l'introduzione di agenti coordinati per gestirle (questi dovrebbero introdurre delle fasi di negoziazione, prima di
+poter fornire l'accesso alla risorsa). Garantisce trasparenza all'allocazione delle risorse, mantenendo un comportamento
 uguale. Un altro modello potrebbe essere quello basato su una service request, che rappresenta un sistema C/S.
 \subsection{Mobilità delle risorse}
-Nel progetto di un sistema, si deve considerare cosa e come si può muovere. Per esempio, se si pensa allo stack di un 
-programma Java, questo è legato alla stack della JVM: non si può spostare facilmente su un altro nodo! Altre 
+Nel progetto di un sistema, si deve considerare cosa e come si può muovere. Per esempio, se si pensa allo stack di un
+programma Java, questo è legato alla stack della JVM: non si può spostare facilmente su un altro nodo! Altre
 caratteristiche difficili da muovere sono i riferimenti a risorse strettamente locali (tipo i file\footnote{Si
 potrebbero spostare, se si lavorasse su un le system distribuito}).
-Se è presente la possibilità di muovere le risorse, aggiungendo un servizio di trasparenza si ha che si lavora senza 
+Se è presente la possibilità di muovere le risorse, aggiungendo un servizio di trasparenza si ha che si lavora senza
 fornire la possibilità di vedere le risorse locali!
-Questi concetti sono utili anche per decidere cosa posizionare su ogni nodo: se per esempio le risorse dovessero essere 
+Questi concetti sono utili anche per decidere cosa posizionare su ogni nodo: se per esempio le risorse dovessero essere
 allocate tutte sullo stesso nodo, si può realizzare un sistema a memoria comune, con operazioni però solo sequenziali.
-Potendole distribuire su più nodi, si riescono a fornire operazioni anche in parallelo ma molto più costose. Se le 
-risorse son semplici poi, basta semplicemente copiarle, mentre certe risorse con vincoli che le rendono complesse, 
+Potendole distribuire su più nodi, si riescono a fornire operazioni anche in parallelo ma molto più costose. Se le
+risorse son semplici poi, basta semplicemente copiarle, mentre certe risorse con vincoli che le rendono complesse,
 richiedono un apposito sistema di trasparenza.
 Esistono quindi diversi requisiti per fare un'esecuzione remota: si deve cercare di limitare l'overhead, e di
-interferire il meno possibile con l'esecuzione locale (gradita la non-interferenza), ed è necessario fornire anche delle 
-infore mazioni di stato sui singoli processori. Questo è particolarmente importante, vista l'ampia eterogeneità 
+interferire il meno possibile con l'esecuzione locale (gradita la non-interferenza), ed è necessario fornire anche delle
+infore mazioni di stato sui singoli processori. Questo è particolarmente importante, vista l'ampia eterogeneità
 presente: non vi è per esempio un sistema di nomi comune, ed è quindi necessario stipulare delle apposite convenzioni.
 \subsection{Muovere i processi}
-Esistono diversi S.O. che prevedono la possibilità di spostare i processi su altri processori, per cercare di fornire un 
-bilanciamento di carico migliore. Si realizza così uno scheduling distribuito, in grado di fornire sia una politica 
-locale che globale con cui trattare i processi. Un sistema di scheduling globale deve essere in grado di fornire dei 
-meccanismi con cui i processi possano comunicare in remoto e quindi la possibilità di realizzare delle politiche per la 
+Esistono diversi S.O. che prevedono la possibilità di spostare i processi su altri processori, per cercare di fornire un
+bilanciamento di carico migliore. Si realizza così uno scheduling distribuito, in grado di fornire sia una politica
+locale che globale con cui trattare i processi. Un sistema di scheduling globale deve essere in grado di fornire dei
+meccanismi con cui i processi possano comunicare in remoto e quindi la possibilità di realizzare delle politiche per la
 gestione delle risorse.
 In particolare, si possono avere due diversi approcci:
 \begin{itemize}
- \item \textit{Load Sharing}: si definisce la condivisione del carico come carico globale del sistema, ovvero è uno 
- scheduling totale del sistema. L'idea è quella di evitare processi idle, mantenendoli sempre al massimo del lavoro 
+ \item \textit{Load Sharing}: si definisce la condivisione del carico come carico globale del sistema, ovvero è uno
+ scheduling totale del sistema. L'idea è quella di evitare processi idle, mantenendoli sempre al massimo del lavoro
  possibile. Si tratta di una valutazione statica, i processi non si possono muovere su altri processori
- \item \textit{Load Balancing}: E una valutazione dinamica, ovvero a tempo d'esecuzione le risorse si possono muovere. 
+ \item \textit{Load Balancing}: E una valutazione dinamica, ovvero a tempo d'esecuzione le risorse si possono muovere.
  Si vuole quindi mantenere un carico equilibrato su ogni processore, per ottenere un'efficienza elevata.
 \end{itemize}
-Il problema del muovere un processo è che è un'operazione particolarmente costosa. Utilizzando una politica di load 
+Il problema del muovere un processo è che è un'operazione particolarmente costosa. Utilizzando una politica di load
 balancing, conviene comunque fare delle valutazioni dinamiche (quindi non di tutto l'insieme dei processori; spesso sono
 valutazioni euristiche, per poter limitare il costo a volte inaccettabile) per approssimare il comportamento, per
-limitare il costo. Una possibile strategia, per esempio, è quella di ridurre il numero dei processori su cui un processo 
-può essere trasferito. Il load balancing deve essere valutato attentamente, perché può divenire molto intrusivo. Le 
+limitare il costo. Una possibile strategia, per esempio, è quella di ridurre il numero dei processori su cui un processo
+può essere trasferito. Il load balancing deve essere valutato attentamente, perché può divenire molto intrusivo. Le
 valutazioni dinamiche, che realizzano politiche di minima intrusione locali e semplici son sempre da preferire.
 Si sono visti diversi modelli per l'esecuzione di processi per ilload sharing:
 \begin{itemize}
- \item \textit{Modello a ring logico}: un esempio è V-kernel. Si definisce quindi una struttura fissa, statica, che 
+ \item \textit{Modello a ring logico}: un esempio è V-kernel. Si definisce quindi una struttura fissa, statica, che
  spiega come i processi possano muoversi. Vi è un token che stabilisce quale processore è il gestore in quel momento, il
- quale richiede informazioni sul sistema mediante un broadcast. Ottenute le risposte, si genera il bilanciamento 
- distribuendo il carico (che non si può quindi spostare). E una struttura statica e proattiva, però semplice da gestire 
+ quale richiede informazioni sul sistema mediante un broadcast. Ottenute le risposte, si genera il bilanciamento
+ distribuendo il carico (che non si può quindi spostare). E una struttura statica e proattiva, però semplice da gestire
  anche a fronte di guasti.
- \item \textit{Modello a foresta}: un esempio è Micros. Vi è una gerarchi di processori, in genere rappresentata ad 
- albero, quindi più dinamica. Possibilità di rappresentare anche foreste di processori. Al livello più basso vi sono i 
- processori che lavorano direttamente sulle risorse (worker), e i loro padri sono i manager: la profondità dell'albero 
- dipende quindi dal numero delle risorse che si vengono a definire (in generale si cerca di avere un albero binario). 
- L'obiettivo di Micros è quello di gestire un elevato numero di risorse ed utenti, non basandosi sulla topologia reale 
+ \item \textit{Modello a foresta}: un esempio è Micros. Vi è una gerarchi di processori, in genere rappresentata ad
+ albero, quindi più dinamica. Possibilità di rappresentare anche foreste di processori. Al livello più basso vi sono i
+ processori che lavorano direttamente sulle risorse (worker), e i loro padri sono i manager: la profondità dell'albero
+ dipende quindi dal numero delle risorse che si vengono a definire (in generale si cerca di avere un albero binario).
+ L'obiettivo di Micros è quello di gestire un elevato numero di risorse ed utenti, non basandosi sulla topologia reale
  della rete. Il sistema è dinamico proprio perché permette anche di fare un'allocazione dinamica delle risorse,
  richiedendole al livello superiore. L'architettura è fault-tolerant.
- \item \textit{Modello derivato dai worm d'Internet}: si tratta di un buon livello per la ridistribuzione del carico. 
-Rappresenta  un sistema molto dinamico che richiede pochissime informazioni sull'architettura del sistema. L'idea è 
+ \item \textit{Modello derivato dai worm d'Internet}: si tratta di un buon livello per la ridistribuzione del carico.
+Rappresenta  un sistema molto dinamico che richiede pochissime informazioni sull'architettura del sistema. L'idea è
 quella di  ricopiare l'applicazione che si ricerca, valutando i nodi vicini e scegliendo quelli liberi.
 \end{itemize}
-Nel caso di load balancing si parla di migrazione: un processo viene trasferito su un altro nodo. E un'operazione 
-costosa, ma che presenta degli indubbi vantaggi, perché permette di smistare il carico nel sistema. In questo modo si 
+Nel caso di load balancing si parla di migrazione: un processo viene trasferito su un altro nodo. E un'operazione
+costosa, ma che presenta degli indubbi vantaggi, perché permette di smistare il carico nel sistema. In questo modo si
 riescono a far lavorare tutti i processori, aumentando l'efficienza.
-E ovvio però che per capire se le politiche addottate sono veramente un aiuto, serve un apposito sistema di monitoring: 
+E ovvio però che per capire se le politiche addottate sono veramente un aiuto, serve un apposito sistema di monitoring:
 rappresentano dei costi aggiuntivi, ma necessari per poter valutare istante per istante la situazione del sistema, e
-quindi per poter bilanciarlo correttamente! Il monitoring deve tener conto dei processori, delle risorse e del tempo di 
-comunicazione, e deve essere studiato per realizzare una politica di minima intrusione, assumendo un principio di 
-continuità dell'applicazione. Si introduce così una logica di trasparenza, rendendo certi dati noti solo al supporto. Si 
-punta quindi all'efficienza del sistema, alla mobilità e alla realizzazione di un sistema fault-tolerant (crolla un 
+quindi per poter bilanciarlo correttamente! Il monitoring deve tener conto dei processori, delle risorse e del tempo di
+comunicazione, e deve essere studiato per realizzare una politica di minima intrusione, assumendo un principio di
+continuità dell'applicazione. Si introduce così una logica di trasparenza, rendendo certi dati noti solo al supporto. Si
+punta quindi all'efficienza del sistema, alla mobilità e alla realizzazione di un sistema fault-tolerant (crolla un
 processore, ma il processo migra su un'altra macchina!).
 La migrazione deve tener conto di diversi aspetti:
 \begin{enumerate}
  \item Si deve comunque lasciar la precedenza alle computazioni locali.
- \item Si deve evitare il fenomeno del trashing, ovvero che un processo si muova continuamente da un processore 
+ \item Si deve evitare il fenomeno del trashing, ovvero che un processo si muova continuamente da un processore
  all'altro, senza mai essere eseguito.
- \item Si deve evitare il fenomeno delle dipendenze residue: un nodo non dovrebbe mai ridirezionare le richieste verso 
+ \item Si deve evitare il fenomeno delle dipendenze residue: un nodo non dovrebbe mai ridirezionare le richieste verso
  il nuovo nodo su cui gira il processo. Vi è infatti a possibilità di generare dei cicli assolutamente pericolosi.
  \item Il sistema deve essere concorrente, in grado di realizzare migrazioni multiple.
 \end{enumerate}
-Si deve quindi progettare il processo in maniera da poter trasportare quello che serve: in generale lo stato corrente 
-più eventuali modifiche che sono state apportate (magari si può trasportare anche solo un sottoinsieme delle  
+Si deve quindi progettare il processo in maniera da poter trasportare quello che serve: in generale lo stato corrente
+più eventuali modifiche che sono state apportate (magari si può trasportare anche solo un sottoinsieme delle
 informazioni).
-Il grosso problema della migrazione è quello del riuscire, nella maniera più efficiente e meno costosa, a fornire ai 
+Il grosso problema della migrazione è quello del riuscire, nella maniera più efficiente e meno costosa, a fornire ai
 clienti un sistema per accedere al processo anche se è stato spostato.
-Una prima possibilità è quella di ridirigere i messaggi, sfruttando per esemapio un'apposita struttura detta forwarder, 
-in grado di farlo in maniera trasparente. E una strategia pessimistica/pro-attiva. In questo modo il cliente non viene 
-avvisato! Una prima modifica consiste quindi nel riqualicare i messaggi, avvisando anche il cliente oltre a ridirigerli 
+Una prima possibilità è quella di ridirigere i messaggi, sfruttando per esemapio un'apposita struttura detta forwarder,
+in grado di farlo in maniera trasparente. E una strategia pessimistica/pro-attiva. In questo modo il cliente non viene
+avvisato! Una prima modifica consiste quindi nel riqualicare i messaggi, avvisando anche il cliente oltre a ridirigerli
 per un certo tempo.
-Tuttavia, la strategia più brusca (ottimista e reattiva) è quella di far proprio fallire il client: in questo modo il 
-client si accorge che vi è un qualche problema (non è trasparente!) e si deve preoccupare di ricercare dove è adesso il 
+Tuttavia, la strategia più brusca (ottimista e reattiva) è quella di far proprio fallire il client: in questo modo il
+client si accorge che vi è un qualche problema (non è trasparente!) e si deve preoccupare di ricercare dove è adesso il
 processo che desidera, per ottenerne un riferimento.
-Demos/MP (anni 70) è stato uno dei primi S.O. a pensare ad un sistema di load balancing, in cui è il supporto che fa 
+Demos/MP (anni 70) è stato uno dei primi S.O. a pensare ad un sistema di load balancing, in cui è il supporto che fa
 migrare i processi. E un sistema basato sullo scambio di messaggi, e i processi si conoscono in base ad appositi
-link : queste strutture non sono come le porte, non son legati ai nodi su cui girano, ed era un sistema univoco per 
+link : queste strutture non sono come le porte, non son legati ai nodi su cui girano, ed era un sistema univoco per
 puntare al processo. Si tratta quindi di sistemi gestiti dall'infrastruttura.
-In particolare, Demos/MP si preoccupa di spostare solo processi pesanti, cioè che hanno un tempo d'esecuzione molto 
+In particolare, Demos/MP si preoccupa di spostare solo processi pesanti, cioè che hanno un tempo d'esecuzione molto
 lungo (per esempio, processi ciclici).
 Non si fanno quindi migrare i processi con un tempo di vita limitato.
-Demos/MP è stato anche il primo ideatore di un forwarder, che può lavorare correttamente grazie al sistema a link! Il 
+Demos/MP è stato anche il primo ideatore di un forwarder, che può lavorare correttamente grazie al sistema a link! Il
 forwarder tuttavia è una struttura temporanea, finché il link al processo non viene riqualificato, ovvero anche i
-client riescono ad accederci direttamente senza dover passare dal nodo iniziale (si può comunque anche fare un sistema a 
+client riescono ad accederci direttamente senza dover passare dal nodo iniziale (si può comunque anche fare un sistema a
 scarto di messaggi, per cui la responsabilità del trovare il nuovo processore tocchi al cliente). Si deve quindi
-fermare l'esecuzione del processo sul nodo originale, trasferire lo stato sul nuovo processore, attivarlo e attivare il 
+fermare l'esecuzione del processo sul nodo originale, trasferire lo stato sul nuovo processore, attivarlo e attivare il
 forwarder temporaneo. Si ha quindi alla fine una trasparenza all'allocazione.
-Un altro S.O. che prevede la migrazione dei processi è il V-kernel (sempre a scambio di messaggi), che punta 
-all'efficienza e ad essere fault-tolerant, oltre alla trasparenza all'allocazione. Questo S.O. lavora in maniera 
-preventiva, per cui copia le differenze fra i processori su cui gira (in tempi diversi) per evitare le dipendenze 
+Un altro S.O. che prevede la migrazione dei processi è il V-kernel (sempre a scambio di messaggi), che punta
+all'efficienza e ad essere fault-tolerant, oltre alla trasparenza all'allocazione. Questo S.O. lavora in maniera
+preventiva, per cui copia le differenze fra i processori su cui gira (in tempi diversi) per evitare le dipendenze
 residue dovute al forwarder! Si ha quindi sempre una riqualicazione dei link.
-La migrazione è un modo molto buono per poter separare meccanismi e politiche. Le politiche per la migrazione dipendono 
+La migrazione è un modo molto buono per poter separare meccanismi e politiche. Le politiche per la migrazione dipendono
 da diverse considerazioni:
 \begin{enumerate}
  \item Vale la pena migrare?
@@ -129,99 +129,99 @@ da diverse considerazioni:
  \item Su quale processore si allocherà il nuovo processo?
 \end{enumerate}
 In generale possiamo osservare che vi sono dei meccanismi/caratteristiche comuni, per cui vi sono solo certe categorie
-di processi che si possono spostare, ed è necessario un gestore per la migrazione per ogni nodo. Si deve quindi essere 
-in grado di definire cosa trasferire, cosa si può migrare, ovvero la costituzione stessa della risorsa! Si ha che quindi 
-si blocca il processo, se ne crea una copia sul nuovo processore, e quindi si avvia un sistema per riqualicare i link, 
+di processi che si possono spostare, ed è necessario un gestore per la migrazione per ogni nodo. Si deve quindi essere
+in grado di definire cosa trasferire, cosa si può migrare, ovvero la costituzione stessa della risorsa! Si ha che quindi
+si blocca il processo, se ne crea una copia sul nuovo processore, e quindi si avvia un sistema per riqualicare i link,
 elimando quelli obsoleti. Nel mentre, si rifiutano le comunicazioni con il processo.
-Quanto costa? Un S.O., Charlotte, stimava il costo in base al numero dei link presenti, della dimensione del processo da 
+Quanto costa? Un S.O., Charlotte, stimava il costo in base al numero dei link presenti, della dimensione del processo da
 trasferire e da una parte costante di comunicazione: al crescere delle dimensioni del processo, il tempo totale per
 il trasferimento aumenta notevolmente.
 Le politiche di migrazione sono quindi stabilite mediante un sistema di valutazione del carico, e la decisione di chi
-trasferire e quando, spesso accomunata a dove si deve trasferire, ovvero un concetto di locazione. In particolare, si 
-deve trovare un sistema per valutare qual è l'impatto sullo scheduling locale, potendo integrare quindi politiche di più 
+trasferire e quando, spesso accomunata a dove si deve trasferire, ovvero un concetto di locazione. In particolare, si
+deve trovare un sistema per valutare qual è l'impatto sullo scheduling locale, potendo integrare quindi politiche di più
 alta gestione. Le politiche si possono quindi classificare come:
 \begin{itemize}
- \item \textit{Statiche}: sono molto facili da valutare, e risulta facile definire come trasferire (tipo, si decide che 
- sono i processi nuovi a muoversi, fornendo però un rischio di trashing). La locazione è statica, e anche se non 
+ \item \textit{Statiche}: sono molto facili da valutare, e risulta facile definire come trasferire (tipo, si decide che
+ sono i processi nuovi a muoversi, fornendo però un rischio di trashing). La locazione è statica, e anche se non
  risulta essere flessibile, presenta un costo molto basso.
- \item \textit{Semi-dinamiche}: sono politiche più costose, perché dipendono dalla situazione attuale. Si realizza una 
+ \item \textit{Semi-dinamiche}: sono politiche più costose, perché dipendono dalla situazione attuale. Si realizza una
  scelta ciclica dei processi e dei destinatari. Il carico è quindi dinamico.
- \item \textit{Dinamiche}: Si intende di lavorare per un sistema di vicinato, ovvero si cerca di spostare il carico su 
+ \item \textit{Dinamiche}: Si intende di lavorare per un sistema di vicinato, ovvero si cerca di spostare il carico su
  processi vicini. Si deve quindi valutare il carico del vicinato, e trovare sistemi poco costosi per determinarlo.
 \end{itemize}
-Le politiche possono essere più o meno complesse, realizzando magari politiche incondizionate (meccanismi random) o 
-condizionate: queste ultime sono più costose, presentando un overhead dovuto ad una comunicazione per fare delle 
-negoziazioni! Questo sistema è detto probing, perché ovviamente si cerca nel vicinato, per limitare il costo (non ha 
-senso cercare nella globalità !). Si possono anche realizzare politiche di bidding, per ricercare un processore 
+Le politiche possono essere più o meno complesse, realizzando magari politiche incondizionate (meccanismi random) o
+condizionate: queste ultime sono più costose, presentando un overhead dovuto ad una comunicazione per fare delle
+negoziazioni! Questo sistema è detto probing, perché ovviamente si cerca nel vicinato, per limitare il costo (non ha
+senso cercare nella globalità !). Si possono anche realizzare politiche di bidding, per ricercare un processore
 disponibile ad eseguire il processo, e scegliendo la migliore offerta proposta.
-Non esiste una politica migliore in assoluto: in generale, conviene avere un'inziativa da parte di un sender (da chi 
+Non esiste una politica migliore in assoluto: in generale, conviene avere un'inziativa da parte di un sender (da chi
 possiede il processo e che lo vorrebbe spostare) se si ha un sistema con carichi bassi, altrimenti da parte del receiver
-(un processore che potrebbe fornire risorse per un altro processo). Un approccio misto risulta quindi essere il 
+(un processore che potrebbe fornire risorse per un altro processo). Un approccio misto risulta quindi essere il
 migliore.
-La migrazione è un sistema che deve essere studiato attentamente: può infatti ridurre notevolmente i tempi 
-dell'applicazione, sfruttando politiche semplici. Si ha quindi un'intrusione limitata per ottenere i risultati 
+La migrazione è un sistema che deve essere studiato attentamente: può infatti ridurre notevolmente i tempi
+dell'applicazione, sfruttando politiche semplici. Si ha quindi un'intrusione limitata per ottenere i risultati
 desiderati. Si deve quindi puntare all'efficienza, tendere all'ottimalità e realizzare un sistema stabile.
 \subsection{Sistemi ad agenti mobili}
 I sistemi ad agenti mobili si mappa molto bene con il problema della migrazione.
-Tuttavia, l'approccio è diverso: non si navigano i nodi per ottimizzare il bilanciamento del carico, ma per ottenere 
+Tuttavia, l'approccio è diverso: non si navigano i nodi per ottimizzare il bilanciamento del carico, ma per ottenere
 informazioni dai diversi nodi. Si ha quindi un movimento dovuto all'applicazione, e non da esigenze di efficienze per la
 computazione e diretto dal supporto!
-Il movimento è quindi una caratteristica base degli agenti mobili, per cui si deve cercare di determinare dei sistemi 
+Il movimento è quindi una caratteristica base degli agenti mobili, per cui si deve cercare di determinare dei sistemi
 efficienti. Nulla per esempio impedisce ad un agente di ritornare su nodi già visitati.
-Per gli agenti si parla quindi di mobilità del codice (modello che va oltre al normale approccio C/S, per cui si passano 
+Per gli agenti si parla quindi di mobilità del codice (modello che va oltre al normale approccio C/S, per cui si passano
 solo dati. Sono sistemi utili per esempio per aggiornare i diversi router). Prima degli agenti mobili, per mobilità
 del codice si parla di:
 \begin{itemize}
- \item \textit{Remote Evaluation}: è un'operazione singola, one-hop, per cui si invia il codice al server, che ne 
+ \item \textit{Remote Evaluation}: è un'operazione singola, one-hop, per cui si invia il codice al server, che ne
  diventa parte integrante!
- \item \textit{Code On Demand}: processo inverso, ovvero il client scarica codice proveniente dal server (un esempio 
+ \item \textit{Code On Demand}: processo inverso, ovvero il client scarica codice proveniente dal server (un esempio
  classico sono le applet Java!)
 \end{itemize}
-Questi sistemi però non prevedono ancora la possibilità che il codice, mentre si muove, esegua! Questo si ha solo con 
-l'introduzione degli agenti mobili. Sono infatti sistemi a multi-hop, in grado di cambiare l'allocazione durante 
-l'esecuzione e mantenere comunque uno stato coeso. Si può pensare a varie ottimizzazioni, magari trasportando solo le 
+Questi sistemi però non prevedono ancora la possibilità che il codice, mentre si muove, esegua! Questo si ha solo con
+l'introduzione degli agenti mobili. Sono infatti sistemi a multi-hop, in grado di cambiare l'allocazione durante
+l'esecuzione e mantenere comunque uno stato coeso. Si può pensare a varie ottimizzazioni, magari trasportando solo le
 differenze rispetto ad uno stato iniziale o una sintesi dei risultati ottenuti.
 \subsection{Classificazione della mobilità}
 Per gli agenti mobili, si può classificare in diversi gradi la mobilità:
 \begin{itemize}
- \item \textit{Forte}: In ogni punto del codice è possibile specificare la mobilità. Tali sistemi sono in realtà 
+ \item \textit{Forte}: In ogni punto del codice è possibile specificare la mobilità. Tali sistemi sono in realtà
  difficilmente realizzabili, perché presentano grossi problemi di supporto.
- \item \textit{Debole}: Si vincola invece la posizione in cui si può mettere la ``move'': tale sistema è meno 
+ \item \textit{Debole}: Si vincola invece la posizione in cui si può mettere la ``move'': tale sistema è meno
 flessibile, ma maggiormente e facilmente gestibile.
 \end{itemize}
-La differenza quindi è nella continuità della mobilità (o avviene sempre, oppure solo in certi momenti prestabiliti). 
-Come risolvere la mobilità forte? L'idea è quella di realizzare un sistema a codice intermedio, potendo così fornire su 
+La differenza quindi è nella continuità della mobilità (o avviene sempre, oppure solo in certi momenti prestabiliti).
+Come risolvere la mobilità forte? L'idea è quella di realizzare un sistema a codice intermedio, potendo così fornire su
 ogni nodo degli interpreti del codice intermedio (per poter superare così i diversi problemi dovuti all'eterogeneità).
 \subsection{Servono gli agenti mobili?}
-In generale, un progetto giustica la scelta della tecnologia. Tuttavia, se i vincoli risultano essere sbagliati, si usa 
+In generale, un progetto giustica la scelta della tecnologia. Tuttavia, se i vincoli risultano essere sbagliati, si usa
 a sproposito la tecnologia.
-Attualmente, per gli agenti mobili si è ancora alla ricerca di una killer application; in certi casi conviene ancora 
-usare sistemi come REV o COD. La mobilità attualmente è vista come il sistema migliore per poter accedere a risorse 
+Attualmente, per gli agenti mobili si è ancora alla ricerca di una killer application; in certi casi conviene ancora
+usare sistemi come REV o COD. La mobilità attualmente è vista come il sistema migliore per poter accedere a risorse
 vincolate, cercando di ottimizzare il sistema utilizzando delle operazioni locali. Vi sono diversi tipi di mobilità:
 \begin{itemize}
- \item \textit{Utente nomade}: non ha senso utilizzare gli agenti, ma conviene invece gestire un sistema a repository 
+ \item \textit{Utente nomade}: non ha senso utilizzare gli agenti, ma conviene invece gestire un sistema a repository
 centrale.  L'utente vuole eseguire le proprie applicazioni indipendentemente da quale macchina stia utilizzando.
  \item \textit{Terminali mobili}: potrebbe aver senso utilizzare gli agenti. Si tratta infatti dell'idea di realizzare
  terminali in grado di lavorare comunque ed ovunque si trovino.
  \item \textit{Codice mobile}: definitivamente utile utilizzare gli agenti.
 \end{itemize}
 \subsection{Gli agenti mobili}
-Sono delle entità che si devono muovere per eseguire i propri compiti, operando per conto di un principal. Si tratta 
-quindi di sistemi in cui il programmatore stabilisce la mobilità, e in cui si realizza una programmazione 
-location-awareness, cioè dipendente dal posto in cui si esegue. Possono essere utili quindi per poter fornire un 
-controllo locale alle risorse, ltrando quindi le richieste da parte di un gestore centrale! Gli agenti mobili devono 
+Sono delle entità che si devono muovere per eseguire i propri compiti, operando per conto di un principal. Si tratta
+quindi di sistemi in cui il programmatore stabilisce la mobilità, e in cui si realizza una programmazione
+location-awareness, cioè dipendente dal posto in cui si esegue. Possono essere utili quindi per poter fornire un
+controllo locale alle risorse, ltrando quindi le richieste da parte di un gestore centrale! Gli agenti mobili devono
 essere progettati secondo un'ottica di leggerezza: essere semplici, single-threaded (Java sembra un'ottima tecnologia
 per realizzarli). Sono in corso di sviluppo mw, orientati alla weak mobility:
-studio quindi di strutture dati apposite per la mobilità, permettendo soltanto delle richieste esplicite alla 
-migrazione. 
-Vi possono essere diverse implementazioni: con connessione o connectionless, comunicazioni sincrone o meno, possibilità 
+studio quindi di strutture dati apposite per la mobilità, permettendo soltanto delle richieste esplicite alla
+migrazione.
+Vi possono essere diverse implementazioni: con connessione o connectionless, comunicazioni sincrone o meno, possibilità
 di realizzare un sistema sincronizzato di agenti o meno, e così via. Tuttavia, tutti i sistemi ad agenti introducono un
-enorme problema per la sicurezza (codice che naviga ed agisce in una rete...). Si potrebbe infatti avere del codice 
+enorme problema per la sicurezza (codice che naviga ed agisce in una rete...). Si potrebbe infatti avere del codice
 maligno che gira. Tuttavia, i controlli potrebbero anche impedire ad un nodo di eseguire codice non maligno, scartando
 via l'agente! Si deve quindi verificare mediante l'uso di diversi agenti se per verificare il comportamento del nodo.
-Un altro problema è sul fatto che il codice può essere letto senza problemi dal nodo su cui esegue: si devono quindi 
+Un altro problema è sul fatto che il codice può essere letto senza problemi dal nodo su cui esegue: si devono quindi
 anche garantire certe proprietà di incapsulamento, perché non sia un nodo a modificare il codice contenuto da un agente!
-A cosa può essere utile tutto ciò? A realizzare mobile computing (utenti in grado di muoversi e di mantenere uno 
+A cosa può essere utile tutto ciò? A realizzare mobile computing (utenti in grado di muoversi e di mantenere uno
 stato/sessione costante, anche cambiando terminale, ottenendo così la massima accessibilità) ottenendo per esempio la
-generazione di reti spontanee (utili per esempio per creare reti per giochi, solo su disponibilità), possibilità di 
+generazione di reti spontanee (utili per esempio per creare reti per giochi, solo su disponibilità), possibilità di
 coordinare utenti mobili in ambienti civili e militari, sistemi location awareness...

@@ -9,7 +9,7 @@ I possibili guasti si possono catalogare in maniera logica:
 \begin{itemize}
  \item Si parla di \textit{failure} quando il sistema presenta un comportamento diverso dagli invarianti di sistema
 previsti: ciò è dovuto a un sistema progettato male. Il failure è l'effetto visibile, riscontrabile dall'utente.
- \item Un errore è invece il difetto che genera un failure del sistema, la causa concreta che ha portato il sistema 
+ \item Un errore è invece il difetto che genera un failure del sistema, la causa concreta che ha portato il sistema
  in uno stato non corretto.
  \item Un fault infine è proprio il comportamento che si è venuto a verificare che ha portato il sistema a generare un
  failure: corrisponde quindi proprio alla causa a monte.
@@ -62,11 +62,11 @@ ridefinire le proprietà precedenti in base a questi valori:
 In particolare, si possono distinguere i casi di lettura e scrittura: infatti, la lettura non modifica lo stato, per
 cui si può fornire un servizio di lettura anche se vi sono diverse copie non funzionanti. Viceversa, per garantire uno
 stato coeso fra tutte le copie, la scrittura richiede che tutte siano disponibili.
-La reliability si può anche vedere come la probabilità che un servizio sia disponibile per un certo intervallo di 
+La reliability si può anche vedere come la probabilità che un servizio sia disponibile per un certo intervallo di
 tempo (a 0 deve corrispondere con l'availability).
 Esistono altre proprietà fondamentali, come la correttezza e la vitalità: la prima definisce che comunque sia, il
 risultato fornito dal sistema sarà corretto, la seconda invece stabilisce che comunque si raggiungerà l'obiettivo.
-L'ideale sarebbe disporre di entrambe le proprietà, così da poter mascherare i fault: si può ottenere mediante 
+L'ideale sarebbe disporre di entrambe le proprietà, così da poter mascherare i fault: si può ottenere mediante
 oppurtune tecniche di replicazione spaziali e/o temporali:
 \begin{itemize}
  \item Se si hanno diverse macchine, che eseguono ognuna un algoritmo diverso ma forniscono lo stesso risultato,
@@ -89,14 +89,14 @@ I guasti si possono anche classificare in base alla loro riconoscibilità da un 
  \item Fallimento di tipo bizantino: il processore termina presentando però comportamenti assolutamente casuali.
 \end{itemize}
 Nelle reti di calcolatori si possono poi presentare ulteriori generi di guasti, dovuti alla mancata totale
-ricezione/trasmissione di messaggi (\textit{send/receive omissions}), oppure anche al fatto che un processore si 
+ricezione/trasmissione di messaggi (\textit{send/receive omissions}), oppure anche al fatto che un processore si
 blocca. Le reti poi possono aggiungere problemi (se un router per esempio non rispodne più, si potrebbe avere che la
 rete risulta partizionata in due sottoreti, incapaci di comunicare fra di loro).
 \subsection{Architetture per garantire la fault-tolerance}
 Nel corso del tempo sono state pensate e realizzate diverse tipologie di architetture in grado di fornire questo genere
 di servizio.
 
-Una prima ipotesi operativa è quella di realizzare un sistema con vera e propria replicazione hardware, per cui si 
+Una prima ipotesi operativa è quella di realizzare un sistema con vera e propria replicazione hardware, per cui si
 hanno due possibilità:
 \begin{enumerate}
  \item O si realizza un'architettura in cui vi è una sola macchina a lavorare, mentre un'altra ne controlla il corretto
@@ -151,7 +151,7 @@ Vi sono due possibili modelli per la replicazione, e dipendono dal comportamento
  \item \textit{Copie calde}: in questo caso vi sono diversi oggetti, pronti a sostituire una copia che non funziona:
  l'idea è che in questo caso vi sia invece un protocollo di ruolo, in grado di indicare ad ogni copia che comportamento
  deve assumere (è la principale o meno): infatti, la copia principale è attiva, ovvero in grado di salvare lo stato,
- mentre le altre son passive, che vengono sempre aggiornate ad ogni modifica sulla copia attiva. Se fallissero anche 
+ mentre le altre son passive, che vengono sempre aggiornate ad ogni modifica sulla copia attiva. Se fallissero anche
  tutte le copie calde, si può ripiegare su un sistema a copie fredde, in grado di inizializzare una nuova copia.
 \end{itemize}
 \subsection{Gestione delle risorse}
@@ -169,13 +169,13 @@ Si possono ipotizzare sempre due modelli base:
  attive, ed è necessario predisporre una parte di controllo abbastanza complessa, quindi la modellazione e
  l'implementazione sono più costose (tutte le copie devono avere l'input, e tutti gli output devono essere confrontati).
 \end{itemize}
-In entrambi i modelli non si lavora in maniera sequenziale, ma parallela: le copie possono comunque svolgere anche 
+In entrambi i modelli non si lavora in maniera sequenziale, ma parallela: le copie possono comunque svolgere anche
 altri compiti, eseguire più operazioni contemporaneamente!
 
 Nel primo modello si deve pensare ad un sistema per tenere aggiornate le copie fredde: si utilizzano quindi dei
 checkpoint, per cui lo stato viene trasferito e replicato sulle copie fredde... ma quando farlo?
 \begin{itemize}
- \item Se lo si fa prima di fornire la risposta al cliente, si garantisce un'alta efficienza a scapito della 
+ \item Se lo si fa prima di fornire la risposta al cliente, si garantisce un'alta efficienza a scapito della
  correttezza (se gli slave presentano un guasto, non saranno aggiornati correttamente)
  \item Se invece si attende che tutte le copie garantiscano di aver ricevuto l'aggiornamento prima di spedire la
  risposta, il sistema è corretto, ma la risposta avrà un tempo molto lungo.
@@ -205,10 +205,10 @@ e fornisce visibilità alla replicazione: viene utilizzato solo in appositi sist
 sistema implicito a garantire la comunicazione fra il client e le copie attive. E quindi necessario pensare ad un
 frontend che si preoccupi di smistare opportunatamente le richieste: potrebbe essere statico (in grado quindi di
 smistare qualunque richiesta) oppure dinamico (specializzato per una determinata richiesta). Ma nel caso di oggetto
-singolo, questo diventa un collo di bottiglia, perché se viene a mancare l'architettura non si regge più in piedi! 
+singolo, questo diventa un collo di bottiglia, perché se viene a mancare l'architettura non si regge più in piedi!
 Deve \textit{garantire un'alta affidabilità}.
 
-Il secondo modello è realizzabile facendo in modo che ogni client diventi il gestore di quel tipo di richiesta, ma 
+Il secondo modello è realizzabile facendo in modo che ogni client diventi il gestore di quel tipo di richiesta, ma
 ciò necessita che le varie copie si mettano d'accordo: vi è un problema di sincronismo. Si può risolvere in diversi
 modi (sfruttando una politica ad anello, utilizzando un token univoco, in modo da simulare così un gestore unico fra
 tutte le copie attive), ma utilizzando delle approssimazioni per la sincronia, si possono ottenere dei protocolli più
@@ -243,7 +243,7 @@ Nel caso delle copie attive, vi sono 5 passaggi che si devono fare in ordine:
  che poi deve fornirla anche alle altre, oppure viene mandata dal client direttamente a tutti. Per avere maggiore
  trasparenza, è ovviamente preferibile il primo modello. La copia quindi può avere un comportamento dinamico o statico.
  \item Vi è poi la fase di coordinamento fra le copie: dipende nuovamente dall'architettura che si vuole realizzare. Si
- potrebbe avere un unico master gestore, oppure tutte le copie possono eseguire o in maniera paritaria o sono pesate 
+ potrebbe avere un unico master gestore, oppure tutte le copie possono eseguire o in maniera paritaria o sono pesate
  a seconda della loro importanza. Questa fase può servire per bilanciare correttamente il carico fra le varie copie
  attive.
  \item Quindi vi è la vera esecuzione. In generale tutte le copie devono eseguire, ma non devono farlo in contemporanea.
@@ -266,7 +266,7 @@ Nel caso delle copie attive, vi sono 5 passaggi che si devono fare in ordine:
 Esistono diverse possibilità per effettuare l'aggiornamento delle copie. Vi potrebbe essere una copia primaria che si
 preoccupa di aggiornare le altre, oppure tutte le copie possono assumere questo compito. Si deve poi decidere se
 privilegiare la correttezza (situazione eager o pessimista, si prevede di aggiornare tutte le copie prima di fornire
-la risposta al cliente, quindi a scapito della prontezza della risposta), oppure il tempo di risposta (situazione 
+la risposta al cliente, quindi a scapito della prontezza della risposta), oppure il tempo di risposta (situazione
 lazy o ottimista, aggiorno prima il client e poi le altre copie).
 \begin{itemize}
  \item \textit{Copia primaria eager}: una copia esegue, si preoccupa di aggiornare tutte le altre copie, e quindi
@@ -275,10 +275,10 @@ lazy o ottimista, aggiorno prima il client e poi le altre copie).
  alla volta. È compito del gestore controllare gli aggiornamenti e verificare che siano stati recepiti da tutte le copie
  in maniera corretta, coordinandole.
  \item \textit{Aggiornamento di tutte eager}: tutte le copie devono eseguire, mettesi d'accordo (two-phase commit) e
- quindi fornire il risultato: è in questo caso che si potrebbero avere undo 
+ quindi fornire il risultato: è in questo caso che si potrebbero avere undo
  costosi.
- \item \textit{atomic multicast} un'altra soluzione sarebbe che una copia, 
- ricevuta la richiesta, la propaga a tutte utilizzando un'operazione di 
+ \item \textit{atomic multicast} un'altra soluzione sarebbe che una copia,
+ ricevuta la richiesta, la propaga a tutte utilizzando un'operazione di
  multicast atomico
 \end{itemize}
 Il problema del coordinamento è che è costoso: tuttavia, è anche lo strumento che ci fornisce le maggiori garanzie di
@@ -288,7 +288,7 @@ a determinati intervalli, per ridurre il costo dell'operazione.
 L'idea del cluster è quella di realizzare un insieme di risorse replicate sempre disponibili (high availability),
 cercando di snellire il tutto per non avere un tempo di risposta troppo alto. L'idea quindi sarebbe avere un protocollo
 semplice e le soluzioni sempre disponibili (ma spesso è solo un bello slogan).
-Per realizzare ciò si utilizzano componenti \textit{off the shelf}, a basso costo e facilmente reperibili e 
+Per realizzare ciò si utilizzano componenti \textit{off the shelf}, a basso costo e facilmente reperibili e
 sostituibili (alla Google). Si può cercare anche di bilanciare il carico: all'arrivo di una richiesta, una sola copia
 lavora, possibilmente quella più libera (esecuzione dinamica quindi). In generale quindi:
 \begin{enumerate}
@@ -297,21 +297,21 @@ lavora, possibilmente quella più libera (esecuzione dinamica quindi). In genera
  \item Esecuzione
  \item Viene fornito il risultato al client.
 \end{enumerate}
-Per decidere quale copia debba eseguire, come si fa? È necessario un sistema di monitoring (necessario per la QoS), 
+Per decidere quale copia debba eseguire, come si fa? È necessario un sistema di monitoring (necessario per la QoS),
 uno scheduler (in generale strutturato master/slave). Questo sistema deve anche essere in grado di identificare
 eventuali copie guaste, e quindi di escluderle per mantenere delle buone prestazioni, possibilmente facendo migrare i
 servizi sulle macchine al momento migliori. Per determinare se una copia è attiva, si usano degli \textit{heartbeat},
 ovvero si mandano dei messaggi per verificare se la copia è viva: se non risponde, si suppone che ci siano problemi.
-Questo sistema deve essere correttamente dimensionato (ogni quanto si manda l'impulso? Qual è il tempo di 
+Questo sistema deve essere correttamente dimensionato (ogni quanto si manda l'impulso? Qual è il tempo di
 comunicazione? Il massimo ritardo accettabile? In generale vi è una macchina apposita per questo compito).
 Nel caso di fail-over, vi sono due diverse politiche da attuare:
 \begin{itemize}
  \item \textit{Attiva-passiva} si attiva una macchina che era passiva
- \item \textit{Attiva-attiva} si sfrutta una macchina che era già attiva 
+ \item \textit{Attiva-attiva} si sfrutta una macchina che era già attiva
  per un altro servizio, caricandola ulteriormente.
 \end{itemize}
 Nella politica attiva-passiva abbiamo tempi di fail-over più alti.
-Se il timeout e la frequenza degli heartbeat non sono dimensionati 
+Se il timeout e la frequenza degli heartbeat non sono dimensionati
 correttamente potrebbero causare fail-over!
 Se si partizionano le risorse (abbiamo per esempio due sottoreti) cosa succede? Può essere problematico, il cluster
 dovrebbe lavorare comunque! Si deve ripristinare la rete globale. Il servizio deve funzionare anche se vi sono problemi
