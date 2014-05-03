@@ -206,12 +206,16 @@ eventi non sono persistenti, tuttavia non è l'unico modello possibile.
 Un modello che deriva dall'astrazione della memoria condivisa e della comunicazione, e che garantisce il
 disaccoppiamento fra le varie entità è lo spazio di tuple. È un meccanismo generale per la comunicazione e la
 sincronizzazione, in cui si specifica uno spazio di informazioni fortemente tipato. (Una tipica informazione può essere
-\texttt{<mittente, destinatario, data>}, per cui tutti i dati devono essere diversi perché possa essere inserita)
+\texttt{<mittente, destinatario, data>}, per cui tutti i dati devono essere 
+diversi perché possa essere inserita).
 Si hanno quindi due operazioni principali: la \textit{out} consiste nell'inserire nello spazio delle tuple un nuovo
-messaggio, mentre la \textit{in} (bloccante) estrae la prima tupla che fa match (in caso di più tuple che facciano
-match, è una scelta non deterministica). Ovviamente, si avrà sempre un numero inferiore di in rispetto alle out. Se
-la in è \textit{completamente specificata}, si parla di sincronizzazione e non di comunicazione. Uno spazio di tuple
-permette anche l'introduzione di QoS, grazie alla persistenza della tupla nello spazio.
+messaggio, mentre la \textit{in} (bloccante) estrae la prima tupla che fa match 
+con il criterio indicato (in caso di più tuple che facciano match, è una scelta 
+non deterministica). Ovviamente, si avrà sempre un numero inferiore di in 
+rispetto alle out. Se la in è \textit{completamente specificata} 
+\footnote{specifichiamo l'esatto contenuto della tupla che stiamo cercando}, si 
+parla di sincronizzazione e non di comunicazione. Uno spazio di tuple permette 
+anche l'introduzione di QoS, grazie alla persistenza della tupla nello spazio.
 Gerlenter, con Linda, presenta due diversi modelli:
 \begin{itemize}
  \item \textit{A ring}: si partiziona lo spazio delle tuple, per cui ogni nodo conosce precedente e successivo: si ha
@@ -244,26 +248,37 @@ per poter per esempio stabilire la QoS, e quindi si fornisce il servizio con i p
 sistema trasparente, che un sistema non trasparente in cui si possano definire le risorse inizialmente, e quindi
 introdurre la trasparenza.
 \subsection{Le macchine astratte}
-Son stati sviluppati diversi modelli per l'esecuzione, ma alla base vi è la Random Access Machine: è una macchina
-special purpose, con codice inalterabile, in grado di eseguire istruzioni in sequenza (tutte le istruzioni hanno la
-stessa durata), memoria limitata e un sistema di input e uno di output.
-Un primo modello per la comunicazione è la Parallel RAM, in cui si immagina diversi programmi da eseguire
-contemporaneamente. Una PRAM è costituita quindi da P macchine RAM, ognuna delle quali esegue un programma, e ad ogni
-clock vengono eseguite P istruzioni. Alla base vi è una memoria condivisa, per tutte le macchine, dove scrivere e
-leggere i risultati (anche i dispositivi di I/O sono unici per tutte le
-macchine). Si tratta di un modello MIMD (Multiple Instruction Multiple Data)
-sincrono, per cui quando tutti i programmi finiscono, anche la macchina termina. Essendo dotata di un'unica memoria,
-come devono essere strutturate le operazioni? La concorrenza è un requisito difficile da realizzare, in confronto al
-mettere le operazioni in sequenza. Le diverse PRAM si possono quindi categorizzare a seconda della tipologia delle
-operazioni (in generale si hanno letture concorrenti e scritture sequenziali; la concorrenza è invece utilizzata per
-il sistema di I/O, per limitarne il collo di bottiglia). Un PRAM è difficile da realizzare perché non è scalabile.
-Un secondo modello è il Message Passing RAM, che è sempre una collezione di RAM, ma ognuna con la sua memoria dedicata
-(i sistemi di I/O son sempre condivisi). Si ha quindi che le diverse macchine comunicano mediante dei canali
-prestabiliti (vi devono essere almeno P-1 connessioni). Si hanno istruzioni ad hoc, cioè delle send e receive con
-rendez-vous, una semantica sincrona: questo vuol dire che un'operazione sblocca la sua duale. Una MP-RAM è più
-facilmente realizzabile, e rappresenta meglio un modello locale. Se per esempio si volesse eseguire un broadcast,
-servono almeno P-1 istruzioni, mentre una PRAM, per quanto più difficile da realizzare, richiederebbe una sola
-operazione: è un modello con maggiore capacità espressiva. Restano comunque entrambi dei modelli troppo astratti per
+Sono stati sviluppati diversi modelli per l'esecuzione, ma alla base vi è la
+\textit{Random Access Machine}: è una macchina special purpose, con codice 
+inalterabile, in grado di eseguire istruzioni in sequenza (tutte le istruzioni 
+hanno la stessa durata), memoria composta da una sequenza di parole capaci di 
+contenere un intero e un sistema di input e uno di output.
+Un primo modello per la comunicazione è la \textit{Parallel RAM} (PRAM), in cui 
+si immagina diversi programmi da eseguire contemporaneamente. Una PRAM è 
+costituita quindi da P macchine RAM, ognuna delle quali esegue un programma, e 
+ad ogni clock vengono eseguite P istruzioni. Alla base vi è una memoria 
+condivisa, per tutte le macchine, dove scrivere e leggere i risultati (anche i 
+dispositivi di I/O sono unici per tutte le macchine). Si tratta di un modello 
+MIMD (Multiple Instruction Multiple Data) sincrono, per cui quando tutti i 
+programmi finiscono, anche la macchina termina. Essendo dotata di un'unica 
+memoria, come devono essere strutturate le operazioni? La concorrenza è un 
+requisito difficile da realizzare, in confronto al mettere le operazioni in 
+sequenza. Le diverse PRAM si possono quindi categorizzare a seconda della 
+tipologia delle operazioni (in generale si hanno letture concorrenti e scritture 
+sequenziali (CREW - Concurrent Read Exclusive Write); la concorrenza è invece 
+utilizzata per il sistema di I/O, per limitarne il collo di bottiglia). Un PRAM 
+è difficile da realizzare perché non è scalabile.
+Un secondo modello è il \textit{Message Passing RAM}, che è sempre una 
+collezione di RAM, ma ognuna con la sua memoria dedicata (i sistemi di I/O son 
+sempre condivisi). Si ha quindi che le diverse macchine comunicano mediante dei 
+canali prestabiliti (vi devono essere almeno P-1 connessioni). Si hanno 
+istruzioni ad hoc, cioè delle send e receive con rendez-vous, una semantica 
+sincrona: questo vuol dire che un'operazione sblocca la sua duale. Una MP-RAM è 
+più facilmente realizzabile, e rappresenta meglio un modello locale. Se per 
+esempio si volesse eseguire un broadcast,
+servirebbero almeno P-1 istruzioni, mentre una PRAM, per quanto più difficile 
+da realizzare, richiederebbe una sola operazione: è un modello con maggiore 
+capacità espressiva. Restano comunque entrambi dei modelli troppo astratti per
 poter essere implementati realmente. Aggiungendo vincoli e limitandoci quindi ad un'ipotesi di località, il progetto
 risulta più facilmente realizzabile.
 \subsection{Indicatori dell'efficienza}
@@ -310,11 +325,19 @@ che definisce la complessità come viene suddivisa su ogni nodo. Vi possono esse
  \item Dipendenza di N da P
  \item Indipendenza, interessante al crescere di N
 \end{itemize}
-La legge di Grosh stabilisce che la soluzione migliore risulta essere quella di lavorare sempre nel concentrato... Ma
-ciò non è sempre possibile! Se per esempio vi sono risorse limitate? Oppure, oltre un certo valore di N, non si riesce
-più a lavorare nel concentrato, e la legge è sicuramente inutile nel caso di vincoli, tipo la presenza di risorse
-distribuite.
-La legge di Amdhal stabilisce che vi è un limite alla possibile parallelizzazione, dato che ogni programma è
+La legge di Grosh stabilisce che la soluzione migliore risulta essere quella
+di lavorare sempre nel concentrato... ma ciò non è sempre possibile! Se per 
+esempio vi sono risorse limitate? Oppure, oltre un certo valore di N, non si 
+riesce più a lavorare nel concentrato, e la legge è sicuramente inutile nel caso 
+di vincoli, tipo la presenza di risorse distribuite.
+\begin{figure}[htbp]
+ \centering
+ \includegraphics[width=0.8\textwidth]{Images/amdahl.png}
+ \caption{Legge di Amdahl [reactivemanifesto.org]}
+ \label{fig:amdahl}
+\end{figure}
+La legge di Amdhal (figura \ref{fig:amdahl}) stabilisce che vi è un limite alla 
+possibile parallelizzazione, dato che ogni programma è
 costituito da una parte parallela e una parte sequenziale, e quest'ultima limita lo speed-up: si ha quindi che non
 cresce linearmente, ma tende a un valore asintotico! Nella situazione migliore immaginabile, con le risorse
 correttamente allocate, si ha quindi che si avrà uno speedup fisso, mentre sarà l'efficienza a variare a seconda
