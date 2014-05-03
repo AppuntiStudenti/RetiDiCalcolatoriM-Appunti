@@ -337,14 +337,12 @@ meno messaggi, è applicato ancora meno.
 Vi sono esempi di implementazioni:
 \begin{itemize}
  \item \textbf{CATOCS}, \textit{Causal Totally Ordered Comunication Operation Support}: è un sistema scalabile,
- mantenedo limitato il numero dei partecipanti. Si mantengono infatti continuamente dei gestori coordinati fra di loro,
- in grado di servire le richieste, si utilizza broadcast in casi specifici.
+ mantenedo limitato il numero dei partecipanti. Si mantengono infatti continuamente dei gestori coordinati fra di loro, in grado di servire le richieste, si utilizza broadcast in casi specifici.
  \item \textbf{ISIS}: è un sistema totalmente basato su gruppi e risorse di gruppo, per cui si necessita di coordinarsi
  fra le varie copie attive dotate di replicazione.
  Prevede l'utilizzo di diverse forme di multicast, distinte a seconda del tipo di ordinamento. Di base si hanno
  infatti le multicast per i 3 ordinamenti specificati (FIFO, causal e atomic), ma inoltre è presente una particolare
- multicast, che serve proprio per la gestione del gruppo stesso. Utilizzando questa multicast, infatti, un gruppo può
- cambiare la propria granularità, eliminando copie non attive o reintroducendo quelle che hanno subito recovery.
+ multicast denominato Group Multicast, che serve proprio per la gestione del gruppo stesso. Utilizzando il Group Multicast, infatti, un gruppo può cambiare la propria granularità, eliminando copie non attive o reintroducendo quelle che hanno subito recovery dividendo le operazioni di sincronizzazioni in atto in due parti:quelle da concludere con N membri e quelle con N-1.
  Caratteristica fondamentale è che il messaggio di gestione venga ricevuto solo dopo che tutti gli altri messaggi,
  dovuti agli altri tipi di multicast, siano stati ricevuti da ogni membro del gruppo. Riesce a fornire un sistema di
  monitoring (basandosi anche su delle tabelle che vengono aggiornate da questi multicast).
@@ -352,17 +350,14 @@ Vi sono esempi di implementazioni:
  politica di gruppo l'ordine dei messaggi. Ogni messaggio ricevuto quindi da una copia deve essere spedito a
  tutte le altre copie, con un'indicazione di timestamp. Ogni copia lo marca con il proprio timestamp, e lo rispedisce
  indietro al primo mittente, il quale lo marca definitivamente con il timestamp maggiore e lo rispedisce a tutti gli
- altri (costo di Lamport).
- Il causal multicast aggiunge un costo visto che la dipendenza di relazione è al di fuori del gruppo: si tratta di un
+ altri (costo 3*(N-1)).
+ Il causal multicast è sostanzialmente un atomico applicato ad ogni messaggio in arrivo al gruppo in relazione causa-effetto, aggiunge un costo visto che la dipendenza di relazione è al di fuori del gruppo: si tratta di un
  ordine parziale, però richiede che comunque vi sia un coordinamento fra i clock logici dei mittenti, per poi
  far arrivare l'informazione in maniera corretta anche ai riceventi.
 \end{itemize}
 \subsection{Sincronizzazione a token}
 Si tratta di un altro modello per superare il problema del gestore centralizzato. L'idea è quella di avere un anello
-totalmente ideale, per cui i processi si conoscano solo in maniera limitata (prossimo ed antecedente). I vari processi
-si passano un unico, sempre presente token, che stabilisce la sincronizzazione (chi ce l'ha è il gestore dinamico della
-risorsa, ovvero vi può accedere se ne ha bisogno). Si tratta di una soluzione molto proattiva, poiché il token gira
-lungo l'anello anche senza la presenza di richieste di sincronizzazione. Rispetto a Lamport il costo è inferiore,
+totalmente ideale, per cui i processi si conoscano solo in maniera limitata (prossimo ed antecedente). I vari processi si passano un unico, sempre presente token, che stabilisce la sincronizzazione (chi ce l'ha è il gestore dinamico della risorsa, ovvero vi può accedere se ne ha bisogno). Si tratta di una soluzione molto proattiva, poiché il token gira lungo l'anello anche senza la presenza di richieste di sincronizzazione. Rispetto a Lamport il costo è inferiore,
 $n-1$ messaggi sempre.
 In questo sistema si deve però pensare anche all'affidabilità del token: se non arriva? Si dovrà rigenerarlo, facendo
 in modo però che vi sia sempre e solo un unico token in giro per l'anello. Si hanno quindi delle situazioni di elezione,
@@ -386,7 +381,7 @@ strutture tipiche delle infrastrutture dove le entità possono cambiare ruolo.
 Come si definisce uno stato nel distribuito? Si vuole uno stato globale, ma non è sempre possibile salvarsi tutta la
 memoria sul disco, specialmente con un'alta replicazione. L'idea è quindi quella di realizzare un sistema in cui i
 processi si scambino dei messaggi, mediante dei canali fortemente orientati, per poter salvare in maniera opportuna
-delle foto del sistema. Si tratta quindi di effettuare dei tagli, in maniera tale da determinare gli stati signicativi
+delle foto del sistema. Si tratta quindi di effettuare dei tagli, in maniera tale da determinare gli stati consistenti
 e quelli no, per poter inglobare i primi per poter formare uno snapshot globale! Lo stato infatti è la composizione
 dei singoli stati di ogni processo.
 Come si decide quali tagli vanno bene e quali no? I tagli realizzano degli snapshot numerati (ovvero sono ordinati),
@@ -404,13 +399,6 @@ stati:
 Una transizione dal bianco al rosso è una richiesta sul nodo perché esegua uno snapshot, e come una catena ordina
 anche agli altri nodi di eseguire uno snapshot: l'idea è quindi che ognuno salvi il proprio stato e poi rimandi il
 marker. Quindi un nodo o riceve un marker rosso o diventa rosso per fare lo snapshot: salva lo stato, e poi invia il
-marker su tutti i suoi canali d'uscita. Continua a salvare i messaggi che riceve e a restare rosso fino a quando
-non riceve su tutti i suoi canali di input il marker rosso (ovvero le risposte dagli altri nodi!). A tale evento, si
-ferma e salva lo snapshot. Si potrebbe anche sviluppare protocolli più complessi, per cui il marker viene inviato solo
-su determinati canali. Da osservare che quindi un processo in stato rosso non potrà mai mandare un messaggio a un
-processo in stato bianco, altrimenti non si salva correttamente!
-Ma fino a quando si salva? Fino al prossimo marker! Questo è un sistema assolutamente scalabile! Il problema è che il
-marker tiene un'indicazione del nodo che ha iniziato lo snapshot, per cui se si volesse che 2 nodi distinti facessero
-lo snapshot, si dovrebbe estendere la politica, magari estendendo in maniera semplice le informazioni del marker, che
-indichi a quale snapshot è riferito quello stato. A chi si manda poi lo stato in ogni modo? E una politica da decidere,
-o un nodo che fa da repository oppure a chi ha iniziato lo snapshot...
+marker su tutti i suoi canali d'uscita. Continua a salvare solo i messaggi nelle code in entrata che riceve prima del marker rosso fino a quando non riceve su tutti i suoi canali di input il marker rosso. A tale evento, si
+ferma e salva lo snapshot. Si potrebbe anche sviluppare protocolli più complessi, per cui il marker viene inviato solo su determinati canali. Da osservare che quindi un processo in stato rosso non potrà mai mandare un messaggio a un processo in stato bianco, altrimenti non si salva correttamente!
+Questo è un sistema assolutamente scalabile! Il problema è che il marker tiene un'indicazione del nodo che ha iniziato lo snapshot, per cui se si volesse che 2 nodi distinti facessero lo snapshot, si dovrebbe estendere la politica, magari estendendo in maniera semplice le informazioni del marker, che indichi a quale snapshot è riferito quello stato. A chi si manda poi lo stato in ogni modo? E una politica da decidere, o un nodo che fa da repository oppure a chi ha iniziato lo snapshot...
