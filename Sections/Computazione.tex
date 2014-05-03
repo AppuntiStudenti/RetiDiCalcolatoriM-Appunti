@@ -25,7 +25,8 @@ fornendo un comportamento più flessibile. I costi risultano essere variabili, a
 (al crescere degli attori, aumenta il numero necessario di lock/semafori da utilizzare, per esempio). Il costo può
 quindi essere limitato a seconda delle esigenze.
 \end{itemize}
-Esempio: una serie di clienti vogliono accedere in maniera univoca ad una risorsa unica: si tratta quindi di un problema
+\textbf{Esempio:} una serie di clienti vogliono accedere in maniera univoca ad
+una risorsa unica: si tratta quindi di un problema
 di sincronizzazione e mutua esclusione. Si potrebbe risolvere fornendo dei quanti di tempo decisi a priori per ogni
 singolo cliente, oppure si fornisce un token, per cui chi lo possiede è l'unico a poter accedere alla risorsa.
 
@@ -54,10 +55,14 @@ specificano quindi delle operazioni, e si tratta di modelli che tengono conto de
 funzionano molto
 bene con risorse locali e stato locali. Vi sono più modelli:
 \begin{itemize}
- \item Processi alla Unix: si tratta di processi pesanti, ognuno dotato di un proprio stato locale. In questo modello
-interessa solo in che modo i processi possono comunicare, essendo lo stato non condivisibile.
- \item Processi alla Java: i processi son leggeri, hanno uno stato condiviso che può essere usato anche per comunicare.
-Risulta essere più facile fare anche dei cambi di contesto, ma si possono presentare delle interferenze. 
+ \item \textit{Processi alla Unix}: si tratta di processi pesanti, ognuno dotato 
+di un proprio stato locale. In questo modello
+interessa solo in che modo i processi possono comunicare, essendo lo stato non 
+condivisibile.
+ \item \textit{Processi alla Java}: i processi son leggeri, hanno uno stato 
+condiviso che può essere usato anche per comunicare.
+Risulta essere più facile fare anche dei cambi di contesto, ma si possono 
+presentare delle interferenze. 
 \end{itemize}
 
 I thread di una JVM, proprio perché dotati di uno stato condiviso, si possono rapportare con un'altra JVM. I thread
@@ -71,31 +76,41 @@ modelli:
 esterne possono lavorare. Non sono quindi dotati di capacità propria d'esecuzione. Si può quindi avere concorrenza
 fra diversi processi che vogliono accedere allo stesso oggetto, non si ha un buon confinamento e si ha scarsa
 protezione.
-  \item \textit{Oggetti attivi}: sono oggetti dotati di propria capacità d'esecuzione. I processi quindi non entrano
-nell'oggetto, perché vi è già all'interno dell'oggetto una propria logica di gestione (si ha quindi un modello a
-request/response: un processo richiede di poter usare l'oggetto mediante i ``metodi'' forniti da questo, e questo in
-base alla sua schedulazione risponde alla richiesta. È sempre da osservare che un oggetto attivo ha comunque un proprio
-stato interno, descritto da una parte sequenziale, ma a cui non vi si accede con dei metodi, proprio grazie a questa
-logica interna: i metodi veri e propri sono utilizzati solo internamente!). Un oggetto attivo è quindi dotato di una
-coda delle richieste che si sono presentate, e una sua politica di scheduling. Si supera in questo modo il problema
-degli oggetti passivi, proteggendo del tutto l'oggetto e determinandolo completamente. Un oggetto attivo quindi,
-massimizzando la parte sequenziale, si può spostare più facilmente. Rappresent lo stesso modello dei servitori
-paralleli, e, per esempio, degli agenti mobili. Un oggetto attivo quindi si preoccupa di tutta la gestione
-dell'esecuzione internamente (richieste, attività, errori, processi interni... si forniscono meccanismi, mediante il
-quale si possono specificare delle politiche diverse!
+  \item \textit{Oggetti attivi}: sono oggetti dotati di propria
+capacitàd'esecuzione. I processi quindi non entrano nell'oggetto, perché vi è 
+già all'interno dell'oggetto una propria logica di gestione (si ha quindi un 
+modello a request/response: un processo richiede di poter usare l'oggetto 
+mediante i ``metodi'' forniti da questo, e questo in base alla sua schedulazione 
+risponde alla richiesta. È sempre da osservare che un oggetto attivo ha comunque 
+un proprio stato interno, descritto da una parte sequenziale, ma a cui non vi si 
+accede con dei metodi, proprio grazie a questa logica interna: i metodi veri e 
+propri sono utilizzati solo internamente!). Un oggetto attivo è quindi dotato di 
+una coda delle richieste che si sono presentate, e una sua politica di 
+scheduling. Si supera in questo modo il problema degli oggetti passivi, 
+proteggendo del tutto l'oggetto e determinandolo completamente. Un oggetto 
+attivo quindi, massimizzando la parte sequenziale, si può spostare più 
+facilmente. Rappresenta lo stesso modello dei servitori paralleli, e, per 
+esempio, degli agenti mobili. Un oggetto attivo quindi si preoccupa di tutta la 
+gestione dell'esecuzione internamente (richieste, attività, errori, processi 
+interni...): si forniscono meccanismi, mediante il quale si possono specificare 
+delle politiche diverse!
 \end{itemize}
 
-Come mai in Java tale modello non è stato implementato? Si tratta di un \textit{modello molto costoso}, che non presenta
-delle scorciatoie utili se si lavorasse solo in ambito locale!
-Nei sistemi moderni, in realtà si parla di classi che contengono le definizioni degli oggetti, e definiscono lo stato
-interno e i metodi con cui accedere. In particolare, in generale si parla di semantica per riferimento, che però è in
-grado di funzionare solo in un ambito locale. Per riferire in remoto, serve un supporto esterno. Per esempio, si parla
-di utilizzare socket, protocolli standard de facto come TCP/IP...
+Come mai in Java tale modello non è stato implementato? Si tratta di un 
+\textit{modello molto costoso}, che non presenta delle scorciatoie utili se si 
+lavorasse solo in ambito locale! 
+Nei sistemi moderni, in realtà si parla di classi che contengono le definizioni 
+degli oggetti, e definiscono lo stato interno e i metodi con cui accedere. In 
+particolare, in generale si parla di semantica per riferimento, che però è in
+grado di funzionare solo in un ambito locale. Per riferire in remoto, serve un 
+supporto esterno. Per esempio, si parla di utilizzare socket, protocolli 
+standard de facto come TCP/IP...
 Tuttavia, è proprio questo il motivo per cui si vengono a definire dei middleware, ovvero delle strutture in grado di
 fornire un supporto completo alla comunicazione in remoto. Per esempio, Java Remote Method Invocation è un sistema in
 grado di estendere la semantica per riferimento locale, al remoto, cercando di fornire un sistema omogeneo per poter
 accedere sia ad oggetti locali che remoti. Nel caso specifico di RMI, per esempio, si utilizza un classico pattern dei
-middleware, il proxy come delegato per la comunicazione. Si realizzano infatti uno stub lato cliente e uno skeleton lato
+middleware, il \textit{proxy come delegato per la comunicazione}. Si realizzano 
+infatti uno stub lato cliente e uno skeleton lato
 server, che riescono a garantire un qualcosa di simile alla normale comunicazione locale. Si cerca di presentare
 un sistema trasparente per l'utente!
 
@@ -106,11 +121,12 @@ Ciò non è sempre possibile in Java RMI (si pensi ad un oggetto che riferisce u
 strettamente locale). Vi sono poi altri problemi da considerare:
 
 \begin{itemize}
- \item Un oggetto remoto viene registrato in un apposito registry, ma se viene deattivato? Come viene gestita quindi 
- la persistenza? E lo stato remoto?
- \item Due stub diversi possono riferire lo stesso oggetto remoto? Se sì come si gestisce la concorrenza?
- \item Come risolvere i nomi? Si può usare un riferimento fisso, ma l'oggetto può essere diverso (ma non è il caso di
-  Java).
+ \item Un oggetto remoto viene registrato in un apposito registry, ma se 
+ viene deattivato? Come viene gestita quindi la persistenza? E lo stato remoto?
+ \item Due stub diversi possono riferire lo stesso oggetto remoto? Se sì come si
+ gestisce la concorrenza?
+ \item Come risolvere i nomi? Si può usare un riferimento fisso, ma l'oggetto
+ può essere diverso (ma non è il caso di Java).
  \item Si deve anche passare l'indicatore della classe, perché si possa realmente utilizzare l'oggetto: cosa succede
  se la classe è già presente? Java per esempio controlla mediante l'hash se la classe è effettivamente quella corretta.
 \end{itemize}
@@ -143,7 +159,7 @@ Esistono diversi altri modelli oltre il classico C/S:
  produce gli eventi.
  \item \textit{Modello a provisioning}: oltre agli end-point, vi sono intermediari interessati al risultato.
 \end{itemize}
-Di particolare interesse è la classificazione dei modelli a scambio di messaggi :
+Di particolare interesse è la classificazione dei modelli a scambio di messaggi:
 \begin{itemize}
  \item In fase di progettazione, si parla di sistemi sincroni se si è interessati al risultati, altrimenti asincroni.
  \item In fase implementativa, si parla di comunicazione bloccante se il richiedente si blocca in attesa del risultato,
@@ -152,16 +168,19 @@ Di particolare interesse è la classificazione dei modelli a scambio di messaggi
 Oltre alla classicazioni principali, altre caratteristiche con cui si possono classificare i modelli a scambio di
 messaggi:
 \begin{itemize}
- \item In fase di progettazione si parla di
+ \item In fase di progettazione si parla di:
  \begin{itemize}
-  \item un sistema simmetrico se mittente e ricevente si conoscono (rarissimo) oppure asimmetrico (caso tipico:C/S).
-  \item un sistem diretto (cioè se avviene una comunicazione diretta fra i processi), oppure indiretto (se si 
-  utilizzano strutture tipo le socket)
+  \item un \textit{sistema simmetrico} se mittente e ricevente si conoscono 
+  (rarissimo) oppure \textit{asimmetrico} (caso tipico :C/S).
+  \item un sistema diretto (cioè se avviene una comunicazione diretta fra i 
+  processi), oppure indiretto (se si utilizzano strutture tipo le socket)
  \end{itemize}
- \item In fase di implemtazione si parla di
+ \item In fase di implemtazione si parla di:
  \begin{itemize}
-  \item un sistema bufferizzato se la comunicazione richiede un certo numero di messaggi prima di poter trasmettere
-  \item sistemi reliable se possono fornire QoS, senza perdere messaggi.
+  \item un \textit{sistema bufferizzato} se la comunicazione richiede un certo 
+  numero di messaggi prima di poter trasmettere 
+  \item \textit{sistemi reliable} se possono fornire QoS, senza perdere 
+  messaggi.
  \end{itemize}
 \end{itemize}
 Nel caso si introduca un terzo oggetto che faccia da mediatore, si può quindi lavorare in maniera sincrona ma non
