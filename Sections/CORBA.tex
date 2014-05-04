@@ -19,19 +19,17 @@ solo locale}.
 CORBA è un mw maturo, che presenta diversi servizi: per esempio vi sono le common facilities, che sono dei servizi utili
 per poter aiutare tutte le possibili applicazioni, in grado di fornire risposte ad esigenze specifiche. Corrisponde in
 tutto e per tutto al terzo livello dei mw.
-I servizi veramente importanti, necessari e presenti in ogni implementazione sono gli object (o CORBA) services, che
+I servizi veramente importanti, necessari e presenti in ogni implementazione sono i CORBA services, che
 permettono di fornire servizi utili per gli oggetti (il loro trasporto, la funzione di narrowing...).
 Fra quelle fondamentali vi sono:
 \begin{itemize}
- \item \textit{Servizio di nomi}: rispetto a quello definito per Java RMI, è molto più coordinato, e presenta anche
- delle varianti. Infatti, oltre al normale servizio di nomi (per cui si deve conoscere il nome logico del servizio) vi
- è  anche la possibilità di definire un servizio di trading, che funziona come le pagine gialle, ricercando servizi e
- non nomi!
+ \item \textit{Servizio di nomi}: rispetto a quello definito per Java RMI, è molto più coordinato, trasparente alla locazione e strutturato. Infatti, oltre al normale servizio di nomi (per cui si deve conoscere il nome logico del servizio) vi
+ è  anche la possibilità di definire un servizio di trading, che funziona come le pagine gialle, ricercando servizi in base ad attributi e non nomi specifici!
  \item \textit{Event e notification}: sono sistemi meno orientati agli oggetti, ma che quindi aumentano le capacità del
  sistema! Infatti, oltre alla maniera sincrona/asincrona bloccante, in questo modo si possono introdurre sistemi
  molto più flessibili.
 \end{itemize}
-Altri servizi possono essere specifici a determinati domini lavorativi, altri potrebbero invece dipendere dal tipo di
+Altri servizi possono essere specifici a determinati domini aziendali (facilities verticali), altri potrebbero invece dipendere dal tipo di
 applicazione che si sta sviluppando.
 Una caratteristica che è stata sempre trascurata è la sicurezza: questa però è introducibile, visto che CORBA prevede
 la possibilità di utilizzare degli interceptor!
@@ -39,15 +37,14 @@ CORBA è definito da una serie di componenti: oltre all'ORB (uno dei principali)
 \begin{itemize}
  \item L'\textit{IDL}, ovvero un linguaggio per definire le interfacce dei servizi.
  \item Il \textit{Portable Object Adapater}: si tratta di un sistema per incapsulare gli oggetti e per facilitare il
-compito del  gestore (nel trasporto, nel supporto alla QoS...). È un sistema che viene aggiunto quindi dal supporto!
- \item L'\textit{Interface Repository}, che è un sistema simile ad un name server, dove si possono ritrovare appunto le
- interfacce dei servizi disponibili.
+compito del gestore (nella gestione del ciclo di vita, nel trasporto,...). È un sistema che viene aggiunto quindi dal supporto!
+ \item L'\textit{Interface Repository}, che è un sistema simile ad un name server, dove si possono ritrovare appunto le interfacce dei servizi disponibili sconosciute inizialmente.
  \item Vi sono quindi dei sistemi per richiamare i servizi in maniera statica e dinamica
- \item E infine vi sono degli appositi protocolli per la comunicazione ed integrazione fra ORB diversi.
+ \item E infine vi sono degli appositi protocolli per la comunicazione ed integrazione fra ORB diversi \textit{GIOP/IIOP}.
 \end{itemize}
 \subsection{L'ORB}
 L'ORB è il cuore del sistema, per comunicare si usa sempre l'ORB. Si potrebbe quindi pensare che è un collo di
-bottiglia, ma in realtà la comunicazione presente in CORBA è sempre a ``grana grossa'' (si passano oggetti, servizi
+bottiglia, ma in realtà la comunicazione presente in CORBA è sempre a ``grana grossa'' (si usano oggetti, servizi
 pesanti): le operazioni sono quindi consistenti, e la comunicazione si paga. L'ORB aiuta fornendo diversi sistemi per
 facilitare il trasporto della richiesta da parte del client al server, e la risposta lungo il percorso opposto. Si
 tratta, quindi, di base di una comunicazione sempre sincrona.
@@ -72,7 +69,7 @@ specifica solo che i servizi del servitore devono essere specificati in maniera 
 sistema dichiarativo! un sistema perché il compilatore scelto realizzi quindi uno stub e skeleton statici (si può
 sfruttare per realizzare uno skeleton dinamico on the fly mediante un'invocazione dinamica del servizio, aggiungendolo
 al servitore!). Senza un servizio di invocazione dinamico, non si può trovare un servizio se non è stato definito un
-contratto (ovvero, è stato definito all'interno dell'interface repository!).
+contratto (ovvero,che non è stato definito all'interno dell'interface repository!).
 IDL resta però sempre e solo una specifica: sarà sfruttato dai compilatori delle varie implementazioni per creare
 realmente gli oggetti e i servitori. Infatti, serve solo come specifica delle operazioni possibili.
 Stub e skeleton son necessari per fare le operazioni di marshalling ed unmarshalling. Si ha che si realizza un diverso
@@ -86,10 +83,10 @@ in qualunque altra interfaccia) attributi, operazioni ed eccezioni. Le interfacc
 multipla, e si possono raggruppare in moduli logici coerenti.
 Di particolare interesse, nei tipi, è la possibilità di definire attributi di tipo ANY: un attributo di tale tipo può
 essere sia un valore che un riferimento. Fondamentalmente funziona come da contenitore, in grado di fornire informazioni
-su cosa contiene! Nell'ultima versione di CORBA, 3, si è stabilito che gli oggetti devono essere passati by-value, in
+su cosa contiene! Nell'ultima versione di CORBA, 3, si è stabilito che gli oggetti possono essere passati by-value, in
 maniera da superare correttamente l'eterogeneità.
 Restano comunque problemi nel realizzare un mapping corretto fra l'IDL e i vari linguaggi di implementazione! Per
-esempio, Java non prevede parametri di output. Per ovviare a questi problemi, CORBA realizza delle apposite classi dette
+esempio, Java non prevede parametri di output. Per ovviare a questi problemi, CORBA realizza delle apposite classi di supporto dette
 \textit{holder}: è un wrapper che permette di leggere e scrivere in maniera coerente al linguaggio utilizzato realmente.
 Si possono anche determinare automaticamente altre classi d'aiuto dette helper, in maniera da armonizzare i dati
 rispetto a CORBA (narrowing) e di fornire diverse funzioni di varia utilità.
@@ -100,25 +97,24 @@ A cosa serve quindi? A superare le disomogeneità e differenze che vi sono fra l
 appunto all'eterogeneità (per esempio, riuscendo a far colloquiare linguaggi non tipati con quelli tipati!).
 Questo sistema permette di disaccoppiare in maniera corretta l'ORB dall'implementazione del servizio stesso: l'ORB lo
 sfrutta, ma ci pensa l'adattatore a richiamarlo in maniera corretta a seconda della sua implementazione. L'adattatore
-riesce quindi ad integrare più componenti scritti in linguaggi diversi! Senza un adattatore, l'ORB non riuscirebbe a
+riesce quindi ad integrare più componenti scritti in linguaggi diversi (nel caso sia portable), senza un adattatore, l'ORB non riuscirebbe a
 raggiungere il proxy del servitore, senza avere conoscenza della sua logica implementativa.
-Inizialmente, lo standard prevedeva dei BOA, che erano delle implementazioni più semplici. Ora gli adattatori sono in
-grado di fornire servizi diversi a server diversi!
+Inizialmente, lo standard prevedeva dei BOA, che erano delle implementazioni più semplici legate ad un unico linguaggio e con un unica politica. Ora gli adattatori sono in
+grado di fornire servizi con linguaggi diversi a server diversi e politiche varie!
 \subsection{L'Interface repository}
 Si tratta del luogo dove vengono depositati gli IDL, e quindi da dove si possono recuperare le informazioni degli unici
 servizi utilizzabili nell'architettura!
 Questo sistema non è utilizzato nella gestione statica dell'architettura, ma in quella dinamica. Infatti, è ricavando
-l'IDL dall'IR che si può realizzare un binding dinamico, e quindi permettere di aggiungere in maniera dinamica dei
+la descrizione dell'interfaccia dall'IR che si può realizzare un binding dinamico, e quindi permettere di aggiungere in maniera dinamica dei
 servizi ad un servitore/cliente.
-Un IR può essere realizzato in diversi modi, tuttavia è previsto che ogni interfaccia correttamente compilata ed
-inserita, venga depositata in un'apposita struttura ad albero, in base ai moduli che la contengono.
+Un IR può essere realizzato in diversi modi, tuttavia è previsto che ogni interfaccia correttamente compilata, venga depositata in un'apposita struttura ad albero, in base ai moduli che la contengono.
 \subsection{Protocolli per la comunicazione fra ORB}
 Inizialmente, CORBA era stato progettato per scambiare dati binari, in maniera da ottenere un'ottimizzazione della
 comunicazione. In seguito si sono introdotte estensioni come la possibilità di lavorare in Internet fra diversi ORB, o
 anche di realizzare comunicazioni fra ORB diversi con protocolli più generalizzati.
 Il problema di utilizzare più di un ORB è però la gestione di riferimenti remoti fra ORB diversi! Il servizio si sa
 che non è legato allo specifico servitore, quindi si dovrà trovare un sistema per rendere questi riferimenti
-globalmente unici (e qual è il loro tempo di vita?).
+globalmente unici.
 \subsection{Cosa è e cosa non è CORBA}
 CORBA è un sistema pesante, quindi non ha senso utilizzarlo per progetti semplici o dove le operazioni son semplici
 (tipo, settare il valore di una singola variabile). CORBA infatti sfrutta risorse a grana grossa, che non si muovono!
@@ -132,7 +128,7 @@ CORBA fondamentalmente richiede la presenza di un riferimento remoto per poter l
 quindi quelle di gestione e comunicazione dei riferimenti remoti (trasformazione da/a stringa).
 \subsection{Confronto fra Java e CORBA, e sua evoluzione}
 I due sistemi sono abbastanza compatibili, proprio perché hanno obiettivi diversi (Web invece che integrazione di
-sistemi legacy) e lavorano utilizzando risorse diverse (a grana ne vs grana grossa).
+sistemi legacy) e lavorano utilizzando risorse diverse.
 CORBA ha subito diverse evoluzioni, guidate dalle esigenze delle varie aziende.
 Ogni evoluzione ha mantenuto i sistemi e gli oggetti già introdotti, cercando di estendere i concetti già introdotti
 (introducendo nuovi linguaggi, aumentando i servizi...). Per esempio, CORBA 3 introduce altri sistemi di
@@ -145,8 +141,6 @@ contratto è deciso prima dell'esecuzione}. Si basa sull'utilizzo di due diversi
 L'invocazione statica bloccante è quella che costa di meno (semantica at most-once), però può anche essere molto
 limitante. Questo perché i client e i servant devono avere già deciso i proxy in maniera statica, e quindi anche i
 servizi! Tutto prima dell'esecuzione!
-Inizialmente si era introdotta anche un altra modalità, detta one-way, ma è deprecata (semantica best-effort, senza
-possibilità di introdurre QoS).
 \subsection{Compiti e politiche di un adattatore}
 Non è un componente CORBA, ma che dipende dalle varie implementazioni: il suo compito è quello di dialogare con il
 servant, il quale si registra presso l'adattatore corrispondente. In un certo senso, quindi, fa le veci di un sistema
@@ -156,14 +150,14 @@ La semantica degli adattatori è sempre sincrona. Vi sono diverse modalità d'at
  \item \textit{Thread per request}: per ogni richiesta l'adattatore\footnote{Sono gli adattatori che devono fornire le
  politiche!} si preoccupa di creare un thread, quindi  si ha una creazione by-need. Ha quindi un costo abbastanza
  elevato.
- \item \textit{Pool di thread}: I thread sono pre-creati, in maniera da ridurre il costo d'attivazione (consumano poche
+ \item \textit{Pool di thread}: I thread sono pre-creati, in maniera da ridurre il costo ed il tempo d'attivazione (consumano poche
  risorse se non lavorano). Si deve quindi prevedere una coda delle richieste, per poter associare ad ogni richiesta un
  suo thread. Si potrebbe realizzare un pool dinamico, in grado quindi di estendere la sua dimensione in base
  all'esigenze che si riscontrano durante l'esecuzione. Il costo è più limitato, ma aumenta il tempo d'attesa.
  \item \textit{Thread per sessione}: è un sistema per fornire un maggiore accoppiamento. Si trasferisce infatti la
- responsabilità sul client, permettendogli quindi di battere sullo stesso servant rispetto alla sessione. Si hanno
+ responsabilità sul client, permettendogli quindi di battere sullo stesso servant rispetto ad una sessione in atto. Si hanno
  quindi delle richieste sequenzializzate. Questo sistema limita ulteriormente il parallelismo.
- \item \textit{Thread per servant}: ogni oggetto viene incapsulato in un singolo servant, per cui si limita
+ \item \textit{Thread per servant}: In questa politica, si prevede un servant per ogni possibile cliente. In sostanza ogni cliente ha il proprio personale servant, attivato per lui, per cui si limita
  ulteriormente la parallelizzazione. Prima di poter servire un'ulteriore richiesta, il servant deve concludere la
  richiesta precedente.
 \end{itemize}
@@ -183,42 +177,41 @@ un'estensione, aggiungendo funzionalità, potendo interagire con servant dotati 
 qui la definizione di portable! Non abbiamo infatti una chiara indicazione della sua locazione.
 
 CORBA è stato il primo standard che ha cercato di realizzare un sistema mw per gli oggetti attivi: un riferimento è
-quindi in grado di puntare potenziale mente a più oggetti: un POA riceve il riferimento e deve accedere all'oggetto
+quindi in grado di puntare potenzialmente a più oggetti: un POA riceve il riferimento e deve accedere all'oggetto
 desiderato. In generale, meno POA son presenti e meglio è: infatti, le varie implementazioni forniscono un POA di base,
 che contiene tutte le politiche di gestione già definite. Un suo figlio non eredita direttamente tutte le politiche, ma
 deve essere specificato quali politiche si vogliono attivate: abbiamo quindi in realtà un gestore per i POA, che
-stabilisce per ogni POA quante e quali politiche debba implementare (attiva/disattiva i POA, blocca/scarta le richieste
-per i POA). Si potrebbe permettere all'utente di modificare dinamicamente l'active object map, ma è fatto di rado.
+stabilisce per ogni POA quante e quali politiche debba implementare (attiva/disattiva i POA, blocca/scarta le richieste per i POA, usare l'active object map o meno). Si potrebbe permettere all'utente di modificare dinamicamente l'active object map, ma è fatto di rado.
 Essendo il responsabile dell'oggetto, il POA è responsabile anche del suo riferimento. Deve essere in grado quindi di
-definirlo, identicare gli oggetti in base all'ID proposto e gestire i servant. In particolare, deve riuscire a
+definirlo, identificare gli oggetti in base all'ID proposto e gestire i servant. In particolare, deve riuscire a
 distinguere fra oggetti transienti e quelli persistenti.
 Quali sono quindi le politiche d'attivazione per gli oggetti? Possiamo avere:
 \begin{itemize}
- \item \textit{Explicit Object Activation}: è tutto a carico del client
- \item \textit{Single servant}: viene attivato un servant per ogni richiesta, uno solo.
- \item \textit{On demand}: sono le politiche per poter scegliere i servant in base alle richieste specificate. Se si
- tratta  di un singolo metodo non vi è stato, altrimenti si tratta di On-demand per una durata indefinita. Una
- caratteristica particolare è che le politiche si possono combinare!
+ \item \textit{Explicit Object Activation}: è tutto a carico del client che decide quando creare il servant.
+ \item \textit{Single servant}: viene pre-attivato un servant per ogni richiesta, uno solo.
+ \item \textit{On demand}: per un singolo metodo: che attiva un singolo thread per ogni richiesta e lo butta via alla
+fine (questa è l'implementazione normale ma come abbiamo visto ci possono essere implementazioni differenti, ad esempio, potremmo avere un pool di thread,...)
+per durata indefinita: non lega il thread creato al metodo che stiamo servendo ma lo lascia lì, dove potrebbe stare anche per molto tempo, con la possibilità quindi, di essere passivato ecc ecc.
 \end{itemize}
 \subsection{Binding dinamico}
 Avendo a disposizione prima le interfacce, si possono implementare direttamente client e servant. Tuttavia, è mediante
 l'invocazione dinamica con cui si possono aggiungere nuovi servizi durante l'esecuzione. L'alternativa sarebbe
 dover spegnere il sistema, e riconfigurare il tutto. La dinamicità si basa sull'uso dell'IR, e permette di introdurre in
 CORBA altri modelli di comunicazione oltre al sincrono bloccante.
-Si vuole quindi chiedere o fornire un servizio senza avere il proxy/skeleton è già pronto. E un problema di tutti i mw.
+Si vuole quindi chiedere o fornire un servizio senza avere il proxy/skeleton già pronto.E un problema di tutti i mw.
 Nel caso del client, si parla di \textit{Dynamic Invocation Interface}. Si realizza un oggetto che funziona come il
 proxy che si avrebbe avuto in maniera statica. Si ha quindi un oggetto Request, che è uno pseudo-object\footnote{Si
-tratta di facilitatori, connati solo nell'ORB. Non si possono quindi riferire da CORBA,
-e non possiedono helper o holder}, che permette di specificare e una richiesta dinamica. Si tratta quindi di un
+tratta di facilitatori,il cui IDL è definito dal mw. Non si possono quindi riferire da CORBA,
+e non possiedono helper o holder}, che permette di specificare una richiesta dinamica. Si tratta quindi di un
 contenitore fornito dall'ambiente, per cui un client effettua una invoke, e l'ORB utilizza il servant giusto per
 richiamare l'operazione e fornire il risultato. Si potrebbero realizzare tutte le operazioni dinamiche, ma hanno un
 costo molto elevato! Tuttavia, vi sono diversi modi per ottenere il risultato, non solo in maniera sincrona bloccante
-(utilizzando la GetAnswer), realizzando quindi delle operazioni maggiormente disaccoppiate. Si definiscono quindi la:
+(utilizzando la Invoke), realizzando quindi delle operazioni maggiormente disaccoppiate. Si definiscono quindi la:
 \begin{itemize}
  \item \textit{Send-deferred} per realizzare un sistema sincrono non bloccante. Si utilizza un sistema basato su un
  oggetto poll-response.
- \item Send-one-way invece per avere una comunicazione asincrona.\footnote{Qual è il problema di lavorare in maniera
- dinamica? E che si possono avere errori a run-time, che sono più dicili da gestire!}
+ \item \textit{Send-one-way} invece per avere una comunicazione asincrona.\footnote{Qual è il problema di lavorare in maniera
+ dinamica? E che si possono avere errori a run-time, che sono più difficili da gestire!...per esempio i parametri vengono controllati sul server}
 \end{itemize}
 Ma come funziona? L'oggetto Request, opportunatamente costruito dal client (dati, eccezioni...), passa per l'IR,
 sfruttandolo proprio come un name server: lo interroga per sapere quale servant possiede quel servizio (quindi non si
@@ -236,11 +229,9 @@ usare sia in richieste statiche che dinamiche!).
 \subsection{Politiche dei riferimenti di CORBA}
 CORBA si basa totalmente sull'uso degli ObjRef. CORBA fornisce quindi dei sistemi/funzionalità di base (per realizzare
 un primo supporto, da estendere a seconda della QoS desiderata) per trattare in maniera opportuna i riferimenti
-(da string a riferimento o viceversa, funzioni di narrowing, duplicazione/release dell'oggetto). Gli ObjRef sono opachi
-e gestibili solo dall'ORB.
+(da string a riferimento o viceversa,funzioni di narrowing, duplicazione/release dell'oggetto). Gli ObjRef sono opachi e gestibili solo dall'ORB.
 La politica però che persegue CORBA è che il riferimento punti al servizio, non al servitore: tuttavia, questa logica
-potrebbe non essere quella desiderata dal programmatore (si vorrebbe poter accedere sempre allo stesso servant
-sico). Ma quindi questi riferimenti non sono univoci: localmente si potrebbe anche puntare ad oggetti diversi,
+potrebbe non essere quella desiderata dal programmatore (si vorrebbe poter accedere sempre allo stesso servant). Ma quindi questi riferimenti non sono univoci: localmente si potrebbe anche puntare ad oggetti diversi,
 realizzando quindi incomprensioni e problemi (specialmente lato server)!
 In CORBA 2 si è quindi introdotta la possibilità di puntare ad uno servant specifico, introducendo quindi un sistema per
 definire dei \textit{nomi univoci}!
@@ -275,7 +266,7 @@ I componenti sono un fattore trainante per ottenere una base d'utenza sempre pi�
 adattare il sistema alle proprie esigenze.
 Con CORBA 3 in particolare si è intodotto il sistema dell'\textit{Asynchronous Method Invocation}, che è un ulteriore
 modo per definire una comunicazione sincrona non bloccante: il cliente non deve attendere quindi per il risultato.
-Si ottiene cambiando solo l'interfaccia, per cui si delega un altro oggetto per attendere la risposta, separando la fase
+Si ottiene cambiando solo l'interfaccia e spezzandola in due parti,per cui si delega un altro oggetto per attendere la risposta, separando la fase
 di richiesta da quella callback. Tuttavia, è necessario che sia il cliente a specificare il codice della callback da
 eseguire.
 Inoltre, si può anche definire che il client recuperi il risultato usando un poll object. Nel caso di call-back quindi
@@ -283,7 +274,7 @@ si utilizza un sistema di \textit{fire and forget}. In entrambi i casi si lavora
 la funzionalità.
 Il servant continua a lavorare in maniera sincrona bloccante! Ciò che cambia oltre a chi richiama il metodo (nel primo
 caso è l'ORB, nel secondo è il client), l'interfaccia è leggermente diversa: nel poll i parametri necessari sono di out!
-Questo genere di interazione è molto diffusa, perché permette di richiedere contemporaneamente molte ``istruzioni''.
+Questo genere di interazione è molto diffusa,perché permette di richiedere contemporaneamente molte ``istruzioni''.
 \subsection{Servizi già presenti in CORBA}
 Come già detto, CORBA fornisce diversi servizi già utilizzabili.
 Per esempio, per realizzare un servizio di nomi si possono usare il naming service già presente, oppure addirittura un
@@ -297,7 +288,7 @@ name o trader server federati, in maniera di essere coordinati!
 Un altro servizio che viene fornito è quello di poter lavorare ad eventi e notifiche: questi infatti non sono strumenti
 propriamente tipici del modello ad oggetti, che possono essere sfruttati per realizzare facilmente architetture con
 molti clienti e produttori; non è quindi P2P, ma una comunicazione molti a molti.
-CORBA stabilisce delle apposite interfacce, denendo mediante ognuna il modo di comunicare (push dal produttore, pull dal
+CORBA stabilisce delle apposite interfacce,definendo mediante ognuna il modo di comunicare (push dal produttore, pull dal
 consumatore..). Si definisce un canale come oggetto di delega, per poter inviare i messaggi ai client, o fare polling ai
 supplier. Un client si registra quindi al canale, e da quel momento comincia a ricevere gli eventi.
 Di solito, non è noto chi è che genera l'evento, è trasparente al consumatore.
