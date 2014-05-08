@@ -6,13 +6,13 @@ Si ha infatti che molti mw richiedono configurazioni che vanno per esempio contr
 l'applicazione ancora più complessa.
 Con i Web Services si vuole sviluppare un sistema assolutamente standard (basandosi su XML per descrivere i servizi,
 per fornire le risposte...), in grado quindi di superare in maniera facile l'eterogeneità (utilizzo di sistemi solo
-standard). Gli obiettivi sono quindi quelli di realizzare delle \textit{Service Oriented Application} (mappando
-l'interfaccia di interazione ad alto livello) o delle Enterprise Application Integration, come SAP, ovvero un sistema
+standard). Gli obiettivi sono quindi quelli di realizzare delle \textit{Service Oriented Architecture} (mappando
+l'interfaccia di interazione ad alto livello) dove i servizi devono essere riusabili in alti contesti aziendali,a scarso accoppiamento,senza stato e componibili o delle Enterprise Application Integration, come SAP, ovvero un sistema
 in grado di integrare anche sistemi legacy.
 Perché allora non usare sempre il Web, perché esistono anche altri mw ancora? Il problema è che il Web ha un costo
 molto elevato, per cui potrebbe essere utile per sistemi che richiedono una grana molto grossa.
 \subsection{Struttura generale de WS}
-Un WS funziona mediante l'emissione da parte di un client di una richiesta, per cui si ricerca attravero un apposito
+Un WS funziona mediante l'emissione da parte di un client di una richiesta, per cui si ricerca attraverso un apposito
 broker (ma è una struttura diversa dall'ORB di CORBA: funziona soprattutto come un directory per i servizi) il
 servizio adatto a soddisfare quella determinata richiesta.
 L'idea è che quindi vi siano diversi provider in grado di servire i servizi richiesti. Per realizzare ciò, sono stati
@@ -31,7 +31,7 @@ Nelle prime implementazioni dei WS non erano previsti meccanismi per la sicurezz
 quindi, per esempio, solo crittografia a livello applicativo, il che però non era un sistema standard!
 Perché si è deciso di utilizzare XML? Permette di specificare in una maniera fortemente strutturata (realizzando dati
 che si possono validare formalmente, e utilizzando DTD/XSD si possono anche controllare dal punto di vista
-sintatticosemantico), potendo quindi esprimere le preferenze in maniera dinamica!
+sintattico semantico), potendo quindi esprimere le preferenze in maniera dinamica!
 \subsection{SOAP}
 È il protocollo per la comunicazione, in grado quindi di strutturare l'interazione.
 Definisce quindi come si può accedere agli oggetti. Presenta un alto overhead perché si deve specificar tutto: siamo
@@ -42,16 +42,15 @@ per poter serializzare i dati.
 In questo modo, si possono definire operazioni remote sfruttando l'XML: un servitore riceve una richiesta standard, e
 la sua implementazione non interessa i WS. Un provider dovrà soltanto rispondere rispettando la specifica fornita con
 SOAP! SOAP quindi permette di descrivere l'interazione ma non solo: possiamo avere operazioni senza risultati, o in
-grado emulare il comportamento C/S\footnote{Al posto delle RPC, si può definire che la comunicazione avviene con uno
-stile di tipo documento, per cui non si ha mai risposta, sempre asincrona}, ma possiamo anche quindi definire se si
+grado emulare il comportamento C/S\footnote{Al posto delle RPC, si può definire che la comunicazione avvenga in document-style sempre asincrona}, ma possiamo anche quindi definire se si
 utilizza GET o POST per esempio. E un protocollo \textit{stateless}, che non fornisce quindi informazioni semantiche
 sulla comunicazione. Non è vero che si parla di operazioni leggere e flessibili, ma anche abbastanza pesanti alle volte.
 SOAP si basa sull'idea di incapsulare mediante XML le informazioni necessarie alla comunicazione, come se fosse
 un'envelope:
 \begin{itemize}
  \item Il body contiene le informazioni richieste per la comunicazione, cioè il contenuto vero e proprio del
- messaggio, e le corrispondenti risposte.
- \item L'header specifica altre informazioni utili per la comunicazione (es, per la sicurezza)
+ messaggio, o le corrispondenti risposte.
+ \item L'header specifica altre informazioni utili per la comunicazione (es, per la sicurezza) ed è spesso vuoto.
  \item Si può anche definire una sezione di fault, nel caso che l'operazione non avesse avuto successo.
 \end{itemize}
 La comunicazione non è necessariamente P2P ma anche molti a molti. Il problema di SOAP è che è altamente costoso (e
@@ -69,14 +68,14 @@ WSDL è in grado quindi di definire due parti, una più astratta (in grado di de
 tipati), le operazioni (o collezione di messaggi), e le interfacce del servizio (insieme di operazioni)) e una più
 concreta, a basso livello (in grado di definire i tipi, come il servizio si lega realmente ad un sistema, alle sue
 implementazioni concrete, detto binding (che protocollo si usa? HTTP, TCP...), su quali nodi risiede e i service,
-ovvero le implementazioni delle interfacce disponbili. La parte astratta è flessibile, generalizzabile e facilmente
+ovvero le implementazioni delle interfacce disponibili. La parte astratta è flessibile, generalizzabile e facilmente
 estendibile.
 WSDL prevede diversi modi di interazione! Non solo più modi sincroni (con attesa di messaggio o sollecitazione da
 parte del client) ma anche asincroni (one-way, o notification: cambia da chi esce il messaggio!).
 WSDL è un linguaggio molto pesante, ma che garantisce un'alta flessibilità quindi: permette anche di invertire i ruoli
-fra C e S! Tuttavia, è fondamentale per poter generare in maniera automatica proxy e stub, oppure per realizzare
+fra Client e Server! Tuttavia, è fondamentale per poter generare in maniera automatica proxy e stub, oppure per realizzare
 dei wrapper appositi per integrare facilmente sistemi legacy!
-\subsection{UDDI e WSIL}
+\subsection{UDDI}
 E il servizio di nomi presente nei WS. Si tratta di un ulteriore linguaggio con cui poter descrivere dove risiedono i
 vari servizi, e come aggregare fra di loro più servizi. La prima informazione che si necessita è la possibilità di
 descrivere le aziende che forniscono i servizi, per permettere quindi ad un generico utente di poter navigare.
@@ -88,7 +87,7 @@ servizi!
 Gli attori possibili quindi per UDDI sono due: i publisher di un servizio e i loro requester. Vista la struttura degli
 UDDI, un requester dovrà navigare singolarmente gli UDDI, perché appunto non vi è ridirezione fra questi! In maniera
 particolare, per aggiungere sicurezza si dovrebbe memorizzare e garantire il publisher!
-A tale proposito è stato pensato WSIL, dove si rovesciano le responsabilità: in questo modo è il provider a dover
+A tale proposito è stato pensato WSIL(Web Services Inspection Language), dove si rovesciano le responsabilità: in questo modo è il provider a dover
 garantire sicurezza, e non è più compito di un eventuale server dei servizi verificare l'identità dei provider. Si
 tratta quindi di un protocollo alternativo, in grado di realizzare un sistema decentralizzato, leggero e non
 focalizzato sul business. In maniera analoga ad UDDI, sfrutta WSDL per descrivere i servizi!
