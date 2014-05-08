@@ -7,7 +7,7 @@ Ma quindi, visto che le DLL si possono caricare/scaricare a piacimento, i proces
 specialmente se condividono codice, così  da aumentare al massimo la condivisibilità. Il kernel Microsoft è un
 microkernel, proprio sfruttando le DLL (si caricano sempre e solo quelle necessarie).
 Si utilizza un sistema di conteggio dei riferimenti per decidere se deallocare una DLL.
-Le DLL sono quindi ascrivibili in 3 diversi gruppi: kernel, utente (windowing) e GUI. Il sistema è però facilmente
+Le DLL sono quindi ascrivibili in 3 diversi gruppi: kernel, utente e GUI. Il sistema è però facilmente
 estendibile, potendo introdurre nuove DLL (es, WinSocket).
 Nei sistemi operativi Microsoft tutti i tipi di oggetti (sia utente che kernel) possiedono degli appositi handler per
 riferirli ed identicarli, in maniera tale da poterli utilizzare anche con le apposite API di Windows. A differenza di
