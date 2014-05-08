@@ -36,7 +36,7 @@ documento (quanti ne attiviamo?). Tuttavia, nel concentrato non presenta grossi 
 L'idea della Microsoft era però quella di estendere il concetto di OLE anche al distribuito, da qui la tecnologia COM.
 Nel concentrato era tutto più semplice perché si sfruttava il registry di Windows per identicare in maniera univoca un
 oggetto\footnote{Sfruttando il GUID, derivato dall'UUID descritto dal DCE. In Microsoft, i diversi GUID son classificati
-in base al tipo di oggetti che riferiscono (interfacce, classi...)}, e per poter registrare quindi i vari gestori.
+in base al tipo di oggetti che riferiscono (interfacce,oggetti...)}, e per poter registrare quindi i vari gestori.
 \subsection{Architettura COM}
 COM è stato il sistema standard per la Microsoft per poter descrivere l'interazione fra processi diversi, utilizzando
 come base i componenti e una comunicazione C/S sincrona. Si può notare la differenza con i precedenti modelli: nei
@@ -47,9 +47,9 @@ indipendente dal linguaggio utilizzato e dalle applicazioni che li usano. L'idea
 nel comportamento: dll, componenti su macchine diverse... Si ottiene così omogeneità a livello di comportamento fra
 oggetto locale e remoto, introducendo così trasparenza. In particolare, si utilizzano metodi standard per la
 comunicazione remota, come RPC di DCE.
-Alla base di COM vi è l'uso delle interfacce: un componente, per poter essere usato, deve fornire un'interfaccia comune
-e conosciuta da tutti gli attori. L'interfaccia infatti definisce la visione logica. Tutte le interfacce COM
-derivano da una stessa interfaccia detta IUnknown. In COM ogni oggetto e ogni interfaccia possono essere identicati in
+Alla base di COM vi è l'uso delle interfacce: un componente, per poter essere usato, deve fornire tipicamente molte interfaccie comuni
+e conosciute da tutti gli attori. L'interfaccia infatti definisce la visione logica. Tutte le interfacce COM
+derivano da una stessa interfaccia detta IUnknown. In COM ogni oggetto e ogni interfaccia possono essere identificati in
 maniera univoca da dei GUID, che però distinguono anche fra componenti ed interfacce.
 L'interfaccia funziona semplicemente come un puntatore alle funzioni che descrive, contenute in una virtual method
 table: ogni entry di questa tabella punta al codice che i metodi devono implementare. In COM non esiste l'ereditarietà
@@ -105,7 +105,7 @@ Esistono 3 tipi possibili di server in COM:
  \item \textit{Remoto} altrimenti
 \end{itemize}
 Il problema di COM è che, volendo garantire un'alta trasparenza, richiede che vengano definite tantissime interfacce.
-Un'altra interfaccia è per esempio COMOBJ, che si preoccupa di cercare nel registry l'esistenza delle DLL necessarie,
+Un componente importante è per esempio COMOBJ, che si preoccupa di cercare nel registry l'esistenza delle DLL necessarie,
 ne fornisce il riferimento o le carica in memoria. Questo comporta che l'utente debba conoscere i meccanismi presenti
 in COM! Fortunatamente, gli stessi meccanismi funzionano anche lavorando out-of-process.
 L'unica cosa che si aggiunge lavorando out-of-process è la presenza di proxy e stub per facilitare la comunicazione e
@@ -131,14 +131,14 @@ Inizialmente, automation nasce come possibilità per linguaggi dinamici (tipo qu
 accedere all'architettura COM. Questo genere di linguaggi infatti spesso sono loosely-typed e studiati in maniera tale
 da avere poco controllo. Prima di automation risultava difficile realizzare proxy anche per questi linguaggi.
 Quello che fa automation è semplicemente la realizzazione in automatico di una DLL che funzioni come intermediario fra i
-due mondi, fra COM e qualsiasi altro lingaggio, se tale interazione non era già stata prevista in maniera statica.
+due mondi, fra COM e qualsiasi altro linguaggio, se tale interazione non era già stata prevista in maniera statica.
 Automation permette quindi di esplorare, in maniera automatica, un oggetto la cui interfaccia è sconosciuta a tempo di
 esecuzione. Automation incorpora concetti già visti in OLE, come la in-place activation, per cui un gestore viene
 attivato solo se è necessario, cioè se è richiesto da un sottocomponente. DCOM introduce anche altre tecnologie, come lo
 structured storage (tutto è all'interno di un singolo file) e un sistema di scambio dei dati unificato. DCOM introduce
 soprattutto diversi strumenti proprietari Microsoft per il web, spesso incompatibili con altri strumenti.
-Per introdurre la dinamicità, un oggetto deve implementare anche l'interfaca cia IDispatch, che è riflessiva, la base
-stessa di automation. Infatti, a differenza di CORBA, in COM-DCOM non vi è un IR per registrare le interfacce: si tratta
+Per introdurre la dinamicità, un oggetto deve implementare anche l'interfaccia IDispatch, che è riflessiva, la base
+stessa di automation. Infatti, a differenza di CORBA, in DCOM non vi è un IR per registrare le interfacce: si tratta
 quindi di interrogare ed invocare in maniera dinamica i componenti! Si tratta di un sistema del tutto analogo alla
 Request di CORBA.
 Quindi, alcuni metodi riportano informazioni sul componente (GetTypeInfo, GetTypeInfoCount), altri preparano il client a
@@ -153,8 +153,8 @@ A differenza però di CORBA, essendo la VMT fissa, non è possibile realizzare u
 COM era stato pensato per fornire una visione di alto livello uniforme (sempre C/S), per cercare anche di rendere
 un'ottimizzazione molto forte a seconda della comunicazione che si andava a realizzare. A basso livello invece si ha un
 comportamento molto variegato, con un'alta idea di delegazione.
-A sua volta, DCOM prevede di definire dei riferimenti diretti fra C e S, facendo in modo quindi che si conoscano
-comunque, nonostante l'uso di un'interfaccia. Questi riferimenti quindi non son persistenti.\footnote{Vi è una losoa
+A sua volta, DCOM prevede di definire dei riferimenti diretti fra Client e Server, facendo in modo quindi che si conoscano
+comunque, nonostante l'uso di un'interfaccia. Questi riferimenti quindi non sono persistenti.\footnote{Vi è una losoa
 diversa rispetto a CORBA: qui è necesario avere anche una visione di basso livello, nonostante l'uso delle interfacce
 come in CORBA} DCOM si preoccupa di aumentare la dinamicità, cercando anche di andare oltre al C/S, ma fornendo
 strumenti per trovare in maniera automatica la soluzione, fornendo supporto alla portabilità, cercando di dare una
@@ -175,13 +175,13 @@ poter definire stato, output e input dei componenti. Questo sistema semplica la 
 definire un container che sia semplicemente un gestore degli oggetti contenuti, in grado di attivarli attraverso
 un'interfaccia uniforme e al sistema dell'introspezione. Il container deve solo fornire un'interfaccia IDispatch!
 Quindi, il container implementa la dispinterface definita dall'oggetto contenuto (questo deve solo definire quali eventi
-sono interessanti per lui); uno è la sorgente dell'interfaccoa, l'altro il pozzo che la realizza. A sua volta, il
+sono interessanti per lui); uno è la sorgente dell'interfaccia, l'altro il pozzo che la realizza. A sua volta, il
 container sfrutta degli oggetti intermedi per poter comunicare con l'oggetto contenuto.
 DCOM stabilisce anche la possibilità di realizzare una persistenza del componente, implementando un'apposita
 interfaccia. (I riferimenti non son fissi in DCOM).
 \subsection{Gestori delle sottoparti: i monikers}
 DCOM introduce i monikers come un sistema ad hoc, piuttosto complesso, per poter gestire in maniera persistente la
-gestione degli oggetti. Questo sistema aumenta la flessibilità, memorizzando su disco quindi i riferimenti agli oggetti,
+gestione degli oggetti in modo da permetterne la localizzazione. Questo sistema aumenta la flessibilità, memorizzando su disco quindi i riferimenti agli oggetti,
 categorizzandoli in base a cosa sono, e rendendoli indipendenti dalle applicazioni!
 Si ha quindi che ogni moniker viene associato ad un programma, permettendo anche di lavorare mediante nomi indiretti.
 Permette anche di moltiplicare i meccanismi, aggiungendo diversi monikers.
@@ -189,14 +189,13 @@ Permette anche di moltiplicare i meccanismi, aggiungendo diversi monikers.
 Il modello deriva da quello di Win32. Tuttavia, vi possono essere dei problemi se certi componenti non risultano essere
 thread-safe (magari perché sono componenti legacy). Per superare questo problema, in DCOM si è introdotto il concetto di
 Apartment, che consiste ad un ambiente d'esecuzione isolato, cioè con una politica di threading fissata. Vi sono due
-diversi modelli, o quello single-threaded (più diffuso, un unico componente lavora nell'apartment) oppure
-multi-threaded. Ogni componente può quindi avere più STA, ma sempre un solo MTA.
+diversi modelli, o quello single-threaded:(più diffuso, un unico componente lavora nell'apartment) oppure
+multi-threaded: ogni componente può quindi avere più STA, ma sempre un solo MTA.
 \subsection{Altri strumenti DCOM}
 Microsoft ha fornito mediante DCOM tantissimi strumenti, in grado di risolvere i problemi sempre più nell'ottica di un
 moderno mw.
 In particolare, si possono citare MSMQ per realizzare un sistema a scambio di messaggi, e COM+ per permettere la
-definizione di componenti solo attraverso la parte logica. Presenta anche un servizio X.500 di directory standard, detto
-Active Directory.
+definizione di componenti solo attraverso la parte logica. Presenta anche un servizio X.500 di directory standard, detto Active Directory e due metodi di comunicazione sincrona non bloccante,l'interfaccia di callback e il metodo di fine che ci permette di recuperare il risultato al bisogno.
 \subsection{.NET}
 Questa è la nuova architettura Microsoft, sviluppata ripensando totalmente il tutto! Non solo si è progettato pensando
 ad un S.O. diverso, ma anche rivoluzionando la stessa macchina virtuale (realizzando il CLR). Si tratta di un sistema
@@ -228,7 +227,7 @@ anche interazioni sincrone non bloccanti, sfruttando un meccanismo di call-back.
 passaggio per valore (maggiormente disaccoppiato, ma in presenza di dati grandi, aumenta notevolmente l'overhead) o per
 riferimento (mediante la creazione di un proxy per memorizzare quindi un riferimento remoto), in maniera quindi del
 tutto simile a CORBA!
-L'attivazione a chi tocca? Non son presenti dei POA come in CORBA, quindi si potrebbe prima di tutto pensare ad
+L'attivazione a chi tocca? Non sono presenti dei POA come in CORBA, quindi si potrebbe prima di tutto pensare ad
 un'attivazione da parte del cliente (esistono meccanismi per fare il lease, e quindi mantenere il collegamento con il
 server oltre al tempo specificato\footnote{Server può anche interrogare il client prima di deallocare la risorsa}). In
 questa maniera si può anche mantenere uno stato.
