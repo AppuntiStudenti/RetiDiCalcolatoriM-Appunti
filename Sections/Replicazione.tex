@@ -1,17 +1,20 @@
 \section{Modelli per la replicazione}
 Un obiettivo per poter fornire della qualità di servizio è ovviamente quello di poter offrire un servizio continuativo,
-stabile: se il servizio non viene erogato, non si è remunerati (anzi, in determinati ambiti è proprio un danno economico
-perché si possono presentare anche delle richieste di risarcimento; in certi ambiti si parla anche di rischi umani).
-L'obiettivo è quindi quello di realizzare un sistema \textit{fault tolerant}, resistente ai guasti. Sono invarianti che
-devono essere comunque garantiti.
+stabile: se il servizio non viene erogato, non si è remunerati (anzi, in 
+determinati ambiti si ha proprio un danno economico perché si possono 
+presentare anche delle richieste di risarcimento; in certi ambiti si parla anche 
+di rischi umani).
+L'obiettivo è quindi quello di realizzare un sistema \textit{fault tolerant}, 
+resistente ai guasti. Sono invarianti che devono essere comunque garantiti.
 \subsection{Definire i comportamenti errati del sistema: cause ed effetti}
 I possibili guasti si possono catalogare in maniera logica:
 \begin{itemize}
  \item Si parla di \textit{failure} quando il sistema presenta un comportamento diverso dagli invarianti di sistema
 previsti: ciò è dovuto a un sistema progettato male. Il failure è l'effetto visibile, riscontrabile dall'utente.
- \item Un errore è invece il difetto che genera un failure del sistema, la causa concreta che ha portato il sistema
- in uno stato non corretto.
- \item Un fault infine è proprio il comportamento che si è venuto a verificare che ha portato il sistema a generare un
+ \item Un \textit{errore} è invece il difetto che genera un failure del sistema, 
+ la causa concreta che ha portato il sistema in uno stato non corretto.
+ \item Un \textit{fault} infine è proprio il comportamento che si è venuto a 
+verificare che ha portato il sistema a generare un
  failure: corrisponde quindi proprio alla causa a monte.
 \end{itemize}
 I fault si possono classificare a seconda di quanto si ripetono:
@@ -49,48 +52,63 @@ Mediante l'ipotesi del guasto singolo, si può osservare che se abbiamo più cop
 può specificare il numero di fault tollerabili e identicabili. Se avessimo solo due copie, non possiamo tollerare un
 guasto, ma possiamo identificarne uno. Con già 3 copie, un guasto si può tollerare,
 perché comunque restano due macchine con cui identificare i guasti successivi:
-si riescono così ad identificare no 2 guasti. La generalizzazione è che se si hanno 3t copie, si tollerano massimo t
-guasti.\footnote{Non si fanno ipotesi sul tipo di guasto, ma solo sul fatto che è singolo} Si possono quindi
+si riescono così ad identificare 2 guasti. La generalizzazione è che se si 
+hanno $3t$ copie, si tollerano massimo $t$ guasti.\footnote{Non si fanno ipotesi 
+sul tipo di guasto, ma solo sul fatto che è singolo} Si possono quindi
 ridefinire le proprietà precedenti in base a questi valori:
 \begin{itemize}
- \item La reliability è il valor medio sulla disponibilità/indisponibilità della risorsa considerata
- \item L'availability si può esprimere come la percentuale utile di lavoro che il sistema riesce ad offrire:
+ \item La \textit{reliability} è il valor medio sulla 
+ disponibilità/indisponibilità della risorsa considerata 
+ \item L'\textit{availability} si può esprimere come la percentuale utile di 
+lavoro che il sistema riesce ad offrire:
  \begin{equation}
   A = \frac{MTBF}{MTBF + MTTR}
  \end{equation}
 \end{itemize}
-In particolare, si possono distinguere i casi di lettura e scrittura: infatti, la lettura non modifica lo stato, per
-cui si può fornire un servizio di lettura anche se vi sono diverse copie non funzionanti. Viceversa, per garantire uno
+In particolare, si possono distinguere i casi di lettura e scrittura: infatti,la 
+lettura non modifica lo stato, per cui si può fornire un servizio di lettura 
+anche se vi sono diverse copie non funzionanti. Viceversa, per garantire uno
 stato coeso fra tutte le copie, la scrittura richiede che tutte siano disponibili.
-La reliability si può anche vedere come la probabilità che un servizio sia disponibile per un certo intervallo di
-tempo (a 0 deve corrispondere con l'availability).
-Esistono altre proprietà fondamentali, come la correttezza e la vitalità: la prima definisce che comunque sia, il
-risultato fornito dal sistema sarà corretto, la seconda invece stabilisce che comunque si raggiungerà l'obiettivo.
-L'ideale sarebbe disporre di entrambe le proprietà, così da poter mascherare i fault: si può ottenere mediante
-oppurtune tecniche di replicazione spaziali e/o temporali:
+La reliability si può anche vedere come la probabilità che un servizio sia 
+disponibile per un certo intervallo di tempo (a 0 deve corrispondere con 
+l'availability).
+Esistono altre proprietà fondamentali, come la correttezza e la vitalità: la 
+prima definisce che comunque sia, il risultato fornito dal sistema sarà 
+corretto, la seconda invece stabilisce che comunque si raggiungerà l'obiettivo.
+L'ideale sarebbe disporre di entrambe le proprietà, così da poter mascherare i 
+fault: si può ottenere mediante oppurtune tecniche di replicazione spaziali e/o 
+temporali:
 \begin{itemize}
- \item Se si hanno diverse macchine, che eseguono ognuna un algoritmo diverso ma forniscono lo stesso risultato,
- garantiamo la massima correttezza
- \item Se si hanno invece diverse macchine ognuna con un compito specifico, si ottimizzalo throughput del sistema
+ \item Se si hanno diverse macchine, che eseguono ognuna un algoritmo diverso ma
+ forniscono lo stesso risultato, garantiamo la massima correttezza
+ \item Se si hanno invece diverse macchine ognuna con un compito specifico, si 
+ ottimizza lo throughput del sistema
 \end{itemize}
-Una singola macchina non basta per \textit{identificare e correggere} un guasto! La replicazione è fondamentale,
-almeno per fare monitoring (utilizzo di cluster per fare il controllo di una risorsa): si potrebbero utilizzare delle
-specifiche parti per controllare e correggere l'architettura, ma è necessario rispettare sempre il principio della minima
-intrusione: il rischio sarebbe che troppe risorse sono allocate solo per verificare che il sistema funzioni correttamente,
-riducendone l'efficienza! La replicazione è un costo che si va ad aggiungere al sistema: ma in generale si tratta di un
-costo fisso, a fronte di possibili costi molto peggiori in caso di fallimento del sistema!
+Una singola macchina non basta per \textit{identificare e correggere} un guasto!
+La replicazione è fondamentale, almeno per fare monitoring (utilizzo di cluster
+per fare il controllo di una risorsa): si potrebbero utilizzare delle specifiche 
+parti per controllare e correggere l'architettura, ma è necessario rispettare 
+sempre il principio della minima intrusione: il rischio sarebbe che troppe 
+risorse sono allocate solo per verificare che il sistema funzioni correttamente,
+riducendone l'efficienza! La replicazione è un costo che si va ad aggiungere al 
+sistema: ma in generale si tratta di un costo fisso, a fronte di possibili costi 
+molto peggiori in caso di fallimento del sistema!
 \subsection{Possibili guasti}
-I guasti si possono anche classificare in base alla loro riconoscibilità da un sistema (processore esterno):
+I guasti si possono anche classificare in base alla loro riconoscibilità da un
+sistema (processore esterno):
 \begin{itemize}
- \item \textit{Fail-stop}: un processore si ferma perché non rispetta un invariante, e questo viene identicato dagli
- altri processori
- \item \textit{Fail-safe}: come il precedente, tranne che gli altri processori non se ne accorgono: in questo caso
- quindi non è identicato, ma potrebbe essere tollerato (dipende dall'architettura stessa).
- \item Fallimento di tipo bizantino: il processore termina presentando però comportamenti assolutamente casuali.
+ \item \textit{Fail-stop}: un processore si ferma perché non rispetta un
+ invariante, e questo viene identicato dagli  altri processori
+ \item \textit{Fail-safe}: come il precedente, tranne che gli altri processori
+ non se ne accorgono: in questo caso quindi non è identicato, ma potrebbe 
+essere tollerato (dipende dall'architettura stessa).
+ \item \textit{Fallimento di tipo bizantino}: il processore termina presentando 
+però comportamenti assolutamente casuali.
 \end{itemize}
-Nelle reti di calcolatori si possono poi presentare ulteriori generi di guasti, dovuti alla mancata totale
-ricezione/trasmissione di messaggi (\textit{send/receive omissions}), oppure anche al fatto che un processore si
-blocca. Le reti poi possono aggiungere problemi (se un router per esempio non rispodne più, si potrebbe avere che la
+Nelle reti di calcolatori si possono poi presentare ulteriori generi di guasti, 
+dovuti alla mancata totale ricezione/trasmissione di messaggi 
+(\textit{send/receive omissions}), oppure anche al fatto che un processore si
+blocca. Le reti poi possono aggiungere problemi (se un router per esempio non risponde più, si potrebbe avere che la
 rete risulta partizionata in due sottoreti, incapaci di comunicare fra di loro).
 \subsection{Architetture per garantire la fault-tolerance}
 Nel corso del tempo sono state pensate e realizzate diverse tipologie di architetture in grado di fornire questo genere
