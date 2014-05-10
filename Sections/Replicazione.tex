@@ -117,14 +117,17 @@ di servizio.
 Una prima ipotesi operativa è quella di realizzare un sistema con vera e propria replicazione hardware, per cui si
 hanno due possibilità:
 \begin{enumerate}
- \item O si realizza un'architettura in cui vi è una sola macchina a lavorare, mentre un'altra ne controlla il corretto
- funzionamento, per cui interviene solo in caso di guasto. Per esempio, per avere la correttezza si potrebbe
- avere che a una determinata richiesta rispondano tutte le macchine, ma la risposta viene controllata prima di essere
- fornita.
- \item Oppure si realizza un sistema con cluster, dove si aggiunge una logica di controllo che è in grado di stabilire
-  se una risorsa è disponibile o meno, e quindi è in grado di escluderla dal sistema. Al crescere delle risorse
-  aumenta la probabilità di guasti, quindi si devono utilizzare algoritmi efficienti per identicarli correttamente: si
-  vuole un \textit{metalivello efficiente}!
+ \item o si realizza un'architettura in cui vi è \textit{una sola macchina a 
+ lavorare, mentre un'altra ne controlla il corretto  funzionamento}, per cui 
+ interviene solo in caso di guasto. Per esempio, per avere la correttezza si 
+ potrebbe  avere che a una determinata richiesta rispondano tutte le macchine, 
+ ma la risposta viene controllata prima di essere fornita.
+ \item opure si realizza un \textit{sistema con cluster}, dove si aggiunge una 
+ logica di controllo che è in grado di stabilire se una risorsa è disponibile o 
+ meno, e  quindi è in grado di escluderla dal sistema. Al crescere delle risorse 
+ aumenta la probabilità di guasti, quindi si devono utilizzare algoritmi 
+ efficienti per identicarli correttamente: si vuole un \textit{metalivello 
+ efficiente}!
 \end{enumerate}
 
 Un'ipotesi spesso comune è quella della memoria stabile\footnote{Si potrebbe realizzare mediante la tecnologia RAID,
