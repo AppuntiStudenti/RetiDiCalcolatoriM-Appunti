@@ -37,7 +37,7 @@ invarianti che sono stati imposti. È quindi un sistema corretto.
 arrivare entro una certa deadline prestabilita.
 \end{itemize}
 Per poter garantire la disponibilità del sistema a fronte di guasti, si devono fare delle ipotesi sul guasto. In
-generale, la procedura di ripristino consiste infatti prima nell'identicazione del tipo di guasto, e in base a ciò si
+generale, la procedura di ripristino consiste infatti prima nell'identificazione del tipo di guasto, e in base a ciò si
 cerca di riattivare con la corretta procedura il servizio (fase di recovery).
 In generale, si utilizza l'ipotesi del \textit{fault singolo}, ovvero nel sistema si può presentare un singolo guasto:
 solo quando il sistema torna operativo, si ha che si potrebbe presentare un ulteriore fault. Quest'ipotesi è necessaria
@@ -149,14 +149,19 @@ copia\footnote{Osservazione: è sicuramente conveniente un'indicazione di tempo 
 poter aggiornare tutte le copie al dato più recente effettivamente presente}: clienti che accedono alla seconda copia
 prima della fase di recovery non potrebbero accorgersi che il dato è stale. Ogni operazione deve procedere su tutte le
 copie quindi per poter garantire risultati corretti! Tale sistema è sicuramente costoso e difficile da realizzare.
-Un'ulteriore aspetto riguarda un sistema software per fare il monitoraggio delle risorse, necessario e conveniente da
-mettere in parallelo al sistema di recovery hardware: si tratta quindi di progettare degli appositi protocolli e sistemi
-in grado di permettere all'applicazione di ripartire con il minimo costo e nel minimo tempo. Il problema di ciò è che un
-sistema software del genere sfrutta le stesse risorse dell'applicazione (CPU, RAM...), riducendone l'efficienza: si
-deve quindi progettare il tutto rispettando il \textit{principio della minima intrusione}, limitando il più possibile
-quindi le risorse allocate al metalivello di monitoring/supporto dell'applicazione. La replicazione presenta dei costi
-elevati in termine di realizzazione, ma anche di progettazione ed uso delle risorse, quindi deve essere attentamente
-studiata. Ipotizzare guasti singoli semplifica la realizzazione dei protocolli, per esempio.
+Un ulteriore aspetto riguarda un sistema software per fare il monitoraggio
+delle risorse, necessario e conveniente da mettere in parallelo al sistema di
+recovery hardware: si tratta quindi di progettare degli appositi protocolli e
+sistemi in grado di permettere all'applicazione di ripartire con il minimo costo
+e nel minimo tempo. Il problema di ciò è che un sistema software del genere
+sfrutta le stesse risorse dell'applicazione (CPU, RAM...), riducendone
+l'efficienza: si deve quindi progettare il tutto rispettando il
+\textit{principio della minima intrusione}, limitando il più possibile quindi le
+risorse allocate al metalivello di monitoring/supporto dell'applicazione. La
+replicazione presenta dei costi elevati in termine di realizzazione, ma anche di
+progettazione ed uso delle risorse, quindi deve essere attentamente studiata.
+Ipotizzare guasti singoli semplifica la realizzazione dei protocolli, per
+esempio.
 
 Una possibile realizzazione è un sistema tandem, cioè in cui tutto è raddoppiato: l'idea è quella di realizzare un
 sistema fail-safe, per cui una CPU identica l'errore. Ovviamente, un sistema del genere è complesso e costoso.
@@ -247,7 +252,7 @@ si guasta, deve esserci comunque un modo per poter fornire una risposta all'este
 di coordinare le diverse copie attive. Per esempio, invece che utilizzare un sistema per cui tutte le copie garantiscono
 la conferma dell'azione, si potrebbe utilizzare una forma di voting: solo la maggioranza delle copie in concordanza fra
 di loro proseguono l'esecuzione, mentre le altre dovranno essere sospese e si dovrà procedere con il recovery
-(identicazione e recupero dal gestore o da chi altro: dovrà essere deciso in fase progettuale).
+(identificazione e recupero dal gestore o da chi altro: dovrà essere deciso in fase progettuale).
 Questo protocollo sgravia la risposta verso l'esterno, che può essere fornita più velocemente! E evidente la necessità
 di un gestore per il monitoraggio, controllo delle copie. In generale, in un sistema reale, il numero di copie è
 limitato: studiando opportunatamente il protocollo si riduce l'overhead al minimo.
