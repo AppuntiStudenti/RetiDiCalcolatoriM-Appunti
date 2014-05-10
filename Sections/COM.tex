@@ -10,7 +10,7 @@ Si utilizza un sistema di conteggio dei riferimenti per decidere se deallocare u
 Le DLL sono quindi ascrivibili in 3 diversi gruppi: kernel, utente e GUI. Il sistema è però facilmente
 estendibile, potendo introdurre nuove DLL (es, WinSocket).
 Nei sistemi operativi Microsoft tutti i tipi di oggetti (sia utente che kernel) possiedono degli appositi handler per
-riferirli ed identicarli, in maniera tale da poterli utilizzare anche con le apposite API di Windows. A differenza di
+riferirli ed identificarli, in maniera tale da poterli utilizzare anche con le apposite API di Windows. A differenza di
 Unix, l'interfaccia per richiamare gli oggetti non è molto compatta, risultando essere molto complessa.
 Windows fa un uso pesante del modello ad eventi (il sistema grafico fa un buon match con ciò). Si tratta di un modello
 fortemente push (all'epoca era anche l'unico modello esistente per lavorare quando non si avevano ancora i processi).
@@ -34,7 +34,7 @@ Mediante questa tecnologia si può quindi attivare un'applicazione all'interno d
 duplicazione dell'oggetto o la presenza di riferimenti multipli e di molteplici gestori della stessa tipologia di
 documento (quanti ne attiviamo?). Tuttavia, nel concentrato non presenta grossi problemi e funziona bene.
 L'idea della Microsoft era però quella di estendere il concetto di OLE anche al distribuito, da qui la tecnologia COM.
-Nel concentrato era tutto più semplice perché si sfruttava il registry di Windows per identicare in maniera univoca un
+Nel concentrato era tutto più semplice perché si sfruttava il registry di Windows per identificare in maniera univoca un
 oggetto\footnote{Sfruttando il GUID, derivato dall'UUID descritto dal DCE. In Microsoft, i diversi GUID son classificati
 in base al tipo di oggetti che riferiscono (interfacce,oggetti...)}, e per poter registrare quindi i vari gestori.
 \subsection{Architettura COM}
