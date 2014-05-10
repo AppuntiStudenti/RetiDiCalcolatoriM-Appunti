@@ -22,3 +22,12 @@ Istruzioni per Ubuntu GNU/Linux:
 * commit
 * push
 * pull request
+
+Prima del commit
+----------------
+
+Assicuratevi che non ci siano spazi a fine riga; il modo più semplice se state usando linux è
+
+```
+sed 's/[ \t]*$//' -i Sections/*.tex
+```
