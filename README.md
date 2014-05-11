@@ -19,14 +19,15 @@ Istruzioni per Ubuntu GNU/Linux:
 * installate i pacchetti kile texlive-latex-extra texlive-lang-italian
 * copiate il file RetiDiCalcolatori.kilepr.dist in RetiDiCalcolatori.kilepr
 * aprite il kileproject effettuate le vostre modifiche
-* commit
-* push
-* pull request
+* effettuate il o i commit necessari
+* fate push sul vostro repository
+* inviate una pull request
 
-Prima del commit
+Coding standard
 ----------------
-
-Assicuratevi che non ci siano spazi a fine riga; il modo più semplice se state usando linux è
+Mandare a capo i sorgenti entro le 80 colonne
+Assicuratevi che non ci siano spazi a fine riga; il modo più semplice se state
+usando linux è
 
 ```
 sed 's/[ \t]*$//' -i Sections/*.tex
