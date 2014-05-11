@@ -25,9 +25,9 @@ Istruzioni per Ubuntu GNU/Linux:
 
 Coding standard
 ----------------
-Mandare a capo i sorgenti entro le 80 colonne
-Assicuratevi che non ci siano spazi a fine riga; il modo più semplice se state
-usando linux è
+* Mandare a capo i sorgenti entro le 80 colonne
+* Assicuratevi che non ci siano spazi a fine riga; il modo più semplice se
+state usando linux è
 
 ```
 sed 's/[ \t]*$//' -i Sections/*.tex
