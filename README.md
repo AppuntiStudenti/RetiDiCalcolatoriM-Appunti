@@ -8,7 +8,8 @@ Attenzione
 
 L'autore ha perso il file originale LaTeX e l'importazione del PDF con AbiWord
 ha dato risultati di scarsa qualità, per questo motivo stiamo lavorando per
-ripristinare il tutto.
+ripristinare il tutto. Il lavoro di ripristino è ultimato ma manca qualche
+corsivo, quindi occhi aperti e segnalateci eventuali refusi :)
 
 Come contribuire
 ----------------
