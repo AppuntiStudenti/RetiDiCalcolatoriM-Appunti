@@ -1,4 +1,4 @@
-Reti di Calcolatori M - Appunti di studio
+Reti di Calcolatori M - appunti di studio
 =========================================
 
 Versione riveduta e aggiornata degli appunti di Daniele Tiles
