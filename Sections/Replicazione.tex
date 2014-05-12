@@ -1,5 +1,6 @@
 \section{Modelli per la replicazione}
-Un obiettivo per poter fornire della qualità di servizio è ovviamente quello di poter offrire un servizio continuativo,
+Un obiettivo per poter fornire della qualità di servizio è ovviamente quello di 
+poter offrire un servizio continuativo,
 stabile: se il servizio non viene erogato, non si è remunerati (anzi, in
 determinati ambiti si ha proprio un danno economico perché si possono
 presentare anche delle richieste di risarcimento; in certi ambiti si parla anche
@@ -9,8 +10,10 @@ resistente ai guasti. Sono invarianti che devono essere comunque garantiti.
 \subsection{Definire i comportamenti errati del sistema: cause ed effetti}
 I possibili guasti si possono catalogare in maniera logica:
 \begin{itemize}
- \item Si parla di \textit{failure} quando il sistema presenta un comportamento diverso dagli invarianti di sistema
-previsti: ciò è dovuto a un sistema progettato male. Il failure è l'effetto visibile, riscontrabile dall'utente.
+ \item Si parla di \textit{failure} quando il sistema presenta un comportamento 
+diverso dagli invarianti di sistema
+previsti: ciò è dovuto a un sistema progettato male. Il failure è l'effetto 
+visibile, riscontrabile dall'utente.
  \item Un \textit{errore} è invece il difetto che genera un failure del sistema,
  la causa concreta che ha portato il sistema in uno stato non corretto.
  \item Un \textit{fault} infine è proprio il comportamento che si è venuto a
@@ -19,38 +22,55 @@ verificare che ha portato il sistema a generare un
 \end{itemize}
 I fault si possono classificare a seconda di quanto si ripetono:
 \begin{itemize}
- \item Sono \textit{permanenti} se si ripresenta in maniera periodica: sono quindi facili da individuare, e facili da
- risolvere. Si parla di Bohrbug per errori che si ripetono facilmente, riproducibili, che si possono quindi osservare
+ \item Sono \textit{permanenti} se si ripresenta in maniera periodica: sono 
+quindi facili da individuare, e facili da
+ risolvere. Si parla di Bohrbug per errori che si ripetono facilmente, 
+riproducibili, che si possono quindi osservare
  e correggere facilmente.
- \item Se invece sono \textit{transienti}, sono più dicili da notare. Si parla di errori di tipo Eisenbug, e sono molto
+ \item Se invece sono \textit{transienti}, sono più dicili da notare. Si parla 
+di errori di tipo Eisenbug, e sono molto
  dicili da eliminare.
 \end{itemize}
 
 \subsection{Ipotizzare il guasto}
-Esistono diversi parametri per poter giudicare la disponibilità di un servizio/sistema.
-Un sistema è fault tolerant se garantisce la \textit{dependability}, ovvero si ha confidenza per qualunque aspetto
+Esistono diversi parametri per poter giudicare la disponibilità di un 
+servizio/sistema.
+Un sistema è fault tolerant se garantisce la \textit{dependability}, ovvero si 
+ha confidenza per qualunque aspetto
 progettuale. Ciò comporta che il sistema debba garantire:
 \begin{itemize}
- \item \textit{Reliability}: deve essere affidabile, in ogni modo il sistema si comporta correttamente rispetto agli
+ \item \textit{Reliability}: deve essere affidabile, in ogni modo il sistema si 
+comporta correttamente rispetto agli
 invarianti che sono stati imposti. È quindi un sistema corretto.
- \item \textit{Availability}: indica la disponibilità nel tempo del sistema. La risposta da parte del sistema deve
+ \item \textit{Availability}: indica la disponibilità nel tempo del sistema. La 
+risposta da parte del sistema deve
 arrivare entro una certa deadline prestabilita.
 \end{itemize}
-Per poter garantire la disponibilità del sistema a fronte di guasti, si devono fare delle ipotesi sul guasto. In
-generale, la procedura di ripristino consiste infatti prima nell'identificazione del tipo di guasto, e in base a ciò si
+Per poter garantire la disponibilità del sistema a fronte di guasti, si devono 
+fare delle ipotesi sul guasto. In
+generale, la procedura di ripristino consiste infatti prima 
+nell'identificazione del tipo di guasto, e in base a ciò si
 cerca di riattivare con la corretta procedura il servizio (fase di recovery).
-In generale, si utilizza l'ipotesi del \textit{fault singolo}, ovvero nel sistema si può presentare un singolo guasto:
-solo quando il sistema torna operativo, si ha che si potrebbe presentare un ulteriore fault. Quest'ipotesi è necessaria
-per poter semplicare il trattamento del recovery. Per poter definire ciò, è necessario conoscere:
+In generale, si utilizza l'ipotesi del \textit{fault singolo}, ovvero nel 
+sistema si può presentare un singolo guasto:
+solo quando il sistema torna operativo, si ha che si potrebbe presentare un 
+ulteriore fault. Quest'ipotesi è necessaria
+per poter semplicare il trattamento del recovery. Per poter definire ciò, è 
+necessario conoscere:
 \begin{itemize}
- \item \textit{Il Time To Repair}, TTR, che è il tempo necessario per accorgersi e per poter correggere il guasto
- \item \textit{Il Time Between Failure}, ovvero il tempo che intercorre fra due failure (oppure la media, MTBF).
+ \item \textit{Il Time To Repair}, TTR, che è il tempo necessario per 
+accorgersi e per poter correggere il guasto
+ \item \textit{Il Time Between Failure}, ovvero il tempo che intercorre fra due 
+failure (oppure la media, MTBF).
 \end{itemize}
 
 L'obiettivo è quindi che il TTR sia inferiore in maniera stretta al (M)TBF.
-Mediante l'ipotesi del guasto singolo, si può osservare che se abbiamo più copie in grado di fornire il servizio, si
-può specificare il numero di fault tollerabili e identificabili. Se avessimo solo due copie, non possiamo tollerare un
-guasto, ma possiamo identificarne uno. Con già 3 copie, un guasto si può tollerare,
+Mediante l'ipotesi del guasto singolo, si può osservare che se abbiamo più 
+copie in grado di fornire il servizio, si
+può specificare il numero di fault tollerabili e identificabili. Se avessimo 
+solo due copie, non possiamo tollerare un
+guasto, ma possiamo identificarne uno. Con già 3 copie, un guasto si può 
+tollerare,
 perché comunque restano due macchine con cui identificare i guasti successivi:
 si riescono così ad identificare 2 guasti. La generalizzazione è che se si
 hanno $3t$ copie, si tollerano massimo $t$ guasti.\footnote{Non si fanno ipotesi
@@ -68,7 +88,8 @@ lavoro che il sistema riesce ad offrire:
 In particolare, si possono distinguere i casi di lettura e scrittura: infatti,la
 lettura non modifica lo stato, per cui si può fornire un servizio di lettura
 anche se vi sono diverse copie non funzionanti. Viceversa, per garantire uno
-stato coeso fra tutte le copie, la scrittura richiede che tutte siano disponibili.
+stato coeso fra tutte le copie, la scrittura richiede che tutte siano 
+disponibili.
 La reliability si può anche vedere come la probabilità che un servizio sia
 disponibile per un certo intervallo di tempo (a 0 deve corrispondere con
 l'availability).
@@ -108,13 +129,16 @@ però comportamenti assolutamente casuali.
 Nelle reti di calcolatori si possono poi presentare ulteriori generi di guasti,
 dovuti alla mancata totale ricezione/trasmissione di messaggi
 (\textit{send/receive omissions}), oppure anche al fatto che un processore si
-blocca. Le reti poi possono aggiungere problemi (se un router per esempio non risponde più, si potrebbe avere che la
+blocca. Le reti poi possono aggiungere problemi (se un router per esempio non 
+risponde più, si potrebbe avere che la
 rete risulta partizionata in due sottoreti, incapaci di comunicare fra di loro).
 \subsection{Architetture per garantire la fault-tolerance}
-Nel corso del tempo sono state pensate e realizzate diverse tipologie di architetture in grado di fornire questo genere
+Nel corso del tempo sono state pensate e realizzate diverse tipologie di 
+architetture in grado di fornire questo genere
 di servizio.
 
-Una prima ipotesi operativa è quella di realizzare un sistema con vera e propria replicazione hardware, per cui si
+Una prima ipotesi operativa è quella di realizzare un sistema con vera e 
+propria replicazione hardware, per cui si
 hanno due possibilità:
 \begin{enumerate}
  \item o si realizza un'architettura in cui vi è \textit{una sola macchina a
@@ -130,25 +154,40 @@ hanno due possibilità:
  efficiente}!
 \end{enumerate}
 
-Un'ipotesi spesso comune è quella della memoria stabile\footnote{Si potrebbe realizzare mediante la tecnologia RAID,
-Redundant Array of Inexpensive Disks; è un sistema a basso costo, inizialmente realizzato per poter velocizzare la
-lettura e quindi per poter fornire un semplice supporto alla replicazione. Le operazioni sui dischi son quindi
-coordinate. In realtà, quando un disco si guastava, essendoci problemi nel sistema di gestione non si aveva mai una
-replicazione veramente buona}: si vuole realizzare un sistema per cui la memoria persistente dell'architettura non
-fallisca mai (sempre disponibile, sempre corretta). Una possibilità per realizzare ciò consiste nell'utilizzare due
-dischi, e fare in modo che ogni blocco sia replicato in maniera uguale su entrambi, con probabilità d'errore congiunta
-nulla (caso dell'errore singolo). Si ha che quindi i singoli blocchi possono indicare la presenza di errori o meno
-(omissions), con l'uso di appositi codici di controllo. Mediante questi indicatori infatti si ha il controllo se le
+Un'ipotesi spesso comune è quella della memoria stabile\footnote{Si potrebbe 
+realizzare mediante la tecnologia RAID,
+Redundant Array of Inexpensive Disks; è un sistema a basso costo, inizialmente 
+realizzato per poter velocizzare la
+lettura e quindi per poter fornire un semplice supporto alla replicazione. Le 
+operazioni sui dischi son quindi
+coordinate. In realtà, quando un disco si guastava, essendoci problemi nel 
+sistema di gestione non si aveva mai una
+replicazione veramente buona}: si vuole realizzare un sistema per cui la 
+memoria persistente dell'architettura non
+fallisca mai (sempre disponibile, sempre corretta). Una possibilità per 
+realizzare ciò consiste nell'utilizzare due
+dischi, e fare in modo che ogni blocco sia replicato in maniera uguale su 
+entrambi, con probabilità d'errore congiunta
+nulla (caso dell'errore singolo). Si ha che quindi i singoli blocchi possono 
+indicare la presenza di errori o meno
+(omissions), con l'uso di appositi codici di controllo. Mediante questi 
+indicatori infatti si ha il controllo se le
 copie sono uguali o meno:
 \begin{enumerate}
  \item Sulla seconda copia potrei avere dei valori non corretti
- \item Sulla seconda copia potrei avere dei valori corretti ma diversi dalla prima copia
+ \item Sulla seconda copia potrei avere dei valori corretti ma diversi dalla 
+prima copia
 \end{enumerate}
-Il secondo caso in realtà è il peggiore, dovuto magari a problemi di aggiornamento sulla seconda
-copia\footnote{Osservazione: è sicuramente conveniente un'indicazione di tempo per la scrittura, in maniera tale da
-poter aggiornare tutte le copie al dato più recente effettivamente presente}: clienti che accedono alla seconda copia
-prima della fase di recovery non potrebbero accorgersi che il dato è stale. Ogni operazione deve procedere su tutte le
-copie quindi per poter garantire risultati corretti! Tale sistema è sicuramente costoso e difficile da realizzare.
+Il secondo caso in realtà è il peggiore, dovuto magari a problemi di 
+aggiornamento sulla seconda
+copia\footnote{Osservazione: è sicuramente conveniente un'indicazione di tempo 
+per la scrittura, in maniera tale da
+poter aggiornare tutte le copie al dato più recente effettivamente presente}: 
+clienti che accedono alla seconda copia
+prima della fase di recovery non potrebbero accorgersi che il dato è stale. 
+Ogni operazione deve procedere su tutte le
+copie quindi per poter garantire risultati corretti! Tale sistema è sicuramente 
+costoso e difficile da realizzare.
 Un ulteriore aspetto riguarda un sistema software per fare il monitoraggio
 delle risorse, necessario e conveniente da mettere in parallelo al sistema di
 recovery hardware: si tratta quindi di progettare degli appositi protocolli e
@@ -163,174 +202,285 @@ progettazione ed uso delle risorse, quindi deve essere attentamente studiata.
 Ipotizzare guasti singoli semplifica la realizzazione dei protocolli, per
 esempio.
 
-Una possibile realizzazione è un sistema tandem, cioè in cui tutto è raddoppiato: l'idea è quella di realizzare un
+Una possibile realizzazione è un sistema tandem, cioè in cui tutto è 
+raddoppiato: l'idea è quella di realizzare un
 sistema fail-safe, per cui una CPU identifica l'errore. Ovviamente, un sistema
 del genere è complesso e costoso.
 \subsection{Copie calde e copie fredde}
-Vi sono due possibili modelli per la replicazione, e dipendono dal comportamento delle copie:
+Vi sono due possibili modelli per la replicazione, e dipendono dal 
+comportamento delle copie:
 \begin{itemize}
- \item \textit{Copie fredde}: vi è un'unica copia attiva che funziona, più diverse copie dormienti. Deve essere quindi
- presente anche un manager del sistema, in grado di attivare in caso di necessità una delle copie dormienti (ovvero se
- la copia principale presenta un fault e smette di lavorare correttamente). Il manager si preoccupa quindi di attivare
- una nuova istanza dell'oggetto solo quando la precedente non funziona. Questo sistema presenta un alto tempo di
- configurazione, e ha il problema che lo stato non è direttamente salvato sugli oggetti in standby (si dovrebbe
+ \item \textit{Copie fredde}: vi è un'unica copia attiva che funziona, più 
+diverse copie dormienti. Deve essere quindi
+ presente anche un manager del sistema, in grado di attivare in caso di 
+necessità una delle copie dormienti (ovvero se
+ la copia principale presenta un fault e smette di lavorare correttamente). Il 
+manager si preoccupa quindi di attivare
+ una nuova istanza dell'oggetto solo quando la precedente non funziona. Questo 
+sistema presenta un alto tempo di
+ configurazione, e ha il problema che lo stato non è direttamente salvato sugli 
+oggetti in standby (si dovrebbe
  recuperare in un qualche altro modo...).
- \item \textit{Copie calde}: in questo caso vi sono diversi oggetti, pronti a sostituire una copia che non funziona:
- l'idea è che in questo caso vi sia invece un protocollo di ruolo, in grado di indicare ad ogni copia che comportamento
- deve assumere (è la principale o meno): infatti, la copia principale è attiva, ovvero in grado di salvare lo stato,
- mentre le altre son passive, che vengono sempre aggiornate ad ogni modifica sulla copia attiva. Se fallissero anche
- tutte le copie calde, si può ripiegare su un sistema a copie fredde, in grado di inizializzare una nuova copia.
+ \item \textit{Copie calde}: in questo caso vi sono diversi oggetti, pronti a 
+sostituire una copia che non funziona:
+ l'idea è che in questo caso vi sia invece un protocollo di ruolo, in grado di 
+indicare ad ogni copia che comportamento
+ deve assumere (è la principale o meno): infatti, la copia principale è attiva, 
+ovvero in grado di salvare lo stato,
+ mentre le altre son passive, che vengono sempre aggiornate ad ogni modifica 
+sulla copia attiva. Se fallissero anche
+ tutte le copie calde, si può ripiegare su un sistema a copie fredde, in grado 
+di inizializzare una nuova copia.
 \end{itemize}
 \subsection{Gestione delle risorse}
-La replicazione delle risorse è necessaria per un sistema distribuito, perché introducendola si può garantire la
-fruizione del servizio. In un progetto quindi si deve considerare come allocare le risorse sui vari nodi, e con che
-grado di replicazione: risorse replicate significa quindi che si hanno copie multiple delle risorse su nodi diversi!
-Maggiore è l'importanza della risorsa, maggiore deve essere il suo grado di replicazione.
+La replicazione delle risorse è necessaria per un sistema distribuito, perché 
+introducendola si può garantire la
+fruizione del servizio. In un progetto quindi si deve considerare come allocare 
+le risorse sui vari nodi, e con che
+grado di replicazione: risorse replicate significa quindi che si hanno copie 
+multiple delle risorse su nodi diversi!
+Maggiore è l'importanza della risorsa, maggiore deve essere il suo grado di 
+replicazione.
 Si possono ipotizzare sempre due modelli base:
 \begin{itemize}
- \item \textit{Modello passivo}: una sola risorsa lavora, e le altre sono in attesa pronte a sostituirla in caso di
- failure. Il modello generale è quindi quello di un master con una serie di slave, organizzati in maniera gerarchica.
- Se il numero di partecipanti è limitato non è costoso, ed è il modello più facile da implementare (ha un protocollo
- chiaro e semplice). Il grado di replicazione è quindi indicato dal numero di copie passive disponibili.
- \item \textit{Modello attivo}: tutte le copie eseguono assieme per ottenere il risultato desiderato. Sono quindi tutte
- attive, ed è necessario predisporre una parte di controllo abbastanza complessa, quindi la modellazione e
- l'implementazione sono più costose (tutte le copie devono avere l'input, e tutti gli output devono essere confrontati).
+ \item \textit{Modello passivo}: una sola risorsa lavora, e le altre sono in 
+attesa pronte a sostituirla in caso di
+ failure. Il modello generale è quindi quello di un master con una serie di 
+slave, organizzati in maniera gerarchica.
+ Se il numero di partecipanti è limitato non è costoso, ed è il modello più 
+facile da implementare (ha un protocollo
+ chiaro e semplice). Il grado di replicazione è quindi indicato dal numero di 
+copie passive disponibili.
+ \item \textit{Modello attivo}: tutte le copie eseguono assieme per ottenere il 
+risultato desiderato. Sono quindi tutte
+ attive, ed è necessario predisporre una parte di controllo abbastanza 
+complessa, quindi la modellazione e
+ l'implementazione sono più costose (tutte le copie devono avere l'input, e 
+tutti gli output devono essere confrontati).
 \end{itemize}
-In entrambi i modelli non si lavora in maniera sequenziale, ma parallela: le copie possono comunque svolgere anche
+In entrambi i modelli non si lavora in maniera sequenziale, ma parallela: le 
+copie possono comunque svolgere anche
 altri compiti, eseguire più operazioni contemporaneamente!
 
-Nel primo modello si deve pensare ad un sistema per tenere aggiornate le copie fredde: si utilizzano quindi dei
-checkpoint, per cui lo stato viene trasferito e replicato sulle copie fredde... ma quando farlo?
+Nel primo modello si deve pensare ad un sistema per tenere aggiornate le copie 
+fredde: si utilizzano quindi dei
+checkpoint, per cui lo stato viene trasferito e replicato sulle copie fredde... 
+ma quando farlo?
 \begin{itemize}
- \item Se lo si fa prima di fornire la risposta al cliente, si garantisce un'alta efficienza a scapito della
- correttezza (se gli slave presentano un guasto, non saranno aggiornati correttamente)
- \item Se invece si attende che tutte le copie garantiscano di aver ricevuto l'aggiornamento prima di spedire la
+ \item Se lo si fa prima di fornire la risposta al cliente, si garantisce 
+un'alta efficienza a scapito della
+ correttezza (se gli slave presentano un guasto, non saranno aggiornati 
+correttamente)
+ \item Se invece si attende che tutte le copie garantiscano di aver ricevuto 
+l'aggiornamento prima di spedire la
  risposta, il sistema è corretto, ma la risposta avrà un tempo molto lungo.
 \end{itemize}
-L'aggiornamento può essere eseguito periodicamente (\textit{time-driven}) oppure ad ogni volta che si presenta un nuovo
-evento (\textit{event driven}). Quest'ultima politica risulta essere maggiormente dinamica e complessa da realizzare.
-Per esempio, un evento potrebbe essere scatenato dall'inizio del servizio della richiesta (estrazione dalla coda delle
+L'aggiornamento può essere eseguito periodicamente (\textit{time-driven}) 
+oppure ad ogni volta che si presenta un nuovo
+evento (\textit{event driven}). Quest'ultima politica risulta essere 
+maggiormente dinamica e complessa da realizzare.
+Per esempio, un evento potrebbe essere scatenato dall'inizio del servizio della 
+richiesta (estrazione dalla coda delle
 richieste), e terminare alla fine per poter fare il checkpoint.
 
-Le operazioni poi possono correlate o meno, e quindi anche il checkpoint potrebbe essere correlato! In questo caso,
-servono delle informazioni dall'utente su quando conviene fare il checkpoint (tipicamente, si attende che si giunga ad
+Le operazioni poi possono correlate o meno, e quindi anche il checkpoint 
+potrebbe essere correlato! In questo caso,
+servono delle informazioni dall'utente su quando conviene fare il checkpoint 
+(tipicamente, si attende che si giunga ad
 uno stato stabile e poi lo si esegue).
 
-Serve quindi la trasparenza? Il cliente deve sapere chi contattare se il master non è raggiungibile, quindi no! Deve
-avere idea che non sta interagendo con la copia principale, per poter sfruttare le risorse per potersi collegare alla
-risorsa secondaria mediante un opportuno sistema di nomi. Inoltre, a seconda della complessità del master, potrebbe
-essere conveniente farlo ritornare direttamente come master, invece che come slave. Si può comunque realizzare così una
-sorta di \textit{fault-transparency}, per cui dall'esterno la risorsa sembra reggere diversi fault e riesce a fornire
+Serve quindi la trasparenza? Il cliente deve sapere chi contattare se il master 
+non è raggiungibile, quindi no! Deve
+avere idea che non sta interagendo con la copia principale, per poter sfruttare 
+le risorse per potersi collegare alla
+risorsa secondaria mediante un opportuno sistema di nomi. Inoltre, a seconda 
+della complessità del master, potrebbe
+essere conveniente farlo ritornare direttamente come master, invece che come 
+slave. Si può comunque realizzare così una
+sorta di \textit{fault-transparency}, per cui dall'esterno la risorsa sembra 
+reggere diversi fault e riesce a fornire
 un servizio con continuità.
 
-Infatti, sarebbe meglio che all'esterno non si sapesse il grado di replicazione di una risorsa, perché altrimenti
-sarebbe una decisione distribuita mediante il deployment: è in realtà il middleware ad accorgersi e a fare da supporto,
+Infatti, sarebbe meglio che all'esterno non si sapesse il grado di replicazione 
+di una risorsa, perché altrimenti
+sarebbe una decisione distribuita mediante il deployment: è in realtà il 
+middleware ad accorgersi e a fare da supporto,
 contattando la nuova copia: per il client è tutto trasparente!
 
-Nel caso di copie attive, il client come le deve conoscere? Se le conosce in maniera esplicita, non abbiamo trasparenza
-e fornisce visibilità alla replicazione: viene utilizzato solo in appositi sistemi ad-hoc. In realtà, vi è sempre un
-sistema implicito a garantire la comunicazione fra il client e le copie attive. E quindi necessario pensare ad un
-frontend che si preoccupi di smistare opportunatamente le richieste: potrebbe essere statico (in grado quindi di
-smistare qualunque richiesta) oppure dinamico (specializzato per una determinata richiesta). Ma nel caso di oggetto
-singolo, questo diventa un collo di bottiglia, perché se viene a mancare l'architettura non si regge più in piedi!
+Nel caso di copie attive, il client come le deve conoscere? Se le conosce in 
+maniera esplicita, non abbiamo trasparenza
+e fornisce visibilità alla replicazione: viene utilizzato solo in appositi 
+sistemi ad-hoc. In realtà, vi è sempre un
+sistema implicito a garantire la comunicazione fra il client e le copie attive. 
+E quindi necessario pensare ad un
+frontend che si preoccupi di smistare opportunatamente le richieste: potrebbe 
+essere statico (in grado quindi di
+smistare qualunque richiesta) oppure dinamico (specializzato per una 
+determinata richiesta). Ma nel caso di oggetto
+singolo, questo diventa un collo di bottiglia, perché se viene a mancare 
+l'architettura non si regge più in piedi!
 Deve \textit{garantire un'alta affidabilità}.
 
-Il secondo modello è realizzabile facendo in modo che ogni client diventi il gestore di quel tipo di richiesta, ma
-ciò necessita che le varie copie si mettano d'accordo: vi è un problema di sincronismo. Si può risolvere in diversi
-modi (sfruttando una politica ad anello, utilizzando un token univoco, in modo da simulare così un gestore unico fra
-tutte le copie attive), ma utilizzando delle approssimazioni per la sincronia, si possono ottenere dei protocolli più
-semplici da implementare (si possono presentare dei problemi dal punto di vista semantico, ovvero come devono essere
-ordinate le operazioni), risultando meno costose e più veloci. Infatti, in caso di richieste indipendenti fra di loro,
-la perfetta sincronia è soltanto un costo aggiuntivo! La sincronicità deve quindi essere studiata a seconda del tipo di
-operazioni che si devono svolgere (letture sincrone, scritture sequenziali). Per altre operazioni, si deve tener conto
-dell'architettura e del signicato dell'operazione: si potrebbero eseguire in maniera indipendente, e procedere quindi
-successivamente ad una riconciliazione fra le copie per avere uno stato univoco coeso. E importante però nel caso di
-copie attive che l'aggiornamento delle copie preceda la consegna del risultato al cliente.
+Il secondo modello è realizzabile facendo in modo che ogni client diventi il 
+gestore di quel tipo di richiesta, ma
+ciò necessita che le varie copie si mettano d'accordo: vi è un problema di 
+sincronismo. Si può risolvere in diversi
+modi (sfruttando una politica ad anello, utilizzando un token univoco, in modo 
+da simulare così un gestore unico fra
+tutte le copie attive), ma utilizzando delle approssimazioni per la sincronia, 
+si possono ottenere dei protocolli più
+semplici da implementare (si possono presentare dei problemi dal punto di vista 
+semantico, ovvero come devono essere
+ordinate le operazioni), risultando meno costose e più veloci. Infatti, in caso 
+di richieste indipendenti fra di loro,
+la perfetta sincronia è soltanto un costo aggiuntivo! La sincronicità deve 
+quindi essere studiata a seconda del tipo di
+operazioni che si devono svolgere (letture sincrone, scritture sequenziali). 
+Per altre operazioni, si deve tener conto
+dell'architettura e del signicato dell'operazione: si potrebbero eseguire in 
+maniera indipendente, e procedere quindi
+successivamente ad una riconciliazione fra le copie per avere uno stato univoco 
+coeso. E importante però nel caso di
+copie attive che l'aggiornamento delle copie preceda la consegna del risultato 
+al cliente.
 
-E quindi necessario pensare ad un gestore delle copie attive, in grado di escludere correttamente le copie non
-funzionanti (altrimenti si avrebbero tempi di attesa altissimi per avere conferma degli aggiornamenti; se un'operazione
-si guasta, deve esserci comunque un modo per poter fornire una risposta all'esterno) e quindi di poter essere in grado
-di coordinare le diverse copie attive. Per esempio, invece che utilizzare un sistema per cui tutte le copie garantiscono
-la conferma dell'azione, si potrebbe utilizzare una forma di voting: solo la maggioranza delle copie in concordanza fra
-di loro proseguono l'esecuzione, mentre le altre dovranno essere sospese e si dovrà procedere con il recovery
-(identificazione e recupero dal gestore o da chi altro: dovrà essere deciso in fase progettuale).
-Questo protocollo sgravia la risposta verso l'esterno, che può essere fornita più velocemente! E evidente la necessità
-di un gestore per il monitoraggio, controllo delle copie. In generale, in un sistema reale, il numero di copie è
-limitato: studiando opportunatamente il protocollo si riduce l'overhead al minimo.
+E quindi necessario pensare ad un gestore delle copie attive, in grado di 
+escludere correttamente le copie non
+funzionanti (altrimenti si avrebbero tempi di attesa altissimi per avere 
+conferma degli aggiornamenti; se un'operazione
+si guasta, deve esserci comunque un modo per poter fornire una risposta 
+all'esterno) e quindi di poter essere in grado
+di coordinare le diverse copie attive. Per esempio, invece che utilizzare un 
+sistema per cui tutte le copie garantiscono
+la conferma dell'azione, si potrebbe utilizzare una forma di voting: solo la 
+maggioranza delle copie in concordanza fra
+di loro proseguono l'esecuzione, mentre le altre dovranno essere sospese e si 
+dovrà procedere con il recovery
+(identificazione e recupero dal gestore o da chi altro: dovrà essere deciso in 
+fase progettuale).
+Questo protocollo sgravia la risposta verso l'esterno, che può essere fornita 
+più velocemente! E evidente la necessità
+di un gestore per il monitoraggio, controllo delle copie. In generale, in un 
+sistema reale, il numero di copie è
+limitato: studiando opportunatamente il protocollo si riduce l'overhead al 
+minimo.
 \subsection{Modelli per la replicazione, copie attive}
-L'ipotesi è che vi è un insieme di copie che devono produrre un risultato per un insieme di clienti. Si deve quindi
-pensare a delle opportune fasi di coordinamento sia prima che dopo l'esecuzione, per poter organizzare le copie e
-fornire il risultato deciso. Si possono quindi pensare modelli in cui le copie lavorano sì in maniera indipendente,
-ma all'occorrenza sarebbero in grado di fare da supporto a copie non funzionanti, ottenendo così un bilanciamento del
+L'ipotesi è che vi è un insieme di copie che devono produrre un risultato per 
+un insieme di clienti. Si deve quindi
+pensare a delle opportune fasi di coordinamento sia prima che dopo 
+l'esecuzione, per poter organizzare le copie e
+fornire il risultato deciso. Si possono quindi pensare modelli in cui le copie 
+lavorano sì in maniera indipendente,
+ma all'occorrenza sarebbero in grado di fare da supporto a copie non 
+funzionanti, ottenendo così un bilanciamento del
 carico.
 
 Nel caso delle copie attive, vi sono 5 passaggi che si devono fare in ordine:
 \begin{enumerate}
- \item All'arrivo di una richiesta, come deve essere smistata? Vi sono due possibilità: o arriva ad un'unica copia
- che poi deve fornirla anche alle altre, oppure viene mandata dal client direttamente a tutti. Per avere maggiore
- trasparenza, è ovviamente preferibile il primo modello. La copia quindi può avere un comportamento dinamico o statico.
- \item Vi è poi la fase di coordinamento fra le copie: dipende nuovamente dall'architettura che si vuole realizzare. Si
- potrebbe avere un unico master gestore, oppure tutte le copie possono eseguire o in maniera paritaria o sono pesate
- a seconda della loro importanza. Questa fase può servire per bilanciare correttamente il carico fra le varie copie
+ \item All'arrivo di una richiesta, come deve essere smistata? Vi sono due 
+possibilità: o arriva ad un'unica copia
+ che poi deve fornirla anche alle altre, oppure viene mandata dal client 
+direttamente a tutti. Per avere maggiore
+ trasparenza, è ovviamente preferibile il primo modello. La copia quindi può 
+avere un comportamento dinamico o statico.
+ \item Vi è poi la fase di coordinamento fra le copie: dipende nuovamente 
+dall'architettura che si vuole realizzare. Si
+ potrebbe avere un unico master gestore, oppure tutte le copie possono eseguire 
+o in maniera paritaria o sono pesate
+ a seconda della loro importanza. Questa fase può servire per bilanciare 
+correttamente il carico fra le varie copie
  attive.
- \item Quindi vi è la vera esecuzione. In generale tutte le copie devono eseguire, ma non devono farlo in contemporanea.
- Tutte hanno stato, e devono fornire un risultato. Per certi servizi vi potrebbe essere una copia dedicata che può
+ \item Quindi vi è la vera esecuzione. In generale tutte le copie devono 
+eseguire, ma non devono farlo in contemporanea.
+ Tutte hanno stato, e devono fornire un risultato. Per certi servizi vi 
+potrebbe essere una copia dedicata che può
  fornire subito la risposta.
- \item Seconda fase di coordinamento: il master (oppure le copie con un sistema di voting) determina il risultato
- finale basandosi sulle risposte ottenute da tutte le copie. Questa è anche la fase in cui si possono individuare i
- guasti. Questa fase può essere utile nel caso si fossero ricevute più richieste correlate fra di loro, e quindi si
- potrebbe evidenziare un ordine non corretto d'esecuzione. Ciò però non è sempre possibile, quindi bisogna pensare alla
- prima fase di coordinazione mediante l'uso di un'operazione atomica, così da evitare un eventuale undo. In base quindi
+ \item Seconda fase di coordinamento: il master (oppure le copie con un sistema 
+di voting) determina il risultato
+ finale basandosi sulle risposte ottenute da tutte le copie. Questa è anche la 
+fase in cui si possono individuare i
+ guasti. Questa fase può essere utile nel caso si fossero ricevute più 
+richieste correlate fra di loro, e quindi si
+ potrebbe evidenziare un ordine non corretto d'esecuzione. Ciò però non è 
+sempre possibile, quindi bisogna pensare alla
+ prima fase di coordinazione mediante l'uso di un'operazione atomica, così da 
+evitare un eventuale undo. In base quindi
  all'ordine delle richieste, le varie copie sanno come eseguire.
  \item Presentazione del risultato al cliente, che deve essere univoco.
- Il protocollo è molto più complesso di quello a master/server, tuttavia per gradi di replicazione limitati, ovvero
- con poche copie e un protocollo definito in maniera efficiente si ha un tempo di risposta piccolo.
- Un'architettura basata su master/slave (copie passive) riduce di molto i costi, visto che vi è un'unica macchina a
- lavorare: produce il risultato e si preoccupa di fare l'operazione di checkpoint su tutte le altre copie, e quindi lo
+ Il protocollo è molto più complesso di quello a master/server, tuttavia per 
+gradi di replicazione limitati, ovvero
+ con poche copie e un protocollo definito in maniera efficiente si ha un tempo 
+di risposta piccolo.
+ Un'architettura basata su master/slave (copie passive) riduce di molto i 
+costi, visto che vi è un'unica macchina a
+ lavorare: produce il risultato e si preoccupa di fare l'operazione di 
+checkpoint su tutte le altre copie, e quindi lo
  fornisce al cliente. La gestione è maggiormente semplificata.
 \end{enumerate}
 \subsection{Politiche di aggiornamento}
-Esistono diverse possibilità per effettuare l'aggiornamento delle copie. Vi potrebbe essere una copia primaria che si
-preoccupa di aggiornare le altre, oppure tutte le copie possono assumere questo compito. Si deve poi decidere se
-privilegiare la correttezza (situazione eager o pessimista, si prevede di aggiornare tutte le copie prima di fornire
-la risposta al cliente, quindi a scapito della prontezza della risposta), oppure il tempo di risposta (situazione
+Esistono diverse possibilità per effettuare l'aggiornamento delle copie. Vi 
+potrebbe essere una copia primaria che si
+preoccupa di aggiornare le altre, oppure tutte le copie possono assumere questo 
+compito. Si deve poi decidere se
+privilegiare la correttezza (situazione eager o pessimista, si prevede di 
+aggiornare tutte le copie prima di fornire
+la risposta al cliente, quindi a scapito della prontezza della risposta), 
+oppure il tempo di risposta (situazione
 lazy o ottimista, aggiorno prima il client e poi le altre copie).
 \begin{itemize}
- \item \textit{Copia primaria eager}: una copia esegue, si preoccupa di aggiornare tutte le altre copie, e quindi
+ \item \textit{Copia primaria eager}: una copia esegue, si preoccupa di 
+aggiornare tutte le altre copie, e quindi
  fornisce il risultato al cliente. Esegue quindi un'operazione alla volta
- \item \textit{Copia primaria lazy}: aggiorna prima il cliente poi le altre copie. Può quindi eseguire più operazioni
- alla volta. È compito del gestore controllare gli aggiornamenti e verificare che siano stati recepiti da tutte le copie
+ \item \textit{Copia primaria lazy}: aggiorna prima il cliente poi le altre 
+copie. Può quindi eseguire più operazioni
+ alla volta. È compito del gestore controllare gli aggiornamenti e verificare 
+che siano stati recepiti da tutte le copie
  in maniera corretta, coordinandole.
- \item \textit{Aggiornamento di tutte eager}: tutte le copie devono eseguire, mettesi d'accordo (two-phase commit) e
+ \item \textit{Aggiornamento di tutte eager}: tutte le copie devono eseguire, 
+mettesi d'accordo (two-phase commit) e
  quindi fornire il risultato: è in questo caso che si potrebbero avere undo
  costosi.
  \item \textit{Atomic multicast} un'altra soluzione sarebbe che una copia,
  ricevuta la richiesta, la propaga a tutte utilizzando un'operazione di
  multicast atomico
 \end{itemize}
-Il problema del coordinamento è che è costoso: tuttavia, è anche lo strumento che ci fornisce le maggiori garanzie di
-correttezza. Vi possono essere dei rilassamenti, per esempio: si parla di copie tiepide quando i checkpoint sono fatti
+Il problema del coordinamento è che è costoso: tuttavia, è anche lo strumento 
+che ci fornisce le maggiori garanzie di
+correttezza. Vi possono essere dei rilassamenti, per esempio: si parla di copie 
+tiepide quando i checkpoint sono fatti
 a determinati intervalli, per ridurre il costo dell'operazione.
 \subsection{Clustering}
-L'idea del cluster è quella di realizzare un insieme di risorse replicate sempre disponibili (high availability),
-cercando di snellire il tutto per non avere un tempo di risposta troppo alto. L'idea quindi sarebbe avere un protocollo
+L'idea del cluster è quella di realizzare un insieme di risorse replicate 
+sempre disponibili (high availability),
+cercando di snellire il tutto per non avere un tempo di risposta troppo alto. 
+L'idea quindi sarebbe avere un protocollo
 semplice e le soluzioni sempre disponibili (ma spesso è solo un bello slogan).
-Per realizzare ciò si utilizzano componenti \textit{off the shelf}, a basso costo e facilmente reperibili e
-sostituibili (alla Google). Si può cercare anche di bilanciare il carico: all'arrivo di una richiesta, una sola copia
-lavora, possibilmente quella più libera (esecuzione dinamica quindi). In generale quindi:
+Per realizzare ciò si utilizzano componenti \textit{off the shelf}, a basso 
+costo e facilmente reperibili e
+sostituibili (alla Google). Si può cercare anche di bilanciare il carico: 
+all'arrivo di una richiesta, una sola copia
+lavora, possibilmente quella più libera (esecuzione dinamica quindi). In 
+generale quindi:
 \begin{enumerate}
  \item Si riceve la richiesta
  \item La si smista alla macchina meno carica
  \item Esecuzione
  \item Viene fornito il risultato al client.
 \end{enumerate}
-Per decidere quale copia debba eseguire, come si fa? È necessario un sistema di monitoring (necessario per la QoS),
-uno scheduler (in generale strutturato master/slave). Questo sistema deve anche essere in grado di identificare
-eventuali copie guaste, e quindi di escluderle per mantenere delle buone prestazioni, possibilmente facendo migrare i
-servizi sulle macchine al momento migliori. Per determinare se una copia è attiva, si usano degli \textit{heartbeat},
-ovvero si mandano dei messaggi per verificare se la copia è viva: se non risponde, si suppone che ci siano problemi.
-Questo sistema deve essere correttamente dimensionato (ogni quanto si manda l'impulso? Qual è il tempo di
-comunicazione? Il massimo ritardo accettabile? In generale vi è una macchina apposita per questo compito).
+Per decidere quale copia debba eseguire, come si fa? È necessario un sistema di 
+monitoring (necessario per la QoS),
+uno scheduler (in generale strutturato master/slave). Questo sistema deve anche 
+essere in grado di identificare
+eventuali copie guaste, e quindi di escluderle per mantenere delle buone 
+prestazioni, possibilmente facendo migrare i
+servizi sulle macchine al momento migliori. Per determinare se una copia è 
+attiva, si usano degli \textit{heartbeat},
+ovvero si mandano dei messaggi per verificare se la copia è viva: se non 
+risponde, si suppone che ci siano problemi.
+Questo sistema deve essere correttamente dimensionato (ogni quanto si manda 
+l'impulso? Qual è il tempo di
+comunicazione? Il massimo ritardo accettabile? In generale vi è una macchina 
+apposita per questo compito).
 Nel caso di fail-over, vi sono due diverse politiche da attuare:
 \begin{itemize}
  \item \textit{Attiva-Passiva} si attiva una macchina che era passiva
@@ -340,7 +490,10 @@ Nel caso di fail-over, vi sono due diverse politiche da attuare:
 Nella politica attiva-passiva abbiamo tempi di fail-over più alti.
 Se il timeout e la frequenza degli heartbeat non sono dimensionati
 correttamente potrebbero causare fail-over!
-Se si partizionano le risorse (abbiamo per esempio due sottoreti) cosa succede? Può essere problematico, il cluster
-dovrebbe lavorare comunque! Si deve ripristinare la rete globale. Il servizio deve funzionare anche se vi sono problemi
-di coordinamento, quindi in realtà si prosegue lo stesso, e si rinvia l'aggiornamento ad un secondo momento. Le due
+Se si partizionano le risorse (abbiamo per esempio due sottoreti) cosa succede? 
+Può essere problematico, il cluster
+dovrebbe lavorare comunque! Si deve ripristinare la rete globale. Il servizio 
+deve funzionare anche se vi sono problemi
+di coordinamento, quindi in realtà si prosegue lo stesso, e si rinvia 
+l'aggiornamento ad un secondo momento. Le due
 sotto-reti quindi si coordineranno più avanti!
