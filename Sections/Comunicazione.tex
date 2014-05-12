@@ -1,4 +1,4 @@
-\section{Sistemi per la comunicazione e la sincronizzazione}
+\chapter{Sistemi per la comunicazione e la sincronizzazione}
 La maniera con cui due processi possono comunicare è molto variabile: si possono classificare le comunicazioni in
 diversi modi (sincrone/asincrone, dirette/indirette, bloccanti/non bloccanti...). Di particolare interesse è
 ovviamente la \textit{comunicazione a molti destinatari}: un tale sistema può essere alle volte molto costoso da
@@ -25,7 +25,7 @@ singolo router a dover gestire tutta l'infrastruttura IGMP. Con la versione 2, u
 reti, perché diventa possibile utilizzare anche più router. La versione 2 inoltre introduce un messaggio di leave dal
 gruppo che mancava: prima era comunque tutto a carico del router, che doveva inviare i messaggi query periodicamente
 e attendere le risposte dai clienti.
-\subsection{Realizzare il routing multicast}
+\section{Realizzare il routing multicast}
 Non esistono soluzioni standard per realizzare il routing multicast. Lo scenario studiato è quello di più utenti ma un
 unico trasmettitore. Si realizza quindi una struttura ad albero dinamico (si possono inserire/togliere utenti/nodi):
 \begin{itemize}
@@ -68,7 +68,7 @@ quindi spesso ricalcolare l'albero in caso di variazioni! Le varie proposte sono
 \end{itemize}
 Il problema però è tutti questi protocolli sono incompatibili fra di loro: non possono essere attivati
 contemporaneamente, o se ne sceglie uno o l'altro!
-\subsection{Semantica della comunicazione di gruppo}
+\section{Semantica della comunicazione di gruppo}
 Come realizzare la semantica della comunicazione di gruppo? Conviene fornire delle conferme positive (i riceventi
 avvisano di aver ricevuto il messaggio) oppure quelle negative (chi non ha ricevuto avvisa)? Si ritrasmette a tutti o
 solo a chi non ha ricevuto il messaggio?
@@ -104,7 +104,7 @@ avessimo una conferma positiva per ogni frame (si usa così un meccanismo di hol
 non arriva la conferma che il precedente è stato ricevuto), il costo per il monitoring sarebbe elevato. Si riduce
 utilizzando le conferme negative, dove si può indicare cosa si è perso (si hanno dei messaggi ordinati...). Un altro
 problema riguarda l'intervallo di tempo per aspettare, che deve essere opportunatamente dimensionato.
-\subsection{Ordinamenti}
+\section{Ordinamenti}
 L'atomicità è l'aspetto in cui l'utente dovrebbe essere maggiormente coinvolto.
 
 Infatti, non lavorando nel concentrato, certe ipotesi d'ordine che si potevano fare non sono più valide in maniera
@@ -160,7 +160,7 @@ frontend, con token per chi è effettivamente attivo...). Esistono altre archite
 essere maggiormente complesse.
 Inoltre, l'ordinamento atomico basato su frontend può essere unfair: clienti più vicini al front end sono favoriti.
 Altre soluzioni si sono preoccupate di superare questo problema, introducendo però ulteriori costi.
-\subsection{Il problema della sincronizzazione}
+\section{Il problema della sincronizzazione}
 Per poter coordinare un insieme di copie, è necessario quindi che queste siano sincronizzate. La sincronizzazione non
 è nient'altro che la \textit{sequenzializzazione di operazioni parallele}\footnote{Esempio, realizzazione della mutua
 esclusione}, mediante la quale si \textit{impongono degli invarianti che devono essere rispettati}: si ha quindi un
@@ -197,7 +197,7 @@ I metodi più interessanti sono invece:
  \item basati sull'uso del sistema di token passing, utilizzato soprattutto in UE. Si realizza una struttura ad anello,
  e chi ha il token è il coordinatore.
 \end{itemize}
-\subsection{Ordinamento di Lamport}
+\section{Ordinamento di Lamport}
 L'ordinamento di Lamport si basa di avere diversi processi in grado di mantenere una propria storia interna (gli
 eventi su uno stesso processore sono già ordinati grazie alla storia), e in grado di comunicare fra di loro, in maniera
 punto a punto con dei messaggi (non si usano multicast, non si possono mandare batch di messaggi !). L'idea è che il
@@ -355,7 +355,7 @@ Vi sono esempi di implementazioni:
  ordine parziale, però richiede che comunque vi sia un coordinamento fra i clock logici dei mittenti, per poi
  far arrivare l'informazione in maniera corretta anche ai riceventi.
 \end{itemize}
-\subsection{Sincronizzazione a token}
+\section{Sincronizzazione a token}
 Si tratta di un altro modello per superare il problema del gestore centralizzato. L'idea è quella di avere un anello
 totalmente ideale, per cui i processi si conoscano solo in maniera limitata (prossimo ed antecedente). I vari processi si passano un unico, sempre presente token, che stabilisce la sincronizzazione (chi ce l'ha è il gestore dinamico della risorsa, ovvero vi può accedere se ne ha bisogno). Si tratta di una soluzione molto proattiva, poiché il token gira lungo l'anello anche senza la presenza di richieste di sincronizzazione. Rispetto a Lamport il costo è inferiore,
 $n-1$ messaggi sempre.
@@ -377,7 +377,7 @@ manda un Answer verso il basso, e propaga verso l'alto la sua elezione. Se non r
 tempo, assume di essere diventato il gestore. Questo protocollo rischia di presentare molte fasi in base alla
 disponibilità relativa dei processi, ma in realtà si risolve abbastanza velocemente. I protocolli di elezione sono
 strutture tipiche delle infrastrutture dove le entità possono cambiare ruolo.
-\subsection{Snapshot distribuiti}
+\section{Snapshot distribuiti}
 Come si definisce uno stato nel distribuito? Si vuole uno stato globale, ma non è sempre possibile salvarsi tutta la
 memoria sul disco, specialmente con un'alta replicazione. L'idea è quindi quella di realizzare un sistema in cui i
 processi si scambino dei messaggi, mediante dei canali fortemente orientati, per poter salvare in maniera opportuna

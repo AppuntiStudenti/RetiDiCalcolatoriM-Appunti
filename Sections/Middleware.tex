@@ -1,4 +1,4 @@
-\section{I middleware}
+\chapter{I middleware}
 Un middleware è un insieme di strumenti di supporto all'utente/sviluppatore per meglio poter affrontare la complessità
 di un sistema in ambienti aperti (eterogenei). Un middleware permette quindi di integrare diverse applicazioni,
 fornendo un supporto alla comunicazione fra sistemi diversi.
@@ -23,7 +23,7 @@ In ambito accademico, invece, in generale un middleware viene proposto da una co
 ed essere introdotto come standard.
 Questo spesso può risultare problematico perché i diversi standard non sono interoperabili fra di loro! Esistono
 diversi dialetti/linguaggi per realizzare la comunicazione, che sono uno incompatibile con quell'altro.
-\subsection{Valutare un middleware}
+\section{Valutare un middleware}
 Un middleware viene giudicato dalla ricchezza di funzionalità che sono messe a disposizione, e quindi dalle aree in
 cui riesce ad intervenire. Esistono diverse aree di gestione (Presentation, Computation, Information [loggin i.e.],
 Communication, Control [thread i.e.] e System [sicurezza i.e.]): alcune di queste sono fondamentali per un middleware
@@ -51,7 +51,7 @@ In generale si possono dividere in 4 livelli le tipologie possibili di un serviz
  addirittura guidarne lo sviluppo! Basta pensare che CORBA è uno standard proposto da un consorzio d'aziende, l'OMG.
 \end{itemize}
 
-\subsection{Classificazione dei mw}
+\section{Classificazione dei mw}
 I middleware si possono categorizzare in diversi modi, tuttavia la maggior parte dell'installato consiste in primis
 dai DOC, Distributed Object Computing (tipo CORBA, orientati all'approccio ad oggetti), e quindi dai MOM, Message
 Oriented MW. In realtà però, il 'mw' più grande esistente forse è il Web: non ha tutte le caratteristiche di un Mw
@@ -99,7 +99,7 @@ I diversi possibili modelli di mw che si possono trovare sono:
  sistemare in base alle esigenze.
 \end{itemize}
 Esistono poi diversi mw nati proprio per risolvere dei problemi specifici (mobilità, reti ad-hoc...).
-\subsection{TINA-C}
+\section{TINA-C}
 TINA-C rappresenta la proposta di un mw per le TLC. Si vuole realizzare un sistema dove siano previsti più provider,
 in grado quindi di lavorare su una rete. L'idea alla base è la possibilità di definire le varie entità, i servizi
 possibili e fornire quindi un sistema per definire la negoziazione per l'erogazione dei servizi, e quindi la QoS.
@@ -115,7 +115,7 @@ risorse sono realmente allocate.
 In realtà, TINA-C prevede anche una visione non trasparente! Lo standard del 2000 infatti definisce che l'utente deve
 esprimere le proprie preferenze, e quindi per poter sviluppare un modello complesso, si deve tener conto della
 locazione: si può progettare il sistema inizialmente come non trasparente, e quindi aggiungere la trasparenza!
-\subsection{I MOM}
+\section{I MOM}
 Si tratta in assoluto dei mw più semplici realizzabili: sono a basso costo, e i messaggi lavorano a basso livello,
 garantendo un forte disaccoppiamento fra le varie entità. Basandosi sui messaggi, si supera direttamente l'eterogeneità.
 Il problema è come fornire QoS ai messaggi? I messaggi devono essere permanenti (non è necessaria la presenza di
@@ -144,7 +144,7 @@ ottimizzando il routing già basato su tabelle in base al contenuto del messaggi
 flessibilità...): introduce quindi un minimo di logica! Questi sistemi statici hanno la caratteristica di avere
 un'intrusione minima, ma non permettono molte ottimizzazioni...
 
-\subsection{I mw ad oggetti}
+\section{I mw ad oggetti}
 Sono i mw più interessanti, in grado di lavorare ad alto livello. Si realizza un contratto fra clienti e servitori,
 in maniera tale da realizzare anche più implementazioni dello stesso servizio! In particolare, questi mw si basano su
 un bus di interconnessione che si occupa di certe logiche di base, permettendo quindi all'utente di pensare solo alla
@@ -162,7 +162,7 @@ La base per ogni mw ad oggetti sono:
  \item Possibilità di comunicare in maniera asincrona
 \end{itemize}
 Inoltre, si parla di pattern anche per la gestione delle risorse, della QoS, e la definizione di nuovi servizi.
-\subsection{Pattern per l'interazione remota}
+\section{Pattern per l'interazione remota}
 Idea di base: un cliente vuole riferirsi ad un oggetto remoto; per cui serve un sistema per avere dei riferimenti
 remoti. Gli oggetti remoti si possono creare o localmente da parte del server, o in maniera remota su richiesta del
 client. Una volta istanziato, deve essere fornito il riferimento al client. Questa è la versione di base, di seguito,
@@ -213,7 +213,7 @@ i diversi pattern che si possono utilizzare per risolvere questo problema:
  trattarli mediante le semantiche da loro definite. Un esempio riguarda per esempio linguaggi che permettono parametri
  di in/out e quelli che non lo permettono. Si hanno quindi come possibili operazioni read/write.
 \end{itemize}
-\subsection{Pattern per la comunicazione}
+\section{Pattern per la comunicazione}
 Di base, i mw ad oggetti tendono ad introdurre come primo modello di comunicazione l'interazione sincrona bloccante.
 Tuttavia, questa comunicazione è alquanto pesante, perché lega in maniera pesante il client al server e viceversa.
 Per questo vi sono dei pattern per introdurre altri modelli.
@@ -247,7 +247,7 @@ Invece, per realizzare una comunicazione sincrona non bloccante:
 \end{itemize}
 Questi ultimi due modelli son presenti in CORBA, .NET e diversi altri mw.
 
-\subsection{Pattern per la gestione delle risorse e dei servizi}
+\section{Pattern per la gestione delle risorse e dei servizi}
 Spesso questi pattern rappresentano politiche possibili per il deployment o la configurazione dei vari servizi. I mw
 possono prevederne più di uno, a seconda delle esigenze dell'utenza.
 \begin{itemize}
@@ -295,7 +295,7 @@ può pensare di realizzarne uno per nodo, in grado di creare tutti gli oggetti c
 factory, si possono realizzare politiche nascoste per ottimizzare quindi il deployment (a tutto pensa lui!).
 Spesso, il tempo di vita di un oggetto è un qualcosa di molto complesso. Vi sono quindi dei meccanismi comuni nei mw
 per valutarne il tempo d'esistenza (sfruttando passivation, lease, reference counting...).
-\subsection{I servizi addizionali}
+\section{I servizi addizionali}
 Si tratta di servizi che possono aiutare l'utente ad esprimere determinate operazioni. I servizi infatti possono
 dipendere dal contesto utilizzato, la sessione, o da una serie di eventi che si sono venuti a verificare.
 In particolare, l'\textit{Invocation Context} è molto utile: in generale, infatti, i mw vengono sviluppati in maniera
@@ -312,7 +312,7 @@ poter eseguire dei compiti specifici (per es: in base al tipo della richiesta, d
 risposta). Questi intercettori possono anche bloccare l'invoke fino a quando non hanno terminato il loro compito,
 creando appunto una catena di responsabilità. Si possono anche combinare (caso tipico: encrypt/decrypt di messaggi,
 introducendo quindi anche catene sul client!).
-\subsection{Servizi per la QoS}
+\section{Servizi per la QoS}
 Tutti i mw dispongono di servizi per fornire QoS, tranne i MOM. Anche qui, si possono riscontrare pattern che si
 ripetono:
 \begin{itemize}

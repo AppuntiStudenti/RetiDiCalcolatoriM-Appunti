@@ -1,4 +1,4 @@
-\section{CORBA}
+\chapter{CORBA}
 CORBA è uno standard, specifica di un mw, nato dall'idea di mettere a disposizione di 440 aziende una possibile
 soluzione per le loro esigenze!
 Essendo uno standard, quindi solo una specifica cartacea, si ha che esistono diverse implementazioni (IBM, Java, Orbix,
@@ -42,7 +42,7 @@ compito del gestore (nella gestione del ciclo di vita, nel trasporto,...). È un
  \item Vi sono quindi dei sistemi per richiamare i servizi in maniera statica e dinamica
  \item E infine vi sono degli appositi protocolli per la comunicazione ed integrazione fra ORB diversi \textit{GIOP/IIOP}.
 \end{itemize}
-\subsection{L'ORB}
+\section{L'ORB}
 L'ORB è il cuore del sistema, per comunicare si usa sempre l'ORB. Si potrebbe quindi pensare che è un collo di
 bottiglia, ma in realtà la comunicazione presente in CORBA è sempre a ``grana grossa'' (si usano oggetti, servizi
 pesanti): le operazioni sono quindi consistenti, e la comunicazione si paga. L'ORB aiuta fornendo diversi sistemi per
@@ -52,7 +52,7 @@ In particolare, l'ORB gestisce i servitori, preoccupandosi di fare l'allocation 
 server). In particolare, l'ORB permette che un cliente si leghi ad un servizio, non ad un servitore! CORBA è pensato
 infatti per essere da supporto ai sistemi legacy: non interessa chi serve, ma cosa serve! Fornisce quindi un supporto
 continuo, e sfrutta tutti i sistemi che verranno descritti in seguito (POA, interface repository...).
-\subsection{L'IDL}
+\section{L'IDL}
 Il linguaggio per le interfacce è fondamentale per poter definire il contratto che si vuole realizzare (quindi la
 descrizione di tutti i servizi da offrire). Questo contratto sarà quindi incorporato nei vari proxy, ovvero sarà poi
 compilato nei linguaggi specifici di implementazione!
@@ -90,7 +90,7 @@ esempio, Java non prevede parametri di output. Per ovviare a questi problemi, CO
 \textit{holder}: è un wrapper che permette di leggere e scrivere in maniera coerente al linguaggio utilizzato realmente.
 Si possono anche determinare automaticamente altre classi d'aiuto dette helper, in maniera da armonizzare i dati
 rispetto a CORBA (narrowing) e di fornire diverse funzioni di varia utilità.
-\subsection{Gli Object Adapter}
+\section{Gli Object Adapter}
 Gli adattatori sono diventati dei componenti quasi più importanti dell'ORB stesso, visto che sono gli abilitatori del
 servizio stesso. L'ORB si preoccupa di crearlo ed abilitarlo, mediante diverse politiche specificabili.
 A cosa serve quindi? A superare le disomogeneità e differenze che vi sono fra le varie implementazioni degli ORB, dovute
@@ -101,21 +101,21 @@ riesce quindi ad integrare più componenti scritti in linguaggi diversi (nel cas
 raggiungere il proxy del servitore, senza avere conoscenza della sua logica implementativa.
 Inizialmente, lo standard prevedeva dei BOA, che erano delle implementazioni più semplici legate ad un unico linguaggio e con un unica politica. Ora gli adattatori sono in
 grado di fornire servizi con linguaggi diversi a server diversi e politiche varie!
-\subsection{L'Interface repository}
+\section{L'Interface repository}
 Si tratta del luogo dove vengono depositati gli IDL, e quindi da dove si possono recuperare le informazioni degli unici
 servizi utilizzabili nell'architettura!
 Questo sistema non è utilizzato nella gestione statica dell'architettura, ma in quella dinamica. Infatti, è ricavando
 la descrizione dell'interfaccia dall'IR che si può realizzare un binding dinamico, e quindi permettere di aggiungere in maniera dinamica dei
 servizi ad un servitore/cliente.
 Un IR può essere realizzato in diversi modi, tuttavia è previsto che ogni interfaccia correttamente compilata, venga depositata in un'apposita struttura ad albero, in base ai moduli che la contengono.
-\subsection{Protocolli per la comunicazione fra ORB}
+\section{Protocolli per la comunicazione fra ORB}
 Inizialmente, CORBA era stato progettato per scambiare dati binari, in maniera da ottenere un'ottimizzazione della
 comunicazione. In seguito si sono introdotte estensioni come la possibilità di lavorare in Internet fra diversi ORB, o
 anche di realizzare comunicazioni fra ORB diversi con protocolli più generalizzati.
 Il problema di utilizzare più di un ORB è però la gestione di riferimenti remoti fra ORB diversi! Il servizio si sa
 che non è legato allo specifico servitore, quindi si dovrà trovare un sistema per rendere questi riferimenti
 globalmente unici.
-\subsection{Cosa è e cosa non è CORBA}
+\section{Cosa è e cosa non è CORBA}
 CORBA è un sistema pesante, quindi non ha senso utilizzarlo per progetti semplici o dove le operazioni son semplici
 (tipo, settare il valore di una singola variabile). CORBA infatti sfrutta risorse a grana grossa, che non si muovono!
 Il problema di CORBA è infatti che se l'ORB non funziona (o la macchina che lo contiene non è raggiungibile) tutta
@@ -126,14 +126,14 @@ il POA a decidere come/se salvare lo stato... Infatti, i servant sono delle enti
 richiesta del client e da cui richiede la risposta corrispondente!
 CORBA fondamentalmente richiede la presenza di un riferimento remoto per poter lavorare: le funzioni base di CORBA sono
 quindi quelle di gestione e comunicazione dei riferimenti remoti (trasformazione da/a stringa).
-\subsection{Confronto fra Java e CORBA, e sua evoluzione}
+\section{Confronto fra Java e CORBA, e sua evoluzione}
 I due sistemi sono abbastanza compatibili, proprio perché hanno obiettivi diversi (Web invece che integrazione di
 sistemi legacy) e lavorano utilizzando risorse diverse.
 CORBA ha subito diverse evoluzioni, guidate dalle esigenze delle varie aziende.
 Ogni evoluzione ha mantenuto i sistemi e gli oggetti già introdotti, cercando di estendere i concetti già introdotti
 (introducendo nuovi linguaggi, aumentando i servizi...). Per esempio, CORBA 3 introduce altri sistemi di
 comunicazione oltre alla maniera sincrona bloccante.
-\subsection{Invocazione statica}
+\section{Invocazione statica}
 È il modello base, ed è anche quello maggiormente utilizzato: permette solo una comunicazione di tipo sincrona
 bloccante\footnote{Da ricordare che statico non significa che il client è legato allo specifico servant, ma che il
 contratto è deciso prima dell'esecuzione}. Si basa sull'utilizzo di due diversi proxy dal lato del client e del server
@@ -141,7 +141,7 @@ contratto è deciso prima dell'esecuzione}. Si basa sull'utilizzo di due diversi
 L'invocazione statica bloccante è quella che costa di meno (semantica at most-once), però può anche essere molto
 limitante. Questo perché i client e i servant devono avere già deciso i proxy in maniera statica, e quindi anche i
 servizi! Tutto prima dell'esecuzione!
-\subsection{Compiti e politiche di un adattatore}
+\section{Compiti e politiche di un adattatore}
 Non è un componente CORBA, ma che dipende dalle varie implementazioni: il suo compito è quello di dialogare con il
 servant, il quale si registra presso l'adattatore corrispondente. In un certo senso, quindi, fa le veci di un sistema
 di nomi, fornendo ai servant anche le risorse dinamiche necessarie.
@@ -193,7 +193,7 @@ Quali sono quindi le politiche d'attivazione per gli oggetti? Possiamo avere:
 fine (questa è l'implementazione normale ma come abbiamo visto ci possono essere implementazioni differenti, ad esempio, potremmo avere un pool di thread,...)
 per durata indefinita: non lega il thread creato al metodo che stiamo servendo ma lo lascia lì, dove potrebbe stare anche per molto tempo, con la possibilità quindi, di essere passivato ecc ecc.
 \end{itemize}
-\subsection{Binding dinamico}
+\section{Binding dinamico}
 Avendo a disposizione prima le interfacce, si possono implementare direttamente client e servant. Tuttavia, è mediante
 l'invocazione dinamica con cui si possono aggiungere nuovi servizi durante l'esecuzione. L'alternativa sarebbe
 dover spegnere il sistema, e riconfigurare il tutto. La dinamicità si basa sull'uso dell'IR, e permette di introdurre in
@@ -226,7 +226,7 @@ ServerRequest, mediante il quale si può specificare le operazioni, parametri e 
 queste informazioni si debbano agganciare ad un'interfaccia che esiste già. Quindi, ci si collega all'IR per ottenere
 un'implementazione già presente, e ci si registra presso l'IR come sistema in grado di rispondere (il servant si potrà
 usare sia in richieste statiche che dinamiche!).
-\subsection{Politiche dei riferimenti di CORBA}
+\section{Politiche dei riferimenti di CORBA}
 CORBA si basa totalmente sull'uso degli ObjRef. CORBA fornisce quindi dei sistemi/funzionalità di base (per realizzare
 un primo supporto, da estendere a seconda della QoS desiderata) per trattare in maniera opportuna i riferimenti
 (da string a riferimento o viceversa,funzioni di narrowing, duplicazione/release dell'oggetto). Gli ObjRef sono opachi e gestibili solo dall'ORB.
@@ -235,7 +235,7 @@ potrebbe non essere quella desiderata dal programmatore (si vorrebbe poter acced
 realizzando quindi incomprensioni e problemi (specialmente lato server)!
 In CORBA 2 si è quindi introdotta la possibilità di puntare ad uno servant specifico, introducendo quindi un sistema per
 definire dei \textit{nomi univoci}!
-\subsection{Interoperabilità fra ORB}
+\section{Interoperabilità fra ORB}
 Per poter realizzare le comunicazioni fra ORB diversi, si è dovuto quindi realizzare degli \textit{ObjRef
 interoperabili}: questi sono gli IOR. Hanno un costo pesante a livello di implementazione, soprattutto perché una volta
 stabilito, deve essere valido in eterno!
@@ -251,11 +251,11 @@ riferire invece un altro repository, ovvero quello degli oggetti implementati! S
 definire un legame indiretto oltre a quello diretto: la differenza sostanziale è che l'oggetto riferito indirettamente è
 veramente permanente, mentre riferendolo direttamente si hanno più gradi di libertà, un collegamento maggiormente
 lasco. L'ObjId di uno IOR riferisce quindi il servizio sicuramente, ma non è detto l'oggetto.
-\subsection{Gli interceptor in CORBA}
+\section{Gli interceptor in CORBA}
 Sono definiti come negli altri mw, ovvero è un sistema per poter definire dei componenti che devono essere attivati
 prima e/o dopo l'esecuzione di una determinata richiesta attraverso delle pre-action e post-action (per introdurre per esempio un sistema di sicurezza). Gli
 interceptor sono pensati per poter lavorare a diversi livelli (applicativo, trasporto...).
-\subsection{Estensibilità di CORBA}
+\section{Estensibilità di CORBA}
 CORBA è pensato per essere facilmente estensibile. In particolare, CORBA 3 introduce l'uso di componenti, la possibilità
 di definire QoS, e un supporto anche ad Internet come ambiente di lavoro.
 I componenti non sono altro che degli oggetti inseriti in un apposito contenitore, ed inseriti in un apposito ambiente
@@ -275,7 +275,7 @@ la funzionalità.
 Il servant continua a lavorare in maniera sincrona bloccante! Ciò che cambia oltre a chi richiama il metodo (nel primo
 caso è l'ORB, nel secondo è il client), l'interfaccia è leggermente diversa: nel poll i parametri necessari sono di out!
 Questo genere di interazione è molto diffusa,perché permette di richiedere contemporaneamente molte ``istruzioni''.
-\subsection{Servizi già presenti in CORBA}
+\section{Servizi già presenti in CORBA}
 Come già detto, CORBA fornisce diversi servizi già utilizzabili.
 Per esempio, per realizzare un servizio di nomi si possono usare il naming service già presente, oppure addirittura un
 trading service. La differenza fra i 2 sistemi è che il name service permette di categorizzare i servizi in base ad

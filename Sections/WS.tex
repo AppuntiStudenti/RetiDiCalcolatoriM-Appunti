@@ -1,4 +1,4 @@
-\section{I Web Services}
+\chapter{I Web Services}
 L'idea alla base dei Web Services è quella di fornire dei servizi B2B invece dei classici servizi Web. La logica è che
 il Web è l'installato più diffuso e facilmente accedibile al mondo, perché non sfruttarlo?
 Si ha infatti che molti mw richiedono configurazioni che vanno per esempio contro certi principi delle aziende
@@ -11,7 +11,7 @@ l'interfaccia di interazione ad alto livello) dove i servizi devono essere riusa
 in grado di integrare anche sistemi legacy.
 Perché allora non usare sempre il Web, perché esistono anche altri mw ancora? Il problema è che il Web ha un costo
 molto elevato, per cui potrebbe essere utile per sistemi che richiedono una grana molto grossa.
-\subsection{Struttura generale de WS}
+\section{Struttura generale de WS}
 Un WS funziona mediante l'emissione da parte di un client di una richiesta, per cui si ricerca attraverso un apposito
 broker (ma è una struttura diversa dall'ORB di CORBA: funziona soprattutto come un directory per i servizi) il
 servizio adatto a soddisfare quella determinata richiesta.
@@ -32,7 +32,7 @@ quindi, per esempio, solo crittografia a livello applicativo, il che però non e
 Perché si è deciso di utilizzare XML? Permette di specificare in una maniera fortemente strutturata (realizzando dati
 che si possono validare formalmente, e utilizzando DTD/XSD si possono anche controllare dal punto di vista
 sintattico semantico), potendo quindi esprimere le preferenze in maniera dinamica!
-\subsection{SOAP}
+\section{SOAP}
 È il protocollo per la comunicazione, in grado quindi di strutturare l'interazione.
 Definisce quindi come si può accedere agli oggetti. Presenta un alto overhead perché si deve specificar tutto: siamo
 infatti in un'interazione senza stato, per cui si deve specificare URI... Non vi è quindi nessun supporto semantico,
@@ -55,7 +55,7 @@ un'envelope:
 \end{itemize}
 La comunicazione non è necessariamente P2P ma anche molti a molti. Il problema di SOAP è che è altamente costoso (e
 poco efficiente), perché siamo costretti a lavorare a livello applicativo.
-\subsection{WSDL}
+\section{WSDL}
 È il linguaggio per descrivere sia in maniera astratta che in maniera concreta quali servizi un provider può fornire.
 Descrive quindi l'interfaccia, indicando le operazioni disponibili presso un certo provider. E una sorta di IDL.
 Quindi, WSDL riesce a descrivere in maniera precisa come una richiesta debba essere strutturata, e come una risposta
@@ -75,7 +75,7 @@ parte del client) ma anche asincroni (one-way, o notification: cambia da chi esc
 WSDL è un linguaggio molto pesante, ma che garantisce un'alta flessibilità quindi: permette anche di invertire i ruoli
 fra Client e Server! Tuttavia, è fondamentale per poter generare in maniera automatica proxy e stub, oppure per realizzare
 dei wrapper appositi per integrare facilmente sistemi legacy!
-\subsection{UDDI}
+\section{UDDI}
 E il servizio di nomi presente nei WS. Si tratta di un ulteriore linguaggio con cui poter descrivere dove risiedono i
 vari servizi, e come aggregare fra di loro più servizi. La prima informazione che si necessita è la possibilità di
 descrivere le aziende che forniscono i servizi, per permettere quindi ad un generico utente di poter navigare.
@@ -91,7 +91,7 @@ A tale proposito è stato pensato WSIL(Web Services Inspection Language), dove s
 garantire sicurezza, e non è più compito di un eventuale server dei servizi verificare l'identità dei provider. Si
 tratta quindi di un protocollo alternativo, in grado di realizzare un sistema decentralizzato, leggero e non
 focalizzato sul business. In maniera analoga ad UDDI, sfrutta WSDL per descrivere i servizi!
-\subsection{Considerazioni finali sui WS}
+\section{Considerazioni finali sui WS}
 I protocolli realizzati dal W3C sono molto apprezzati da diverse organizzazioni, come le banche in Italia. Tuttavia,
 i WS presentano un alto overhead rispetto ad altre tecnologie (è possibile che non sia una comunicazione limitata a
 due attori, e si lavora sempre a livello applicativo). Attualmente è una tecnologia ancora molto in fase di sviluppo

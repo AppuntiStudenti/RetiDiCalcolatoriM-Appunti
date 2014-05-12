@@ -1,4 +1,4 @@
-\section{Qualità di servizio e nuovi protocolli per Internet}
+\chapter{Qualità di servizio e nuovi protocolli per Internet}
 Esistono diversi indicatori con cui poter valutare la QoS:
 \begin{itemize}
  \item Prontezza di risposta: viene indicata dal tempo di risposta, il jitter, o il ritardo. Nel caso vi siano più
@@ -23,7 +23,7 @@ In generale, i parametri che un utente ritiene fondamentali sono:
  \item La garanzia di avere degli adeguati supporti per la sicurezza (non ripudio del servizio, autenticazione...)
 \end{itemize}
 
-\subsection{Calcolare la QoS}
+\section{Calcolare la QoS}
 Oltre alla quantità di dati trasmessi con successo (la banda), un altro parametro fondamentale da tener da conto è il
 tempo di latenza: questo consiste nella quantità di tempo necessaria per trasmettere un'unità di informazione. Questo
 dipende da tre contributi:
@@ -56,7 +56,7 @@ entità devono effettuare una negoziazione per decidere certi parametri (il rita
 medio, il massimo ritardo accettabile per non dover scartare un pacchetto...). Per esempio, una prima idea per
 ottimizzare la trasmissione è quella di introdurre delle risorse sul client, e di bufferizzarla: si trasmette quindi
 soltanto avendo un certo numero di frame a disposizione.
-\subsection{QoS in Internet}
+\section{QoS in Internet}
 Il mondo di Internet si basa sul protocollo TCP/IP, che lavora best effort: ciò significa che non può garantire
 QoS\footnote{Perché ciò? Internet non prenota o mantiene le risorse, ma cerca di determinare un cammino fra C/S che
 quindi può variare. Non abbiamo garanzia del servizio. OSI invece definisce la possibilità di definire gli intermediari e riservarli, in maniera da distribuire la latenza totale del servizio su di loro, e in maniera da progettare i nodi intermedi con le risorse necessarie per soddisfare la banda}. OSI è da sempre stato progettato con l'idea di supportare QoS, ma risulta essere ancora lontana da essere realmente implementata. Si tratta quindi di individuare tecniche per garantire QoS in Internet. Le idee principali riguardano l'introduzione di nuovi protocolli e nuove applicazioni.
@@ -91,7 +91,7 @@ Vi sono due proposte, incompatibili fra di loro:
  quella di lavorare contemporaneamente su più flussi per migliorare in maniera globale il routing.
 \end{itemize}
 
-\subsection{Gestire la QoS}
+\section{Gestire la QoS}
 Come gestire quindi la QoS? Il controllo della qualità dovrebbe essere fatto durante l'esecuzione, e in generale
 abbiamo una fase iniziale (prima dell'erogazione, azioni preventive o statiche), una fase durante il deployment
 (azioni reattive o dinamiche). Tuttavia, in Internet non vi è né la fase iniziale (detta anche provisioning), e non
@@ -118,7 +118,7 @@ Il piano del management in realtà può essere scomposto in diverse sottoparti, 
 (quindi eventuali aggiustamenti del servizio per poter garantire la QoS). Altri settori fondamentali riguardano
 l'accounting e la sicurezza dei servizi.
 
-\subsection{Gestione dei sistemi: OSI e SNMP}
+\section{Gestione dei sistemi: OSI e SNMP}
 OSI ha definito un sistema per poter monitorare/gestire un insieme di risorse mediante l'uso di risorse
 astratte\footnote{Non esistono specifiche su come implementarle, quindi le varie realizzazioni sono standard de facto}:
 l'idea è quella di utilizzare delle descrizioni standard per poter definire risorse e azioni, necessarie per la
@@ -153,7 +153,7 @@ per poter fornire delle informazioni più generali sullo stato della rete come l
 OSI permette di definire sistemi molto più complessi, grazie all'uso di un MIB più organizzato. Si possono infatti
 realizzare gerarchie dinamiche fra manager e agent, questi si possono quindi creare e distruggere a piacimento (senza
 dover riconfigurare l'intero sistema)! Il MIB è totalmente cancellabile, come anche le singole operazioni come la GET: si ragiona quindi anche sulla durata dell'operazione, per cui se è oltre il limite impostato, è annullata. Gli oggetti gestiti possono essere anche molto complessi (non una singola risorsa come con SNMP).
-\subsection{Evoluzione dei router}
+\section{Evoluzione dei router}
 L'idea alla base dell'introduzione di QoS in Internet è che sui nodi intermedi si hanno delle informazioni sullo stato
 del servizio. Un router semplice prende e rispedisce i pacchetti, in generale sfruttando la politica FIFO, senza
 sfruttare tutte le possibilità per l'instradamento: garantisce best-effort, ma non QoS, poiché i flussi sono limitati
@@ -254,7 +254,7 @@ per ciascun flusso, insieme a due soglie:
  crescente con la lunghezza della coda!
 \end{itemize}
 Questa politica preventiva evita la congestione.
-\subsection{Servizi integrati, RFC 2210}
+\section{Servizi integrati, RFC 2210}
 L'idea alla base dei servizi integrati è quella di essere in grado di riconoscere i singoli flussi, grazie al router,
 in modo da poter differenziare l'uso delle risorse a seconda del flusso che si viene a presentare. Il Service Level
 Agreement è quindi fatto a livello di singolo flusso, e quindi si può decidere la QoS per ogni flusso. Si deve quindi
@@ -301,7 +301,7 @@ informazioni per le singole applicazioni: sono protocolli hop-to-hop, che lavora
 garantire che i nodi intermedi non modifichino le informazioni a livello applicativo. Le possono vedere, ma non
 modificare.
 Questi protocolli purtroppo per via del fatto che necessitano di un soft-state degli intermediari non sono molto scalabili, e possono essere usati solo in reti molto limitate. Molti streaming media server sfruttano un altro protocollo detto Real Time Streaming Protocol, in cui non si definisce un cammino attivo,ma viene usato nelle operazioni di strumenti applicativi come play pause ecc.. ma una volta ottenute le specifiche dello stream, si utilizza UDP o TCP e un sistema di buffering per poter trasferire il flusso dalla sorgente al player. Infatti, inizialmente si parte mediante TCP che riempe il buffer, ma se un frame non arriva si sfrutta UDP proprio perché non garantisce che i messaggi arrivino in ordine! E un modello push, in cui le informazioni arrivano dal server. Questo è un protocollo dal costo minimo, proprio perché non riserva nulla: lavora solo sugli end-point. E sempre possibile comunque tornare a RSVP nel caso non fosse sufficiente.
-\subsection{Servizi differenziati, RFC 2474}
+\section{Servizi differenziati, RFC 2474}
 L'approccio a servizi differenziati consiste nel cercare di fornire QoS non a livello applicativo, ma a livello di
 rete. Facendo ciò, in realtà, si ha che si sono definiti molti meno protocolli rispetto ai servizi integrati
 (risultando essere inoltre molto più scalabili e avere più classi di servizio). I servizi differenziati sono studiati per supportare le applicazioni legacy e per domini specifici (comunità di utenti). L'idea è quella che si devono aggreggare i flussi in diverse categorie, e a seconda delle categorie si definisce la QoS. Un pacchetto viene quindi classificato dal router in base al suo contenuto, e viene associato ad una possibile classe, e quindi ad un possibile trattamento.

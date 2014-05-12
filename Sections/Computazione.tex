@@ -1,4 +1,4 @@
-\section{Modelli di computazione}
+\chapter{Modelli di computazione}
 Per poter sviluppare un sistema distribuito, è utile definire diversi modelli per l'esecuzione, in modo da poter
 classificarli (modelli diversi possono avere vantaggi/svantaggi a seconda del sistema che si deve andare a realizzare).
 La maggior parte dei modelli purtroppo sono troppo astratti per poter essere realmente utili da un punto di vista
@@ -48,7 +48,7 @@ A seguito, si può ragionare quindi come sono disponibili le risorse:
 servizio.
 \end{itemize}
 
-\subsection{Processi o oggetti?}
+\section{Processi o oggetti?}
 Un'ulteriore distinzione riguarda su cosa basarsi per descrivere effettivamente come avviene l'esecuzione.
 Un primo modello si basa sull'idea del \textit{processo}, che incarna la capacità di esecuzione della macchina. Si
 specificano quindi delle operazioni, e si tratta di modelli che tengono conto della macchina su cui si lavora, e
@@ -131,7 +131,7 @@ strettamente locale). Vi sono poi altri problemi da considerare:
  se la classe è già presente? Java per esempio controlla mediante l'hash se la classe è effettivamente quella corretta.
 \end{itemize}
 
-\subsection{Deployment dell'applicazione}
+\section{Deployment dell'applicazione}
 Un'applicazione distribuita spesso necessita che sia suddivisa in diversi componenti, anche allocati su nodi diversi!
 Un componente è un'entità con una granularità superiore all'oggetto, ovvero introduce comportamento e interazione,
 estendendo l'idea dell'oggetto.
@@ -146,7 +146,7 @@ configurazioni devono poi essere sistemate a seconda dei casi dall'operatore).
 L'approccio misto è quello più usato, essendo una via di mezzo fra l'allocazione esplicita (tutta a carico dell'utente)
 e quella implicita (decisa in toto dal sistema).
 
-\subsection{Altri modelli oltre il C/S}
+\section{Altri modelli oltre il C/S}
 Esistono diversi altri modelli oltre il classico C/S:
 \begin{itemize}
  \item \textit{Push}: il servitore fornisce il servizio al cliente
@@ -202,7 +202,7 @@ non è necessario che siano attivi contemporaneamente per poter fare la comunica
 fondamentale per i middleware) fra le entità interessate al risultato, e quelle che forniscono i servizi. In questo
 modello si ha quindi un'interazione molti a molti, per cui si può facilmente mappare il multicast. In generale gli
 eventi non sono persistenti, tuttavia non è l'unico modello possibile.
-\subsection{Spazi di tuple}
+\section{Spazi di tuple}
 Un modello che deriva dall'astrazione della memoria condivisa e della comunicazione, e che garantisce il
 disaccoppiamento fra le varie entità è lo spazio di tuple. È un meccanismo generale per la comunicazione e la
 sincronizzazione, in cui si specifica uno spazio di informazioni fortemente tipato. (Una tipica informazione può essere
@@ -226,13 +226,13 @@ Gerlenter, con Linda, presenta due diversi modelli:
  sfruttando gli hash dei messaggi
  \item \textit{A matrice}: le out vengono eseguite sulle righe, mentre le in si fanno sulle colonne.
 \end{itemize}
-\subsection{Modelli a contenimento}
+\section{Modelli a contenimento}
 Si tratta di supporti presenti in ogni middleware: sono funzionalità che aggregano diverse attività utili, che si
 possono replicare. In questo modo, uno sviluppatore si concentra soltanto sullo sviluppo della business logic vera e
 propria, utilizzando le politiche di default fornite dal middleware per quanto riguarda il supporto al tempo di vita,
 il gestore della concorrenza, fornire la QoS, sistemi di nomi... Fondamentalmente, un container è un delegato che si
 comporta come supervisore di certe attività.
-\subsection{Il problema della trasparenza}
+\section{Il problema della trasparenza}
 Esistono diversi signicati per la trasparenza: per esempio, si intende per l'allocazione l'indipendenza dalla località
 delle risorse. In generale, per trasparenza si intende un sistema in grado di fornire all'utente finale un comportamento
 omogeneo, anche se ai livelli sottostanti sta lavorando con oggetti/servizi diversi (remoti/locali, server
@@ -247,7 +247,7 @@ un'infrastruttura con molti provider: si definisce un accordo/negoziazione fra i
 per poter per esempio stabilire la QoS, e quindi si fornisce il servizio con i parametri indicati} prevede sia un
 sistema trasparente, che un sistema non trasparente in cui si possano definire le risorse inizialmente, e quindi
 introdurre la trasparenza.
-\subsection{Le macchine astratte}
+\section{Le macchine astratte}
 Sono stati sviluppati diversi modelli per l'esecuzione, ma alla base vi è la
 \textit{Random Access Machine}: è una macchina special purpose, con codice
 inalterabile, in grado di eseguire istruzioni in sequenza (tutte le istruzioni
@@ -281,7 +281,7 @@ da realizzare, richiederebbe una sola operazione: è un modello con maggiore
 capacità espressiva. Restano comunque entrambi dei modelli troppo astratti per
 poter essere implementati realmente. Aggiungendo vincoli e limitandoci quindi ad un'ipotesi di località, il progetto
 risulta più facilmente realizzabile.
-\subsection{Indicatori dell'efficienza}
+\section{Indicatori dell'efficienza}
 In generale, ci si limita alla complessità temporale, $T_P(N)$, dove $P$ è il numero di processori considerati: se è
 pari ad 1, siamo in un ambiente sequenziale.
 Un primo indicatore è lo speed-up, che indica l'incremento di prestazioni se si introducessero P processori:
@@ -354,7 +354,7 @@ proprio la parte di comunicazione fra i diversi processori! Al crescere del nume
 che lo speed-up diminuisce, allontanandosi dal valore massimo; questo degrado delle prestazioni è dovuto proprio al
 peso crescente della comunicazione fra i processori, che diventa fondamentale\footnote{per esempio se la parte
 sequenziale è $\frac{1}{5}$ del totale lo speedup massimo sarà il reciproco, ovvero 5}.
-\subsection{Caso di studio: somma di N numeri}
+\section{Caso di studio: somma di N numeri}
 Una possibile soluzione, imponendo la condizione d'identità, è quella di utilizzare un albero binario per fare la
 sommma: le radici sommano i numeri, che passano il risultato al padre, e così via. Supponendo quindi un albero con
 profondità H, possiamo osservare che $N = 2{H+1}$ e $P = 2^{H+1} - 1$, per cui P è simile a N . Si ha che quindi:
@@ -394,7 +394,7 @@ Per cui, lo speed-up tende effettivamente a P
 \end{align}
 E l'efficienza tende ad 1. Quindi, caricando al massimo i processori ed usandoli correttamente, si ottiene speed-up
 ed efficienza massimi.
-\subsection{Considerare l'I/O}
+\section{Considerare l'I/O}
 In questi indicatori si è tuttavia lasciato da parte il problema dell'I/O, che spesso è il vero collo di bottiglia in
 diverse architetture. Inoltre, vi son diversi fattori che possono influenzare l'efficienza e lo speed-up
 dell'architettura, come il deployment reale. Si possono quindi estendere gli indicatori considerando l'effetto
@@ -434,7 +434,7 @@ se il sistema ha un buon comportamento. In particolare:
  \item Se non è costante ma funzione dei processori, allora il sistema non è scalabile.
 \end{itemize}
 I sistemi reali sono scarsamente scalabili.
-\subsection{Conclusioni}
+\section{Conclusioni}
 Un progetto deve essere valutato attentamente, per cercare di dimensionarlo in maniera corretta: nel caso di una
 macchina singola l'heavily loaded limit è un ragionamento corretto, ma bisogna ricordarsi che si deve sempre cercare di
 parallelizzare (non utilizzare la legge di Grosh). Per esempio, qual è il numero ideale di processi da realizzare? Si

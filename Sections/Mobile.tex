@@ -1,4 +1,4 @@
-\section{Gestione delle risorse e sistemi mobili}
+\chapter{Gestione delle risorse e sistemi mobili}
 Questa sezione \textbf{non fa più parte del programma} ma viene mantenuta per completezza.
 
 Le risorse in un sistema distribuito possono essere o concentrate o distribuite.
@@ -19,7 +19,7 @@ Un esempio di sistema distribuito coordinato per le risorse potrebbe essere un F
 l'introduzione di agenti coordinati per gestirle (questi dovrebbero introdurre delle fasi di negoziazione, prima di
 poter fornire l'accesso alla risorsa). Garantisce trasparenza all'allocazione delle risorse, mantenendo un comportamento
 uguale. Un altro modello potrebbe essere quello basato su una service request, che rappresenta un sistema C/S.
-\subsection{Mobilità delle risorse}
+\section{Mobilità delle risorse}
 Nel progetto di un sistema, si deve considerare cosa e come si può muovere. Per esempio, se si pensa allo stack di un
 programma Java, questo è legato alla stack della JVM: non si può spostare facilmente su un altro nodo! Altre
 caratteristiche difficili da muovere sono i riferimenti a risorse strettamente locali (tipo i file\footnote{Si
@@ -35,7 +35,7 @@ Esistono quindi diversi requisiti per fare un'esecuzione remota: si deve cercare
 interferire il meno possibile con l'esecuzione locale (gradita la non-interferenza), ed è necessario fornire anche delle
 infore mazioni di stato sui singoli processori. Questo è particolarmente importante, vista l'ampia eterogeneità
 presente: non vi è per esempio un sistema di nomi comune, ed è quindi necessario stipulare delle apposite convenzioni.
-\subsection{Muovere i processi}
+\section{Muovere i processi}
 Esistono diversi S.O. che prevedono la possibilità di spostare i processi su altri processori, per cercare di fornire un
 bilanciamento di carico migliore. Si realizza così uno scheduling distribuito, in grado di fornire sia una politica
 locale che globale con cui trattare i processi. Un sistema di scheduling globale deve essere in grado di fornire dei
@@ -161,7 +161,7 @@ migliore.
 La migrazione è un sistema che deve essere studiato attentamente: può infatti ridurre notevolmente i tempi
 dell'applicazione, sfruttando politiche semplici. Si ha quindi un'intrusione limitata per ottenere i risultati
 desiderati. Si deve quindi puntare all'efficienza, tendere all'ottimalità e realizzare un sistema stabile.
-\subsection{Sistemi ad agenti mobili}
+\section{Sistemi ad agenti mobili}
 I sistemi ad agenti mobili si mappa molto bene con il problema della migrazione.
 Tuttavia, l'approccio è diverso: non si navigano i nodi per ottimizzare il bilanciamento del carico, ma per ottenere
 informazioni dai diversi nodi. Si ha quindi un movimento dovuto all'applicazione, e non da esigenze di efficienze per la
@@ -181,7 +181,7 @@ Questi sistemi però non prevedono ancora la possibilità che il codice, mentre 
 l'introduzione degli agenti mobili. Sono infatti sistemi a multi-hop, in grado di cambiare l'allocazione durante
 l'esecuzione e mantenere comunque uno stato coeso. Si può pensare a varie ottimizzazioni, magari trasportando solo le
 differenze rispetto ad uno stato iniziale o una sintesi dei risultati ottenuti.
-\subsection{Classificazione della mobilità}
+\section{Classificazione della mobilità}
 Per gli agenti mobili, si può classificare in diversi gradi la mobilità:
 \begin{itemize}
  \item \textit{Forte}: In ogni punto del codice è possibile specificare la mobilità. Tali sistemi sono in realtà
@@ -192,7 +192,7 @@ flessibile, ma maggiormente e facilmente gestibile.
 La differenza quindi è nella continuità della mobilità (o avviene sempre, oppure solo in certi momenti prestabiliti).
 Come risolvere la mobilità forte? L'idea è quella di realizzare un sistema a codice intermedio, potendo così fornire su
 ogni nodo degli interpreti del codice intermedio (per poter superare così i diversi problemi dovuti all'eterogeneità).
-\subsection{Servono gli agenti mobili?}
+\section{Servono gli agenti mobili?}
 In generale, un progetto giustica la scelta della tecnologia. Tuttavia, se i vincoli risultano essere sbagliati, si usa
 a sproposito la tecnologia.
 Attualmente, per gli agenti mobili si è ancora alla ricerca di una killer application; in certi casi conviene ancora
@@ -205,7 +205,7 @@ centrale.  L'utente vuole eseguire le proprie applicazioni indipendentemente da 
  terminali in grado di lavorare comunque ed ovunque si trovino.
  \item \textit{Codice mobile}: definitivamente utile utilizzare gli agenti.
 \end{itemize}
-\subsection{Gli agenti mobili}
+\section{Gli agenti mobili}
 Sono delle entità che si devono muovere per eseguire i propri compiti, operando per conto di un principal. Si tratta
 quindi di sistemi in cui il programmatore stabilisce la mobilità, e in cui si realizza una programmazione
 location-awareness, cioè dipendente dal posto in cui si esegue. Possono essere utili quindi per poter fornire un

@@ -1,4 +1,4 @@
-\section{Modelli per la replicazione}
+\chapter{Modelli per la replicazione}
 Un obiettivo per poter fornire della qualità di servizio è ovviamente quello di 
 poter offrire un servizio continuativo,
 stabile: se il servizio non viene erogato, non si è remunerati (anzi, in
@@ -7,7 +7,7 @@ presentare anche delle richieste di risarcimento; in certi ambiti si parla anche
 di rischi umani).
 L'obiettivo è quindi quello di realizzare un sistema \textit{fault tolerant},
 resistente ai guasti. Sono invarianti che devono essere comunque garantiti.
-\subsection{Definire i comportamenti errati del sistema: cause ed effetti}
+\section{Definire i comportamenti errati del sistema: cause ed effetti}
 I possibili guasti si possono catalogare in maniera logica:
 \begin{itemize}
  \item Si parla di \textit{failure} quando il sistema presenta un comportamento 
@@ -32,7 +32,7 @@ di errori di tipo Eisenbug, e sono molto
  dicili da eliminare.
 \end{itemize}
 
-\subsection{Ipotizzare il guasto}
+\section{Ipotizzare il guasto}
 Esistono diversi parametri per poter giudicare la disponibilità di un 
 servizio/sistema.
 Un sistema è fault tolerant se garantisce la \textit{dependability}, ovvero si 
@@ -114,7 +114,7 @@ risorse sono allocate solo per verificare che il sistema funzioni correttamente,
 riducendone l'efficienza! La replicazione è un costo che si va ad aggiungere al
 sistema: ma in generale si tratta di un costo fisso, a fronte di possibili costi
 molto peggiori in caso di fallimento del sistema!
-\subsection{Possibili guasti}
+\section{Possibili guasti}
 I guasti si possono anche classificare in base alla loro riconoscibilità da un
 sistema (processore esterno):
 \begin{itemize}
@@ -132,7 +132,7 @@ dovuti alla mancata totale ricezione/trasmissione di messaggi
 blocca. Le reti poi possono aggiungere problemi (se un router per esempio non 
 risponde più, si potrebbe avere che la
 rete risulta partizionata in due sottoreti, incapaci di comunicare fra di loro).
-\subsection{Architetture per garantire la fault-tolerance}
+\section{Architetture per garantire la fault-tolerance}
 Nel corso del tempo sono state pensate e realizzate diverse tipologie di 
 architetture in grado di fornire questo genere
 di servizio.
@@ -206,7 +206,7 @@ Una possibile realizzazione è un sistema tandem, cioè in cui tutto è
 raddoppiato: l'idea è quella di realizzare un
 sistema fail-safe, per cui una CPU identifica l'errore. Ovviamente, un sistema
 del genere è complesso e costoso.
-\subsection{Copie calde e copie fredde}
+\section{Copie calde e copie fredde}
 Vi sono due possibili modelli per la replicazione, e dipendono dal 
 comportamento delle copie:
 \begin{itemize}
@@ -232,7 +232,7 @@ sulla copia attiva. Se fallissero anche
  tutte le copie calde, si può ripiegare su un sistema a copie fredde, in grado 
 di inizializzare una nuova copia.
 \end{itemize}
-\subsection{Gestione delle risorse}
+\section{Gestione delle risorse}
 La replicazione delle risorse è necessaria per un sistema distribuito, perché 
 introducendola si può garantire la
 fruizione del servizio. In un progetto quindi si deve considerare come allocare 
@@ -364,7 +364,7 @@ di un gestore per il monitoraggio, controllo delle copie. In generale, in un
 sistema reale, il numero di copie è
 limitato: studiando opportunatamente il protocollo si riduce l'overhead al 
 minimo.
-\subsection{Modelli per la replicazione, copie attive}
+\section{Modelli per la replicazione, copie attive}
 L'ipotesi è che vi è un insieme di copie che devono produrre un risultato per 
 un insieme di clienti. Si deve quindi
 pensare a delle opportune fasi di coordinamento sia prima che dopo 
@@ -417,7 +417,7 @@ costi, visto che vi è un'unica macchina a
 checkpoint su tutte le altre copie, e quindi lo
  fornisce al cliente. La gestione è maggiormente semplificata.
 \end{enumerate}
-\subsection{Politiche di aggiornamento}
+\section{Politiche di aggiornamento}
 Esistono diverse possibilità per effettuare l'aggiornamento delle copie. Vi 
 potrebbe essere una copia primaria che si
 preoccupa di aggiornare le altre, oppure tutte le copie possono assumere questo 
@@ -449,7 +449,7 @@ che ci fornisce le maggiori garanzie di
 correttezza. Vi possono essere dei rilassamenti, per esempio: si parla di copie 
 tiepide quando i checkpoint sono fatti
 a determinati intervalli, per ridurre il costo dell'operazione.
-\subsection{Clustering}
+\section{Clustering}
 L'idea del cluster è quella di realizzare un insieme di risorse replicate 
 sempre disponibili (high availability),
 cercando di snellire il tutto per non avere un tempo di risposta troppo alto. 

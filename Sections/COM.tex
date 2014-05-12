@@ -1,4 +1,4 @@
-\section{COM, DCOM e .NET}
+\chapter{COM, DCOM e .NET}
 Nell'architettura Microsoft, la GUI è sempre stata fondamentale (la finestra non è solo un elemento grafico, ma è tutto
 ciò a cui è costruito attorno il sistema; l'interazione fra i processi è guidata dalle finestre!). E da loro che è nata
 l'idea di dinamyc library, cioè di una libreria che si potesse caricare solo su bisogno: idea molto dinamica, che però
@@ -37,7 +37,7 @@ L'idea della Microsoft era però quella di estendere il concetto di OLE anche al
 Nel concentrato era tutto più semplice perché si sfruttava il registry di Windows per identificare in maniera univoca un
 oggetto\footnote{Sfruttando il GUID, derivato dall'UUID descritto dal DCE. In Microsoft, i diversi GUID son classificati
 in base al tipo di oggetti che riferiscono (interfacce,oggetti...)}, e per poter registrare quindi i vari gestori.
-\subsection{Architettura COM}
+\section{Architettura COM}
 COM è stato il sistema standard per la Microsoft per poter descrivere l'interazione fra processi diversi, utilizzando
 come base i componenti e una comunicazione C/S sincrona. Si può notare la differenza con i precedenti modelli: nei
 sistemi precedenti la comunicazione si basava soprattutto sul modello ad eventi, che è molto lontano dalla comunicazione
@@ -83,7 +83,7 @@ dell'interfaccia dell'oggetto aggregato nella VMT dell'oggetto esterno! Fondamen
 fornisce i propri metodi all'esterno, direttamente nell'interfaccia dell'oggetto esterno! Anche questa maniera è
 complessa, più dell'ereditarietà. L'aggregazione è consigliata per una gestione a parti (a differenza della delegazione,
 ogni oggetto si preoccupa di fare da gestore delle richieste ai metodi che implementa).
-\subsection{Interazione C/S in COM}
+\section{Interazione C/S in COM}
 L'idea base è che vi sia uniformità di comportamento fra ogni tipologia d'oggetto: non interessa quindi come è fatto, ma
 la possibilità di poterci interagire in maniera C/S trasparente. Il problema è che il costo è molto diverso in realtà a
 seconda del tipo di oggetto con cui si prova a colloquiare (accedere ad una DLL in maniera C/S è molto più ottimizzato
@@ -122,7 +122,7 @@ Infatti, un proxy che volesse comunicare, si riferisce al SCM per ottenere un ri
 può realizzare una RPC remota. Questa architettura comporta quindi che SCM debba essere presente su ogni nodo, e
 che proxy e stub debbano essere stabiliti prima, in maniera da poter conoscere la posizione del SCM! Si potrebbe anche
 avere, tuttavia, che non vengano mai usati se la risorsa è disponibile in-process!
-\subsection{DCOM}
+\section{DCOM}
 DCOM nasce negli anni 90 come esigenza si introdurre anche in COM (come in CORBA) l'interazione dinamica. In
 particolare, ciò che si introduce è il concetto di automation, ovvero la possibilità di fornire ad un client di poter
 gestire oggetti per cui non aveva previsto l'interazione. Si tratta anche di un modello realizzato per cercare di andare
@@ -149,7 +149,7 @@ Si può quindi iniziare a parlare di componenti veri, che rappresentano un'esten
 garantendo di non avere limiti alla riusabilità e possibilità di essere usati in un qualunque contesto, senza dover
 dipendere come gli oggetti da un determinato linguaggio.
 A differenza però di CORBA, essendo la VMT fissa, non è possibile realizzare un server dinamico!.
-\subsection{Interazione in DCOM}
+\section{Interazione in DCOM}
 COM era stato pensato per fornire una visione di alto livello uniforme (sempre C/S), per cercare anche di rendere
 un'ottimizzazione molto forte a seconda della comunicazione che si andava a realizzare. A basso livello invece si ha un
 comportamento molto variegato, con un'alta idea di delegazione.
@@ -166,7 +166,7 @@ necessario sfruttare degli appositi wizard. Sono quindi fondamentalmente dei pic
 con il metodo della in-place activation, ma con un comportamento diverso: infatti, lavorano in maniera inside out,
 ovvero son sempre pronti, attivi, no a che l'oggetto contenuto è presente. Si tratta quindi di un sistema ad
 aggregazione sempre attiva (il componente interno è sempre attivo).
-\subsection{Standardizzazione dei componenti}
+\section{Standardizzazione dei componenti}
 Un merito di COM e DCOM è stato quello di fornire un primo tentativo di standardizzare il concetto di componente. Prima
 si dovevano definire sempre diverse interfacce, sempre utilizzabili dagli utenti, ma senza una razionalizzazione alla
 loro realizzazione.
@@ -179,24 +179,24 @@ sono interessanti per lui); uno è la sorgente dell'interfaccia, l'altro il pozz
 container sfrutta degli oggetti intermedi per poter comunicare con l'oggetto contenuto.
 DCOM stabilisce anche la possibilità di realizzare una persistenza del componente, implementando un'apposita
 interfaccia. (I riferimenti non son fissi in DCOM).
-\subsection{Gestori delle sottoparti: i monikers}
+\section{Gestori delle sottoparti: i monikers}
 DCOM introduce i monikers come un sistema ad hoc, piuttosto complesso, per poter gestire in maniera persistente la
 gestione degli oggetti in modo da permetterne la localizzazione. Questo sistema aumenta la flessibilità, memorizzando su disco quindi i riferimenti agli oggetti,
 categorizzandoli in base a cosa sono, e rendendoli indipendenti dalle applicazioni!
 Si ha quindi che ogni moniker viene associato ad un programma, permettendo anche di lavorare mediante nomi indiretti.
 Permette anche di moltiplicare i meccanismi, aggiungendo diversi monikers.
-\subsection{Modello a thread di DCOM}
+\section{Modello a thread di DCOM}
 Il modello deriva da quello di Win32. Tuttavia, vi possono essere dei problemi se certi componenti non risultano essere
 thread-safe (magari perché sono componenti legacy). Per superare questo problema, in DCOM si è introdotto il concetto di
 Apartment, che consiste ad un ambiente d'esecuzione isolato, cioè con una politica di threading fissata. Vi sono due
 diversi modelli, o quello single-threaded:(più diffuso, un unico componente lavora nell'apartment) oppure
 multi-threaded: ogni componente può quindi avere più STA, ma sempre un solo MTA.
-\subsection{Altri strumenti DCOM}
+\section{Altri strumenti DCOM}
 Microsoft ha fornito mediante DCOM tantissimi strumenti, in grado di risolvere i problemi sempre più nell'ottica di un
 moderno mw.
 In particolare, si possono citare MSMQ per realizzare un sistema a scambio di messaggi, e COM+ per permettere la
 definizione di componenti solo attraverso la parte logica. Presenta anche un servizio X.500 di directory standard, detto Active Directory e due metodi di comunicazione sincrona non bloccante,l'interfaccia di callback e il metodo di fine che ci permette di recuperare il risultato al bisogno.
-\subsection{.NET}
+\section{.NET}
 Questa è la nuova architettura Microsoft, sviluppata ripensando totalmente il tutto! Non solo si è progettato pensando
 ad un S.O. diverso, ma anche rivoluzionando la stessa macchina virtuale (realizzando il CLR). Si tratta di un sistema
 derivato e migliorato (sotto certi aspetti) da Java: Java infatti ormai presenta dei sistemi legacy con cui deve far
@@ -209,7 +209,7 @@ In particolare, .NET introduce una forte idea di località sfruttando l'idea del
 possono comunicare in maniera diretta fra di loro, ma devono sfruttare dei protocolli DCOM compatibili (è un sistema
 simile all'apartment), oppure WS o altre nuove tecnologie .NET. WS per esempio è la tecnologia più costosa, ma anche più
 vicina all'applicazione da un punto di vista logico.
-\subsection{.NET remoting}
+\section{.NET remoting}
 Si basa comunque sull'idea di realizzare dei proxy per facilitare la comunicazione.
 Tuttavia, vi sono due diversi tipi di proxy: quello trasparente (utile per fare richieste direttamente al supporto .NET
 e generato automaticamente) e quello reale (realizzato per facilitare la comunicazione C/S, spesso presente). Si ha
