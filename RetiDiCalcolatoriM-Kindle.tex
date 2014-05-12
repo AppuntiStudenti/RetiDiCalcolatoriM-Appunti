@@ -1,0 +1,61 @@
+\documentclass[10pt]{article}
+
+\usepackage{fontspec}      % font selection
+%\setmainfont{Cambria}
+%\usepackage{breqn}         % automatic equation breaking
+\usepackage{microtype}     % microtypography, reduces hyphenation
+\usepackage{polyglossia}   % language selection
+\setmainlanguage{italian}
+\usepackage{amsmath}
+
+\usepackage{graphicx}      % graphics support
+
+\usepackage[font=small,labelformat=simple]{caption}   % customizing captions
+
+\usepackage{titlesec}      % customizing section titles
+\titleformat{\section}{\itshape\large}{}{0em}{}
+\titlespacing{\section}{0pt}{8pt}{4pt}
+\titleformat{\subsection}{\itshape}{}{0em}{}
+\titlespacing{\subsection}{0pt}{4pt}{2pt}
+\titleformat{\subsubsection}[runin]{\bf\scshape}{}{0em}{}
+\titlespacing{\subsubsection}{0pt}{5pt}{5pt}
+
+\usepackage[papersize={3.6in,4.8in},%
+hmargin=0.1in,%
+vmargin={0.1in,0.1in}]{geometry}  % page geometry
+
+\usepackage{fancyhdr}   % headers and footers
+\pagestyle{fancy}
+\fancyhead{}            % clear page header
+\fancyfoot{}            % clear page footer
+
+\setlength{\abovecaptionskip}{2pt} % space above captions 
+\setlength{\belowcaptionskip}{0pt} % space below captions
+\setlength{\textfloatsep}{2pt}     % space between last top float or first
+% bottom float and the text
+\setlength{\floatsep}{2pt}         % space left between floats
+\setlength{\intextsep}{2pt}        % space left on top and bottom of an in-text 
+%float
+
+\title{Riassunto di studio per Reti di Calcolatori M}
+\author{Daniele Tiles \and Davide Bellettini (revisione)}
+\date{2007 - 2014}
+
+\begin{document}
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+\input{Sections/Intro.tex}
+\input{Sections/Computazione.tex}
+\input{Sections/Replicazione.tex}
+\input{Sections/Comunicazione.tex}
+\input{Sections/QoS.tex}
+\input{Sections/Middleware.tex}
+\input{Sections/CORBA.tex}
+\input{Sections/COM.tex}
+\input{Sections/WS.tex}
+\input{Sections/Mobile.tex}
+
+\end{document}
