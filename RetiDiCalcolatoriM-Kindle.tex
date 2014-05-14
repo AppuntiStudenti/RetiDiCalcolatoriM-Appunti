@@ -1,25 +1,26 @@
 \documentclass[12pt,oneside]{book}
 
+\usepackage{fontspec}      % font selection
+\setmainfont{Cambria}
 %\usepackage{breqn}         % automatic equation breaking
 \usepackage{microtype}     % microtypography, reduces hyphenation
-%\usepackage{polyglossia}   % language selection
-%\setmainlanguage{italian}
+\usepackage{polyglossia}   % language selection
+\setmainlanguage{italian}
 \usepackage{amsmath}
 \usepackage{hyperref}
 \usepackage{graphicx}      % graphics support
 
 \usepackage[font=small,labelformat=simple]{caption}   % customizing captions
 
-\usepackage[utf8]{inputenc}
-% \usepackage{titlesec}      % customizing section titles
-% \titleformat{\chapter}{\bfseries\Large}{}{0em}{}
-% \titlespacing{\chapter}{0pt}{8pt}{4pt}
-% \titleformat{\section}{\bfseries\itshape}{}{0em}{}
-% \titlespacing{\section}{0pt}{8pt}{4pt}
-% \titleformat{\subsection}{\itshape}{}{0em}{}
-% \titlespacing{\subsection}{0pt}{4pt}{2pt}
-% \titleformat{\subsubsection}[runin]{\bf\scshape}{}{0em}{}
-% \titlespacing{\subsubsection}{0pt}{5pt}{5pt}
+\usepackage{titlesec}      % customizing section titles
+\titleformat{\chapter}{\bfseries\Large}{}{0em}{}
+\titlespacing{\chapter}{0pt}{8pt}{4pt}
+\titleformat{\section}{\bfseries\itshape}{}{0em}{}
+\titlespacing{\section}{0pt}{8pt}{4pt}
+\titleformat{\subsection}{\itshape}{}{0em}{}
+\titlespacing{\subsection}{0pt}{4pt}{2pt}
+\titleformat{\subsubsection}[runin]{\bf\scshape}{}{0em}{}
+\titlespacing{\subsubsection}{0pt}{5pt}{5pt}
 
 \usepackage[papersize={108mm,144mm},margin=4mm]{geometry}  % page geometry
 
@@ -36,12 +37,12 @@
 \setlength{\intextsep}{2pt}        % space left on top and bottom of an in-text 
 %float
 
-% \makeatletter
-% % Removes space above \chapter head
-% \patchcmd{\@makechapterhead}{\vspace*{50\p@}}{}{}{}
-% % Removes space above \chapter* head
-% \patchcmd{\@makeschapterhead}{\vspace*{50\p@}}{}{}{}
-% \makeatother
+\makeatletter
+% Removes space above \chapter head
+\patchcmd{\@makechapterhead}{\vspace*{50\p@}}{}{}{}
+% Removes space above \chapter* head
+\patchcmd{\@makeschapterhead}{\vspace*{50\p@}}{}{}{}
+\makeatother
 
 \title{Riassunto di studio \\ per Reti di Calcolatori M}
 \author{Daniele Tiles \and Davide Bellettini (revisione)}
