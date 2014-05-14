@@ -1,5 +1,6 @@
 *.aux
 *.backup
+*.epub
 *.kate-swp
 *.kilepr
 *.log
