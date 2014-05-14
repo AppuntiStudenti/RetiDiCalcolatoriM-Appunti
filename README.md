@@ -26,6 +26,8 @@ Istruzioni per Ubuntu GNU/Linux:
 
 Coding standard
 ----------------
+* Il compilatore di riferimento è XeLaTeX perché siamo nel 2014 e PDFLaTeX
+ancora non gestisce utf-8
 * Mandare a capo i sorgenti entro le 80 colonne
 * Assicuratevi che non ci siano spazi a fine riga; il modo più semplice se
 state usando linux è
