@@ -1,20 +1,22 @@
-\documentclass[12pt,oneside]{book}
+\documentclass[10pt,oneside,italian]{book}
 
 \usepackage{fontspec}      % font selection
 \setmainfont{Cambria}
 %\usepackage{breqn}         % automatic equation breaking
-\usepackage{microtype}     % microtypography, reduces hyphenation
-\usepackage{polyglossia}   % language selection
-\setmainlanguage{italian}
+%\usepackage{microtype}     % microtypography, reduces hyphenation
+%\usepackage{polyglossia}   % language selection
+%\setmainlanguage{italian}
+\usepackage{babel}
 \usepackage{amsmath}
 \usepackage{hyperref}
+\usepackage{tocbibind}
 \usepackage{graphicx}      % graphics support
 
 \usepackage[font=small,labelformat=simple]{caption}   % customizing captions
 
 \usepackage{titlesec}      % customizing section titles
-\titleformat{\chapter}{\bfseries\Large}{}{0em}{}
-\titlespacing{\chapter}{0pt}{8pt}{4pt}
+\titleformat{\chapter}{\bfseries\Large}{\thechapter.}{1	em}{}
+\titlespacing{\chapter}{2pt}{2pt}{2pt}
 \titleformat{\section}{\bfseries\itshape}{}{0em}{}
 \titlespacing{\section}{0pt}{8pt}{4pt}
 \titleformat{\subsection}{\itshape}{}{0em}{}
@@ -49,12 +51,18 @@
 \date{2007 - 2014}
 
 \begin{document}
+
+\frontmatter
+
 \maketitle
 \newpage
 \tableofcontents
 \newpage
 
 \include{Chapters/Intro}
+
+\mainmatter
+
 \include{Chapters/Computazione}
 \include{Chapters/Replicazione}
 \include{Chapters/Comunicazione}
