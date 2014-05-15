@@ -7,6 +7,10 @@
 \usepackage{hyperref}
 \usepackage{graphicx}      % graphics support
 
+% \usepackage{endnotes}
+% \let\footnote=\endnote
+% 
+% \renewcommand{\notesname}{Note}
 
 \usepackage[utf8]{inputenc}
 
@@ -16,8 +20,6 @@
 
 \begin{document}
 \maketitle
-\newpage
-\tableofcontents
 \newpage
 
 \include{Chapters/Intro}
@@ -30,5 +32,13 @@
 \include{Chapters/COM}
 \include{Chapters/WS}
 \include{Chapters/Mobile}
+
+% \newpage
+% \begingroup
+% \parindent 0pt
+% \parskip 2ex
+% \def\enotesize{\normalsize}
+% \theendnotes
+% \endgroup
 
 \end{document}
