@@ -37,7 +37,7 @@ CORBA è definito da una serie di componenti: oltre all'ORB (uno dei principali)
 \begin{itemize}
  \item L'\textit{IDL}, ovvero un linguaggio per definire le interfacce dei servizi.
  \item Il \textit{Portable Object Adapater}: si tratta di un sistema per incapsulare gli oggetti e per facilitare il
-compito del gestore (nella gestione del ciclo di vita, nel trasporto,...). È un sistema che viene aggiunto quindi dal supporto!
+compito del gestore (nella gestione del ciclo di vita, nel trasporto...). È un sistema che viene aggiunto quindi dal supporto!
  \item L'\textit{Interface Repository}, che è un sistema simile ad un name server, dove si possono ritrovare appunto le interfacce dei servizi disponibili sconosciute inizialmente.
  \item Vi sono quindi dei sistemi per richiamare i servizi in maniera statica e dinamica
  \item E infine vi sono degli appositi protocolli per la comunicazione ed integrazione fra ORB diversi \textit{GIOP/IIOP}.
@@ -190,7 +190,7 @@ Quali sono quindi le politiche d'attivazione per gli oggetti? Possiamo avere:
  \item \textit{Explicit Object Activation}: è tutto a carico del client che decide quando creare il servant.
  \item \textit{Single servant}: viene pre-attivato un servant per ogni richiesta, uno solo.
  \item \textit{On demand}: per un singolo metodo: che attiva un singolo thread per ogni richiesta e lo butta via alla
-fine (questa è l'implementazione normale ma come abbiamo visto ci possono essere implementazioni differenti, ad esempio, potremmo avere un pool di thread,...)
+fine (questa è l'implementazione normale ma come abbiamo visto ci possono essere implementazioni differenti, ad esempio, potremmo avere un pool di thread...)
 per durata indefinita: non lega il thread creato al metodo che stiamo servendo ma lo lascia lì, dove potrebbe stare anche per molto tempo, con la possibilità quindi, di essere passivato ecc ecc.
 \end{itemize}
 \section{Binding dinamico}
