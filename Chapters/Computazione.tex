@@ -1,34 +1,44 @@
 \chapter{Modelli di computazione}
-Per poter sviluppare un sistema distribuito, è utile definire diversi modelli per l'esecuzione, in modo da poter
-classificarli (modelli diversi possono avere vantaggi/svantaggi a seconda del sistema che si deve andare a realizzare).
-La maggior parte dei modelli purtroppo sono troppo astratti per poter essere realmente utili da un punto di vista
-ingegneristico, cioè non riescono a comprendere in toto la \textit{complessità} reale.
+Per poter sviluppare un sistema distribuito è utile definire diversi modelli per
+l'esecuzione, in modo da poter classificarli (modelli diversi possono avere
+vantaggi/svantaggi a seconda del sistema che si deve andare a realizzare).
+La maggior parte dei modelli purtroppo sono troppo astratti per poter essere
+realmente utili da un punto di vista ingegneristico, cioè non riescono a
+comprendere in toto la \textit{complessità} reale.
 
 Le prime distinzioni che si possono fare sono su come si possono prendere le decisioni:
 \begin{itemize}
- \item modelli \textit{statici}: le decisioni vengono prese prima dell'esecuzione. Risulta quindi essere meno
-flessibile, e non si può variare nel corso dell'esecuzione, fornendo quindi poca qualità di servizio.
-\item modelli \textit{dinamici}: in questo modello le decisioni risultano essere maggiormente costose, proprio perché
-si prendono mentre il modello è in esecuzione.
+ \item modelli \textit{statici}: le decisioni vengono prese prima
+ dell'esecuzione. Risultano quindi essere meno flessibili, e non si possono
+variare nel corso dell'esecuzione, fornendo quindi poca qualità di servizio.
+\item modelli \textit{dinamici}: in questo modelli le decisioni risultano
+essere maggiormente costose, proprio perché si prendono in fase di
+esecuzione.
 \end{itemize}
-Per fare un esempio, il collegamento fra un client e un Name Server come deve essere stabilito? In maniera statica o
-dinamica? E fra il client e server? Si tratta di problematiche da risolvere in fase di progettazione, tenendo conto
-dei costi. Un middleware introduce questi costi, fornendo possibilità statiche/dinamiche (non esiste un sistema
-totalmente dinamico, realmente totalmente aperto).
+Per fare un esempio, il collegamento fra un client e un Name Server come deve
+essere stabilito? In maniera statica o dinamica? E fra il client e server? Si
+tratta di problematiche da risolvere in fase di progettazione, tenendo conto
+dei costi. Un middleware introduce questi costi, fornendo possibilità
+statiche/dinamiche (non esiste un sistema totalmente dinamico, realmente
+totalmente aperto).
 Una seconda distinzione riguarda la reazione in caso di errori o concorrenza:
 \begin{itemize}
- \item modelli \textit{preventivi}: si fornisce un \textit{comportamento garantito}, oppure si previene/evitano
-determinati errori. E quindi un sistema rigido, che presenta dei \textit{costi fissi}.
-\item modelli \textit{reattivi}: il modello reagisce in maniera dinamica alle situazioni che si presentano: non è
-prevista quindi una \textit{politica di default}, non si stabiliscono risorse a priori come nel caso precedente,
-fornendo un comportamento più flessibile. I costi risultano essere variabili, a seconda della complessità del sistema
-(al crescere degli attori, aumenta il numero necessario di lock/semafori da utilizzare, per esempio). Il costo può
+ \item modelli \textit{preventivi}: si fornisce un \textit{comportamento
+ garantito}, oppure si previene/evitano determinati errori. E quindi un sistema
+rigido, che presenta dei \textit{costi fissi}.
+\item modelli \textit{reattivi}: il modello reagisce in maniera dinamica alle
+situazioni che si presentano: non è prevista quindi una \textit{politica di
+default}, non si stabiliscono risorse a priori come nel caso precedente,
+fornendo un comportamento più flessibile. I costi risultano essere variabili, a
+seconda della complessità del sistema (al crescere degli attori, aumenta il
+numero necessario di lock/semafori da utilizzare, per esempio). Il costo può
 quindi essere limitato a seconda delle esigenze.
 \end{itemize}
 \textbf{Esempio:} una serie di clienti vogliono accedere in maniera univoca ad
-una risorsa unica: si tratta quindi di un problema
-di sincronizzazione e mutua esclusione. Si potrebbe risolvere fornendo dei quanti di tempo decisi a priori per ogni
-singolo cliente, oppure si fornisce un token, per cui chi lo possiede è l'unico a poter accedere alla risorsa.
+una risorsa unica: si tratta quindi di un problema di sincronizzazione e mutua 
+esclusione. Si potrebbe risolvere fornendo dei quanti di tempo decisi a priori 
+per ogni singolo cliente, oppure si fornisce un token, per cui chi lo possiede è 
+l'unico a poter accedere alla risorsa.
 
 È da osservare che un sistema distribuito in generale offre un insieme di \textit{politiche diverse}, che si possono
 mescolare a seconda delle esigenze: un sistema moderno infatti deve essere in grado di seguire l'evoluzione dei servizi
@@ -77,7 +87,7 @@ esterne possono lavorare. Non sono quindi dotati di capacità propria d'esecuzio
 fra diversi processi che vogliono accedere allo stesso oggetto, non si ha un buon confinamento e si ha scarsa
 protezione.
   \item \textit{Oggetti attivi}: sono oggetti dotati di propria
-capacitàd'esecuzione. I processi quindi non entrano nell'oggetto, perché vi è
+capacità d'esecuzione. I processi quindi non entrano nell'oggetto, perché vi è
 già all'interno dell'oggetto una propria logica di gestione (si ha quindi un
 modello a request/response: un processo richiede di poter usare l'oggetto
 mediante i ``metodi'' forniti da questo, e questo in base alla sua schedulazione
@@ -105,20 +115,24 @@ particolare, in generale si parla di semantica per riferimento, che però è in
 grado di funzionare solo in un ambito locale. Per riferire in remoto, serve un
 supporto esterno. Per esempio, si parla di utilizzare socket, protocolli
 standard de facto come TCP/IP...
-Tuttavia, è proprio questo il motivo per cui si vengono a definire dei middleware, ovvero delle strutture in grado di
-fornire un supporto completo alla comunicazione in remoto. Per esempio, Java Remote Method Invocation è un sistema in
-grado di estendere la semantica per riferimento locale, al remoto, cercando di fornire un sistema omogeneo per poter
-accedere sia ad oggetti locali che remoti. Nel caso specifico di RMI, per esempio, si utilizza un classico pattern dei
-middleware, il \textit{proxy come delegato per la comunicazione}. Si realizzano
-infatti uno stub lato cliente e uno skeleton lato
-server, che riescono a garantire un qualcosa di simile alla normale comunicazione locale. Si cerca di presentare
-un sistema trasparente per l'utente!
+Tuttavia, è proprio questo il motivo per cui si vengono a definire dei
+middleware, ovvero delle strutture in grado di fornire un supporto completo alla 
+comunicazione in remoto. Per esempio, \textit{Java Remote Method Invocation} è 
+un sistema in grado di estendere la semantica per riferimento locale, al remoto, 
+cercando di fornire un sistema omogeneo per poter accedere sia ad oggetti locali 
+che remoti. Nel caso specifico di RMI, per esempio, si utilizza un classico 
+pattern dei middleware, il \textit{proxy come delegato per la comunicazione}. Si 
+realizzano infatti uno stub lato cliente e uno skeleton lato server, che 
+riescono a garantire un qualcosa di simile alla normale comunicazione locale. Si 
+cerca di presentare un sistema trasparente per l'utente!
 
-Perché quindi non realizzare tutti i riferimenti come riferimenti remoti? È sempre una questione di costo, sarebbe
-inaccettabile. Basta pensare a cosa succede ad un oggetto passato via RMI: deve essere serializzabile, e così tutti
+Perché quindi non realizzare tutti i riferimenti come remoti?
+È sempre una questione di costo, sarebbe inaccettabile. Basta pensare a cosa 
+succede ad un oggetto passato via RMI: deve essere serializzabile, e così tutti
 i suoi componenti, in maniera che si possa fare marshalling e unmarshalling.
-Ciò non è sempre possibile in Java RMI (si pensi ad un oggetto che riferisce un oggetto di tipo File, una risorsa
-strettamente locale). Vi sono poi altri problemi da considerare:
+Ciò non è sempre possibile in Java RMI (si pensi ad un oggetto che riferisce un
+oggetto di tipo File, una risorsa strettamente locale). Vi sono poi altri 
+problemi da considerare:
 
 \begin{itemize}
  \item Un oggetto remoto viene registrato in un apposito registry, ma se
@@ -127,14 +141,17 @@ strettamente locale). Vi sono poi altri problemi da considerare:
  gestisce la concorrenza?
  \item Come risolvere i nomi? Si può usare un riferimento fisso, ma l'oggetto
  può essere diverso (ma non è il caso di Java).
- \item Si deve anche passare l'indicatore della classe, perché si possa realmente utilizzare l'oggetto: cosa succede
- se la classe è già presente? Java per esempio controlla mediante l'hash se la classe è effettivamente quella corretta.
+ \item Si deve anche passare l'indicatore della classe, perché si possa
+ realmente utilizzare l'oggetto: cosa succede  se la classe è già presente? Java 
+per esempio controlla mediante l'hash se la classe è effettivamente quella 
+corretta.
 \end{itemize}
 
 \section{Deployment dell'applicazione}
-Un'applicazione distribuita spesso necessita che sia suddivisa in diversi componenti, anche allocati su nodi diversi!
-Un componente è un'entità con una granularità superiore all'oggetto, ovvero introduce comportamento e interazione,
-estendendo l'idea dell'oggetto.
+Un'applicazione distribuita spesso necessita che sia suddivisa in diversi
+componenti, anche allocati su nodi diversi!
+Un componente è un'entità con una granularità superiore all'oggetto, ovvero
+introduce comportamento e interazione, estendendo l'idea dell'oggetto.
 Se si hanno quindi diversi componenti, che devono dialogare fra di loro, non è detto che il deployment su una singola
 macchina sia la soluzione ideale: infatti, su un solo processore si ha una sequenzializzazione delle operazioni, e
 quindi dell'applicazione stessa.
@@ -150,11 +167,12 @@ e quella implicita (decisa in toto dal sistema).
 Esistono diversi altri modelli oltre il classico C/S:
 \begin{itemize}
  \item \textit{Push}: il servitore fornisce il servizio al cliente
- \item \textit{Pull}: il cliente recupera il servizio che necessita in maniera diretta.
- \item \textit{Modello a delega}: il cliente delega un altro agente per attendere il risultato, e poi lo recupera da
- questo.
- \item \textit{Modello a notifica}: simile al precedente, solo che il delegato notifica al cliente la disponibilità
- del risultato.
+ \item \textit{Pull}: il cliente recupera il servizio che necessita in maniera
+ diretta.
+ \item \textit{Modello a delega}: il cliente delega un altro agente per
+ attendere il risultato, e poi lo recupera da questo.
+ \item \textit{Modello a notifica}: simile al precedente, solo che il delegato
+ notifica al cliente la disponibilità del risultato.
  \item \textit{Modello ad eventi}: il tipico modello consumer/provider, in cui chi è interessato si registra a chi
  produce gli eventi.
  \item \textit{Modello a provisioning}: oltre agli end-point, vi sono intermediari interessati al risultato.
